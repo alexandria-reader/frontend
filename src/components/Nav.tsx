@@ -12,6 +12,8 @@ export default function Nav() {
             <li><NavLink to='/texts'>Texts</NavLink></li>
             <li><NavLink to='/words'>Words</NavLink></li>
             <li><NavLink to='/settings'>Setting</NavLink></li>
+            <li><NavLink to='/login'>Log in</NavLink></li>
+            <li><NavLink to='/signup'>Sign up</NavLink></li>
             <li><NavLink to='/about'>About</NavLink></li>
          </ul>
           </div>
