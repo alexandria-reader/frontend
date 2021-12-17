@@ -4,12 +4,14 @@ import About from './components/About';
 import Settings from './components/Settings';
 import Texts from './components/Texts';
 import Words from './components/Words';
+import LogIn from './components/LogIn';
+import SignUp from './components/SignUp';
+
 import {
   BrowserRouter as Router,
   Route, Routes,
 } from 'react-router-dom';
 import './App.css';
-import axios from 'axios';
 
 function App() {
   // const loggedIn = ?
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/texts" element={<Texts />} />
           <Route path="/words" element={<Words />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/about" element={<About />} />
         </Routes>
