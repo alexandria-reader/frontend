@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
@@ -15,13 +15,20 @@ import './App.css';
 
 function App() {
   // const loggedIn = ?
+  const [text, setText]: [text: null | Text, setText: Function] = useState(null);
+  // const [words, setWords] = useState([]);
+
+  const openText = function(_event: Event, text: Text) {
+    console.log(text);
+    setText(text)
+  }
   
   return (
     <Router>
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/texts" element={<Texts />} />
+          <Route path="/texts" element={<Texts openText={openText}/>} />
           <Route path="/words" element={<Words />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />

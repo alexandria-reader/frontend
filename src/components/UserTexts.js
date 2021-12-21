@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react";
 import textsService from '../services/userTexts'
-import Nav from './Nav'
-import { Text } from "../types";
 
-// export default function Texts() {
-//   return (
-//     <div>
-//       <Nav />
-//       Texts
-//     </div>
-//   )
-// }
-
-const IndividualText = function({ text, openText }: { text: Text, openText: Function }) {
+const IndividualText = function({ text, openText }) {
   return (
     <li onClick={(event) => openText(event, text)}>
       <h2>{text.title}</h2>
@@ -21,8 +10,8 @@ const IndividualText = function({ text, openText }: { text: Text, openText: Func
   )
 }
 
-const UserTexts = function({ openText }: { openText: Function }) {
-  const [texts, setTexts] = useState<Text[]>([]);
+const UserTexts = function({ openText }) {
+  const [texts, setTexts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const getUserTexts = function() {
@@ -38,13 +27,10 @@ const UserTexts = function({ openText }: { openText: Function }) {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
-        <Nav />
-        <ul>
-          {texts.map(text => <IndividualText key={text.id} openText={openText} text={text} />)}
-        </ul>
-      </div>
-      
+      <ul>
+        <div>Loaded</div>
+        {texts.map(text => <IndividualText key={text.id} openText={openText} text={text} />)}
+      </ul>
     )
   }
 }
