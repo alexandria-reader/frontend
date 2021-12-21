@@ -15,20 +15,14 @@ import './App.css';
 
 function App() {
   // const loggedIn = ?
-  const [text, setText]: [text: null | Text, setText: Function] = useState(null);
-  // const [words, setWords] = useState([]);
 
-  const openText = function(_event: Event, text: Text) {
-    console.log(text);
-    setText(text)
-  }
   
   return (
     <Router>
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/texts" element={<Texts openText={openText}/>} />
+          <Route path="/texts" element={<Texts />} />
           <Route path="/words" element={<Words />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />

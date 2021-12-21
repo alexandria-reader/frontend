@@ -1,25 +1,27 @@
+import { MarkedWords, Text, UserWord } from "../types";
 
 
-const Word = function ({ word, status, cycleState, getSelection }) {
+const Word = function ({ word, status, cycleState, getSelection }: { word: string, status: string, cycleState: Function, getSelection: Function }) {
   return <span onMouseUp={getSelection} onClick={cycleState} className={status + ' word'}>{word}</span>
 };
 
 
-const Phrase = function ({ phrase, status, markedWords, cycleState, getSelection }) {
+const Phrase = function ({ phrase, status, markedWords, cycleState, getSelection }: { phrase: string, status: string, markedWords: MarkedWords, cycleState: Function, getSelection: Function }) {
   const parts = phrase.split(' ');
 
   return (
     <span onClick={cycleState} className={status + ' phrase'}>
       {
-        parts.map((word, index, array) => <><Word getSelection={getSelection} key={word + index} word={word} status={markedWords[word.toLowerCase()]} />{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <><Word cycleState={cycleState} getSelection={getSelection} key={word + index} word={word} status={markedWords[word.toLowerCase()]} />{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   )
 };
 
 
-const Paragraph = function({ paragraph, words, cycleState, getSelection }) {
-  const markedWords = {};
+const Paragraph = function({ paragraph, words, cycleState, getSelection }: { paragraph: string, words: UserWord[], cycleState: Function, getSelection: Function }) {
+  
+  const markedWords: MarkedWords = {};
   words.forEach(obj => markedWords[obj.word] = obj.state);
 
   const phraseFinder = `(${Object.keys(markedWords).filter(key => key.split(' ').length > 1).join('|')})`;
@@ -30,7 +32,7 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }) {
   const wordRegExp = new RegExp(wordFinder, 'gui');
   const tokenRegExp = new RegExp(`${phraseFinder}|${wordFinder}|${noWordFinder}`, 'gui');  
 
-  const tokens = paragraph.match(tokenRegExp);
+  const tokens: string[] = paragraph.match(tokenRegExp) || [];
 
   return (
     <p>
@@ -46,7 +48,7 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }) {
 }
 
 
-const TextBody = function ({ text, words, cycleState, getSelection }) {
+const TextBody = function ({ text, words, cycleState, getSelection }: { text: Text, words: UserWord[], cycleState: Function, getSelection: Function }) {
   const textBody = text.body;
   const paragraphs = textBody?.split('\n');
 
