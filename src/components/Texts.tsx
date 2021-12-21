@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import textsService from '../services/userTexts'
 import Nav from './Nav'
 import { Text } from "../types";
-
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 // export default function Texts() {
 //   return (
 //     <div>
