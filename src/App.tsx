@@ -14,9 +14,7 @@ import {
 import './App.css';
 
 function App() {
-  // const loggedIn = ?
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
-  // const [words, setWords] = useState([]);
   const openText = function(_event: Event, text: Text) {
     console.log(text);
     setText(text)

@@ -1,14 +1,21 @@
 import Nav from './Nav';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { login } from '../utils/login';
+import Login from '../utils/loginForm';
 
 export default function LogIn() {
   const {user, setUser} = useContext(UserContext);
+  const [token, setToken] = useState();
+
   return (
     <div>
      <Nav />
-     Home
+     { token ? '' : (
+       <Login setToken={setToken} />
+      )
+     }
+
      <div>{JSON.stringify(user, null, 2)} is logged in</div>
      <button 
       onClick={async () => {

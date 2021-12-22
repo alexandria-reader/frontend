@@ -15,6 +15,7 @@ import { UserContext } from '../contexts/UserContext';
 
 const IndividualText = function({ text, openText }: { text: Text, openText: Function }) {
   return (
+    
     <li onClick={(event) => openText(event, text)}>
       <h2>{text.title}</h2>
       <p>{text.body.slice(0, 300)}</p>
