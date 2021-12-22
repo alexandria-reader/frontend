@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { Text, UserWord, State } from "../types";
 import SingleTextBody from "./SingleText";
 import wordsService from '../services/words';
@@ -44,7 +44,7 @@ const TextsPageComponent = function() {
       setCurrentWord(wordObject);
 
     } else {
-      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'};
+      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning', translations: [], contexts: []};
       setCurrentWord(newWordObj);
       const updatedWords = [...words, newWordObj];
       setWords(updatedWords);
@@ -84,7 +84,7 @@ const TextsPageComponent = function() {
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
   
       // adds the phrase to words with state: learning
-      const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning'}
+      const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning', translations: [], contexts: []}
       setCurrentWord(newWordObj);
 
       if (words.filter(wordObj => wordObj.word.toLowerCase() === newWordObj.word.toLowerCase()).length === 0) {
@@ -94,11 +94,19 @@ const TextsPageComponent = function() {
     } 
   }
 
+  const handleTranslation = function(event: any, translation: string, word: UserWord) {
+    event.preventDefault();
+    word.translations = [...word.translations, translation];
+    setCurrentWord(word);
+    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), word];
+    setWords(updatedWords);
+  }
+
   if (text) {
     return (
       <div className="Text-page">
         {<SingleTextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
-        <UserInput word={currentWord} setStateTo={setStateTo}/>
+        <UserInput word={currentWord} setStateTo={setStateTo} handleTranslation={handleTranslation}/>
       </div>
     );
   } else {

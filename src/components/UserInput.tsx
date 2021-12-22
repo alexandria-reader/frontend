@@ -1,14 +1,26 @@
+import { ChangeEvent, useState } from "react";
 import { UserWord } from "../types";
 
-const Translation = function() {
+const Translation = function({ word, handleTranslation }: { word: UserWord | null, handleTranslation: Function }) {
+  const [translation, setTranslation] = useState('');
+  const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
+    setTranslation(event.target.value);
+  }
+
   return (
     <div className="translation-div">
-      <label>
-        Write your translation here:
-      </label>
-      <input type={'text'} />
+      {word && word?.translations.length > 0 && <p>Current translation: {word?.translations}</p>}
+      <form onSubmit={(event) => {
+        handleTranslation(event, translation, word)
+        setTranslation('')
+        }} action="">
+        <label>
+          Write your translation here:
+        </label>
+        <input onChange={(event) => handleInput(event)} value={translation} type={'text'} />
 
-      <button type={'submit'}>Submit</button>
+        <button type={'submit'}>Submit</button>
+      </form>
     </div>
   )
 }
@@ -27,12 +39,12 @@ const ChangeState = function({ word, setStateTo }: { word: UserWord | null, setS
   )
 }
 
-const UserInput = function({ word, setStateTo }: { word: UserWord | null, setStateTo: Function }) {
+const UserInput = function({ word, setStateTo, handleTranslation }: { word: UserWord | null, setStateTo: Function, handleTranslation: Function }) {
   return (
     <div className="user-input-div">
       {word && <p>Selected word: {word.word}</p>}
       {!word && <p>Select a word</p>}
-      <Translation />
+      <Translation handleTranslation={handleTranslation} word={word} />
       <ChangeState word={word} setStateTo={setStateTo} />
     </div>
   )
