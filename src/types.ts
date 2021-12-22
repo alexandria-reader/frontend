@@ -17,9 +17,9 @@ export const convertUserWordType = function(userWord: DbUserWord): UserWord {
     word: userWord.word,
     state: userWord.word_status,
     translations: userWord.translations,
-    contexts: userWord.contexts
+    contexts: userWord.contexts,
   };
-}
+};
 
 export type DbUserWord = {
   id: number,
@@ -39,6 +39,6 @@ export type UserWord = {
 
 export type MarkedWords = {
   [word: string]: string,
-}
+};
 
-export type State = 'learning'|'familiar'|'known'|'undefined';
+export type State = 'learning' | 'familiar' | 'known' | 'undefined';
