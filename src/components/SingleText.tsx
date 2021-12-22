@@ -1,4 +1,5 @@
 import { MarkedWords, Text, UserWord } from "../types";
+import UserInput from "./UserInput";
 
 const Word = function ({ word, status, cycleState, getSelection }: { word: string, status: string, cycleState: Function, getSelection: Function }) {
   return <span onMouseUp={(event) => getSelection(event)} onClick={(event) => cycleState(event)} className={status + ' word'}>{word}</span>
@@ -53,10 +54,11 @@ const SingleTextBody = function ({ text, words, cycleState, getSelection }: { te
   const paragraphs = textBody?.split('\n');
 
   return (
-    <div>
+    <div className="text-div">
       {
         paragraphs.map((paragraph, index) => <Paragraph getSelection={getSelection} cycleState={cycleState} key={index} paragraph={paragraph} words={words} />)
       }
+      {/* <UserInput /> */}
     </div>
   );
 };

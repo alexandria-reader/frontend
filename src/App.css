@@ -20,8 +20,40 @@
 ul {
   display: flex;
   list-style-type: none;
-  font-size: 1.2 rem;
+  font-size: 1.2rem;
   align-items: center;
+}
+
+.Text-page {
+  display: flex;
+  font-size: 1.2rem;
+  align-items: center;
+  padding: 2rem;
+  justify-content: space-evenly;
+}
+
+.user-input-div {
+  max-width: 25%;
+  padding: 2rem;
+  /* background-color: #61dafb; */
+}
+
+.text-div {
+  max-width: 75%;
+  padding: 2rem;
+  /* background-color: #fb61c2; */
+}
+
+.change-state-div {
+  padding: 1rem;
+}
+
+.word-state-toolbar {
+  display: flex;
+}
+
+.translation-div {
+  padding: 1rem;
 }
 
 li {

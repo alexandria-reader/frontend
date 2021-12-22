@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Text, UserWord } from "../types";
+import { Text, UserWord, State } from "../types";
 import SingleTextBody from "./SingleText";
 import wordsService from '../services/words';
 import UserTexts from "./UserTexts";
+import UserInput from "./UserInput";
 
 const TextsPageComponent = function() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [words, setWords]: [words: [] | UserWord[], setWords: Function] = useState([]);
+  const [currentWord, setCurrentWord]: [word: null | UserWord, setWord: Function] = useState(null);
 
   const getWordsAndText = async function(id: string, languageId: string) {
     const words = await wordsService.getWordsFromText(id, languageId);
@@ -18,6 +20,14 @@ const TextsPageComponent = function() {
     setText(text);
   }
 
+  const setStateTo = function(state: State, word: UserWord) {
+    word.state = state;
+
+    setCurrentWord(word);
+    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), currentWord];
+    setWords(updatedWords);
+  }
+
   const cycleState = function(event: { target: { textContent: any; }; }) {
     const word = event.target.textContent;
     const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
@@ -27,20 +37,17 @@ const TextsPageComponent = function() {
 
       if (wordObject.state === undefined || wordObject.state === 'undefined') {
         wordObject.state = 'learning';
-      } else if (wordObject.state === 'familiar') {
-        wordObject.state = 'learned';
-      } else if (wordObject.state === 'learned') {
-        wordObject.state = 'undefined';
-      } else if (wordObject.state === 'learning') {
-        wordObject.state = 'familiar';
-      }
+      } 
 
       const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
-      setWords(updatedWords)
+      setWords(updatedWords);
+      setCurrentWord(wordObject);
+
     } else {
-      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'}
+      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'};
+      setCurrentWord(newWordObj);
       const updatedWords = [...words, newWordObj];
-      setWords(updatedWords)
+      setWords(updatedWords);
     }
   }
 
@@ -78,7 +85,8 @@ const TextsPageComponent = function() {
   
       // adds the phrase to words with state: learning
       const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning'}
-  
+      setCurrentWord(newWordObj);
+
       if (words.filter(wordObj => wordObj.word.toLowerCase() === newWordObj.word.toLowerCase()).length === 0) {
         const updatedWords = [...words, newWordObj];
         setWords(updatedWords)
@@ -88,9 +96,10 @@ const TextsPageComponent = function() {
 
   if (text) {
     return (
-      <>
+      <div className="Text-page">
         {<SingleTextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
-      </>
+        <UserInput word={currentWord} setStateTo={setStateTo}/>
+      </div>
     );
   } else {
     return (
