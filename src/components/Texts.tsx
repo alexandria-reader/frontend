@@ -2,11 +2,23 @@ import React, { useState, useEffect } from "react";
 import textsService from '../services/userTexts'
 import Nav from './Nav'
 import { Text, UserWord } from "../types";
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 import TextBody from "./TextBody";
 import wordsService from '../services/words';
 
+// export default function Texts() {
+//   return (
+//     <div>
+//       <Nav />
+//       Texts
+//     </div>
+//   )
+// }
+
 const IndividualText = function({ text, openText }: { text: Text, openText: Function }) {
   return (
+    
     <li onClick={(event) => openText(event, text)}>
       <h2>{text.title}</h2>
       <p>{text.body.slice(0, 300)}</p>
