@@ -1,19 +1,20 @@
-import { ChangeEvent, useState } from "react";
-import { UserWord } from "../types";
+import { ChangeEvent, useState } from 'react';
+import { UserWord } from '../types';
 
+// eslint-disable-next-line max-len
 const Translation = function({ word, handleTranslation }: { word: UserWord | null, handleTranslation: Function }) {
   const [translation, setTranslation] = useState('');
   const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
-  }
+  };
 
   return (
     <div className="translation-div">
       {word && word?.translations.length > 0 && <p>Current translation: {word?.translations}</p>}
       <form onSubmit={(event) => {
-        handleTranslation(event, translation, word)
-        setTranslation('')
-        }} action="">
+        handleTranslation(event, translation, word);
+        setTranslation('');
+      }} action="">
         <label>
           Write your translation here:
         </label>
@@ -22,9 +23,10 @@ const Translation = function({ word, handleTranslation }: { word: UserWord | nul
         <button type={'submit'}>Submit</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
+// eslint-disable-next-line max-len
 const ChangeState = function({ word, setStateTo }: { word: UserWord | null, setStateTo: Function }) {
   return (
     <div className="change-state-div">
@@ -36,9 +38,10 @@ const ChangeState = function({ word, setStateTo }: { word: UserWord | null, setS
         <button onClick={() => setStateTo('undefined', word)} type={'button'}>Ignore</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
+// eslint-disable-next-line max-len
 const UserInput = function({ word, setStateTo, handleTranslation }: { word: UserWord | null, setStateTo: Function, handleTranslation: Function }) {
   return (
     <div className="user-input-div">
@@ -47,7 +50,7 @@ const UserInput = function({ word, setStateTo, handleTranslation }: { word: User
       <Translation handleTranslation={handleTranslation} word={word} />
       <ChangeState word={word} setStateTo={setStateTo} />
     </div>
-  )
-}
+  );
+};
 
 export default UserInput;

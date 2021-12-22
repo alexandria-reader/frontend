@@ -1,10 +1,11 @@
-import { UserContext } from '../contexts/UserContext';
-import React, {useContext} from 'react'
-import { NavLink, Outlet} from 'react-router-dom';
-const logo = require("../assets/logo.png")
+import React, { useContext } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import UserContext from '../contexts/UserContext';
+
+const logo = require('../assets/logo.png');
 
 export default function Nav() {
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <div>
@@ -14,7 +15,7 @@ export default function Nav() {
           <li><NavLink to='/texts'>Texts</NavLink></li>
           <li><NavLink to='/words'>Words</NavLink></li>
           {user ? (
-             ''
+            ''
           ) : (
             <li><NavLink to='/about'>About</NavLink></li>
           )}
@@ -32,5 +33,5 @@ export default function Nav() {
       </div>
       <Outlet />
     </div>
-  )
+  );
 }

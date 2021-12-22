@@ -1,5 +1,9 @@
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from 'react';
+import {
+  BrowserRouter as Router,
+  Route, Routes,
+} from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
@@ -7,21 +11,17 @@ import Texts from './components/Texts';
 import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-import { UserContext } from "./contexts/UserContext";
-import {
-  BrowserRouter as Router,
-  Route, Routes,
-} from 'react-router-dom';
+import UserContext from './contexts/UserContext';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(null)
-  const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
+  const [user, setUser] = useState(null);
+  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
     <Router>
       <div className="app">
-        <UserContext.Provider value={providerValue}> 
+        <UserContext.Provider value={providerValue}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/texts" element={<Texts />} />

@@ -1,9 +1,9 @@
-import React, { useState, FormEvent } from "react";
-import { Text, UserWord, State } from "../types";
-import SingleTextBody from "./SingleText";
+import React, { useState } from 'react';
+import { Text, UserWord, State } from '../types';
+import SingleTextBody from './SingleText';
 import wordsService from '../services/words';
-import UserTexts from "./UserTexts";
-import UserInput from "./UserInput";
+import UserTexts from './UserTexts';
+import UserInput from './UserInput';
 
 const TextsPageComponent = function() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
@@ -11,56 +11,60 @@ const TextsPageComponent = function() {
   const [currentWord, setCurrentWord]: [word: null | UserWord, setWord: Function] = useState(null);
 
   const getWordsAndText = async function(id: string, languageId: string) {
-    const words = await wordsService.getWordsFromText(id, languageId);
-    setWords(words);
-  }
+    const wordsFromServer = await wordsService.getWordsFromText(id, languageId);
+    setWords(wordsFromServer);
+  };
 
-  const openText = async function(_event: Event, text: Text) {
-    await getWordsAndText(String(text.id), String(text.languageId));
-    setText(text);
-  }
+  const openText = async function(_event: Event, textToOpen: Text) {
+    await getWordsAndText(String(textToOpen.id), String(textToOpen.languageId));
+    setText(textToOpen);
+  };
 
   const setStateTo = function(state: State, word: UserWord) {
     word.state = state;
 
     setCurrentWord(word);
-    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), currentWord];
+    // eslint-disable-next-line max-len
+    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.word.toLowerCase()), currentWord];
     setWords(updatedWords);
-  }
+  };
 
-  const handleWordClick = function(event: { target: { textContent: any; }; }) {
+  const handleWordClick = function(event: { target: { textContent: unknown; }; }) {
     const word = event.target.textContent;
-    const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
+    // eslint-disable-next-line max-len
+    const wordObj = words.filter((arrWordObj) => arrWordObj.word.toLowerCase() === word.toLowerCase());
 
     if (wordObj.length > 0) {
       const wordObject = wordObj[0];
 
       if (wordObject.state === undefined || wordObject.state === 'undefined') {
         wordObject.state = 'learning';
-      } 
+      }
 
-      const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
+      // eslint-disable-next-line max-len
+      const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
       setWords(updatedWords);
       setCurrentWord(wordObject);
-
     } else {
-      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning', translations: [], contexts: []};
+      const newWordObj = {
+        word: `${word.toLowerCase()}`, state: 'learning', translations: [], contexts: [],
+      };
       setCurrentWord(newWordObj);
       const updatedWords = [...words, newWordObj];
       setWords(updatedWords);
     }
-  }
+  };
 
-  const getSelection = function(_event: { target: { textContent: any; }; }) {
+  const getSelection = function(_event: { target: { textContent: unknown; }; }) {
     // todo: check interaction between this and cycleState
     // fix bug where if a user selects backwards, first and last words are swapped
     // gets the selection string
-    let selection = window.getSelection();
+    const selection = window.getSelection();
     if (selection !== null && selection.toString()) {
-      let selectedString = selection.toString();
+      const selectedString = selection.toString();
 
-      const startNode = selection.anchorNode
-      const endNode = selection.focusNode
+      const startNode = selection.anchorNode;
+      const endNode = selection.focusNode;
       const stringArray = selectedString.split(' ');
 
       // ensures the first and last words are whole words
@@ -82,25 +86,28 @@ const TextsPageComponent = function() {
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
-  
+
       // adds the phrase to words with state: learning
-      const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning', translations: [], contexts: []}
+      const newWordObj = {
+        word: `${newPhrase.toLowerCase()}`, state: 'learning', translations: [], contexts: [],
+      };
       setCurrentWord(newWordObj);
 
-      if (words.filter(wordObj => wordObj.word.toLowerCase() === newWordObj.word.toLowerCase()).length === 0) {
+      if (words.filter((wordObj) => wordObj.word.toLowerCase()
+        === newWordObj.word.toLowerCase()).length === 0) {
         const updatedWords = [...words, newWordObj];
-        setWords(updatedWords)
+        setWords(updatedWords);
       }
-    } 
-  }
+    }
+  };
 
-  const handleTranslation = function(event: any, translation: string, word: UserWord) {
+  const handleTranslation = function(event: unknown, translation: string, word: UserWord) {
     event.preventDefault();
     word.translations = [...word.translations, translation];
     setCurrentWord(word);
-    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), word];
+    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.word.toLowerCase()), word];
     setWords(updatedWords);
-  }
+  };
 
   if (text) {
     return (
@@ -109,14 +116,13 @@ const TextsPageComponent = function() {
         <UserInput word={currentWord} setStateTo={setStateTo} handleTranslation={handleTranslation}/>
       </div>
     );
-  } else {
-    return (
+  }
+  return (
       <>
         {<UserTexts openText={openText} />}
       </>
-    );
-  }
-}
+  );
+};
 
 
 export default TextsPageComponent;
