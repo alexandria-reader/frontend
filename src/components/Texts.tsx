@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { Text, UserWord, State } from '../types';
 import SingleTextBody from './SingleText';
@@ -21,16 +22,18 @@ const TextsPageComponent = function() {
   };
 
   const setStateTo = function(state: State, word: UserWord) {
-    word.state = state;
+    const newWord = { ...word };
+    newWord.state = state;
 
-    setCurrentWord(word);
+    setCurrentWord(newWord);
     // eslint-disable-next-line max-len
-    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.word.toLowerCase()), currentWord];
+    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== newWord.word.toLowerCase()), newWord];
     setWords(updatedWords);
   };
 
-  const handleWordClick = function(event: { target: { textContent: unknown; }; }) {
-    const word = event.target.textContent;
+  const handleWordClick = function(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    const input = event.target as HTMLElement;
+    const word = input.textContent || '';
     // eslint-disable-next-line max-len
     const wordObj = words.filter((arrWordObj) => arrWordObj.word.toLowerCase() === word.toLowerCase());
 
@@ -42,7 +45,7 @@ const TextsPageComponent = function() {
       }
 
       // eslint-disable-next-line max-len
-      const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
+      const updatedWords = [...words.filter((arrWordObj) => arrWordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
       setWords(updatedWords);
       setCurrentWord(wordObject);
     } else {
@@ -101,11 +104,15 @@ const TextsPageComponent = function() {
     }
   };
 
-  const handleTranslation = function(event: unknown, translation: string, word: UserWord) {
+  // eslint-disable-next-line max-len
+  const handleTranslation = function(event: React.FormEvent<HTMLFormElement>, translation: string, word: UserWord) {
     event.preventDefault();
-    word.translations = [...word.translations, translation];
-    setCurrentWord(word);
-    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== word.word.toLowerCase()), word];
+
+    const newWord = { ...word };
+    newWord.translations = [...word.translations, translation];
+    setCurrentWord(newWord);
+    // eslint-disable-next-line max-len
+    const updatedWords = [...words.filter((wordObj) => wordObj.word.toLowerCase() !== newWord.word.toLowerCase()), newWord];
     setWords(updatedWords);
   };
 

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import Nav from './Nav';
-import { UserContext } from '../contexts/UserContext';
+import UserContext from '../contexts/UserContext';
 import { login } from '../utils/login';
 import Login from '../utils/loginForm';
 

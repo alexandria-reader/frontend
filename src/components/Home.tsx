@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Nav from './Nav';
-import { UserContext } from '../contexts/UserContext';
+import UserContext from '../contexts/UserContext';
 
 export default function Home() {
   const { user } = useContext(UserContext);
