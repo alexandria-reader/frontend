@@ -42,22 +42,21 @@ const UserTexts = function({ openText }: { openText: Function }) {
 }
 
 const TextsComponent = function() {
-  // const [text, setText] = useState('');
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [words, setWords]: [words: [] | UserWord[], setWords: Function] = useState([]);
 
   const getWordsAndText = async function(id: string, languageId: string) {
     const words = await wordsService.getWordsFromText(id, languageId);
     setWords(words);
-    console.log(words);
   }
 
-  const openText = function(_event: Event, text: Text) {
+  const openText = async function(_event: Event, text: Text) {
+    await getWordsAndText(String(text.id), String(text.languageId));
     setText(text);
-    getWordsAndText(String(text.id), String(text.languageId));
   }
 
   const cycleState = function(event: { target: { textContent: any; }; }) {
+    console.log(event);
     const word = event.target.textContent;
     const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
 
@@ -75,10 +74,13 @@ const TextsComponent = function() {
       }
 
       const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
+      console.log(updatedWords);
       setWords(updatedWords)
     } else {
       const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'}
       const updatedWords = [...words, newWordObj];
+      console.log(updatedWords);
+
       setWords(updatedWords)
     }
   }
