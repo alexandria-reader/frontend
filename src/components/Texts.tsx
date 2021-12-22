@@ -56,7 +56,6 @@ const TextsComponent = function() {
   }
 
   const cycleState = function(event: { target: { textContent: any; }; }) {
-    console.log(event);
     const word = event.target.textContent;
     const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
 
@@ -74,13 +73,10 @@ const TextsComponent = function() {
       }
 
       const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
-      console.log(updatedWords);
       setWords(updatedWords)
     } else {
       const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'}
       const updatedWords = [...words, newWordObj];
-      console.log(updatedWords);
-
       setWords(updatedWords)
     }
   }
@@ -90,7 +86,7 @@ const TextsComponent = function() {
     // fix bug where if a user selects backwards, first and last words are swapped
     // gets the selection string
     let selection = window.getSelection();
-    if (selection !== null) {
+    if (selection !== null && selection.toString()) {
       let selectedString = selection.toString();
 
       const startNode = selection.anchorNode

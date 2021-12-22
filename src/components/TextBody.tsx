@@ -17,6 +17,7 @@ const Phrase = function ({ phrase, status, markedWords, cycleState, getSelection
 };
 
 const Paragraph = function({ paragraph, words, cycleState, getSelection }: { paragraph: string, words: UserWord[], cycleState: Function, getSelection: Function }) {
+  
   const markedWords: MarkedWords = {};
   words.forEach(obj => markedWords[obj.word] = obj.state);
 
@@ -26,11 +27,9 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
   
   const phraseRegExp = new RegExp(phraseFinder, 'gui');
   const wordRegExp = new RegExp(wordFinder, 'gui');
-  let tokenRegExp;  
+  let tokenRegExp = new RegExp(`${wordFinder}|${noWordFinder}`, 'gui');
 
-  if (words.length === 0) {
-    tokenRegExp = new RegExp(`${wordFinder}|${noWordFinder}`, 'gui'); 
-  } else {
+  if (phraseFinder !== '()') {
     tokenRegExp = new RegExp(`${phraseFinder}|${wordFinder}|${noWordFinder}`, 'gui');  
   }
 
@@ -40,7 +39,7 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
     <p>
       {
         tokens.map((token, index) => {
-          if (words.length > 0 && token.match(phraseRegExp)) return <Phrase getSelection={getSelection} cycleState={cycleState} key={token + index} phrase={token} markedWords={markedWords} status={markedWords[token.toLowerCase()]} />;
+          if (phraseFinder !== '()' && token.match(phraseRegExp)) return <Phrase getSelection={getSelection} cycleState={cycleState} key={token + index} phrase={token} markedWords={markedWords} status={markedWords[token.toLowerCase()]} />;
           if (token.match(wordRegExp)) return <Word getSelection={getSelection} cycleState={cycleState} key={token + index} word={token} status={markedWords[token.toLowerCase()]} />;
           return <span key={token + index}>{token}</span>;
         })
