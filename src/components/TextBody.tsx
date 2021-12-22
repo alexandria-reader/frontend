@@ -1,23 +1,20 @@
 import { MarkedWords, Text, UserWord } from "../types";
 
-
 const Word = function ({ word, status, cycleState, getSelection }: { word: string, status: string, cycleState: Function, getSelection: Function }) {
-  return <span onMouseUp={getSelection} onClick={cycleState} className={status + ' word'}>{word}</span>
+  return <span onMouseUp={(event) => getSelection(event)} onClick={(event) => cycleState(event)} className={status + ' word'}>{word}</span>
 };
-
 
 const Phrase = function ({ phrase, status, markedWords, cycleState, getSelection }: { phrase: string, status: string, markedWords: MarkedWords, cycleState: Function, getSelection: Function }) {
   const parts = phrase.split(' ');
 
   return (
-    <span onClick={cycleState} className={status + ' phrase'}>
+    <span onClick={(event) => cycleState(event)} className={status + ' phrase'}>
       {
         parts.map((word, index, array) => <><Word cycleState={cycleState} getSelection={getSelection} key={word + index} word={word} status={markedWords[word.toLowerCase()]} />{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   )
 };
-
 
 const Paragraph = function({ paragraph, words, cycleState, getSelection }: { paragraph: string, words: UserWord[], cycleState: Function, getSelection: Function }) {
   
@@ -46,7 +43,6 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
     </p>
   );  
 }
-
 
 const TextBody = function ({ text, words, cycleState, getSelection }: { text: Text, words: UserWord[], cycleState: Function, getSelection: Function }) {
   const textBody = text.body;

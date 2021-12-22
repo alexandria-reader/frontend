@@ -46,20 +46,16 @@ const TextsComponent = function() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [words, setWords]: [words: [] | UserWord[], setWords: Function] = useState([]);
 
-  const getWordsAndText = async function(id: string) {
-    const words = await wordsService.getWordsFromText(id);
+  const getWordsAndText = async function(id: string, languageId: string) {
+    const words = await wordsService.getWordsFromText(id, languageId);
     setWords(words);
     console.log(words);
   }
 
   const openText = function(_event: Event, text: Text) {
     setText(text);
-    getWordsAndText(String(text.id));
+    getWordsAndText(String(text.id), String(text.languageId));
   }
-
-
-
-  // useEffect(getWordsAndText, [text])
 
   const cycleState = function(event: { target: { textContent: any; }; }) {
     const word = event.target.textContent;
@@ -87,24 +83,37 @@ const TextsComponent = function() {
     }
   }
 
-  const getSelection = function(event: any) {
+  const getSelection = function(_event: { target: { textContent: any; }; }) {
     // todo: check interaction between this and cycleState
     // fix bug where if a user selects backwards, first and last words are swapped
     // gets the selection string
-    console.log(window.getSelection())
-    if (window.getSelection() !== null) {
-      let selectedString = window.getSelection().toString();
-      const startNode = window.getSelection().anchorNode
-      const endNode = window.getSelection().focusNode
-      const startWord = startNode.textContent
-      const endWord = endNode.textContent
-  
-      // ensures the first and last words are whole words
+    let selection = window.getSelection();
+    if (selection !== null) {
+      let selectedString = selection.toString();
+
+      const startNode = selection.anchorNode
+      const endNode = selection.focusNode
       const stringArray = selectedString.split(' ');
-      stringArray[0] = startWord;
-      stringArray[stringArray.length - 1] = endWord;
-      const newPhrase = stringArray.join(' ').trim().split('.')[0]
-      console.log(newPhrase)
+
+      // ensures the first and last words are whole words
+      let startWord = '';
+      let endWord = '';
+
+      if (startNode && startNode.textContent) {
+        startWord = startNode.textContent;
+        if (stringArray[0] && startWord) {
+          stringArray[0] = startWord;
+        }
+      }
+
+      if (endNode && endNode.textContent) {
+        endWord = endNode.textContent;
+        if (stringArray[stringArray.length - 1] && endWord) {
+          stringArray[stringArray.length - 1] = endWord;
+        }
+      }
+
+      const newPhrase = stringArray.join(' ').trim().split('.')[0];
   
       // adds the phrase to words with state: learning
       const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning'}
@@ -113,7 +122,7 @@ const TextsComponent = function() {
         const updatedWords = [...words, newWordObj];
         setWords(updatedWords)
       }
-    }
+    } 
   }
 
   if (text) {
