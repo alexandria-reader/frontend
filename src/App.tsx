@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from "react";
 import Home from './components/Home';
 import About from './components/About';
@@ -15,12 +16,13 @@ import './App.css';
 
 function App() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
+  const [user, setUser] = useState(null)
+  const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
+  
   const openText = function(_event: Event, text: Text) {
     console.log(text);
     setText(text)
   }
-  const [user, setUser] = useState(null)
-  const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
 
   return (
     <Router>
@@ -28,7 +30,7 @@ function App() {
         <UserContext.Provider value={providerValue}> 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/texts" element={<Texts openText={openText}/>} />
+          <Route path="/texts" element={<Texts />} />
           <Route path="/words" element={<Words />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />

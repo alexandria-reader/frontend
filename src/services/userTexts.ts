@@ -4,14 +4,13 @@ import { Text } from '../types';
 const baseUrl = 'http://localhost:3000/api/texts'
 
 const getAllUserTexts = async function() {
-  const request = await axios.get('http://localhost:3000/api/texts');
-  console.log(request.data)
+  const request = await axios.get(`${baseUrl}`);
   const texts: Array<Text> = request.data;
   return texts;
 }
 
-const getTextById = async function() {
-  const request = await axios.get('http://localhost:3000/api/texts/1');
+const getTextById = async function(id: string) {
+  const request = await axios.get(`${baseUrl}/${id}`);
   return request.data;
 }
 
