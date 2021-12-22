@@ -1,23 +1,23 @@
 import { MarkedWords, Text, UserWord } from "../types";
 import UserInput from "./UserInput";
 
-const Word = function ({ word, status, cycleState, getSelection }: { word: string, status: string, cycleState: Function, getSelection: Function }) {
-  return <span onMouseUp={(event) => getSelection(event)} onClick={(event) => cycleState(event)} className={status + ' word'}>{word}</span>
+const Word = function ({ word, status, handleWordClick, getSelection }: { word: string, status: string, handleWordClick: Function, getSelection: Function }) {
+  return <span onMouseUp={(event) => getSelection(event)} onClick={(event) => handleWordClick(event)} className={status + ' word'}>{word}</span>
 };
 
-const Phrase = function ({ phrase, status, markedWords, cycleState, getSelection }: { phrase: string, status: string, markedWords: MarkedWords, cycleState: Function, getSelection: Function }) {
+const Phrase = function ({ phrase, status, markedWords, handleWordClick, getSelection }: { phrase: string, status: string, markedWords: MarkedWords, handleWordClick: Function, getSelection: Function }) {
   const parts = phrase.split(' ');
 
   return (
-    <span onClick={(event) => cycleState(event)} className={status + ' phrase'}>
+    <span onClick={(event) => handleWordClick(event)} className={status + ' phrase'}>
       {
-        parts.map((word, index, array) => <><Word cycleState={cycleState} getSelection={getSelection} key={word + index} word={word} status={markedWords[word.toLowerCase()]} />{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <><Word handleWordClick={handleWordClick} getSelection={getSelection} key={word + index} word={word} status={markedWords[word.toLowerCase()]} />{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   )
 };
 
-const Paragraph = function({ paragraph, words, cycleState, getSelection }: { paragraph: string, words: UserWord[], cycleState: Function, getSelection: Function }) {
+const Paragraph = function({ paragraph, words, handleWordClick, getSelection }: { paragraph: string, words: UserWord[], handleWordClick: Function, getSelection: Function }) {
   
   const markedWords: MarkedWords = {};
   words.forEach(obj => markedWords[obj.word] = obj.state);
@@ -40,8 +40,8 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
     <p>
       {
         tokens.map((token, index) => {
-          if (phraseFinder !== '()' && token.match(phraseRegExp)) return <Phrase getSelection={getSelection} cycleState={cycleState} key={token + index} phrase={token} markedWords={markedWords} status={markedWords[token.toLowerCase()]} />;
-          if (token.match(wordRegExp)) return <Word getSelection={getSelection} cycleState={cycleState} key={token + index} word={token} status={markedWords[token.toLowerCase()]} />;
+          if (phraseFinder !== '()' && token.match(phraseRegExp)) return <Phrase getSelection={getSelection} handleWordClick={handleWordClick} key={token + index} phrase={token} markedWords={markedWords} status={markedWords[token.toLowerCase()]} />;
+          if (token.match(wordRegExp)) return <Word getSelection={getSelection} handleWordClick={handleWordClick} key={token + index} word={token} status={markedWords[token.toLowerCase()]} />;
           return <span key={token + index}>{token}</span>;
         })
       }
@@ -49,14 +49,14 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
   );  
 }
 
-const SingleTextBody = function ({ text, words, cycleState, getSelection }: { text: Text, words: UserWord[], cycleState: Function, getSelection: Function }) {
+const SingleTextBody = function ({ text, words, handleWordClick, getSelection }: { text: Text, words: UserWord[], handleWordClick: Function, getSelection: Function }) {
   const textBody = text.body;
   const paragraphs = textBody?.split('\n');
 
   return (
     <div className="text-div">
       {
-        paragraphs.map((paragraph, index) => <Paragraph getSelection={getSelection} cycleState={cycleState} key={index} paragraph={paragraph} words={words} />)
+        paragraphs.map((paragraph, index) => <Paragraph getSelection={getSelection} handleWordClick={handleWordClick} key={index} paragraph={paragraph} words={words} />)
       }
       {/* <UserInput /> */}
     </div>

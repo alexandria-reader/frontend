@@ -28,7 +28,7 @@ const TextsPageComponent = function() {
     setWords(updatedWords);
   }
 
-  const cycleState = function(event: { target: { textContent: any; }; }) {
+  const handleWordClick = function(event: { target: { textContent: any; }; }) {
     const word = event.target.textContent;
     const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
 
@@ -105,7 +105,7 @@ const TextsPageComponent = function() {
   if (text) {
     return (
       <div className="Text-page">
-        {<SingleTextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
+        {<SingleTextBody getSelection={getSelection} handleWordClick={handleWordClick} text={text} words={words} />}
         <UserInput word={currentWord} setStateTo={setStateTo} handleTranslation={handleTranslation}/>
       </div>
     );
