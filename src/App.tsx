@@ -15,14 +15,8 @@ import {
 import './App.css';
 
 function App() {
-  const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [user, setUser] = useState(null)
   const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
-  
-  const openText = function(_event: Event, text: Text) {
-    console.log(text);
-    setText(text)
-  }
 
   return (
     <Router>

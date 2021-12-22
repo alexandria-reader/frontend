@@ -1,61 +1,14 @@
-import React, { useState, useEffect } from "react";
-import textsService from '../services/userTexts'
-import Nav from './Nav'
-import { Text, UserWord } from "../types";
-import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import TextBody from "./TextBody";
+import React, { useState, FormEvent } from "react";
+import { Text, UserWord, State } from "../types";
+import SingleTextBody from "./SingleText";
 import wordsService from '../services/words';
+import UserTexts from "./UserTexts";
+import UserInput from "./UserInput";
 
-// export default function Texts() {
-//   return (
-//     <div>
-//       <Nav />
-//       Texts
-//     </div>
-//   )
-// }
-
-const IndividualText = function({ text, openText }: { text: Text, openText: Function }) {
-  return (
-    
-    <li onClick={(event) => openText(event, text)}>
-      <h2>{text.title}</h2>
-      <p>{text.body.slice(0, 300)}</p>
-    </li>
-  )
-}
-
-const UserTexts = function({ openText }: { openText: Function }) {
-  const [texts, setTexts] = useState<Text[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const getUserTexts = function() {
-    textsService.getAllUserTexts().then(texts => {
-      setTexts(texts)
-      setIsLoaded(true)
-    })
-  }
-
-  useEffect(getUserTexts, [])
-
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <div>
-        <Nav />
-        <ul>
-          {texts.map(text => <IndividualText key={text.id} openText={openText} text={text} />)}
-        </ul>
-      </div>
-    )
-  }
-}
-
-const TextsComponent = function() {
+const TextsPageComponent = function() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [words, setWords]: [words: [] | UserWord[], setWords: Function] = useState([]);
+  const [currentWord, setCurrentWord]: [word: null | UserWord, setWord: Function] = useState(null);
 
   const getWordsAndText = async function(id: string, languageId: string) {
     const words = await wordsService.getWordsFromText(id, languageId);
@@ -67,7 +20,15 @@ const TextsComponent = function() {
     setText(text);
   }
 
-  const cycleState = function(event: { target: { textContent: any; }; }) {
+  const setStateTo = function(state: State, word: UserWord) {
+    word.state = state;
+
+    setCurrentWord(word);
+    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), currentWord];
+    setWords(updatedWords);
+  }
+
+  const handleWordClick = function(event: { target: { textContent: any; }; }) {
     const word = event.target.textContent;
     const wordObj = words.filter(wordObj => wordObj.word.toLowerCase() === word.toLowerCase());
 
@@ -76,20 +37,17 @@ const TextsComponent = function() {
 
       if (wordObject.state === undefined || wordObject.state === 'undefined') {
         wordObject.state = 'learning';
-      } else if (wordObject.state === 'familiar') {
-        wordObject.state = 'learned';
-      } else if (wordObject.state === 'learned') {
-        wordObject.state = 'undefined';
-      } else if (wordObject.state === 'learning') {
-        wordObject.state = 'familiar';
-      }
+      } 
 
       const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.toLowerCase()), wordObject];
-      setWords(updatedWords)
+      setWords(updatedWords);
+      setCurrentWord(wordObject);
+
     } else {
-      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning'}
+      const newWordObj = {word: `${word.toLowerCase()}`, state: 'learning', translations: [], contexts: []};
+      setCurrentWord(newWordObj);
       const updatedWords = [...words, newWordObj];
-      setWords(updatedWords)
+      setWords(updatedWords);
     }
   }
 
@@ -126,8 +84,9 @@ const TextsComponent = function() {
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
   
       // adds the phrase to words with state: learning
-      const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning'}
-  
+      const newWordObj = {word: `${newPhrase.toLowerCase()}`, state: 'learning', translations: [], contexts: []}
+      setCurrentWord(newWordObj);
+
       if (words.filter(wordObj => wordObj.word.toLowerCase() === newWordObj.word.toLowerCase()).length === 0) {
         const updatedWords = [...words, newWordObj];
         setWords(updatedWords)
@@ -135,11 +94,20 @@ const TextsComponent = function() {
     } 
   }
 
+  const handleTranslation = function(event: any, translation: string, word: UserWord) {
+    event.preventDefault();
+    word.translations = [...word.translations, translation];
+    setCurrentWord(word);
+    const updatedWords = [...words.filter(wordObj => wordObj.word.toLowerCase() !== word.word.toLowerCase()), word];
+    setWords(updatedWords);
+  }
+
   if (text) {
     return (
-      <>
-        {<TextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
-      </>
+      <div className="Text-page">
+        {<SingleTextBody getSelection={getSelection} handleWordClick={handleWordClick} text={text} words={words} />}
+        <UserInput word={currentWord} setStateTo={setStateTo} handleTranslation={handleTranslation}/>
+      </div>
     );
   } else {
     return (
@@ -151,4 +119,4 @@ const TextsComponent = function() {
 }
 
 
-export default TextsComponent;
+export default TextsPageComponent;

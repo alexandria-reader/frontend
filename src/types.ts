@@ -40,3 +40,5 @@ export type UserWord = {
 export type MarkedWords = {
   [word: string]: string,
 }
+
+export type State = 'learning'|'familiar'|'known'|'undefined';
