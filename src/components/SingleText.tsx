@@ -48,7 +48,7 @@ const Paragraph = function({ paragraph, words, cycleState, getSelection }: { par
   );  
 }
 
-const TextBody = function ({ text, words, cycleState, getSelection }: { text: Text, words: UserWord[], cycleState: Function, getSelection: Function }) {
+const SingleTextBody = function ({ text, words, cycleState, getSelection }: { text: Text, words: UserWord[], cycleState: Function, getSelection: Function }) {
   const textBody = text.body;
   const paragraphs = textBody?.split('\n');
 
@@ -61,4 +61,4 @@ const TextBody = function ({ text, words, cycleState, getSelection }: { text: Te
   );
 };
 
-export default TextBody;
+export default SingleTextBody;

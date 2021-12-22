@@ -1,59 +1,10 @@
-import React, { useState, useEffect } from "react";
-import textsService from '../services/userTexts'
-import Nav from './Nav'
+import React, { useState } from "react";
 import { Text, UserWord } from "../types";
-import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import TextBody from "./TextBody";
+import SingleTextBody from "./SingleText";
 import wordsService from '../services/words';
+import UserTexts from "./UserTexts";
 
-// export default function Texts() {
-//   return (
-//     <div>
-//       <Nav />
-//       Texts
-//     </div>
-//   )
-// }
-
-const IndividualText = function({ text, openText }: { text: Text, openText: Function }) {
-  return (
-    
-    <li onClick={(event) => openText(event, text)}>
-      <h2>{text.title}</h2>
-      <p>{text.body.slice(0, 300)}</p>
-    </li>
-  )
-}
-
-const UserTexts = function({ openText }: { openText: Function }) {
-  const [texts, setTexts] = useState<Text[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const getUserTexts = function() {
-    textsService.getAllUserTexts().then(texts => {
-      setTexts(texts)
-      setIsLoaded(true)
-    })
-  }
-
-  useEffect(getUserTexts, [])
-
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <div>
-        <Nav />
-        <ul>
-          {texts.map(text => <IndividualText key={text.id} openText={openText} text={text} />)}
-        </ul>
-      </div>
-    )
-  }
-}
-
-const TextsComponent = function() {
+const TextsPageComponent = function() {
   const [text, setText]: [text: null | Text, setText: Function] = useState(null);
   const [words, setWords]: [words: [] | UserWord[], setWords: Function] = useState([]);
 
@@ -138,7 +89,7 @@ const TextsComponent = function() {
   if (text) {
     return (
       <>
-        {<TextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
+        {<SingleTextBody getSelection={getSelection} cycleState={cycleState} text={text} words={words} />}
       </>
     );
   } else {
@@ -151,4 +102,4 @@ const TextsComponent = function() {
 }
 
 
-export default TextsComponent;
+export default TextsPageComponent;
