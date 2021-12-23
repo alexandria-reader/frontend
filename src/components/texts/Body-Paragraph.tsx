@@ -30,8 +30,6 @@ const phrasesState = selector({
 const Paragraph = function({ paragraph }: { paragraph: string }) {
   const phrases = useRecoilValue(phrasesState);
 
-  console.log('\n== phrases ==\n', phrases, '\n');
-
   const phraseFinder = phrases.length === 0 ? '' : `(${phrases.join('|')})|`;
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
   const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';

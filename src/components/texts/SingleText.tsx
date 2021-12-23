@@ -21,8 +21,8 @@ export const userwordsState = atom<Array<UserWord>>({
 
 const SingleText = function () {
   const currentText = useRecoilValue(currenttextState);
-  const setUserWords = useSetRecoilState(userwordsState);
   const currentWord = useRecoilValue(currentwordState);
+  const setUserWords = useSetRecoilState(userwordsState);
 
   useEffect(() => {
     const fetchUserwords = async function() {
@@ -33,7 +33,7 @@ const SingleText = function () {
     };
 
     fetchUserwords();
-  });
+  }, []);
 
   if (currentText) {
     return (

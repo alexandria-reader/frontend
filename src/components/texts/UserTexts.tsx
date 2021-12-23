@@ -34,7 +34,7 @@ const UserTexts = function() {
     };
 
     fetchUserTexts();
-  });
+  }, []);
 
 
   if (!loaded) {
