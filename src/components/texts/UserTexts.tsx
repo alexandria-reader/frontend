@@ -6,7 +6,7 @@ import textsService from '../../services/texts';
 import Nav from '../Nav';
 import { Text } from '../../types';
 
-import { textlistState, currenttextState } from '../Texts';
+import { textlistState, currenttextState } from '../../states/recoil-states';
 
 
 const IndividualText = function({ text }: { text: Text }) {

@@ -1,19 +1,9 @@
-import { atom, useRecoilValue } from 'recoil';
-import { Text } from '../types';
+import { useRecoilValue } from 'recoil';
+
 import SingleText from './texts/SingleText';
 import UserTexts from './texts/UserTexts';
 
-
-export const textlistState = atom<Array<Text>>({
-  key: 'textlistState',
-  default: [],
-});
-
-export const currenttextState = atom<Text | null>({
-  key: 'currenttextState',
-  default: null,
-});
-
+import { currenttextState } from '../states/recoil-states';
 
 const TextsPage = function() {
   const currentText = useRecoilValue(currenttextState);
