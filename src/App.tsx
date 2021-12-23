@@ -8,6 +8,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
 import Texts from './components/Texts';
+import SingleTextBody from './components/SingleText';
 import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -25,6 +26,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/texts" element={<Texts />} />
+          <Route path="/texts/:textId" element={<SingleTextBody text={{
+            id: undefined,
+            userId: 0,
+            languageId: '',
+            title: '',
+            author: undefined,
+            body: '',
+            sourceURL: undefined,
+            sourceType: undefined,
+            uploadTime: undefined,
+            isPublic: undefined,
+          }} />} />
           <Route path="/words" element={<Words />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
