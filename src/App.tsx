@@ -1,9 +1,10 @@
-
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
   BrowserRouter as Router,
   Route, Routes,
 } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
 import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
@@ -22,16 +23,18 @@ function App() {
     <Router>
       <div className="app">
         <UserContext.Provider value={providerValue}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/texts" element={<Texts />} />
-          <Route path="/words" element={<Words />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/logout" element={<Home />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
+          <RecoilRoot>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/words" element={<Words />} />
+              <Route path="/texts" element={<Texts />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/logout" element={<Home />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+          </RecoilRoot>
         </ UserContext.Provider>
         {/* {loggedIn ?} */}
       </div>

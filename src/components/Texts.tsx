@@ -1,27 +1,32 @@
-import { useState } from 'react';
+import { atom, useRecoilValue } from 'recoil';
 import { Text } from '../types';
-import SingleTextBody from './SingleText';
-import UserTexts from './UserTexts';
+import SingleText from './texts/SingleText';
+import UserTexts from './texts/UserTexts';
 
-const TextsPageComponent = function() {
-  const [text, setText]: [text: null | Text, setText: Function] = useState(null);
 
-  const openText = async function(_event: Event, textToOpen: Text) {
-    setText(textToOpen);
-  };
+export const textlistState = atom<Array<Text>>({
+  key: 'textlistState',
+  default: [],
+});
 
-  if (text) {
+export const currenttextState = atom<Text | null>({
+  key: 'currenttextState',
+  default: null,
+});
+
+
+const TextsPage = function() {
+  const currentText = useRecoilValue(currenttextState);
+
+  if (currentText) {
     return (
-      <div className="Text-page">
-        <SingleTextBody text={text} />
-      </div>
+      <SingleText />
     );
   }
+
   return (
-      <>
-        <UserTexts openText={openText} />
-      </>
+    <UserTexts />
   );
 };
 
-export default TextsPageComponent;
+export default TextsPage;

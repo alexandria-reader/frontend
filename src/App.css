@@ -44,11 +44,11 @@ ul {
   /* background-color: #fb61c2; */
 }
 
-.change-state-div {
+.change-status-div {
   padding: 1rem;
 }
 
-.word-state-toolbar {
+.word-status-toolbar {
   display: flex;
 }
 
