@@ -46,7 +46,6 @@ function App() {
           <Route path="/about" element={<About />} />
         </Routes>
         </ UserContext.Provider>
-        {/* {loggedIn ?} */}
       </div>
     </Router>
   );

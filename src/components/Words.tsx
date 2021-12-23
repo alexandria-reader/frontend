@@ -9,7 +9,7 @@ export default function Words() {
      <Nav />
      Words
      <div> { user
-       ? (`${JSON.stringify(user, null, 2)} is logged in`) : 'You are not logged in.'
+       ? (`${user.email} is logged in`) : 'You are not logged in.'
      } </div>
     </div>
   );

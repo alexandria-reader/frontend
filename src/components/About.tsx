@@ -9,7 +9,7 @@ export default function About() {
      <Nav />
      About
      <div> { user
-       ? (`${JSON.stringify(user, null, 2)} is logged in`) : 'You are not logged in.'
+       ? (`${user.email} is logged in`) : 'You are not logged in.'
      } </div>
     </div>
   );
