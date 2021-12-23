@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   MarkedWords, Text, UserWord, State,
 } from '../types';
@@ -187,10 +188,10 @@ const SingleTextBody = function ({ text }: { text: Text }) {
 
   const textBody = text.body;
   const paragraphs = textBody?.split('\n');
-
+  const { textId } = useParams();
   return (
     <>
-      <div className="text-div">
+      <div className="text-div"> { textId }
         {paragraphs.map((paragraph, index) => <Paragraph getSelection={getSelection}
           handleWordClick={handleWordClick} key={index} paragraph={paragraph} words={words} />)}
       </div>

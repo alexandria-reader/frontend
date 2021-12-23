@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import textsService from '../services/userTexts';
 import Nav from './Nav';
 import { Text } from '../types';
@@ -33,7 +34,8 @@ const UserTexts = function({ openText }: { openText: Function }) {
       <div>
         <Nav />
         <ul>
-          {texts.map((text) => <IndividualText key={text.id} openText={openText} text={text} />)}
+          {texts.map((text) => <Link to={`/texts/${text.id}`}>
+          <IndividualText key={text.id} openText={openText} text={text} /></Link>)}
         </ul>
       </div>
   );
