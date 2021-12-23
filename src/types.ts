@@ -11,28 +11,28 @@ export type Text = {
   isPublic?: boolean,
 };
 
-export const convertUserWordType = function(userWord: DbUserWord): UserWord {
-  return {
-    id: userWord.id,
-    word: userWord.word,
-    state: userWord.word_status,
-    translations: userWord.translations,
-    contexts: userWord.contexts,
-  };
-};
+// export const convertUserWordType = function(userWord: DbUserWord): UserWord {
+//   return {
+//     id: userWord.id,
+//     word: userWord.word,
+//     state: userWord.word_status,
+//     translations: userWord.translations,
+//     contexts: userWord.contexts,
+//   };
+// };
 
-export type DbUserWord = {
-  id: number,
-  word: string,
-  word_status: string,
-  translations: Array<string>,
-  contexts: Array<string>
-};
+// export type DbUserWord = {
+//   id: number,
+//   word: string,
+//   word_status: string,
+//   translations: Array<string>,
+//   contexts: Array<string>
+// };
 
 export type UserWord = {
   id: number,
   word: string,
-  state: string,
+  status: string,
   translations: Array<string>,
   contexts: Array<string>
 };
