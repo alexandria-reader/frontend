@@ -157,7 +157,7 @@ const SingleTextBody = function ({ text }: { text: Text }) {
 
       // adds the phrase to words with state: learning
       const newWordObj = {
-        word: `${newPhrase.toLowerCase()}`, state: 'learning', translations: [], contexts: [],
+        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [], contexts: [],
       };
       setCurrentWord(newWordObj);
 
