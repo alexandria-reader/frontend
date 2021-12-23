@@ -23,4 +23,4 @@ export type MarkedWords = {
   [word: string]: string,
 };
 
-export type Status = 'learning' | 'familiar' | 'known' | undefined;
+export type Status = 'learning' | 'familiar' | 'learned' | undefined;

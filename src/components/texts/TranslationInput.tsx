@@ -4,9 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { ChangeEvent, useState } from 'react';
 import { UserWord, Status } from '../../types';
 
-import { currentwordState } from './Phrase-Word';
-import { userwordsState } from './SingleText';
-
+import { userwordsState, currentwordState } from '../../states/recoil-states';
 
 const Translation = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -75,7 +73,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     ? <div className="word-status-toolbar">;
         <button onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
-        <button onClick={() => setWordStatus('known', word)} type={'button'}>Known</button>
+        <button onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
         <button onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
       </div>
     : '';

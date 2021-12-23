@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 
 import Nav from '../Nav';
@@ -7,17 +7,8 @@ import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 
 import wordsService from '../../services/words';
-import { UserWord } from '../../types';
 
-
-import { currenttextState } from '../Texts';
-import { currentwordState } from './Phrase-Word';
-
-export const userwordsState = atom<Array<UserWord>>({
-  key: 'userwordsState',
-  default: [],
-});
-
+import { userwordsState, currenttextState, currentwordState } from '../../states/recoil-states';
 
 const SingleText = function () {
   const currentText = useRecoilValue(currenttextState);

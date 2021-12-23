@@ -2,24 +2,7 @@ import { selector, useRecoilValue } from 'recoil';
 
 import { Word, Phrase } from './Phrase-Word';
 
-import { MarkedWords } from '../../types';
-
-import { userwordsState } from './SingleText';
-
-export const markedwordsState = selector({
-  key: 'markedwordsState',
-  get: ({ get }) => {
-    const markedWords: MarkedWords = {};
-
-    const userWords = get(userwordsState);
-    userWords.forEach((userWord) => {
-      if (userWord.status) markedWords[userWord.word] = userWord.status;
-    });
-
-    return markedWords;
-  },
-});
-
+import { markedwordsState } from '../../states/recoil-states';
 
 const phrasesState = selector({
   key: 'phrasesState',

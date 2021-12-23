@@ -8,9 +8,7 @@ import {
 
 import { UserWord } from '../../types';
 
-import { markedwordsState } from './Body-Paragraph';
-
-import { userwordsState } from './SingleText';
+import { markedwordsState, userwordsState } from '../../states/recoil-states';
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
