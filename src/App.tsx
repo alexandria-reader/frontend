@@ -15,9 +15,28 @@ import SignUp from './components/SignUp';
 import UserContext from './contexts/UserContext';
 import './App.css';
 
+// function setToken(userToken: string) {
+//   sessionStorage.setItem('user', JSON.stringify(userToken));
+// }
+
+function getToken() {
+  const tokenString = localStorage.getItem('user');
+  if (tokenString) {
+    const userToken = JSON.parse(tokenString);
+    return userToken?.token;
+  }
+  return null;
+}
+
 function App() {
   const [user, setUser] = useState(null);
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const token = getToken();
+  console.log(token);
+  // TODO: yes, have access to the token here
+  // that means that if we use the existence of the token as a measure
+  // of whether someone is logged in, we can
+  // if token exists, then the user is logged in
 
   return (
     <Router>

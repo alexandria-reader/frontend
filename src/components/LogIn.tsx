@@ -8,13 +8,15 @@ export default function LogIn() {
   const { user } = useContext(UserContext);
   // const [token, setToken] = useState();
   // console.log(user);
+
+  // TODO: the local storage is now working, but it's not part of userContext, so pages not aware
   return (
     <div>
      <Nav />
      { user
        ? (`${user.email} is logged in`)
        : (
-       <LoginForm />
+       <LoginForm/>
        )
      }
     </div>
