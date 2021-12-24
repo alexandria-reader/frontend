@@ -7,7 +7,7 @@ export default function LogIn() {
   return (
     <div>
      <Nav />
-     Home
+     Log in
      <div> { tokenObj
        ? (`${tokenObj.email} is logged in`) : (
         <LoginForm />)}

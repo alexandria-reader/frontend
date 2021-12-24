@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import UserContext from '../contexts/UserContext';
+// import UserContext from '../contexts/UserContext';
 
 const loginUser = async function(credentials) {
   const request = await axios.post('http://localhost:3000/api/login', credentials).then((response) => response.data);
@@ -10,7 +10,7 @@ const loginUser = async function(credentials) {
 export default function LoginForm() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +18,8 @@ export default function LoginForm() {
       email,
       password,
     });
-    setUser(userToken);
-    console.log(user);
+    // setUser(userToken);
+    // console.log(user);
     localStorage.setItem('user', JSON.stringify(userToken));
   };
 

@@ -13,26 +13,24 @@ export default function Nav() {
   return (
     <div>
       <div>
-        <ul>
-          <NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink>
-          <li><NavLink to='/texts'>Texts</NavLink></li>
-          <li><NavLink to='/words'>Words</NavLink></li>
+        <div>
           {tokenObj ? (
-            ''
+            <ul>
+              <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+              <li><NavLink to='/texts'>Texts</NavLink></li>
+              <li><NavLink to='/words'>Words</NavLink></li>
+              <li><NavLink to='/settings'>Setting</NavLink></li>
+              <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
+             </ul>
           ) : (
-            <li><NavLink to='/about'>About</NavLink></li>
+            <ul>
+              <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+              <li><NavLink to='/login'>Log in</NavLink></li>
+              <li><NavLink to='/signup'>Sign up</NavLink></li>
+              <li><NavLink to='/about'>About</NavLink></li>
+            </ul>
           )}
-          {tokenObj ? (
-            <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
-          ) : (
-            <li><NavLink to='/login'>Log in</NavLink></li>
-          )}
-          {tokenObj ? (
-             <li><NavLink to='/settings'>Setting</NavLink></li>
-          ) : (
-            <li><NavLink to='/signup'>Sign up</NavLink></li>
-          )}
-        </ul>
+        </div>
       </div>
       <Outlet />
     </div>

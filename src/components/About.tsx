@@ -10,7 +10,7 @@ export default function About() {
   return (
     <div>
      <Nav />
-     Home
+     About
      <div> { tokenObj
        ? (`${tokenObj.email} is logged in`) : 'You are not logged in.'
      } </div>
