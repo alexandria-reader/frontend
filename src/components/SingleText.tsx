@@ -78,6 +78,7 @@ const SingleTextBody = function ({ text }: { text: Text }) {
   const [currentWord, setCurrentWord]: [word: null | UserWord, setWord: Function] = useState(null);
 
   const getUserWordsFromServer = function() {
+    console.log(text);
     wordsService.getWordsFromText(String(text.id), text.languageId)
       .then((userWords) => setWords(userWords));
   };
@@ -189,6 +190,7 @@ const SingleTextBody = function ({ text }: { text: Text }) {
   const textBody = text.body;
   const paragraphs = textBody?.split('\n');
   const { textId } = useParams();
+
   return (
     <>
       <div className="text-div"> { textId }

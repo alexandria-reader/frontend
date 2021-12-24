@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-
 // import { useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -32,7 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/texts" element={<Texts />} />
           <Route path="/texts/:textId" element={<SingleTextBody text={{
-            id: undefined,
+            id: 1,
             userId: 0,
             languageId: '',
             title: '',

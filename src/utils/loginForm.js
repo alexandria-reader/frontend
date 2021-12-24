@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // import UserContext from '../contexts/UserContext';
 
 const loginUser = async function(credentials) {
-  const request = await axios.post('http://localhost:3000/api/login', credentials).then((response) => response.data);
+  const request = await axios.post('http://localhost:3000/api/login', credentials).then((response) => response);
   return request;
 };
 
@@ -11,17 +12,24 @@ export default function LoginForm() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   // const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userToken = await loginUser({
-      email,
-      password,
-    });
-    // setUser(userToken);
-    // console.log(user);
-    localStorage.setItem('user', JSON.stringify(userToken));
+
+    try {
+      const response = await loginUser({
+        email,
+        password,
+      });
+      localStorage.setItem('user', JSON.stringify(response.data));
+      navigate('/');
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    } catch (e) {
+      alert(e.message);
+    }
   };
+
 
   return (
     <div className="login-wrapper">

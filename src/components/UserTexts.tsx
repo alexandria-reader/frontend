@@ -34,8 +34,7 @@ const UserTexts = function({ openText }: { openText: Function }) {
       <div>
         <Nav />
         <ul>
-          {texts.map((text) => <Link to={`/texts/${text.id}`}>
-          <IndividualText key={text.id} openText={openText} text={text} /></Link>)}
+          {texts.map((text) => <><Link to={`/texts/${text.id}`}><h2>{text.title}</h2></Link><IndividualText key={text.id} openText={openText} text={text} /></>)}
         </ul>
       </div>
   );
