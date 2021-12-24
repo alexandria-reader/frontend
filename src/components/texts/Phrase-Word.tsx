@@ -16,38 +16,9 @@ export const currentwordState = atom<UserWord | null>({
 });
 
 
-export const Word = function ({ word }: { word: string }) {
+export const Word = function ({ word, handleWordClick }: { word: string, handleWordClick: Function }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
-
-  const handleWordClick = function(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
-    const input = event.target as HTMLElement;
-    const word2 = input.textContent || '';
-
-    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-      === word2.toLowerCase());
-
-    if (wordObj.length > 0) {
-      const wordObject = wordObj[0];
-
-      if (wordObject.status === undefined || wordObject.status === 'undefined') {
-        wordObject.status = 'learning';
-      }
-
-      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-        !== word2.toLowerCase()), wordObject];
-      setUserWords(updatedWords);
-      setCurrentWord(wordObject);
-    } else {
-      const newWordObj = {
-        word: `${word2.toLowerCase()}`, status: 'learning', translations: [], contexts: [],
-      };
-
-      setCurrentWord(newWordObj);
-      const updatedWords = [...userWords, newWordObj];
-      setUserWords(updatedWords);
-    }
-  };
 
   const getSelection = function(_event: unknown) {
     // todo: check interaction between this and cycleState
@@ -113,38 +84,7 @@ export const Word = function ({ word }: { word: string }) {
 };
 
 
-export const Phrase = function ({ phrase }: { phrase: string }) {
-  const [userWords, setUserWords] = useRecoilState(userwordsState);
-  const setCurrentWord = useSetRecoilState(currentwordState);
-  const handleWordClick = function(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
-    const input = event.target as HTMLElement;
-    const word = input.textContent || '';
-
-    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-      === word.toLowerCase());
-
-    if (wordObj.length > 0) {
-      const wordObject = wordObj[0];
-
-      if (wordObject.status === undefined || wordObject.status === 'undefined') {
-        wordObject.status = 'learning';
-      }
-
-      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-        !== word.toLowerCase()), wordObject];
-      setUserWords(updatedWords);
-      setCurrentWord(wordObject);
-    } else {
-      const newWordObj = {
-        word: `${word.toLowerCase()}`, status: 'learning', translations: [], contexts: [],
-      };
-
-      setCurrentWord(newWordObj);
-      const updatedWords = [...userWords, newWordObj];
-      setUserWords(updatedWords);
-    }
-  };
-
+export const Phrase = function ({ phrase, handleWordClick }: { phrase: string, handleWordClick: Function }) {
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[phrase.toLowerCase()];
 
@@ -157,7 +97,7 @@ export const Phrase = function ({ phrase }: { phrase: string }) {
   return (
     <span onClick={(event) => handleWordClick(event)} className={phraseClass}>
       {
-        parts.map((word, index, array) => <><Word key={word + index} word={word} />{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <><Word key={word + index} word={word} handleWordClick={handleWordClick}/>{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   );
