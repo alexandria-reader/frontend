@@ -6,8 +6,7 @@ const loginUser = async function(credentials) {
   const request = await axios.post('http://localhost:3000/api/login', credentials).then((response) => response.data);
   return request;
 };
-// FIXME: typing issues: this is from adding the Login component
-// that renders based on token's availability when app runs
+
 export default function LoginForm() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
