@@ -9,7 +9,6 @@ import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
 import Texts from './components/Texts';
-import SingleTextBody from './components/SingleText';
 import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
