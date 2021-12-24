@@ -6,19 +6,20 @@ import LoginForm from '../utils/loginForm';
 
 export default function LogIn() {
   const { user } = useContext(UserContext);
-  // const [token, setToken] = useState();
-  // console.log(user);
-
-  // TODO: the local storage is now working, but it's not part of userContext, so pages not aware
+  const token = localStorage.getItem('user');
+  let tokenObj;
+  if (token) {
+    tokenObj = JSON.parse(token);
+  }
+  const tokenStr = tokenObj.token;
+  console.log(user);
   return (
     <div>
      <Nav />
-     { user
-       ? (`${user.email} is logged in`)
-       : (
-       <LoginForm/>
-       )
-     }
+     Home
+     <div> { tokenStr
+       ? (`${tokenObj.email} is logged in`) : 'You are not logged in.'
+     } <LoginForm/> </div>
     </div>
   );
 }

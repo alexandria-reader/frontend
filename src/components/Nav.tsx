@@ -7,6 +7,14 @@ const logo = require('../assets/logo.png');
 export default function Nav() {
   const { user, setUser } = useContext(UserContext);
 
+  const token = localStorage.getItem('user');
+  let tokenObj;
+  if (token) {
+    tokenObj = JSON.parse(token);
+  }
+  const tokenStr = tokenObj.token;
+  console.log(user);
+
   return (
     <div>
       <div>
@@ -14,17 +22,17 @@ export default function Nav() {
           <NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink>
           <li><NavLink to='/texts'>Texts</NavLink></li>
           <li><NavLink to='/words'>Words</NavLink></li>
-          {user ? (
+          {tokenStr ? (
             ''
           ) : (
             <li><NavLink to='/about'>About</NavLink></li>
           )}
-          {user ? (
+          {tokenStr ? (
             <li><NavLink to='/' onClick={() => setUser(null)}>Log out</NavLink></li>
           ) : (
             <li><NavLink to='/login'>Log in</NavLink></li>
           )}
-          {user ? (
+          {tokenStr ? (
              <li><NavLink to='/settings'>Setting</NavLink></li>
           ) : (
             <li><NavLink to='/signup'>Sign up</NavLink></li>
