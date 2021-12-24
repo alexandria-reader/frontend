@@ -11,7 +11,7 @@ export default function Nav() {
     <div>
       <div>
         <ul>
-          <NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink>
+          <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
           <li><NavLink to='/texts'>Texts</NavLink></li>
           <li><NavLink to='/words'>Words</NavLink></li>
           {user ? (
