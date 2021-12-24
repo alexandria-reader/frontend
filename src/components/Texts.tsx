@@ -1,32 +1,22 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Text } from '../types';
-import SingleTextBody from './SingleText';
-import UserTexts from './UserTexts';
+import { useRecoilValue } from 'recoil';
 
+import SingleText from './texts/SingleText';
+import UserTexts from './texts/UserTexts';
 
-const TextsPageComponent = function() {
-  const [text, setText]: [text: null | Text, setText: Function] = useState(null);
+import { currenttextState } from '../states/recoil-states';
 
-  const openText = async function(_event: Event, textToOpen: Text) {
-    setText(textToOpen);
-  };
-  const params = useParams();
+const TextsPage = function() {
+  const currentText = useRecoilValue(currenttextState);
 
-  if (text) {
+  if (currentText) {
     return (
-      <div className="Text-page">
-        {JSON.stringify(params.textId)}
-        <SingleTextBody text={text} />
-      </div>
+      <SingleText />
     );
   }
 
   return (
-      <>
-        <UserTexts openText={openText} />
-      </>
+    <UserTexts />
   );
 };
 
-export default TextsPageComponent;
+export default TextsPage;
