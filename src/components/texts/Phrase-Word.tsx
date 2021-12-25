@@ -1,19 +1,11 @@
 /* eslint-disable max-len */
 import {
-  atom,
   useRecoilState,
   useRecoilValue,
   useSetRecoilState,
 } from 'recoil';
 
-import { UserWord } from '../../types';
-
-import { markedwordsState, userwordsState } from '../../states/recoil-states';
-
-export const currentwordState = atom<UserWord | null>({
-  key: 'currentwordState',
-  default: null,
-});
+import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
 
 
 export const Word = function ({ word, handleWordClick }: { word: string, handleWordClick: Function }) {
