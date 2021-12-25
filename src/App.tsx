@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+// import { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route, Routes,
@@ -12,31 +12,36 @@ import Texts from './components/Texts';
 import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-import UserContext from './contexts/UserContext';
+import SingleText from './components/texts/SingleText';
+// import UserContext from './contexts/UserContext';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(null);
-  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+  // const [user, setUser] = useState(null);
+  // const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+
+  // if (!user) {
+  //   return <LogIn setUser={setUser} />;
+  // }
 
   return (
     <Router>
       <div className="app">
-        <UserContext.Provider value={providerValue}>
-          <RecoilRoot>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/words" element={<Words />} />
-              <Route path="/texts" element={<Texts />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<LogIn />} />
-              <Route path="/logout" element={<Home />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </RecoilRoot>
-        </ UserContext.Provider>
-        {/* {loggedIn ?} */}
+        {/* <UserContext.Provider value={providerValue}> */}
+        <RecoilRoot>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/texts" element={<Texts />} />
+            <Route path="/texts/:textId" element={<SingleText />} />
+            <Route path="/words" element={<Words />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/logout" element={<Home />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </RecoilRoot>
+        {/* </ UserContext.Provider> */}
       </div>
     </Router>
   );

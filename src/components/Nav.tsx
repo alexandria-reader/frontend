@@ -1,35 +1,36 @@
-import React, { useContext } from 'react';
+// import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import UserContext from '../contexts/UserContext';
+// import UserContext from '../contexts/UserContext';
+import logOut from '../utils/logOut';
+import getToken from '../utils/getToken';
 
 const logo = require('../assets/logo.png');
 
 export default function Nav() {
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+  const tokenObj = getToken();
 
   return (
     <div>
       <div>
-        <ul>
-          <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
-          <li><NavLink to='/texts'>Texts</NavLink></li>
-          <li><NavLink to='/words'>Words</NavLink></li>
-          {user ? (
-            ''
+        <div>
+          {tokenObj ? (
+            <ul>
+              <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+              <li><NavLink to='/texts'>Texts</NavLink></li>
+              <li><NavLink to='/words'>Words</NavLink></li>
+              <li><NavLink to='/settings'>Setting</NavLink></li>
+              <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
+             </ul>
           ) : (
-            <li><NavLink to='/about'>About</NavLink></li>
+            <ul>
+              <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+              <li><NavLink to='/login'>Log in</NavLink></li>
+              <li><NavLink to='/signup'>Sign up</NavLink></li>
+              <li><NavLink to='/about'>About</NavLink></li>
+            </ul>
           )}
-          {user ? (
-            <li><NavLink to='/' onClick={() => setUser(null)}>Log out</NavLink></li>
-          ) : (
-            <li><NavLink to='/login'>Log in</NavLink></li>
-          )}
-          {user ? (
-             <li><NavLink to='/settings'>Setting</NavLink></li>
-          ) : (
-            <li><NavLink to='/signup'>Sign up</NavLink></li>
-          )}
-        </ul>
+        </div>
       </div>
       <Outlet />
     </div>
