@@ -1,31 +1,17 @@
-import { useContext, useState } from 'react';
 import Nav from './Nav';
-import UserContext from '../contexts/UserContext';
-import { login } from '../utils/login';
-import Login from '../utils/loginForm';
+import LoginForm from '../utils/loginForm';
+import getToken from '../utils/getToken';
 
 export default function LogIn() {
-  const { user, setUser } = useContext(UserContext);
-  const [token, setToken] = useState();
-
+  const tokenObj = getToken();
   return (
     <div>
      <Nav />
-     { token ? '' : (
-       <Login setToken={setToken} />
-     )
-     }
-
-     <div>{JSON.stringify(user, null, 2)} is logged in</div>
-     <button
-      onClick={async () => {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const user = await login();
-        setUser(user);
-      }}
-      >
-      login
-      </button>
+     Log in
+     <div> { tokenObj
+       ? (`${tokenObj.email} is logged in`) : (
+        <LoginForm />)}
+      </div>
     </div>
   );
 }
