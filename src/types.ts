@@ -24,3 +24,12 @@ export type Text = {
   uploadTime?: Date,
   isPublic?: boolean,
 };
+
+export type User = {
+  id?: number,
+  username?: string | null,
+  email: string,
+  password: string,
+  sourceLang: string,
+  targetLang: string,
+};
