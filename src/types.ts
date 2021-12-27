@@ -45,3 +45,11 @@ export type User = {
   current_known_language_id?: string,
   current_learn_language_id?: string,
 };
+
+export type LocalStorageUser = {
+  current_known_language_id?: string,
+  current_learn_language_id?: string,
+  email: string,
+  token: string,
+  username: string,
+};

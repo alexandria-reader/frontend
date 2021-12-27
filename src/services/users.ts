@@ -11,7 +11,7 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
     headers: { Authorization: `bearer ${token}` },
   });
 
-  const updatedUser: User = request.data;
+  const updatedUser: User = request.data[0];
   return updatedUser;
 };
 
