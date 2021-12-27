@@ -12,7 +12,7 @@ export default function Home() {
      <Nav />
      Home
      <div> { tokenObj
-       ? (`${tokenObj.email} is logged in`) : 'You are not logged in.'
+       ? (`${tokenObj.username} is logged in`) : 'You are not logged in.'
      } </div>
     </div>
   );
