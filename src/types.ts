@@ -24,3 +24,32 @@ export type Text = {
   uploadTime?: Date,
   isPublic?: boolean,
 };
+
+export type Language = {
+  id: string,
+  name: string,
+  eachCharIsWord: boolean,
+  isRightToLeft: boolean,
+};
+
+export type CurrentUserLanguages = {
+  currentKnownId: string,
+  currentLearnId: string,
+};
+
+export type User = {
+  id: number,
+  username: string,
+  password_hash: string,
+  email: string,
+  current_known_language_id?: string,
+  current_learn_language_id?: string,
+};
+
+export type LocalStorageUser = {
+  current_known_language_id?: string,
+  current_learn_language_id?: string,
+  email: string,
+  token: string,
+  username: string,
+};

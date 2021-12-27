@@ -1,14 +1,16 @@
 /* eslint-disable max-len */
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ChangeEvent, useState } from 'react';
 import { UserWord, Status } from '../../types';
 
-import { userwordsState, currentwordState } from '../../states/recoil-states';
+import { userwordsState, currentwordState, currenttextState } from '../../states/recoil-states';
 
 const Translation = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
+  const currentWord = useRecoilValue(currentwordState);
+  const currentText = useRecoilValue(currenttextState);
 
   const handleTranslation = function(
     event: React.FormEvent<HTMLFormElement>,
@@ -34,11 +36,11 @@ const Translation = function({ word }: { word: UserWord | null }) {
     setTranslation(event.target.value);
   };
 
-
   return (
     <div className="translation-div">
       {word && word?.translations.length > 0
       && <p>Current translation: {word?.translations.join(', ')}</p>}
+      {currentWord && <iframe width="350" height="500" src={`https://www.wordreference.com/${currentText?.languageId}en/${currentWord.word}`}></iframe>}
       <form onSubmit={(event) => {
         handleTranslation(event, translation, word);
         setTranslation('');

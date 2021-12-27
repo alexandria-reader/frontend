@@ -1,5 +1,7 @@
 import { atom, selector } from 'recoil';
-import { UserWord, MarkedWords, Text } from '../types';
+import {
+  UserWord, MarkedWords, Text, Language, CurrentUserLanguages,
+} from '../types';
 
 
 export const textlistState = atom<Array<Text>>({
@@ -19,6 +21,16 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
+
+export const languagesState = atom<Array<Language>>({
+  key: 'languagesState',
+  default: [],
+});
+
+export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
+  key: 'currentUserLanguagesState',
+  default: null,
+});
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
