@@ -15,13 +15,23 @@ export default function Nav() {
       <div>
         <div>
           {tokenObj ? (
-            <ul>
-              <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
-              <li><NavLink to='/texts'>Texts</NavLink></li>
-              <li><NavLink to='/words'>Words</NavLink></li>
-              <li><NavLink to='/settings'>Setting</NavLink></li>
-              <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
-             </ul>
+            <div className='navBar'>
+              <ul>
+                <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+                <li><NavLink to='/texts'>Texts</NavLink></li>
+                <li><NavLink to='/words'>Words</NavLink></li>
+                <li><NavLink to='/settings'>Setting</NavLink></li>
+                <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
+              </ul>
+              <ul>
+                <li>
+                  <p onClick={() => setShowLanguages(true)}>Click to set Languages</p>
+                    {showLanguages && <Languages setShowLanguages={setShowLanguages}/>}
+                </li>
+              </ul>
+
+            </div>
+
           ) : (
             <ul>
               <li><NavLink to='/'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
@@ -30,10 +40,6 @@ export default function Nav() {
               <li><NavLink to='/about'>About</NavLink></li>
             </ul>
           )}
-          <div>
-            <p onClick={() => setShowLanguages(true)}>Click to set Languages</p>
-              {showLanguages && <Languages setShowLanguages={setShowLanguages}/>}
-          </div>
         </div>
       </div>
       <Outlet />
