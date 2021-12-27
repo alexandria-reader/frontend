@@ -38,6 +38,25 @@ ul {
   /* background-color: #61dafb; */
 }
 
+.textList {
+  display: flex;
+  max-width: 100vw;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.textItem {
+  padding: 2rem;
+  width: 30%;
+  min-width: 30ch;
+}
+
+.newTextForm {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
 .text-div {
   max-width: 75%;
   padding: 2rem;
