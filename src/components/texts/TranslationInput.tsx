@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ChangeEvent, useState } from 'react';
 import { UserWord, Status } from '../../types';
-
+import translationService from '../../services/translations';
 import { userwordsState, currentwordState, currenttextState } from '../../states/recoil-states';
 
 const Translation = function({ word }: { word: UserWord | null }) {
@@ -12,7 +12,7 @@ const Translation = function({ word }: { word: UserWord | null }) {
   const currentWord = useRecoilValue(currentwordState);
   const currentText = useRecoilValue(currenttextState);
 
-  const handleTranslation = function(
+  const handleTranslation = async function(
     event: React.FormEvent<HTMLFormElement>,
     translation: string,
     userWord: UserWord | null,
@@ -22,6 +22,10 @@ const Translation = function({ word }: { word: UserWord | null }) {
     if (userWord) {
       const newUserWord = { ...userWord };
       newUserWord.translations = [...userWord.translations, translation];
+      if (currentText) {
+        const response = await translationService.addTranslation(userWord.word, translation, currentText?.languageId);
+        console.log(response);
+      }
       setCurrentWord(newUserWord);
 
       const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
