@@ -1,14 +1,14 @@
-// import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-// import UserContext from '../contexts/UserContext';
+import { useState } from 'react';
 import logOut from '../utils/logOut';
 import getToken from '../utils/getToken';
+import Languages from './Languages';
 
 const logo = require('../assets/logo.png');
 
 export default function Nav() {
-  // const { user, setUser } = useContext(UserContext);
   const tokenObj = getToken();
+  const [showLanguages, setShowLanguages] = useState(false);
 
   return (
     <div>
@@ -30,6 +30,10 @@ export default function Nav() {
               <li><NavLink to='/about'>About</NavLink></li>
             </ul>
           )}
+          <div>
+            <p onClick={() => setShowLanguages(true)}>Click to set Languages</p>
+              {showLanguages && <Languages setShowLanguages={setShowLanguages}/>}
+          </div>
         </div>
       </div>
       <Outlet />

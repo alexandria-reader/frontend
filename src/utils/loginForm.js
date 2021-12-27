@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { currentUserLanguagesState } from '../states/recoil-states';
+
 // import UserContext from '../contexts/UserContext';
 
 const loginUser = async function(credentials) {
@@ -11,6 +14,8 @@ const loginUser = async function(credentials) {
 export default function LoginForm() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const setCurrentUserLanguages = useSetRecoilState(currentUserLanguagesState);
+
   // const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -22,7 +27,16 @@ export default function LoginForm() {
         email,
         password,
       });
-      localStorage.setItem('user', JSON.stringify(response.data));
+
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+
+      const currentUserLangs = {
+        currentKnownId: user.current_known_language_id,
+        currentLearnId: user.current_learn_language_id,
+      };
+
+      setCurrentUserLanguages(currentUserLangs);
       navigate('/');
     // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (e) {
