@@ -1,12 +1,23 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import userServices from '../services/users';
+import languageServices from '../services/languages';
 import { languagesState } from '../states/recoil-states';
 import Nav from './Nav';
 
 export default function SignUp() {
-  const languages = useRecoilValue(languagesState);
+  const [languages, setLanguages] = useRecoilState(languagesState);
   const { register, formState: { errors }, handleSubmit } = useForm();
+
+  const getLanguageListFromServer = async function() {
+    const dbLanguages = await languageServices.getAllLanguages();
+    setLanguages(dbLanguages);
+  };
+
+  useEffect(() => {
+    getLanguageListFromServer();
+  }, []);
 
   return (
     <div>
@@ -28,6 +39,7 @@ export default function SignUp() {
              current_known_language_id: data.currentKnownId,
              current_learn_language_id: data.currentLearnId,
            };
+           console.log(user);
            await userServices.addUser(user);
          })}>
            <label className="label">Name</label>
