@@ -37,7 +37,7 @@ export default function LoginForm() {
       };
 
       setCurrentUserLanguages(currentUserLangs);
-      navigate('/');
+      navigate('/texts');
     // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (e) {
       alert(e.message);

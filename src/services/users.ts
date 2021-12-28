@@ -3,6 +3,12 @@ import { CurrentUserLanguages, SanitizedUser } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/users';
 
+const addUser = async function(newUser: User) {
+  const request = await axios.post(`${baseUrl}`, newUser);
+  const user: User = request.data;
+  return user;
+};
+
 const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguages) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
@@ -17,4 +23,6 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
 
 export default {
   setUserLanguages,
+  addUser,
 };
+

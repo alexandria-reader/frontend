@@ -38,9 +38,9 @@ export type CurrentUserLanguages = {
 };
 
 export type User = {
-  id: number,
+  id?: number,
   username: string,
-  password_hash: string,
+  password: string,
   email: string,
   currentKnownLanguageId?: string,
   currentLearnLanguageId?: string,
