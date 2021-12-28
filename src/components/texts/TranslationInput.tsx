@@ -18,11 +18,19 @@ const Translation = function({ word }: { word: UserWord | null }) {
     userWord: UserWord | null,
   ) {
     event.preventDefault();
-
+    // send target and source language and context, translation string, word string, word status
     if (userWord) {
       const newUserWord = { ...userWord };
       newUserWord.translations = [...userWord.translations, translation];
+      console.log(newUserWord);
       if (currentText) {
+        // const translationObj = {
+        //   word,
+        //   wordStatus,
+        //   translation,
+        //   targetLanguage,
+        //   sourceLanguage,
+        // }
         const response = await translationService.addTranslation(userWord.word, translation, currentText?.languageId);
         console.log(response);
       }
