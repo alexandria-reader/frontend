@@ -1,19 +1,72 @@
-// import { useContext } from 'react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import userServices from '../services/users';
+import languageServices from '../services/languages';
+import { languagesState } from '../states/recoil-states';
 import Nav from './Nav';
-// import UserContext from '../contexts/UserContext';
-import getToken from '../utils/getToken';
 
 export default function SignUp() {
-  // const { user } = useContext(UserContext);
-  const tokenObj = getToken();
+  const [languages, setLanguages] = useRecoilState(languagesState);
+  const { register, formState: { errors }, handleSubmit } = useForm();
+
+  const getLanguageListFromServer = async function() {
+    const dbLanguages = await languageServices.getAllLanguages();
+    setLanguages(dbLanguages);
+  };
+
+  useEffect(() => {
+    getLanguageListFromServer();
+  }, []);
 
   return (
     <div>
      <Nav />
-     Sign Up
-     <div> { tokenObj
-       ? (`${tokenObj.email} is logged in`) : 'You are not logged in.'
-     } </div>
-    </div>
+     <div>
+      <div className="form">
+        <div>
+          <h1>User Registration</h1>
+        </div>
+
+         <form onSubmit={handleSubmit(async (data) => {
+           if (data.currentKnownId === data.currentLearnId) {
+             alert('Leaning language cannot be the same as known language');
+           }
+           const user = {
+             username: data.username,
+             email: data.email,
+             password: data.password,
+             currentKnownLanguageId: data.currentKnownId,
+             currentLearnLanguageId: data.currentLearnId,
+           };
+           await userServices.addUser(user);
+         })}>
+           <label className="label">Name</label>
+           <input {...register('username', { required: true, minLength: 3 })} className="input" type="text" />
+           {errors.firstName?.type === 'required' && 'A name of at least 3 characters is required'}
+           <br></br>
+           <label className="label">Email</label>
+           <input {...register('email')} className="input"
+            type="email" />
+          <br></br>
+           <label className="label">Password</label>
+           <input {...register('password')}
+            className="input" type="password" />
+            <br></br>
+          <label htmlFor="currentKnownId">I know</label>
+          {<select {...register('currentKnownId')}>
+          {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
+          </select>}
+          <br></br>
+          <label htmlFor="currentLearnId">I want to learn</label>
+          {<select {...register('currentLearnId')}>
+          {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
+          </select>}
+          <br></br>
+          <input type="submit" />
+         </form>
+       </div>
+      </div>
+     </div>
   );
 }

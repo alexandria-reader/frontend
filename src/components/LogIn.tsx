@@ -9,7 +9,7 @@ export default function LogIn() {
      <Nav />
      Log in
      <div> { tokenObj
-       ? (`${tokenObj.email} is logged in`) : (
+       ? (`${tokenObj.username} is logged in`) : (
         <LoginForm />)}
       </div>
     </div>
