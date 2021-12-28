@@ -36,10 +36,9 @@ export default function SignUp() {
              username: data.username,
              email: data.email,
              password: data.password,
-             current_known_language_id: data.currentKnownId,
-             current_learn_language_id: data.currentLearnId,
+             currentKnownLanguageId: data.currentKnownId,
+             currentLearnLanguageId: data.currentLearnId,
            };
-           console.log(user);
            await userServices.addUser(user);
          })}>
            <label className="label">Name</label>

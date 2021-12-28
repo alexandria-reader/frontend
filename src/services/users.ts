@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CurrentUserLanguages, SanitizedUser } from '../types';
+import { CurrentUserLanguages, SanitizedUser, User } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/users';
 
