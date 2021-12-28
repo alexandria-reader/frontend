@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CurrentUserLanguages, User } from '../types';
+import { CurrentUserLanguages, SanitizedUser } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/users';
 
@@ -11,7 +11,7 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
     headers: { Authorization: `bearer ${token}` },
   });
 
-  const updatedUser: User = request.data[0];
+  const updatedUser: SanitizedUser = request.data;
   return updatedUser;
 };
 

@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
 import { useState, useEffect, FormEvent } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import textsService from '../../services/texts';
 import Nav from '../Nav';
@@ -11,14 +10,12 @@ import { textlistState, currenttextState, currentUserLanguagesState } from '../.
 
 const IndividualText = function({ text }: { text: Text }) {
   const setCurrentText = useSetRecoilState(currenttextState);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [textList, setTextList] = useRecoilState(textlistState);
 
   const removeTextFromServer = async function (id: number | undefined) {
     if (id) {
       // backend needs to check user token
-      const removedText: Text = await textsService.removeTextFromServer(id);
-      console.log(removedText); // once backend starts returning deleted object, change id in filter
+      await textsService.removeTextFromServer(id);
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
       setTextList(updatedTextList);
     }
@@ -27,7 +24,6 @@ const IndividualText = function({ text }: { text: Text }) {
   return (
     <li className='textItem'>
       <h2><a href='#' onClick={(_event) => setCurrentText(text)}>{text.title}</a></h2>
-      {/* <p>{text.body.slice(0, 297).padEnd(300, '.')}</p> // doesn't work on short texts */}
       <p>{`${text.body.slice(0, 297)}...`}</p>
       <button onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
@@ -37,7 +33,13 @@ const IndividualText = function({ text }: { text: Text }) {
 const NewTextForm = function({
   submitText, setNewTextTitle, setNewText, newTextTitle, newText,
 }:
-{ submitText: Function, setNewTextTitle: Function, setNewText: Function, newTextTitle: string, newText: string }) {
+{
+  submitText: Function,
+  setNewTextTitle: Function,
+  setNewText: Function,
+  newTextTitle: string,
+  newText: string
+}) {
   return (
     <div >
       <p>Add a new text here:</p>
@@ -52,20 +54,38 @@ const NewTextForm = function({
 
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loaded, setLoaded] = useState(false);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
+  const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
+
+  const getLanguagesFromLocalStorage = async function() {
+    const user = await JSON.parse(localStorage.user);
+
+    const currentUserLangs: CurrentUserLanguages = {
+      currentKnownLanguageId: user.currentKnownLanguageId,
+      currentLearnLanguageId: user.currentLearnLanguageId,
+    };
+
+    if (!currentUserLanguages) {
+      setCurrentUserLanguages(currentUserLangs);
+    }
+  };
+
+  useEffect(() => {
+    getLanguagesFromLocalStorage();
+  }, []);
+
 
   function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
     : currentUserLangs is CurrentUserLanguages {
-    return (currentUserLangs as CurrentUserLanguages).currentLearnId !== undefined;
+    return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
   }
 
   const fetchUserTexts = async function() {
     if (isCurrentUserLanguage(currentUserLanguages)) {
-      const languageId = currentUserLanguages.currentLearnId;
+      const languageId = currentUserLanguages.currentLearnLanguageId;
 
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
       setTextList(userTextsResponse);
@@ -84,12 +104,11 @@ const UserTexts = function() {
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const newTextObj: Text = {
-      // "userId": 1, get on backend from token
-      languageId: 'en',
+      languageId: currentUserLanguages?.currentLearnLanguageId || '',
       title: newTextTitle,
       body: newText,
     };
-
+    console.log(newTextObj);
     const addTextResponse = await textsService.postNewText(newTextObj);
     const newUsersTexts = [...textList, addTextResponse];
     setTextList(newUsersTexts);
@@ -98,15 +117,16 @@ const UserTexts = function() {
     setNewTextTitle('');
   };
 
-  if (!loaded) {
-    return <div>Loading...</div>;
-  }
+  // if (!loaded) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
       <div>
         <Nav />
         {textList.length === 0 && <li>You have no texts, please add a text to begin.</li>}
-        <NewTextForm submitText={submitText} newTextTitle={newTextTitle} newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText} />
+        <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
+        newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText} />
         <ul className='textList'>
           {textList.map((text) => <IndividualText key={text.id} text={text} />)}
         </ul>

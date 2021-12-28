@@ -10,8 +10,8 @@ import { CurrentUserLanguages, User, LocalStorageUser } from '../types';
 export default function Languages({ setShowLanguages }: { setShowLanguages: Function }) {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
-  const [currentKnownId, setCurrentKnownId] = useState('');
-  const [currentLearnId, setCurrentLearnId] = useState('');
+  const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
+  const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
@@ -22,20 +22,20 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
     const user = await JSON.parse(localStorage.user);
 
     const currentUserLangs: CurrentUserLanguages = {
-      currentKnownId: user.current_known_language_id,
-      currentLearnId: user.current_learn_language_id,
+      currentKnownLanguageId: user.currentKnownLanguageId,
+      currentLearnLanguageId: user.currentLearnLanguageId,
     };
 
     if (!currentUserLanguages) {
       setCurrentUserLanguages(currentUserLangs);
     }
 
-    if (!currentKnownId) {
-      setCurrentKnownId(`${currentUserLanguages?.currentKnownId || currentUserLangs.currentKnownId}`);
+    if (!currentKnownLanguageId) {
+      setCurrentKnownLanguageId(`${currentUserLanguages?.currentKnownLanguageId || currentUserLangs.currentKnownLanguageId}`);
     }
 
-    if (!currentLearnId) {
-      setCurrentLearnId(`${currentUserLanguages?.currentLearnId || currentUserLangs.currentLearnId}`);
+    if (!currentLearnLanguageId) {
+      setCurrentLearnLanguageId(`${currentUserLanguages?.currentLearnLanguageId || currentUserLangs.currentLearnLanguageId}`);
     }
   };
 
@@ -43,23 +43,24 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
     event.preventDefault();
 
     const currentUserLangs: CurrentUserLanguages = {
-      currentKnownId,
-      currentLearnId,
+      currentKnownLanguageId,
+      currentLearnLanguageId,
     };
 
-    if (currentKnownId && currentLearnId) {
-      if (currentKnownId === currentLearnId) {
+
+    if (currentKnownLanguageId && currentLearnLanguageId) {
+      if (currentKnownLanguageId === currentLearnLanguageId) {
         // eslint-disable-next-line no-alert
         alert('Leaning language cannot be the same as known language');
       } else {
         setCurrentUserLanguages(currentUserLangs);
-        // todo: change server side to stop password hash from being returned
+
         const localStorageUser: LocalStorageUser = await JSON.parse(localStorage.user);
         const updatedUser: User = await userService.setUserLanguages(currentUserLangs);
 
         const newLocalStorageUser: LocalStorageUser = {
-          current_known_language_id: updatedUser.current_known_language_id,
-          current_learn_language_id: updatedUser.current_learn_language_id,
+          currentKnownLanguageId: updatedUser.currentKnownLanguageId,
+          currentLearnLanguageId: updatedUser.currentLearnLanguageId,
           email: localStorageUser.email,
           token: localStorageUser.token,
           username: localStorageUser.username,
@@ -67,9 +68,10 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
 
         // updates the languages on user in local storage
         localStorage.setItem('user', JSON.stringify(newLocalStorageUser));
+
         setShowLanguages(false);
-        setCurrentKnownId(currentUserLangs.currentKnownId);
-        setCurrentLearnId(currentUserLangs.currentLearnId);
+        setCurrentKnownLanguageId(currentUserLangs.currentKnownLanguageId);
+        setCurrentLearnLanguageId(currentUserLangs.currentLearnLanguageId);
       }
     } else {
       // eslint-disable-next-line no-alert
@@ -85,11 +87,11 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
   return (
     <form className='langForm' onSubmit={(event) => setUserLanguagesOnServer(event)}>
       <p>I know:</p>
-      {currentKnownId && <select value={currentKnownId} onChange={(event) => setCurrentKnownId(event.target.value)} name="" id="">
+      {currentKnownLanguageId && <select value={currentKnownLanguageId} onChange={(event) => setCurrentKnownLanguageId(event.target.value)} name="" id="">
         {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
       </select>}
       <p>I'm learning:</p>
-      {currentLearnId && <select value={currentLearnId} onChange={(event) => setCurrentLearnId(event.target.value)} name="" id="">
+      {currentLearnLanguageId && <select value={currentLearnLanguageId} onChange={(event) => setCurrentLearnLanguageId(event.target.value)} name="" id="">
         {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
       </select>}
       <button type='submit'>Save</button>
