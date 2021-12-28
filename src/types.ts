@@ -2,8 +2,8 @@ export type UserWord = {
   id?: number,
   word: string,
   status?: string,
-  translations: Array<string>,
-  contexts: Array<string>
+  translations: Array<Translation>,
+  languageId?: string
 };
 
 export type MarkedWords = {
@@ -55,3 +55,11 @@ export type LocalStorageUser = {
 };
 
 export type SanitizedUser = Omit<User, 'passwordHash'>;
+
+export type Translation = {
+  id?: number,
+  wordId?: number,
+  translation: string,
+  targetLanguageId: string,
+  context: string,
+};

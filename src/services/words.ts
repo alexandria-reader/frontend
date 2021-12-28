@@ -3,12 +3,43 @@ import { UserWord } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/words/';
 
-const getUserwordsInText = async function(textId: number, targetLanguageId: string = 'de') {
-  const request = await axios.get(`${baseUrl}text/${textId}/${targetLanguageId}/user/1`);
+const getUserwordsInText = async function(currentTextId:string, targetLanguageId: string) {
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  const request = await axios.get(`${baseUrl}text/${currentTextId}/language/${targetLanguageId}/`, {
+    headers: { Authorization: `bearer ${token}` },
+  });
   const userWords: UserWord[] = request.data;
   return userWords;
 };
 
+const addWordWithTranslation = async function(word: UserWord) {
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  // backend needs to be changed from word id to word
+  const request = await axios.post(`${baseUrl}`, word, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  const response = request.data;
+  return response;
+};
+
+const updateStatus = async function(wordId: string) {
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  const response = await axios.put(`${baseUrl}${wordId}`, { wordId }, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  return response;
+};
+
 export default {
   getUserwordsInText,
+  addWordWithTranslation,
+  updateStatus,
 };

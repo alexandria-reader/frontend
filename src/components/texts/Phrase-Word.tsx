@@ -8,7 +8,7 @@ import {
 import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
 
 
-export const Word = function ({ word, handleWordClick }: { word: string, handleWordClick: Function }) {
+export const Word = function ({ word, dataKey, handleWordClick }: { word: string, dataKey:string, handleWordClick: Function }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
 
@@ -46,7 +46,7 @@ export const Word = function ({ word, handleWordClick }: { word: string, handleW
 
       // adds the phrase to words with state: learning
       const newWordObj = {
-        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [], contexts: [],
+        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [], context: '',
       };
       setCurrentWord(newWordObj);
 
@@ -65,11 +65,11 @@ export const Word = function ({ word, handleWordClick }: { word: string, handleW
 
   if (wordStatus) wordClass += wordStatus;
 
-
   return (
     <span onMouseUp={(event) => getSelection(event)}
           onClick={(event) => handleWordClick(event)}
-          className={wordClass}>
+          className={wordClass}
+          data-key={dataKey}>
       {word}
     </span>
   );
@@ -89,7 +89,7 @@ export const Phrase = function ({ phrase, handleWordClick }: { phrase: string, h
   return (
     <span onClick={(event) => handleWordClick(event)} className={phraseClass}>
       {
-        parts.map((word, index, array) => <><Word key={word + index} word={word} handleWordClick={handleWordClick}/>{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <><Word key={word + index} dataKey={word + index} word={word} handleWordClick={handleWordClick}/>{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   );

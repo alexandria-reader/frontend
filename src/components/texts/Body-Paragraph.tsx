@@ -1,20 +1,21 @@
-/* eslint-disable max-len */
 import {
   selector, useRecoilValue, useRecoilState, useSetRecoilState,
 } from 'recoil';
 
 import { Word, Phrase } from './Phrase-Word';
 
-import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
+import {
+  markedwordsState, userwordsState, currentwordState, currentUserLanguagesState,
+} from '../../states/recoil-states';
 
 const phrasesState = selector({
   key: 'phrasesState',
   get: ({ get }) => Object.keys(get(markedwordsState)).filter((key) => key.split(' ').length > 1),
 });
 
-
 const Paragraph = function({ paragraph }: { paragraph: string }) {
   const phrases = useRecoilValue(phrasesState);
+  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
 
   const phraseFinder = phrases.length === 0 ? '' : `(${phrases.join('|')})|`;
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
@@ -48,7 +49,7 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
       setCurrentWord(wordObject);
     } else {
       const newWordObj = {
-        word: `${word2.toLowerCase()}`, status: 'learning', translations: [], contexts: [],
+        word: `${word2.toLowerCase()}`, status: 'learning', translations: [], languageId: currentUserLanguages?.currentLearnLanguageId,
       };
 
       setCurrentWord(newWordObj);
@@ -61,8 +62,15 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
     <p>
       {
         tokens?.map((token, index) => {
-          if (phrases.includes(token)) return <Phrase key={token + index} phrase={token} handleWordClick={handleWordClick} />;
-          if (token.match(wordRegExp)) return <Word key={token + index} word={token} handleWordClick={handleWordClick} />;
+          if (phrases.includes(token)) {
+            return <Phrase key={token + index} phrase={token} handleWordClick={handleWordClick} />;
+          }
+
+          if (token.match(wordRegExp)) {
+            return <Word key={token + index} dataKey={token + index}
+            word={token} handleWordClick={handleWordClick} />;
+          }
+
           return <span key={token + index}>{token}</span>;
         })
       }
