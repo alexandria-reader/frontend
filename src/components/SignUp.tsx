@@ -30,7 +30,9 @@ export default function SignUp() {
 
          <form onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownId === data.currentLearnId) {
-             alert('Leaning language cannot be the same as known language');
+             // this is still going through
+             alert('Learning language cannot be the same as known language');
+             return;
            }
            const user = {
              username: data.username,
@@ -39,19 +41,22 @@ export default function SignUp() {
              currentKnownLanguageId: data.currentKnownId,
              currentLearnLanguageId: data.currentLearnId,
            };
-           await userServices.addUser(user);
+           const response = await userServices.addUser(user);
+           console.log(response);
          })}>
            <label className="label">Name</label>
            <input {...register('username', { required: true, minLength: 3 })} className="input" type="text" />
-           {errors.firstName?.type === 'required' && 'A name of at least 3 characters is required'}
+           {errors.username?.type === 'required' && 'A name of at least 3 characters is required'}
            <br></br>
            <label className="label">Email</label>
-           <input {...register('email')} className="input"
+           <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input"
             type="email" />
+          {errors.email?.type === 'required' && ' Email address is required.'}
           <br></br>
            <label className="label">Password</label>
-           <input {...register('password')}
+           <input {...register('password', { required: true })}
             className="input" type="password" />
+          {errors.password?.type === 'required' && ' Password should have at least one lowercase, one uppercase letter, contains one number, and has a length of 6 or more.'}
             <br></br>
           <label htmlFor="currentKnownId">I know</label>
           {<select {...register('currentKnownId')}>
