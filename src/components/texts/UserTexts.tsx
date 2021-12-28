@@ -1,22 +1,35 @@
 /* eslint-disable max-len */
 import { useState, useEffect, FormEvent } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import textsService from '../../services/texts';
 import Nav from '../Nav';
-import { Text } from '../../types';
+import { CurrentUserLanguages, Text } from '../../types';
 
-import { textlistState, currenttextState } from '../../states/recoil-states';
+import { textlistState, currenttextState, currentUserLanguagesState } from '../../states/recoil-states';
 
 
 const IndividualText = function({ text }: { text: Text }) {
   const setCurrentText = useSetRecoilState(currenttextState);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [textList, setTextList] = useRecoilState(textlistState);
+
+  const removeTextFromServer = async function (id: number | undefined) {
+    if (id) {
+      // backend needs to check user token
+      const removedText: Text = await textsService.removeTextFromServer(id);
+      console.log(removedText); // once backend starts returning deleted object, change id in filter
+      const updatedTextList = textList.filter((textObj) => textObj.id !== id);
+      setTextList(updatedTextList);
+    }
+  };
 
   return (
     <li className='textItem'>
       <h2><a href='#' onClick={(_event) => setCurrentText(text)}>{text.title}</a></h2>
       {/* <p>{text.body.slice(0, 297).padEnd(300, '.')}</p> // doesn't work on short texts */}
       <p>{`${text.body.slice(0, 297)}...`}</p>
+      <button onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
   );
 };
@@ -42,17 +55,31 @@ const UserTexts = function() {
   const [loaded, setLoaded] = useState(false);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
 
-  useEffect(() => {
-    const fetchUserTexts = async function() {
-      const userTextsResponse = await textsService.getAllUserTexts();
+  function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
+    : currentUserLangs is CurrentUserLanguages {
+    return (currentUserLangs as CurrentUserLanguages).currentLearnId !== undefined;
+  }
 
+  const fetchUserTexts = async function() {
+    if (isCurrentUserLanguage(currentUserLanguages)) {
+      const languageId = currentUserLanguages.currentLearnId;
+
+      const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
       setTextList(userTextsResponse);
       setLoaded(true);
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchUserTexts();
   }, []);
+
+  useEffect(() => {
+    fetchUserTexts();
+  }, [currentUserLanguages]);
 
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -3,11 +3,11 @@ import { Text } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/texts';
 
-const getAllUserTexts = async function() {
+const getAllUserTextsByLanguage = async function(languageId: string) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
 
-  const request = await axios.get(`${baseUrl}`, {
+  const request = await axios.get(`${baseUrl}/language/${languageId}`, {
     headers: { Authorization: `bearer ${token}` },
   });
 
@@ -32,8 +32,21 @@ const getTextById = async function(id: string) {
   return request.data;
 };
 
+const removeTextFromServer = async function(id: number) {
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  const response = await axios.delete(`${baseUrl}/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  // backend is not returning deleted text while code is 204
+  return response.data;
+};
+
 export default {
-  getAllUserTexts,
+  getAllUserTextsByLanguage,
   getTextById,
   postNewText,
+  removeTextFromServer,
 };
