@@ -10,6 +10,7 @@ const getUserwordsInText = async function(currentTextId:string, targetLanguageId
   const request = await axios.get(`${baseUrl}text/${currentTextId}/language/${targetLanguageId}/`, {
     headers: { Authorization: `bearer ${token}` },
   });
+
   const userWords: UserWord[] = request.data;
   return userWords;
 };
@@ -27,11 +28,12 @@ const addWordWithTranslation = async function(word: UserWord) {
   return response;
 };
 
-const updateStatus = async function(wordId: string) {
+const updateStatus = async function(word: UserWord) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
+  const { id, status } = word;
 
-  const response = await axios.put(`${baseUrl}${wordId}`, { wordId }, {
+  const response = await axios.put(`${baseUrl}${id}`, { status }, {
     headers: { Authorization: `bearer ${token}` },
   });
 

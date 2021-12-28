@@ -59,15 +59,13 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
             context: '',
             wordId: newUserWord.id,
           };
-          const translations = [...userWord.translations, newTranslationObj];
-          newUserWord.translations = translations;
-          setCurrentWord(newUserWord);
 
           const response = await translationServices.addTranslation(newTranslationObj);
-          console.log(response);
+          const translations = [...userWord.translations, response];
+          newUserWord.translations = translations;
+          setCurrentWord(newUserWord);
         }
       }
-      setCurrentWord(newUserWord);
 
       const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
         !== newUserWord.word.toLowerCase()), newUserWord];
@@ -108,10 +106,10 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   const setWordStatus = function(status: Status, userWord: UserWord) {
     const newUserWord = { ...userWord };
     newUserWord.status = status;
-    // change id to id when server returns it correctly
+
     if (newUserWord.id) {
-      const updatedStatus = wordsService.updateStatus(String(newUserWord.id));
-      console.log(updatedStatus);
+      // return word object rather than just status from backend
+      wordsService.updateStatus(newUserWord);
     }
     setCurrentWord(newUserWord);
 
