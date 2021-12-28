@@ -1,5 +1,5 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import textsService from '../../services/texts';
 import Nav from '../Nav';
@@ -54,19 +54,38 @@ const NewTextForm = function({
 
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loaded, setLoaded] = useState(false);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
-  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
+  const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
+
+  const getLanguagesFromLocalStorage = async function() {
+    const user = await JSON.parse(localStorage.user);
+
+    const currentUserLangs: CurrentUserLanguages = {
+      currentKnownLanguageId: user.currentKnownLanguageId,
+      currentLearnLanguageId: user.currentLearnLanguageId,
+    };
+
+    if (!currentUserLanguages) {
+      setCurrentUserLanguages(currentUserLangs);
+    }
+  };
+
+  useEffect(() => {
+    getLanguagesFromLocalStorage();
+  }, []);
+
 
   function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
     : currentUserLangs is CurrentUserLanguages {
-    return (currentUserLangs as CurrentUserLanguages).currentLearnId !== undefined;
+    return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
   }
 
   const fetchUserTexts = async function() {
     if (isCurrentUserLanguage(currentUserLanguages)) {
-      const languageId = currentUserLanguages.currentLearnId;
+      const languageId = currentUserLanguages.currentLearnLanguageId;
 
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
       setTextList(userTextsResponse);
@@ -85,11 +104,11 @@ const UserTexts = function() {
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const newTextObj: Text = {
-      languageId: 'en',
+      languageId: currentUserLanguages?.currentLearnLanguageId || '',
       title: newTextTitle,
       body: newText,
     };
-
+    console.log(newTextObj);
     const addTextResponse = await textsService.postNewText(newTextObj);
     const newUsersTexts = [...textList, addTextResponse];
     setTextList(newUsersTexts);
@@ -98,9 +117,9 @@ const UserTexts = function() {
     setNewTextTitle('');
   };
 
-  if (!loaded) {
-    return <div>Loading...</div>;
-  }
+  // if (!loaded) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
       <div>

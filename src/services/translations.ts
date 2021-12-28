@@ -12,7 +12,6 @@ const addTranslation = async function(word: string, translation: string, targetL
     targetLang,
   };
 
-  console.log(data);
   // backend needs to be changed from word id to word
   const request = await axios.post(`${baseUrl}`, data, {
     headers: { Authorization: `bearer ${token}` },
