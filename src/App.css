@@ -26,10 +26,16 @@ ul {
 
 .Text-page {
   display: flex;
+  flex-direction: column;
   font-size: 1.2rem;
   align-items: flex-start;
   /* padding: 1rem; */
   justify-content: space-evenly;
+}
+
+.single-text-page {
+  display: flex;
+  flex-direction: row;
 }
 
 .user-input-div {

@@ -19,6 +19,7 @@ const SingleText = function () {
     const fetchUserwords = async function() {
       if (currentText) {
         const userWordsResponse = await wordsService.getUserwordsInText(String(currentText.id), currentText.languageId);
+        console.log(userWordsResponse);
         setUserWords(userWordsResponse);
       }
     };
@@ -29,12 +30,14 @@ const SingleText = function () {
   if (currentText) {
     return (
       <div className='Text-page'>
-        {/* <Nav /> */}
-        <div className='text-div'>
-          <h1>{currentText.title}</h1>
-          <TextBody textBody={currentText.body} />
+        <Nav />
+        <div className='single-text-page'>
+          <div className='text-div'>
+            <h1>{currentText.title}</h1>
+            <TextBody textBody={currentText.body} />
+          </div>
+          <TranslationInput word={currentWord}/>
         </div>
-        <TranslationInput word={currentWord}/>
       </div>
     );
   }
