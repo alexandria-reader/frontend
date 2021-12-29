@@ -18,7 +18,7 @@ const SingleText = function () {
   useEffect(() => {
     const fetchUserwords = async function() {
       if (currentText) {
-        const userWordsResponse = await wordsService.getUserwordsInText(Number(currentText.id), 'de');
+        const userWordsResponse = await wordsService.getUserwordsInText(String(currentText.id), currentText.languageId);
         setUserWords(userWordsResponse);
       }
     };

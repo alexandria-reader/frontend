@@ -1,19 +1,13 @@
 import axios from 'axios';
+import { Translation } from '../types';
 
 const baseUrl = 'http://localhost:3000/api/translations/';
 
-const addTranslation = async function(word: string, translation: string, targetLang: string) {
+const addTranslation = async function(translationObj: Translation) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
 
-  const data = {
-    word,
-    translation,
-    targetLang,
-  };
-
-  // backend needs to be changed from word id to word
-  const request = await axios.post(`${baseUrl}`, data, {
+  const request = await axios.post(`${baseUrl}`, translationObj, {
     headers: { Authorization: `bearer ${token}` },
   });
 

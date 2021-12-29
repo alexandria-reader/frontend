@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CurrentUserLanguages, SanitizedUser, User } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/users';
+const baseUrl = 'http://localhost:3000/api/users/';
 
 const addUser = async function(newUser: User) {
   const request = await axios.post(`${baseUrl}`, newUser);
@@ -13,7 +13,7 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
   const user = JSON.parse(localStorage.user);
   const { token } = user;
 
-  const request = await axios.put(`${baseUrl}`, currentUserLanguages, {
+  const request = await axios.put(`${baseUrl}set-languages`, currentUserLanguages, {
     headers: { Authorization: `bearer ${token}` },
   });
 

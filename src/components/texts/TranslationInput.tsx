@@ -1,16 +1,26 @@
-/* eslint-disable max-len */
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ChangeEvent, useState } from 'react';
-import { UserWord, Status } from '../../types';
-import translationService from '../../services/translations';
-import { userwordsState, currentwordState, currenttextState } from '../../states/recoil-states';
+import {
+  UserWord, Status, CurrentUserLanguages, Translation,
+} from '../../types';
+import wordsService from '../../services/words';
+import translationServices from '../../services/translations';
+import {
+  userwordsState, currentwordState, currenttextState, currentUserLanguagesState,
+} from '../../states/recoil-states';
 
-const Translation = function({ word }: { word: UserWord | null }) {
+const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const currentWord = useRecoilValue(currentwordState);
   const currentText = useRecoilValue(currenttextState);
+  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
+
+  function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
+    : currentUserLangs is CurrentUserLanguages {
+    return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
+  }
 
   const handleTranslation = async function(
     event: React.FormEvent<HTMLFormElement>,
@@ -21,12 +31,41 @@ const Translation = function({ word }: { word: UserWord | null }) {
 
     if (userWord) {
       const newUserWord = { ...userWord };
-      newUserWord.translations = [...userWord.translations, translation];
-      if (currentText) {
-        const response = await translationService.addTranslation(userWord.word, translation, currentText?.languageId);
-        console.log(response);
+      // change id to id
+      if (isCurrentUserLanguage(currentUserLanguages)) {
+        if (!newUserWord.id) {
+          // call api with word with translation object attatched
+          const translationObj: Translation = {
+            translation,
+            targetLanguageId: currentUserLanguages?.currentLearnLanguageId,
+            context: '',
+          };
+
+          const translations = [...userWord.translations, translationObj];
+          newUserWord.translations = translations;
+
+          const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord);
+          setCurrentWord(userWordFromServer);
+
+          const updatedWords = [...userWords
+            .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+            !== newUserWord.word.toLowerCase()), userWordFromServer];
+          setUserWords(updatedWords);
+        } else {
+          // call api with translation object, add word id to translation obj
+          const newTranslationObj: Translation = {
+            translation,
+            targetLanguageId: currentUserLanguages?.currentLearnLanguageId,
+            context: '',
+            wordId: newUserWord.id,
+          };
+
+          const response = await translationServices.addTranslation(newTranslationObj);
+          const translations = [...userWord.translations, response];
+          newUserWord.translations = translations;
+          setCurrentWord(newUserWord);
+        }
       }
-      setCurrentWord(newUserWord);
 
       const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
         !== newUserWord.word.toLowerCase()), newUserWord];
@@ -40,10 +79,11 @@ const Translation = function({ word }: { word: UserWord | null }) {
     setTranslation(event.target.value);
   };
 
+  // once translations are converted to objects, remove the || from the translations.map line
   return (
     <div className="translation-div">
-      {word && word?.translations.length > 0
-      && <p>Current translation: {word?.translations.join(', ')}</p>}
+      {word && word?.translations?.length > 0
+      && <p>Current translation: {word?.translations.map((transObj) => `${transObj.translation || transObj}, `)}</p>}
       {currentWord && <iframe width="350" height="500" src={`https://www.wordreference.com/${currentText?.languageId}en/${currentWord.word}`}></iframe>}
       <form onSubmit={(event) => {
         handleTranslation(event, translation, word);
@@ -60,7 +100,6 @@ const Translation = function({ word }: { word: UserWord | null }) {
   );
 };
 
-
 const ChangeStatus = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
@@ -68,6 +107,10 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     const newUserWord = { ...userWord };
     newUserWord.status = status;
 
+    if (newUserWord.id) {
+      // return word object rather than just status from backend
+      wordsService.updateStatus(newUserWord);
+    }
     setCurrentWord(newUserWord);
 
     const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
@@ -98,7 +141,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     <div className="user-input-div">
       {word && <p>Selected word: {word.word}</p>}
       {!word && <p>Select a word</p>}
-      <Translation word={word} />
+      <TranslationComponent word={word} />
       <ChangeStatus word={word} />
     </div>
   );

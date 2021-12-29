@@ -86,7 +86,6 @@ const UserTexts = function() {
   const fetchUserTexts = async function() {
     if (isCurrentUserLanguage(currentUserLanguages)) {
       const languageId = currentUserLanguages.currentLearnLanguageId;
-
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
       setTextList(userTextsResponse);
       setLoaded(true);

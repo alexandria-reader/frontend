@@ -27,14 +27,14 @@ ul {
 .Text-page {
   display: flex;
   font-size: 1.2rem;
-  align-items: center;
-  padding: 2rem;
+  align-items: flex-start;
+  /* padding: 1rem; */
   justify-content: space-evenly;
 }
 
 .user-input-div {
-  max-width: 25%;
-  padding: 2rem;
+  /* max-width: 25%; */
+  padding: 1rem;
   /* background-color: #61dafb; */
 }
 
@@ -46,7 +46,7 @@ ul {
 }
 
 .textItem {
-  padding: 2rem;
+  /* padding: 1rem; */
   width: 30%;
   min-width: 30ch;
 }
@@ -58,8 +58,8 @@ ul {
 }
 
 .text-div {
-  max-width: 75%;
-  padding: 2rem;
+  /* max-width: 75%; */
+  padding: 1.5rem;
   /* background-color: #fb61c2; */
 }
 
