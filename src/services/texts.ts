@@ -28,7 +28,13 @@ const postNewText = async function(newText: Text) {
 };
 
 const getTextById = async function(id: string) {
-  const request = await axios.get(`${baseUrl}/${id}`);
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  const request = await axios.get(`${baseUrl}/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
   return request.data;
 };
 

@@ -42,8 +42,8 @@ export type User = {
   username: string,
   password: string,
   email: string,
-  currentKnownLanguageId?: string,
-  currentLearnLanguageId?: string,
+  currentKnownLanguageId: string,
+  currentLearnLanguageId: string,
 };
 
 export type LocalStorageUser = {
@@ -62,4 +62,9 @@ export type Translation = {
   translation: string,
   targetLanguageId: string,
   context: string,
+};
+
+export type LoginDetails = {
+  email: string,
+  password: string
 };

@@ -1,34 +1,26 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { currentUserLanguagesState } from '../states/recoil-states';
-
-// import UserContext from '../contexts/UserContext';
-
-const loginUser = async function(credentials) {
-  const request = await axios.post('http://localhost:3000/api/login', credentials).then((response) => response);
-  return request;
-};
+import loginService from '../services/login';
+import { User } from '../types';
 
 export default function LoginForm() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const setCurrentUserLanguages = useSetRecoilState(currentUserLanguagesState);
 
-  // const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
-      const response = await loginUser({
+      const user: User = await loginService.loginUser({
         email,
         password,
       });
 
-      const user = response.data;
       localStorage.setItem('user', JSON.stringify(user));
 
       const currentUserLangs = {
@@ -38,9 +30,9 @@ export default function LoginForm() {
 
       setCurrentUserLanguages(currentUserLangs);
       navigate('/texts');
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    } catch (e) {
-      alert(e.message);
+    } catch (error) {
+      // eslint-disable-next-line no-alert
+      alert(error);
     }
   };
 
@@ -48,7 +40,7 @@ export default function LoginForm() {
   return (
     <div className="login-wrapper">
       <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => handleSubmit(event)}>
         <label>
           <p>Email</p>
           <input type="text" onChange={(e) => setEmail(e.target.value)}/>

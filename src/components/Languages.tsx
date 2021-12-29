@@ -86,6 +86,7 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
 
   return (
     <form className='langForm' onSubmit={(event) => setUserLanguagesOnServer(event)}>
+      <p onClick={() => setShowLanguages(false)}>X</p>
       <p>I know:</p>
       {currentKnownLanguageId && <select value={currentKnownLanguageId} onChange={(event) => setCurrentKnownLanguageId(event.target.value)} name="" id="">
         {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
