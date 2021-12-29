@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import App from './App';
-
 import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
@@ -34,12 +33,10 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<Home />}/>
+            {/* <Route index element={<Home />}/> */}
             <Route path="texts" element={<UserTexts />}/>
               <Route path="texts/:textId" element={<SingleText />}/>
             <Route path="words" element={<Words />}/>
-            <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<LogIn />} />
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<Settings />} />
             <Route path="about" element={<About />} />
@@ -52,6 +49,8 @@ render(
               }
             />
           </Route>
+          <Route path="login" element={<LogIn />} />
+          <Route path="signup" element={<SignUp />} />
         </Routes>
       </Router>
     </RecoilRoot>

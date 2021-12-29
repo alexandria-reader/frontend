@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import {
-  UserWord, MarkedWords, Text, Language, CurrentUserLanguages,
+  UserWord, MarkedWords, Text, Language, CurrentUserLanguages, TokenObj,
 } from '../types';
 
 
@@ -34,6 +34,11 @@ export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
+  default: null,
+});
+
+export const loggedinState = atom<TokenObj | null>({
+  key: 'loggedinState',
   default: null,
 });
 

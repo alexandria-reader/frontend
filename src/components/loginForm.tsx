@@ -40,7 +40,7 @@ export default function LoginForm() {
   return (
     <div className="login-wrapper">
       <h1>Please Log In</h1>
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form className='form-div' onSubmit={(event) => handleSubmit(event)}>
         <label>
           <p>Email</p>
           <input type="text" onChange={(e) => setEmail(e.target.value)}/>
