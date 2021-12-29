@@ -60,8 +60,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
   const removeUnusedWord = function(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const { target }: { target: Element | EventTarget } = event;
     // if a user clicks empty space inside the text div, the current word is removed
-    // if that word did not have a translation (or id) it is removed from userWords,
-    // removing the highlight
+    // if that word did not have a translation (or id) it is removed from userWords
     if (isElement(target) && target.nodeName !== 'SPAN') {
       setCurrentWord(null);
 

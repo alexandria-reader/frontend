@@ -45,6 +45,20 @@ ul {
   /* background-color: #61dafb; */
 }
 
+.new-texts-div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 1rem;
+}
+
+.new-text-form-div {
+  display: flex;
+  margin: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
 .textList {
   display: flex;
   max-width: 100vw;

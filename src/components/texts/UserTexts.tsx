@@ -31,22 +31,23 @@ const IndividualText = function({ text }: { text: Text }) {
 };
 
 const NewTextForm = function({
-  submitText, setNewTextTitle, setNewText, newTextTitle, newText,
+  submitText, setNewTextTitle, setNewText, newTextTitle, newText, setShowNewTextForm,
 }:
 {
   submitText: Function,
   setNewTextTitle: Function,
   setNewText: Function,
   newTextTitle: string,
-  newText: string
+  newText: string,
+  setShowNewTextForm: Function
 }) {
   return (
-    <div >
+    <div className='new-text-form-div'>
       <p>Add a new text here:</p>
       <form className='newTextForm' onSubmit={(event) => submitText(event)}>
       <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
       <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
-      <button type='submit'>Submit</button>
+      <button type='submit'>Submit</button><button onClick={() => setShowNewTextForm(false)}>Cancel</button>
       </form>
     </div>
   );
@@ -57,6 +58,7 @@ const UserTexts = function() {
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
   const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
+  const [showNewTextForm, setShowNewTextForm] = useState(false);
 
   const getLanguagesFromLocalStorage = async function() {
     const user = await JSON.parse(localStorage.user);
@@ -102,17 +104,24 @@ const UserTexts = function() {
     setTextList(newUsersTexts);
     setNewText('');
     setNewTextTitle('');
+    setShowNewTextForm(false);
   };
 
   return (
       <div>
         <Nav />
-        {textList.length === 0 && <li>You have no texts, please add a text to begin.</li>}
-        <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
-          newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText} />
-        <ul className='textList'>
+        {!showNewTextForm && <div className='new-texts-div'>
+        {textList.length === 0 ? <p>You have no texts, please add a text to begin.</p>
+          : <p>Click to add a new text.</p>}
+        <button onClick={() => setShowNewTextForm(true)}>New Text</button>
+        </div>}
+
+        {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
+          newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
+          setShowNewTextForm={setShowNewTextForm} />}
+        {!showNewTextForm && <ul className='textList'>
           {textList.map((text) => <><Link key={text.id} to={`/texts/${text.id}`}><IndividualText key={text.id} text={text} /></Link></>)}
-        </ul>
+        </ul>}
         <Outlet />
       </div>
   );
