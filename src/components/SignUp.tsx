@@ -31,7 +31,7 @@ export default function SignUp() {
         </div>
 
          <form onSubmit={handleSubmit(async (data) => {
-           if (data.currentKnownId === data.currentLearnId) {
+           if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
              setError('languages', { type: 'languages', message: 'Learning language cannot be the same as known language' });
              return;
            }
@@ -39,8 +39,8 @@ export default function SignUp() {
              username: data.username,
              email: data.email,
              password: data.password,
-             currentKnownLanguageId: data.currentKnownId,
-             currentLearnLanguageId: data.currentLearnId,
+             currentKnownLanguageId: data.currentKnownLanguageId,
+             currentLearnLanguageId: data.currentLearnLanguageId,
            };
            const response = await userServices.addUser(user);
            if (typeof response === 'string') {
@@ -65,13 +65,13 @@ export default function SignUp() {
           {errors.password?.type === 'required' && ' Password is required.'}
           {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
             <br></br>
-          <label htmlFor="currentKnownId">I know</label>
-          {<select {...register('currentKnownId')}>
+          <label htmlFor="currentKnownLanguageId">I know</label>
+          {<select {...register('currentKnownLanguageId')}>
           {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
           </select>}
           <br></br>
-          <label htmlFor="currentLearnId">I want to learn</label>
-          {<select {...register('currentLearnId')}>
+          <label htmlFor="currentLearnLanguageId">I want to learn</label>
+          {<select {...register('currentLearnLanguageId')}>
           {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
           </select>}
           {errors.languages && errors.languages.message}

@@ -14,7 +14,6 @@ const IndividualText = function({ text }: { text: Text }) {
 
   const removeTextFromServer = async function (id: number | undefined) {
     if (id) {
-      // backend needs to check user token
       await textsService.removeTextFromServer(id);
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
       setTextList(updatedTextList);
@@ -54,8 +53,6 @@ const NewTextForm = function({
 
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loaded, setLoaded] = useState(false);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
   const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
@@ -73,11 +70,6 @@ const UserTexts = function() {
     }
   };
 
-  useEffect(() => {
-    getLanguagesFromLocalStorage();
-  }, []);
-
-
   function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
     : currentUserLangs is CurrentUserLanguages {
     return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
@@ -88,17 +80,13 @@ const UserTexts = function() {
       const languageId = currentUserLanguages.currentLearnLanguageId;
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
       setTextList(userTextsResponse);
-      setLoaded(true);
     }
   };
 
   useEffect(() => {
+    getLanguagesFromLocalStorage();
     fetchUserTexts();
   }, []);
-
-  useEffect(() => {
-    fetchUserTexts();
-  }, [currentUserLanguages]);
 
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -107,18 +95,13 @@ const UserTexts = function() {
       title: newTextTitle,
       body: newText,
     };
-    console.log(newTextObj);
+
     const addTextResponse = await textsService.postNewText(newTextObj);
     const newUsersTexts = [...textList, addTextResponse];
     setTextList(newUsersTexts);
-    setLoaded(true);
     setNewText('');
     setNewTextTitle('');
   };
-
-  // if (!loaded) {
-  //   return <div>Loading...</div>;
-  // }
 
   return (
       <div>
