@@ -39,10 +39,12 @@ ul {
 }
 
 .user-input-div {
-  /* max-width: 25%; */
   padding: 1rem;
-  /* width: 320px; */
-  /* background-color: #61dafb; */
+  width: 380px;
+  height: auto;
+  height: fit-content;
+  background-color: rgba(169, 169, 169, 0.459);
+  margin: 0 1rem;
 }
 
 .new-texts-div {
@@ -84,7 +86,8 @@ ul {
 }
 
 .text-div {
-  /* max-width: 75%; */
+  max-width: calc(100vw - 400px);
+  min-width: 350px;
   padding: 1.5rem;
   background-color: rgba(169, 169, 169, 0.479);
 }
@@ -97,9 +100,9 @@ ul {
   display: flex;
 }
 
-.translation-div {
+/* .translation-div {
   padding: 1rem;
-}
+} */
 
 li {
   margin-right: 10px;
