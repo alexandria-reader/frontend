@@ -11,9 +11,7 @@ export default function Nav() {
   const [showLanguages, setShowLanguages] = useState(false);
 
   return (
-    <div>
-      <div>
-        <div>
+    <>
           {tokenObj ? (
             <div className='navBar'>
               <ul>
@@ -23,9 +21,9 @@ export default function Nav() {
                 <li><NavLink to='/settings'>Setting</NavLink></li>
                 <li><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
               </ul>
-              <ul>
+              <ul className='nav-languages'>
                 <li>
-                  <p onClick={() => setShowLanguages(true)}>Click to set Languages</p>
+                  <p onClick={() => setShowLanguages(true)}>Languages</p>
                     {showLanguages && <Languages setShowLanguages={setShowLanguages}/>}
                 </li>
               </ul>
@@ -40,9 +38,7 @@ export default function Nav() {
               <li><NavLink to='/about'>About</NavLink></li>
             </ul>
           )}
-        </div>
-      </div>
       <Outlet />
-    </div>
+    </>
   );
 }

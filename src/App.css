@@ -96,9 +96,17 @@ li {
   background-color: #61dafb;
   width: 30vw;
   padding: 2rem;
+  position: absolute;
+  right: 0px;
 }
 
 .navBar {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-languages {
+  display: flex;
 }
