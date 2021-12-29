@@ -32,8 +32,8 @@ export default function LoginForm() {
       localStorage.setItem('user', JSON.stringify(user));
 
       const currentUserLangs = {
-        currentKnownId: user.currentKnownLanguageId,
-        currentLearnId: user.currentLearnLanguageId,
+        currentKnownLanguageId: user.currentKnownLanguageId,
+        currentLearnLanguageId: user.currentLearnLanguageId,
       };
 
       setCurrentUserLanguages(currentUserLangs);
