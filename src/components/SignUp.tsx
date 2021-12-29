@@ -8,7 +8,9 @@ import Nav from './Nav';
 
 export default function SignUp() {
   const [languages, setLanguages] = useRecoilState(languagesState);
-  const { register, formState: { errors }, handleSubmit } = useForm();
+  const {
+    register, formState: { errors }, handleSubmit, setError,
+  } = useForm();
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageServices.getAllLanguages();
@@ -30,7 +32,7 @@ export default function SignUp() {
 
          <form onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownId === data.currentLearnId) {
-             // this is still going through
+             // eslint-disable-next-line no-alert
              alert('Learning language cannot be the same as known language');
              return;
            }
@@ -42,21 +44,27 @@ export default function SignUp() {
              currentLearnLanguageId: data.currentLearnId,
            };
            const response = await userServices.addUser(user);
-           console.log(response);
+           if (typeof response === 'string') {
+             setError('emailTaken', { type: 'email', message: response });
+           }
          })}>
            <label className="label">Name</label>
            <input {...register('username', { required: true, minLength: 3 })} className="input" type="text" />
-           {errors.username?.type === 'required' && 'A name of at least 3 characters is required'}
+           {errors.username?.type === 'required' && ' Please enter a user name.'}
+           {errors.username?.type === 'minLength' && ' Name should have a mininum of 3 characters.'}
            <br></br>
            <label className="label">Email</label>
            <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input"
             type="email" />
-          {errors.email?.type === 'required' && ' Email address is required.'}
+           {errors.email?.type === 'required' && ' Email address is required.'}
+           {errors.email?.type === 'pattern' && ' Please enter an email address.'}
+           {errors.emailTaken && errors.emailTaken.message}
           <br></br>
            <label className="label">Password</label>
-           <input {...register('password', { required: true })}
+           <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
             className="input" type="password" />
-          {errors.password?.type === 'required' && ' Password should have at least one lowercase, one uppercase letter, contains one number, and has a length of 6 or more.'}
+          {errors.password?.type === 'required' && ' Password is required.'}
+          {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
             <br></br>
           <label htmlFor="currentKnownId">I know</label>
           {<select {...register('currentKnownId')}>
@@ -68,6 +76,7 @@ export default function SignUp() {
           {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
           </select>}
           <br></br>
+          <p>{errors.email?.message}</p>
           <input type="submit" />
          </form>
        </div>

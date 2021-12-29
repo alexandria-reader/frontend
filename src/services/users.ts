@@ -10,7 +10,7 @@ const addUser = async function(newUser: User) {
       const { message } = error.response.data.error;
       return message;
     });
-  return response.data;
+  return response;
 };
 
 const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguages) {
