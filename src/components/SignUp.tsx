@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import { languagesState } from '../states/recoil-states';
-import Nav from './Nav';
 
 export default function SignUp() {
   const [languages, setLanguages] = useRecoilState(languagesState);
@@ -23,7 +22,6 @@ export default function SignUp() {
 
   return (
     <div>
-     <Nav />
      <div>
       <div className="form">
         <div>

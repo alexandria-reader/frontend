@@ -1,9 +1,7 @@
 import {
-  selector, useRecoilState, useRecoilValue,
+  selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
-
 import { Word, Phrase } from './Phrase-Word';
-
 import {
   currentwordState,
   markedwordsState,
@@ -52,8 +50,7 @@ const isElement = function(element: Element | EventTarget): element is Element {
 };
 
 const TextBody = function ({ title, textBody }: { title: string, textBody: string }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
+  const setCurrentWord = useSetRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const paragraphs = textBody.split('\n');
 
@@ -73,8 +70,6 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
   return (
     <>
       <div onClick={(event) => removeUnusedWord(event)} className="text-div">
-        { // title needs to be mapped so users can click on words in it
-        }
         <h1>{title}</h1>
         {paragraphs.map((paragraph, index) => <Paragraph key={index} paragraph={paragraph} />)}
       </div>

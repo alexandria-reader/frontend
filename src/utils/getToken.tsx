@@ -3,6 +3,8 @@ export default function getToken() {
   let tokenObj;
   if (token) {
     tokenObj = JSON.parse(token);
+  } else {
+    tokenObj = null;
   }
   return tokenObj;
 }

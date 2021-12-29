@@ -3,7 +3,6 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { Link, Outlet } from 'react-router-dom';
 import textsService from '../../services/texts';
-import Nav from '../Nav';
 import { CurrentUserLanguages, Text } from '../../types';
 
 import { textlistState, currenttextState, currentUserLanguagesState } from '../../states/recoil-states';
@@ -109,7 +108,6 @@ const UserTexts = function() {
 
   return (
       <div>
-        <Nav />
         {!showNewTextForm && <div className='new-texts-div'>
         {textList.length === 0 ? <p>You have no texts, please add a text to begin.</p>
           : <p>Click to add a new text.</p>}
