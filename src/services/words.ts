@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { UserWord } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/words/';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
+const baseUrl = `${host}/api/words`;
 
 const getUserwordsInText = async function(currentTextId:string, targetLanguageId: string) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
 
-  const request = await axios.get(`${baseUrl}text/${currentTextId}/language/${targetLanguageId}/`, {
+  const request = await axios.get(`${baseUrl}/text/${currentTextId}/language/${targetLanguageId}/`, {
     headers: { Authorization: `bearer ${token}` },
   });
 
@@ -20,7 +22,7 @@ const addWordWithTranslation = async function(word: UserWord) {
   const { token } = user;
 
   // backend needs to be changed from word id to word
-  const request = await axios.post(`${baseUrl}`, word, {
+  const request = await axios.post(`${baseUrl}/`, word, {
     headers: { Authorization: `bearer ${token}` },
   });
 
@@ -33,7 +35,7 @@ const updateStatus = async function(word: UserWord) {
   const { token } = user;
   const { id, status } = word;
 
-  const response = await axios.put(`${baseUrl}${id}`, { status }, {
+  const response = await axios.put(`${baseUrl}/${id}`, { status }, {
     headers: { Authorization: `bearer ${token}` },
   });
 

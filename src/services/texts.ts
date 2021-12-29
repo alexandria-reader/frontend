@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { Text } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/texts';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
+const baseUrl = `${host}/api/texts`;
 
 const getAllUserTextsByLanguage = async function(languageId: string) {
   const user = JSON.parse(localStorage.user);

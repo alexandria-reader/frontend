@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { LoginDetails } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/login';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
+const baseUrl = `${host}/api/login`;
 
 const loginUser = async function(credentials: LoginDetails) {
   const request = await axios.post(baseUrl, credentials);
