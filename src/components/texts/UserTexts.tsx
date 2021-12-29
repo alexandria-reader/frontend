@@ -96,7 +96,7 @@ const UserTexts = function() {
     const newTextObj: Text = {
       languageId: currentUserLanguages?.currentLearnLanguageId || '',
       title: newTextTitle,
-      body: newText,
+      body: `${newTextTitle}\n${newText}`,
     };
 
     const addTextResponse = await textsService.postNewText(newTextObj);
