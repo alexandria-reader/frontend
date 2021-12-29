@@ -23,7 +23,7 @@ const SingleText = function () {
     };
 
     fetchUserwords();
-  }, []);
+  }, [currentText]);
 
   if (currentText) {
     return (
