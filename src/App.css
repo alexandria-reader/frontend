@@ -94,10 +94,14 @@ li {
   display: flex;
   flex-direction: column;
   background-color: #61dafb;
-  width: 30vw;
+  width: 200px;
   padding: 2rem;
   position: absolute;
   right: 0px;
+}
+
+.langForm button {
+  margin: 1rem;
 }
 
 .navBar {

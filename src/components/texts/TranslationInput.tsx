@@ -1,5 +1,4 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   UserWord, Status, CurrentUserLanguages, Translation,
@@ -103,7 +102,9 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     <div className="translation-div">
       {word && word?.translations?.length > 0
       && <p>Current translation: {word?.translations.map((transObj) => `${transObj.translation || transObj}, `)}</p>}
-      {currentWord && <iframe width="350" height="500" src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}></iframe>}
+      {currentWord && <iframe width="350" height="500"
+        src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}>
+        </iframe>}
       <form onSubmit={(event) => {
         handleTranslation(event, translation, word);
         setTranslation('');
@@ -138,7 +139,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className="word-status-toolbar">;
+    ? <div className="word-status-toolbar">
         <button onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
         <button onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>

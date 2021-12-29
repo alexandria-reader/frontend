@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {
   useRecoilState,
   useRecoilValue,
@@ -8,16 +7,15 @@ import {
 import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
 
 
-export const Word = function ({ word, dataKey, handleWordClick }: { word: string, dataKey:string, handleWordClick: Function }) {
+export const Word = function ({ word, dataKey }: { word: string, dataKey:string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
 
-  const getSelection = function(_event: unknown) {
-    // todo: check interaction between this and cycleState
+  const getWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
-    // gets the selection string
     const selection = window.getSelection();
-    if (selection !== null && selection.toString()) {
+
+    if (selection !== null) {
       const selectedString = selection.toString();
 
       const startNode = selection.anchorNode;
@@ -30,9 +28,7 @@ export const Word = function ({ word, dataKey, handleWordClick }: { word: string
 
       if (startNode && startNode.textContent) {
         startWord = startNode.textContent;
-        if (stringArray[0] && startWord) {
-          stringArray[0] = startWord;
-        }
+        stringArray[0] = startWord;
       }
 
       if (endNode && endNode.textContent) {
@@ -46,13 +42,16 @@ export const Word = function ({ word, dataKey, handleWordClick }: { word: string
 
       // adds the phrase to words with state: learning
       const newWordObj = {
-        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [], context: '',
+        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
       };
+
       setCurrentWord(newWordObj);
 
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
         === newWordObj.word.toLowerCase()).length === 0) {
-        const updatedWords = [...userWords, newWordObj];
+        // removes any words without an id, meaning that they also have no translation
+        const updatedWords = [...userWords
+          .filter((wordObj) => wordObj.id !== undefined), newWordObj];
         setUserWords(updatedWords);
       }
     }
@@ -66,8 +65,7 @@ export const Word = function ({ word, dataKey, handleWordClick }: { word: string
   if (wordStatus) wordClass += wordStatus;
 
   return (
-    <span onMouseUp={(event) => getSelection(event)}
-          onClick={(event) => handleWordClick(event)}
+    <span onMouseUp={(event) => getWordOrPhrase(event)}
           className={wordClass}
           data-key={dataKey}>
       {word}
@@ -76,7 +74,7 @@ export const Word = function ({ word, dataKey, handleWordClick }: { word: string
 };
 
 
-export const Phrase = function ({ phrase, handleWordClick }: { phrase: string, handleWordClick: Function }) {
+export const Phrase = function ({ phrase }: { phrase: string }) {
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[phrase.toLowerCase()];
 
@@ -87,9 +85,10 @@ export const Phrase = function ({ phrase, handleWordClick }: { phrase: string, h
   const parts = phrase.split(' ');
 
   return (
-    <span onClick={(event) => handleWordClick(event)} className={phraseClass}>
+    <span className={phraseClass}>
       {
-        parts.map((word, index, array) => <><Word key={word + index} dataKey={word + index} word={word} handleWordClick={handleWordClick}/>{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <><Word key={word + index}
+          dataKey={word + index} word={word} />{index === array.length - 1 ? '' : ' '}</>)
       }
     </span>
   );
