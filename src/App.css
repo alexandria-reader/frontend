@@ -47,6 +47,36 @@ ul {
   margin: 0 1rem;
 }
 
+.new-texts-div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 1rem;
+}
+
+.new-text-form-div {
+  display: flex;
+  margin: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page {
+  margin: 3rem;
+}
+
+.login-wrapper {
+  display: flex;
+  margin: 3rem;
+  flex-direction: column;
+  align-items: center;
+}
+
 .textList {
   display: flex;
   max-width: 100vw;

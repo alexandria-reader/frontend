@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import { languagesState } from '../states/recoil-states';
-import Nav from './Nav';
 
 export default function SignUp() {
   const [languages, setLanguages] = useRecoilState(languagesState);
@@ -23,14 +22,13 @@ export default function SignUp() {
 
   return (
     <div>
-     <Nav />
      <div>
-      <div className="form">
+      <div className="login-wrapper">
         <div>
           <h1>User Registration</h1>
         </div>
 
-         <form onSubmit={handleSubmit(async (data) => {
+         <form className='form-div' onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
              setError('languages', { type: 'languages', message: 'Learning language cannot be the same as known language' });
              return;

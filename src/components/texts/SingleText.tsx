@@ -1,7 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Nav from '../Nav';
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 import wordsService from '../../services/words';
@@ -40,7 +39,6 @@ const SingleText = function () {
   if (currentText) {
     return (
       <div className='Text-page'>
-        <Nav />
         <div className='single-text-page'>
           <TextBody title={currentText.title} textBody={currentText.body} />
           <TranslationInput word={currentWord}/>
@@ -51,7 +49,6 @@ const SingleText = function () {
 
   return (
     <div className='Text-page'>
-      <Nav />
       <div className='text-div'>
         <h1>No text found. (This sometimes appears when a text is being loaded from the server,
           it will be replaced later by a placeholder)</h1>

@@ -46,6 +46,15 @@ export type User = {
   currentLearnLanguageId: string,
 };
 
+export type TokenObj = {
+  id: number,
+  username: string,
+  token: string,
+  email: string,
+  currentKnownLanguageId: string,
+  currentLearnLanguageId: string,
+};
+
 export type LocalStorageUser = {
   currentKnownLanguageId?: string,
   currentLearnLanguageId?: string,
