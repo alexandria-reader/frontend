@@ -103,7 +103,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     <div className="translation-div">
       {word && word?.translations?.length > 0
       && <p>Current translation: {word?.translations.map((transObj) => `${transObj.translation || transObj}, `)}</p>}
-      {currentWord && <iframe width="350" height="500" src={`https://www.wordreference.com/${currentText?.languageId}en/${currentWord.word}`}></iframe>}
+      {currentWord && <iframe width="350" height="500" src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}></iframe>}
       <form onSubmit={(event) => {
         handleTranslation(event, translation, word);
         setTranslation('');
