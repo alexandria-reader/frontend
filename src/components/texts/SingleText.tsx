@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Nav from '../Nav';
@@ -10,7 +10,7 @@ import { userwordsState, currenttextState, currentwordState } from '../../states
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
-  const currentWord = useRecoilValue(currentwordState);
+  const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
   const params = useParams();
 
@@ -42,10 +42,7 @@ const SingleText = function () {
       <div className='Text-page'>
         <Nav />
         <div className='single-text-page'>
-          <div className='text-div'>
-            <h1>{currentText.title}</h1>
-            <TextBody textBody={currentText.body} />
-          </div>
+          <TextBody title={currentText.title} textBody={currentText.body} />
           <TranslationInput word={currentWord}/>
         </div>
       </div>

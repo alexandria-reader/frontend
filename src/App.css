@@ -39,9 +39,12 @@ ul {
 }
 
 .user-input-div {
-  /* max-width: 25%; */
   padding: 1rem;
-  /* background-color: #61dafb; */
+  width: 380px;
+  height: auto;
+  height: fit-content;
+  background-color: rgba(169, 169, 169, 0.459);
+  margin: 0 1rem;
 }
 
 .textList {
@@ -69,9 +72,10 @@ ul {
 }
 
 .text-div {
-  /* max-width: 75%; */
+  max-width: calc(100vw - 400px);
+  min-width: 350px;
   padding: 1.5rem;
-  /* background-color: #fb61c2; */
+  background-color: rgba(169, 169, 169, 0.479);
 }
 
 .change-status-div {
@@ -82,9 +86,9 @@ ul {
   display: flex;
 }
 
-.translation-div {
+/* .translation-div {
   padding: 1rem;
-}
+} */
 
 li {
   margin-right: 10px;
@@ -94,10 +98,14 @@ li {
   display: flex;
   flex-direction: column;
   background-color: #61dafb;
-  width: 30vw;
+  width: 200px;
   padding: 2rem;
   position: absolute;
   right: 0px;
+}
+
+.langForm button {
+  margin: 1rem;
 }
 
 .navBar {
