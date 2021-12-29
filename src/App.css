@@ -57,6 +57,11 @@ ul {
   min-width: 30ch;
 }
 
+.textList a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
 .newTextForm {
   width: 30%;
   display: flex;

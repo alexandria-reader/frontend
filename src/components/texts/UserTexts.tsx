@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
+import { Link, Outlet } from 'react-router-dom';
 import textsService from '../../services/texts';
 import Nav from '../Nav';
 import { CurrentUserLanguages, Text } from '../../types';
@@ -21,8 +22,8 @@ const IndividualText = function({ text }: { text: Text }) {
   };
 
   return (
-    <li className='textItem'>
-      <h2><a href='#' onClick={(_event) => setCurrentText(text)}>{text.title}</a></h2>
+    <li className='textItem' >
+      <h2 onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
       <p>{`${text.body.slice(0, 297)}...`}</p>
       <button onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
@@ -108,10 +109,11 @@ const UserTexts = function() {
         <Nav />
         {textList.length === 0 && <li>You have no texts, please add a text to begin.</li>}
         <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
-        newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText} />
+          newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText} />
         <ul className='textList'>
-          {textList.map((text) => <IndividualText key={text.id} text={text} />)}
+          {textList.map((text) => <><Link key={text.id} to={`/texts/${text.id}`}><IndividualText key={text.id} text={text} /></Link></>)}
         </ul>
+        <Outlet />
       </div>
   );
 };

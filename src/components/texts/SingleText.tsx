@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-
 import Nav from '../Nav';
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
@@ -19,7 +18,6 @@ const SingleText = function () {
     const fetchUserwords = async function() {
       if (currentText) {
         const userWordsResponse = await wordsService.getUserwordsInText(String(currentText.id), currentText.languageId);
-        console.log(userWordsResponse);
         setUserWords(userWordsResponse);
       }
     };
