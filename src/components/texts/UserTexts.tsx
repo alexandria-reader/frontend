@@ -86,7 +86,7 @@ const UserTexts = function() {
   useEffect(() => {
     getLanguagesFromLocalStorage();
     fetchUserTexts();
-  }, []);
+  }, [currentUserLanguages]);
 
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
