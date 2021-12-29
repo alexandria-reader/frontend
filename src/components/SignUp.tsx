@@ -14,7 +14,12 @@ export default function SignUp() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const {
     register, formState: { errors }, handleSubmit, setError,
-  } = useForm({ mode: 'onChange' });
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      username: '', email: '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'fr',
+    },
+  });
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageServices.getAllLanguages();
@@ -36,7 +41,7 @@ export default function SignUp() {
 
          <form onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
-             setError('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+             setError('currentLearnLanguageId', { type: 'languages', message: ' Learning language cannot be the same as known language' });
              return;
            }
            const user = {
@@ -47,12 +52,9 @@ export default function SignUp() {
              currentLearnLanguageId: data.currentLearnLanguageId,
            };
            const response = await userServices.addUser(user);
-           console.log(response);
-           //  Need to make the following happen only after the user has been added
            if (typeof response === 'string') {
-             setError('emailTaken', { type: 'email', message: response });
+             setError('email', { type: 'email', message: response });
            } else if (response.status === 201) {
-             console.log('response.status is 201');
              const loggedInUser: User = await loginService.loginUser({
                email: user.email,
                password: user.password,
@@ -71,7 +73,7 @@ export default function SignUp() {
             type="email" />
            {errors.email?.type === 'required' && ' Email address is required.'}
            {errors.email?.type === 'pattern' && ' Please enter an email address.'}
-           {errors.emailTaken && errors.emailTaken.message}
+           {errors.email && errors.email.message}
           <br></br>
            <label className="label">Password</label>
            <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
@@ -80,15 +82,15 @@ export default function SignUp() {
           {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
             <br></br>
           <label htmlFor="currentKnownLanguageId">I know</label>
-          {<select {...register('currentKnownLanguageId')}>
-          {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
+          {<select {...register('currentKnownLanguageId')} >
+          {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
           </select>}
           <br></br>
           <label htmlFor="currentLearnLanguageId">I want to learn</label>
           {<select {...register('currentLearnLanguageId')}>
-          {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
+          {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
           </select>}
-          {errors.languages && errors.languages.message}
+          {errors.currentLearnLanguageId && errors.currentLearnLanguageId.message}
           <br></br>
           <p>{errors.email?.message}</p>
           <input type="submit" />
