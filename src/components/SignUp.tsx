@@ -32,8 +32,7 @@ export default function SignUp() {
 
          <form onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownId === data.currentLearnId) {
-             // eslint-disable-next-line no-alert
-             alert('Learning language cannot be the same as known language');
+             setError('languages', { type: 'languages', message: 'Learning language cannot be the same as known language' });
              return;
            }
            const user = {
@@ -75,6 +74,7 @@ export default function SignUp() {
           {<select {...register('currentLearnId')}>
           {languages.map((lang) => <option key={lang.id} value={lang.id} >{lang.name}</option>)}
           </select>}
+          {errors.languages && errors.languages.message}
           <br></br>
           <p>{errors.email?.message}</p>
           <input type="submit" />
