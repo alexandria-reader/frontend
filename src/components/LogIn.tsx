@@ -1,5 +1,5 @@
 import Nav from './Nav';
-import LoginForm from '../utils/loginForm';
+import LoginForm from './loginForm';
 import getToken from '../utils/getToken';
 
 export default function LogIn() {
