@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   UserWord, Status, CurrentUserLanguages, Translation,
 } from '../../types';
@@ -15,12 +15,30 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const setCurrentWord = useSetRecoilState(currentwordState);
   const currentWord = useRecoilValue(currentwordState);
   const currentText = useRecoilValue(currenttextState);
-  const currentUserLanguages = useRecoilValue(currentUserLanguagesState);
+  const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
 
   function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
     : currentUserLangs is CurrentUserLanguages {
     return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
   }
+
+  const getLanguagesFromLocalStorage = async function() {
+    const user = await JSON.parse(localStorage.user);
+
+    const currentUserLangs: CurrentUserLanguages = {
+      currentKnownLanguageId: user.currentKnownLanguageId,
+      currentLearnLanguageId: user.currentLearnLanguageId,
+    };
+
+    if (!currentUserLanguages) {
+      setCurrentUserLanguages(currentUserLangs);
+    }
+  };
+
+  useEffect(() => {
+    getLanguagesFromLocalStorage();
+  }, [currentUserLanguages]);
+
 
   const handleTranslation = async function(
     event: React.FormEvent<HTMLFormElement>,
@@ -31,7 +49,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
     if (userWord) {
       const newUserWord = { ...userWord };
-      // change id to id
+
       if (isCurrentUserLanguage(currentUserLanguages)) {
         if (!newUserWord.id) {
           // call api with word with translation object attatched
@@ -64,12 +82,13 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           const translations = [...userWord.translations, response];
           newUserWord.translations = translations;
           setCurrentWord(newUserWord);
+
+          const updatedWords = [...userWords
+            .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+            !== newUserWord.word.toLowerCase()), newUserWord];
+          setUserWords(updatedWords);
         }
       }
-
-      const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
-        !== newUserWord.word.toLowerCase()), newUserWord];
-      setUserWords(updatedWords);
     }
   };
 
