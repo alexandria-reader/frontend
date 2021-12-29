@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { Language } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/languages';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
+const baseUrl = `${host}/api/languages`;
 
 const getAllLanguages = async function() {
-  const request = await axios.get(`${baseUrl}`);
+  console.log(host, process.env.NODE_ENV);
+  const request = await axios.get(`${baseUrl}/`);
 
   const languages: Array<Language> = request.data;
   return languages;

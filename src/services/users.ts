@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { CurrentUserLanguages, SanitizedUser, User } from '../types';
 
-const baseUrl = 'http://localhost:3000/api/users/';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
+const baseUrl = `${host}/api/users`;
 
 const addUser = async function(newUser: User) {
-  const response = await axios.post(`${baseUrl}`, newUser)
+  const response = await axios.post(`${baseUrl}/`, newUser)
     .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
@@ -17,7 +19,7 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
   const user = JSON.parse(localStorage.user);
   const { token } = user;
 
-  const request = await axios.put(`${baseUrl}set-languages`, currentUserLanguages, {
+  const request = await axios.put(`${baseUrl}/set-languages`, currentUserLanguages, {
     headers: { Authorization: `bearer ${token}` },
   });
 
