@@ -82,12 +82,24 @@ ul {
   max-width: 100vw;
   align-items: baseline;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
-.textItem {
-  /* padding: 1rem; */
-  width: 30%;
-  min-width: 30ch;
+.text-item {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+  background-color: rgba(169, 169, 169, 0.418);
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.text-item a {
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .textList a {

@@ -40,7 +40,7 @@ const SingleText = function () {
     return (
       <div className='Text-page'>
         <div className='single-text-page'>
-          <TextBody title={currentText.title} textBody={currentText.body} />
+          <TextBody title={currentText.title} textBody={`${currentText.title}\n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>
       </div>
