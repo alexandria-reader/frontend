@@ -16,7 +16,7 @@ export default function SignUp() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: '', email: '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'fr',
+      username: '', email: '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'en',
     },
   });
 
@@ -90,7 +90,6 @@ export default function SignUp() {
           </select>}
           {errors.currentLearnLanguageId && errors.currentLearnLanguageId.message}
           <br></br>
-          <p>{errors.email?.message}</p>
           <input type="submit" />
          </form>
        </div>
