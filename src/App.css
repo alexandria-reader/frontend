@@ -148,3 +148,12 @@ li {
 .nav-languages {
   display: flex;
 }
+
+.phone,
+.website {
+  display: none;
+  position: absolute;
+  left: -2000px;
+  margin: 0;
+  padding: 0;
+}
