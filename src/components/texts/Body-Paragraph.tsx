@@ -38,7 +38,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
             word={token} />;
           }
 
-          return <span key={token + index}>{token}</span>;
+          return token;
         })
       }
     </span>

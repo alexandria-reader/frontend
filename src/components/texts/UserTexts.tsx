@@ -1,4 +1,9 @@
-import { useState, useEffect, FormEvent } from 'react';
+/* eslint-disable max-len */
+import {
+  useState,
+  useEffect,
+  FormEvent,
+} from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { Link, Outlet } from 'react-router-dom';
@@ -22,7 +27,7 @@ const IndividualText = function({ text }: { text: Text }) {
 
   return (
     <li className='text-item' >
-      <Link key={text.id} to={`/texts/${text.id}`}>
+      <Link key={text.id + text.body.slice(1, 6)} to={`/texts/${text.id}`}>
       <h2 onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
       <p>{`${text.body.slice(0, 97)}...`}</p>
       </Link>
@@ -120,7 +125,7 @@ const UserTexts = function() {
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
         {!showNewTextForm && <ul className='textList'>
-          {textList.map((text) => <><IndividualText key={text.id} text={text} /></>)}
+          {textList.map((text) => <IndividualText key={text.id + text.body.slice(0, 5)} text={text} />)}
         </ul>}
         <Outlet />
       </div>
