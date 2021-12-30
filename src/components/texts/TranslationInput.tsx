@@ -60,6 +60,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
           const translations = [...userWord.translations, translationObj];
           newUserWord.translations = translations;
+          setCurrentWord(newUserWord);
 
           const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord);
           setCurrentWord(userWordFromServer);
@@ -67,6 +68,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           const updatedWords = [...userWords
             .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
             !== newUserWord.word.toLowerCase()), userWordFromServer];
+
           setUserWords(updatedWords);
         } else {
           // call api with translation object, add word id to translation obj
@@ -77,14 +79,25 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
             wordId: newUserWord.id,
           };
 
-          const response = await translationServices.addTranslation(newTranslationObj);
-          const translations = [...userWord.translations, response];
+          // translation is added immediately so if appears instant to user
+          let translations = [...userWord.translations, newTranslationObj];
           newUserWord.translations = translations;
           setCurrentWord(newUserWord);
 
+          const response = await translationServices.addTranslation(newTranslationObj);
+          translations = [...userWord.translations
+            .filter((transObj) => transObj.translation !== newTranslationObj.translation),
+          response];
+
+          // once translation is recieved from the server, the word is updated to include
+          // the translation id
+          const updatedUserWord = { ...userWord };
+          updatedUserWord.translations = translations;
+          setCurrentWord(updatedUserWord);
+
           const updatedWords = [...userWords
             .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
-            !== newUserWord.word.toLowerCase()), newUserWord];
+            !== updatedUserWord.word.toLowerCase()), updatedUserWord];
           setUserWords(updatedWords);
         }
       }
@@ -100,8 +113,8 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   // once translations are converted to objects, remove the || from the translations.map line
   return (
     <div className="translation-div">
-      {word && word?.translations?.length > 0
-      && <p>Current translation: {word?.translations.map((transObj) => `${transObj.translation || transObj}, `)}</p>}
+      {currentWord && currentWord?.translations?.length > 0
+      && <p>Current translation: {currentWord?.translations.map((transObj) => `${transObj.translation}, `)}</p>}
       {currentWord && <iframe width="350" height="500"
         src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}>
         </iframe>}

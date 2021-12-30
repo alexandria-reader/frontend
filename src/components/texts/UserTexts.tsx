@@ -13,14 +13,10 @@ const IndividualText = function({ text }: { text: Text }) {
   const [textList, setTextList] = useRecoilState(textlistState);
 
   const removeTextFromServer = async function (id: number | undefined) {
-    console.log(id);
     if (id) {
-      console.log('calling server');
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
-      console.log(updatedTextList);
       setTextList(updatedTextList);
-      const response = await textsService.removeTextFromServer(id);
-      console.log(response);
+      await textsService.removeTextFromServer(id);
     }
   };
 
