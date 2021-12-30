@@ -14,16 +14,18 @@ const IndividualText = function({ text }: { text: Text }) {
 
   const removeTextFromServer = async function (id: number | undefined) {
     if (id) {
-      await textsService.removeTextFromServer(id);
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
       setTextList(updatedTextList);
+      await textsService.removeTextFromServer(id);
     }
   };
 
   return (
-    <li className='textItem' >
+    <li className='text-item' >
+      <Link key={text.id} to={`/texts/${text.id}`}>
       <h2 onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
-      <p>{`${text.body.slice(0, 297)}...`}</p>
+      <p>{`${text.body.slice(0, 97)}...`}</p>
+      </Link>
       <button onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
   );
@@ -95,7 +97,7 @@ const UserTexts = function() {
     const newTextObj: Text = {
       languageId: currentUserLanguages?.currentLearnLanguageId || '',
       title: newTextTitle,
-      body: `${newTextTitle}\n${newText}`,
+      body: newText,
     };
 
     const addTextResponse = await textsService.postNewText(newTextObj);
@@ -118,7 +120,7 @@ const UserTexts = function() {
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
         {!showNewTextForm && <ul className='textList'>
-          {textList.map((text) => <><Link key={text.id} to={`/texts/${text.id}`}><IndividualText key={text.id} text={text} /></Link></>)}
+          {textList.map((text) => <><IndividualText key={text.id} text={text} /></>)}
         </ul>}
         <Outlet />
       </div>
