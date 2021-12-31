@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@mui/styled-engine-sc": "^5.1.0",
     "@tailwindcss/forms": "^0.4.0",

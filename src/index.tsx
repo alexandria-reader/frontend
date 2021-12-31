@@ -23,6 +23,7 @@ import UserTexts from './components/texts/UserTexts';
   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
   crossOrigin="anonymous"
 />;
+<link href="/dist/output.css" rel="stylesheet"></link>;
 
 const rootElement = document.getElementById('root');
 
