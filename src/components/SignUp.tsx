@@ -16,7 +16,7 @@ export default function SignUp() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: '', email: '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'fr',
+      username: '', email: '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'en', phone: '', website: '',
     },
   });
 
@@ -40,6 +40,9 @@ export default function SignUp() {
          <form className='form-div' onSubmit={handleSubmit(async (data) => {
            if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
              setError('currentLearnLanguageId', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+             return;
+           }
+           if (data.phone || data.website) {
              return;
            }
            const user = {
@@ -90,7 +93,13 @@ export default function SignUp() {
           </select>}
           {errors.currentLearnLanguageId && errors.currentLearnLanguageId.message}
           <br></br>
-          <p>{errors.email?.message}</p>
+          <div className="userFields" aria-hidden="true">
+            <label className="label phone">Phone number</label>
+            <input {...register('phone')} className="input phone" type="text" tabIndex={-1}/>
+            <label className="label website">Website</label>
+            <input {...register('website')} className="input website" type="text" tabIndex={-1}/>
+          <br></br>
+          </div>
           <input type="submit" />
          </form>
        </div>

@@ -23,6 +23,7 @@ import UserTexts from './components/texts/UserTexts';
   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
   crossOrigin="anonymous"
 />;
+<link href="/dist/output.css" rel="stylesheet"></link>;
 
 const rootElement = document.getElementById('root');
 
@@ -32,13 +33,15 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            {/* <Route index element={<Home />}/> */}
+            <Route index element={<Home />}/>
             <Route path="texts" element={<UserTexts />}/>
               <Route path="texts/:textId" element={<SingleText />}/>
             <Route path="words" element={<Words />}/>
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<Settings />} />
             <Route path="about" element={<About />} />
+            <Route path="login" element={<LogIn />} />
+            <Route path="signup" element={<SignUp />} />
             <Route
               path="*"
               element={
@@ -48,8 +51,6 @@ render(
               }
             />
           </Route>
-          <Route path="login" element={<LogIn />} />
-          <Route path="signup" element={<SignUp />} />
         </Routes>
       </Router>
     </RecoilRoot>
