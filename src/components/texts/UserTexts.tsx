@@ -116,11 +116,13 @@ const UserTexts = function() {
 
   return (
       <div>
-        {!showNewTextForm && <div className='flex flex-row justify-between m-4 border p4'>
-        {textList.length === 0 ? <p>You have no texts, please add a text to begin.</p>
-          : <p>Click to add a new text.</p>}
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(true)}>New Text</button>
-        </div>}
+        <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
+          {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+          {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
+            : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(true)}>New Text</button>
+          </div>}
+        </div>
 
         {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
