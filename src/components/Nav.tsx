@@ -10,6 +10,7 @@ import { currentUserLanguagesState, languagesState } from '../states/recoil-stat
 import languageService from '../services/languages';
 import { CurrentUserLanguages, LocalStorageUser, User } from '../types';
 import userService from '../services/users';
+import getToken from '../utils/getToken';
 
 const logo = require('../assets/logo.png');
 
@@ -28,6 +29,9 @@ export default function Example() {
   const [currentLangName, setCurrentLangName] = useState('');
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
+  const tokenObj = getToken();
+  console.log(tokenObj);
+
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
