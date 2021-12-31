@@ -31,8 +31,6 @@ export default function Example() {
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
   const tokenObj = getToken();
-  console.log(tokenObj);
-
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
@@ -103,8 +101,11 @@ export default function Example() {
 
   useEffect(() => {
     getLanguageListFromServer();
-    getLanguagesFromLocalStorage();
   }, []);
+
+  useEffect(() => {
+    getLanguagesFromLocalStorage();
+  }, [tokenObj]);
 
   useEffect(() => {
     const langName = languages.filter((lang) => lang.id === currentUserLanguages?.currentLearnLanguageId);
