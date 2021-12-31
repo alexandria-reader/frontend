@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -5,6 +6,7 @@ import {
 } from 'recoil';
 
 import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
+import { UserWord } from '../../types';
 
 
 export const Word = function ({ word, dataKey }: { word: string, dataKey:string }) {
@@ -39,19 +41,27 @@ export const Word = function ({ word, dataKey }: { word: string, dataKey:string 
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
+      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
+      let newWordObject: UserWord | undefined;
 
-      // adds the phrase to words with state: learning
-      const newWordObj = {
-        word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
-      };
+      if (existingWord[0]) {
+        // eslint-disable-next-line prefer-destructuring
+        newWordObject = existingWord[0];
 
-      setCurrentWord(newWordObj);
+        setCurrentWord(newWordObject);
+      } else {
+        newWordObject = {
+          word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
+        };
+
+        setCurrentWord(newWordObject);
+      }
 
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-        === newWordObj.word.toLowerCase()).length === 0) {
+        === newWordObject?.word.toLowerCase()).length === 0) {
         // removes any words without an id, meaning that they also have no translation
         const updatedWords = [...userWords
-          .filter((wordObj) => wordObj.id !== undefined), newWordObj];
+          .filter((wordObj) => wordObj.id !== undefined), newWordObject];
         setUserWords(updatedWords);
       }
     }
@@ -87,8 +97,10 @@ export const Phrase = function ({ phrase }: { phrase: string }) {
   return (
     <span className={phraseClass}>
       {
-        parts.map((word, index, array) => <><Word key={word + index}
-          dataKey={word + index} word={word} />{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <Fragment>
+          <Word key={word + index} dataKey={word + index} word={word} />
+          <>{index === array.length - 1 ? '' : ' '}</>
+          </Fragment>)
       }
     </span>
   );

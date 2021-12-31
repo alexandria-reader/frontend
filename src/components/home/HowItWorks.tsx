@@ -12,7 +12,7 @@ export default function HowItWorks() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4">How Alexandria works</h2>
+            <h2 className="h2 md:text-4xl font-extrabold mb-4">How Alexandria works</h2>
             <p className="text-xl text-gray-600">Import your favourite text in the language you're learning, mark the words you are interested in learning. </p>
           </div>
 

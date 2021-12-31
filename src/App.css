@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -33,7 +29,6 @@ ul {
   flex-direction: column;
   font-size: 1.2rem;
   align-items: flex-start;
-  /* padding: 1rem; */
   justify-content: space-evenly;
 }
 
@@ -86,17 +81,29 @@ ul {
   max-width: 100vw;
   align-items: baseline;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
-.textItem {
-  /* padding: 1rem; */
-  width: 30%;
-  min-width: 30ch;
+.text-item {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+  background-color: rgba(169, 169, 169, 0.418);
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.text-item a {
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .textList a {
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
+  color: inherit;
+  text-decoration: inherit;
 }
 
 .newTextForm {
@@ -119,10 +126,6 @@ ul {
 .word-status-toolbar {
   display: flex;
 }
-
-/* .translation-div {
-  padding: 1rem;
-} */
 
 li {
   margin-right: 10px;
@@ -151,13 +154,4 @@ li {
 
 .nav-languages {
   display: flex;
-}
-
-.phone,
-.website {
-  display: none;
-  position: absolute;
-  left: -2000px;
-  margin: 0;
-  padding: 0;
-}
+} */

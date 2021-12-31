@@ -85,7 +85,7 @@ export default function Languages({ setShowLanguages }: { setShowLanguages: Func
   }, []);
 
   return (
-    <form className='langForm' onSubmit={(event) => setUserLanguagesOnServer(event)}>
+    <form className='flex flex-col absolute' onSubmit={(event) => setUserLanguagesOnServer(event)}>
       <p onClick={() => setShowLanguages(false)}>X</p>
       <label>I know:</label>
       {currentKnownLanguageId && <select value={currentKnownLanguageId} onChange={(event) => setCurrentKnownLanguageId(event.target.value)} name="" id="">
