@@ -6,7 +6,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import logOut from '../utils/logOut';
 import { currentUserLanguagesState, languagesState } from '../states/recoil-states';
 import languageService from '../services/languages';
@@ -16,10 +16,9 @@ import userService from '../services/users';
 const logo = require('../assets/logo.png');
 
 const navigation = [
-  { name: 'Texts', href: 'texts', current: true },
-  { name: 'Vocabulary', href: 'words', current: false },
+  { name: 'Texts', href: '/texts' },
+  { name: 'Vocabulary', href: '/words' },
 ];
-
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -141,17 +140,24 @@ export default function Example() {
                     alt="Workflow"
                   />
                 </div>
+                {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-
-                    {navigation.map((item) => (
-                      <div className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'px-3 py-2 rounded-md text-sm font-medium',
-                      )}>
+                    {navigation.map((item) => {
+                      const isActive = useLocation().pathname === item.href;
+                      return <Disclosure.Button
+                      key={item.name}
+                      as="a"
+                      href={item.href}
+                      className={classNames(
+                        isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'block px-3 py-2 rounded-md text-base font-medium',
+                      )}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
                       <NavLink to={`${item.href}`}>{item.name}</NavLink>
-                      </div>
-                    ))}
+                    </Disclosure.Button>;
+                    })}
                 </div>
               </div>
 
@@ -267,20 +273,22 @@ export default function Example() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 bg-gray-800 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Disclosure.Button
+              {navigation.map((item) => {
+                const isActive = useLocation().pathname === item.href;
+
+                return <Disclosure.Button
                   key={item.name}
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium',
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {item.name}
-                </Disclosure.Button>
-              ))}
+                </Disclosure.Button>;
+              })}
             </div>
           </Disclosure.Panel>
         </>
