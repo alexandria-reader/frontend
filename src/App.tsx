@@ -12,11 +12,13 @@ function App() {
   const tokenObj = getToken();
 
   return (
-    <div className="container min-h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col">
       {tokenObj
         ? <>
           <Nav />
-          <Outlet />
+          <main className='container mx-auto'>
+            <Outlet />
+          </main>
         </>
         : <>
         <ul className='flex border-b h-16 px-4 border-gray-200 flex-row justify-between max-w-7xl items-center'>
