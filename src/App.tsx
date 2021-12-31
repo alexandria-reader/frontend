@@ -12,7 +12,7 @@ function App() {
   const tokenObj = getToken();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="container min-h-screen bg-gray-50 flex flex-col">
       {tokenObj
         ? <>
           <Nav />

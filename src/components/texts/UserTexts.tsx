@@ -26,7 +26,7 @@ const IndividualText = function({ text }: { text: Text }) {
       <h2 className='font-bold text-xl mb-2' onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
       <p className='text-gray-700 text-base'>{`${text.body.slice(0, 97)}...`}</p>
       </Link>
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button>
+      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
   );
 };
@@ -43,12 +43,13 @@ const NewTextForm = function({
   setShowNewTextForm: Function
 }) {
   return (
-    <div className='new-text-form-div'>
+    <div className='flex flex-col'>
       <p>Add a new text here:</p>
-      <form className='newTextForm' onSubmit={(event) => submitText(event)}>
+      <form className='flex flex-col items-center' onSubmit={(event) => submitText(event)}>
       <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
       <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button><button onClick={() => setShowNewTextForm(false)}>Cancel</button>
+      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button>
+      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(false)}>Cancel</button>
       </form>
     </div>
   );
