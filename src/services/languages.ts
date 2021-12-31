@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Language } from '../types';
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
 
 const baseUrl = `${host}/api/languages`;
 
