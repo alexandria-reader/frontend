@@ -1,4 +1,9 @@
-import { useState, useEffect, FormEvent } from 'react';
+/* eslint-disable max-len */
+import {
+  useState,
+  useEffect,
+  FormEvent,
+} from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { Link, Outlet } from 'react-router-dom';

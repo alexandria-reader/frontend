@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -96,8 +97,10 @@ export const Phrase = function ({ phrase }: { phrase: string }) {
   return (
     <span className={phraseClass}>
       {
-        parts.map((word, index, array) => <><Word key={word + index}
-          dataKey={word + index} word={word} />{index === array.length - 1 ? '' : ' '}</>)
+        parts.map((word, index, array) => <Fragment>
+          <Word key={word + index} dataKey={word + index} word={word} />
+          <>{index === array.length - 1 ? '' : ' '}</>
+          </Fragment>)
       }
     </span>
   );
