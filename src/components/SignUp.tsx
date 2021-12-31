@@ -94,10 +94,10 @@ export default function SignUp() {
           {errors.currentLearnLanguageId && errors.currentLearnLanguageId.message}
           <br></br>
           <div className="userFields" aria-hidden="true">
-          <label className="label phone">Phone number</label>
-          <input {...register('phone')} className="input phone" type="text" tabIndex={-1}/>
-          <label className="label website">Website</label>
-          <input {...register('website')} className="input website" type="text" tabIndex={-1}/>
+            <label className="label phone">Phone number</label>
+            <input {...register('phone')} className="input phone" type="text" tabIndex={-1}/>
+            <label className="label website">Website</label>
+            <input {...register('website')} className="input website" type="text" tabIndex={-1}/>
           <br></br>
           </div>
           <input type="submit" />
