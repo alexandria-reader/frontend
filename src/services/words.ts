@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { UserWord } from '../types';
+import dbHost from './dbHost';
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
-
-const baseUrl = `${host}/api/words`;
+const baseUrl = `${dbHost}/api/words`;
 
 const getUserwordsInText = async function(currentTextId:string, targetLanguageId: string) {
   const user = JSON.parse(localStorage.user);

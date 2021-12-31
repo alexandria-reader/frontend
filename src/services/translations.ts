@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { Translation } from '../types';
+import dbHost from './dbHost';
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
-
-const baseUrl = `${host}/api/translations`;
+const baseUrl = `${dbHost}/api/translations`;
 
 const addTranslation = async function(translationObj: Translation) {
   const user = JSON.parse(localStorage.user);

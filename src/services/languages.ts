@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { Language } from '../types';
+import dbHost from './dbHost';
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
-
-const baseUrl = `${host}/api/languages`;
+const baseUrl = `${dbHost}/api/languages`;
 
 const getAllLanguages = async function() {
   const request = await axios.get(`${baseUrl}/`);

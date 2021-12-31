@@ -1,0 +1,16 @@
+# Production context: all deploys from the Production branch set in your site’s
+# Branches settings in the UI will inherit these settings.
+[context.production.environment]
+  DB_HOST = "https://alexandria-reader.herokuapp.com"
+
+# Deploy Preview context: all deploys generated from a pull/merge request will
+# inherit these settings.
+[context.deploy-preview.environment]
+  DB_HOST = "https://alexandria-reader-staging.herokuapp.com"
+
+# Branch Deploy context: all deploys that are not from a pull/merge request or
+# from the Production branch will inherit these settings.
+[context.branch-deploy]
+  command = "echo branch"
+[context.branch-deploy.environment]
+  DB_HOST = "https://alexandria-reader-staging.herokuapp.com"

@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { CurrentUserLanguages, SanitizedUser, User } from '../types';
+import dbHost from './dbHost';
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
-
-const baseUrl = `${host}/api/users`;
+const baseUrl = `${dbHost}/api/users`;
 
 const addUser = async function(newUser: User) {
   const response = await axios.post(`${baseUrl}/`, newUser)
