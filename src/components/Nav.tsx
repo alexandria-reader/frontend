@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   useState, Fragment, useEffect, MouseEvent,
 } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useRecoilState } from 'recoil';
-import { useParams } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 import logOut from '../utils/logOut';
 import { currentUserLanguagesState, languagesState } from '../states/recoil-states';
@@ -30,9 +28,7 @@ export default function Example() {
   const [currentLangName, setCurrentLangName] = useState('');
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
-  const params = useParams();
 
-  console.log(params);
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
     setLanguages(dbLanguages);
@@ -111,7 +107,7 @@ export default function Example() {
   }, [currentUserLanguages, languages]);
 
   return (
-    <Disclosure as="nav" className="bg-gray-800 h-16">
+    <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -140,12 +136,15 @@ export default function Example() {
                     alt="Workflow"
                   />
                 </div>
+
                 {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => {
                       const isActive = useLocation().pathname === item.href;
-                      return <Disclosure.Button
+
+                      return <NavLink to={`${item.href}`}>
+                      <Disclosure.Button
                       key={item.name}
                       as="a"
                       href={item.href}
@@ -155,16 +154,17 @@ export default function Example() {
                       )}
                       aria-current={isActive ? 'page' : undefined}
                     >
-                      <NavLink to={`${item.href}`}>{item.name}</NavLink>
-                    </Disclosure.Button>;
+                      {item.name}
+                    </Disclosure.Button>
+                    </NavLink>;
                     })}
                 </div>
               </div>
 
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-              {/* Language dropdown */}
+            {/* Language dropdown */}
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
@@ -270,25 +270,27 @@ export default function Example() {
           </div>
         </div>
 
-
+          {/* This is the mobile dropdown menu */}
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 bg-gray-800 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => {
-                const isActive = useLocation().pathname === item.href;
+            {navigation.map((item) => {
+              const isActive = useLocation().pathname === item.href;
 
-                return <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium',
-                  )}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>;
-              })}
+              return <NavLink to={`${item.href}`}>
+                        <Disclosure.Button
+                          key={item.name}
+                          as="div"
+                          // href={item.href}
+                          className={classNames(
+                            isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'block px-3 py-2 rounded-md text-base font-medium',
+                          )}
+                          aria-current={isActive ? 'page' : undefined}
+                        >
+                      {item.name}
+                      </Disclosure.Button>
+                    </NavLink>;
+            })}
             </div>
           </Disclosure.Panel>
         </>
@@ -296,22 +298,3 @@ export default function Example() {
     </Disclosure>
   );
 }
-
-// return (
-//   <div className='flex flex-row justify-between h-20 p-2 border'>
-//     <><ul className='flex flex-row justify-between items-center w-fit'>
-//       <li className='m-2'><NavLink to='/texts'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
-//       <li className='m-2'><NavLink to='/texts'>Texts</NavLink></li>
-//       <li className='m-2'><NavLink to='/words'>Words</NavLink></li>
-//       <li className='m-2'><NavLink to='/settings'>Setting</NavLink></li>
-//       <li className='m-2'><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
-//     </ul>
-//     <ul className='flex flex-row items-center m-4'>
-//       <li className=''>
-//         <p onClick={() => setShowLanguages(true)}>Languages</p>
-//         {showLanguages && <Languages setShowLanguages={setShowLanguages} />}
-//       </li>
-//     </ul></>
-//   </div>
-// );
-// }
