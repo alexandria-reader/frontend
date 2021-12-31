@@ -29,6 +29,7 @@
       { "argsIgnorePattern": "^_" }
     ],
     "no-case-declarations": "off",
+    "no-console": "off",
     "linebreak-style": "warn",
     "@typescript-eslint/func-names": ["off"],
     "func-names": ["off"],
