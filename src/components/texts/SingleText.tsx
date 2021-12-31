@@ -39,7 +39,7 @@ const SingleText = function () {
   if (currentText) {
     return (
       <div className='Text-page'>
-        <div className='single-text-page'>
+        <div className='container mx-auto'>
           <TextBody title={currentText.title} textBody={`${currentText.title}\n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>

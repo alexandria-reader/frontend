@@ -26,12 +26,12 @@ const IndividualText = function({ text }: { text: Text }) {
   };
 
   return (
-    <li className='text-item' >
-      <Link key={text.id + text.body.slice(1, 6)} to={`/texts/${text.id}`}>
-      <h2 onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
-      <p>{`${text.body.slice(0, 97)}...`}</p>
+    <li className='overflow-hidden shadow-lg border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r justify-between leading-normal flex flex-col p-2 m-4 items-center fill-inherit rounded' >
+      <Link key={text.id} to={`/texts/${text.id}`}>
+      <h2 className='font-bold text-xl mb-2' onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
+      <p className='text-gray-700 text-base'>{`${text.body.slice(0, 97)}...`}</p>
       </Link>
-      <button onClick={() => removeTextFromServer(text.id)}>Delete</button>
+      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button>
     </li>
   );
 };
@@ -48,12 +48,13 @@ const NewTextForm = function({
   setShowNewTextForm: Function
 }) {
   return (
-    <div className='new-text-form-div'>
+    <div className='flex flex-col'>
       <p>Add a new text here:</p>
-      <form className='newTextForm' onSubmit={(event) => submitText(event)}>
+      <form className='flex flex-col items-center' onSubmit={(event) => submitText(event)}>
       <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
       <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
-      <button type='submit'>Submit</button><button onClick={() => setShowNewTextForm(false)}>Cancel</button>
+      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button>
+      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(false)}>Cancel</button>
       </form>
     </div>
   );
@@ -115,17 +116,17 @@ const UserTexts = function() {
 
   return (
       <div>
-        {!showNewTextForm && <div className='new-texts-div'>
+        {!showNewTextForm && <div className='flex flex-row justify-between m-4 border p4'>
         {textList.length === 0 ? <p>You have no texts, please add a text to begin.</p>
           : <p>Click to add a new text.</p>}
-        <button onClick={() => setShowNewTextForm(true)}>New Text</button>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(true)}>New Text</button>
         </div>}
 
         {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
-        {!showNewTextForm && <ul className='textList'>
-          {textList.map((text) => <IndividualText key={text.id + text.body.slice(0, 5)} text={text} />)}
+        {!showNewTextForm && <ul className='flex flex-col'>
+          {textList.map((text) => <><IndividualText key={text.id} text={text} /></>)}
         </ul>}
         <Outlet />
       </div>

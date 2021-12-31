@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -29,7 +29,6 @@ ul {
   flex-direction: column;
   font-size: 1.2rem;
   align-items: flex-start;
-  /* padding: 1rem; */
   justify-content: space-evenly;
 }
 
@@ -103,8 +102,8 @@ ul {
 }
 
 .textList a {
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
+  color: inherit;
+  text-decoration: inherit;
 }
 
 .newTextForm {
@@ -127,10 +126,6 @@ ul {
 .word-status-toolbar {
   display: flex;
 }
-
-/* .translation-div {
-  padding: 1rem;
-} */
 
 li {
   margin-right: 10px;
@@ -159,4 +154,4 @@ li {
 
 .nav-languages {
   display: flex;
-}
+} */
