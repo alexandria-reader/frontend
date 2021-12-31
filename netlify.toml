@@ -1,0 +1,8 @@
+[context.production]
+  environment = { REACT_APP_DB_HOST = "https://alexandria-reader.herokuapp.com" }
+
+[context.deploy-preview]
+  environment = { REACT_APP_DB_HOST = "https://alexandria-reader-staging.herokuapp.com" }
+
+[context.branch-deploy]
+  environment = { REACT_APP_DB_HOST = "https://alexandria-reader-staging.herokuapp.com" }
