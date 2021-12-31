@@ -1,1 +1,1 @@
-export default process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.DB_HOST;
+export default process.env.DB_HOST ? process.env.DB_HOST : 'http://localhost:3000';

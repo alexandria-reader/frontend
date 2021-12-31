@@ -7,6 +7,7 @@
 # inherit these settings.
 [context.deploy-preview.environment]
   DB_HOST = "https://alexandria-reader-staging.herokuapp.com"
+  command = "echo DB_HOST"
 
 # Branch Deploy context: all deploys that are not from a pull/merge request or
 # from the Production branch will inherit these settings.
