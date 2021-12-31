@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   useState, Fragment, useEffect, MouseEvent,
 } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useRecoilState } from 'recoil';
+import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import logOut from '../utils/logOut';
 import { currentUserLanguagesState, languagesState } from '../states/recoil-states';
 import languageService from '../services/languages';
@@ -17,6 +20,7 @@ const navigation = [
   { name: 'Vocabulary', href: 'words', current: false },
 ];
 
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
@@ -27,7 +31,9 @@ export default function Example() {
   const [currentLangName, setCurrentLangName] = useState('');
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
+  const params = useParams();
 
+  console.log(params);
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
     setLanguages(dbLanguages);
@@ -137,132 +143,130 @@ export default function Example() {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
+
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium',
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      <div className={classNames(
+                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'px-3 py-2 rounded-md text-sm font-medium',
+                      )}>
+                      <NavLink to={`${item.href}`}>{item.name}</NavLink>
+                      </div>
                     ))}
-                  </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-                {/* Language dropdown */}
-                <Menu as="div" className="ml-3 relative">
-                  <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
-                      <div className="sm:block sm:ml-6">
-                        <div className="flex space-x-4">
-                          {<a
-                              key={'languages'}
-                              href={'#'}
-                              className={classNames(
-                                'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
-                              )}
-                            >
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+              {/* Language dropdown */}
+              <Menu as="div" className="ml-3 relative">
+                <div>
+                  <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
+                    <div className="sm:block sm:ml-6">
+                      <div className="flex space-x-4">
+                        {<a
+                          key={'languages'}
+                          href={'#'}
+                          className={classNames(
+                            'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
+                          )}
+                        >
+                          {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
+                          </svg>}
+                          <p>{currentLangName && `${currentLangName.slice(0, 1).toUpperCase()}${currentLangName.slice(1)}`}</p>
+                          <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        </a>
+                        }
+                      </div>
+                    </div>
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    {languages.filter((lang) => lang.id !== currentLearnLanguageId && lang.id !== currentKnownLanguageId).map((lang) => <Menu.Item>
+                      {({ active }) => (
+                        <div key={lang.id} onClick={(event) => setUserLanguagesOnServer(event, lang.id)}>
+                          <a
+                            href="#"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            <div
+                              className='flex flex-row justify-between m-2'>
                               {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
                               </svg>}
-                              <p>{currentLangName && `${currentLangName.slice(0, 1).toUpperCase()}${currentLangName.slice(1)}`}</p>
-                              <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                            </a>
-                          }
-                        </div>
-                      </div>
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {languages.filter((lang) => lang.id !== currentLearnLanguageId && lang.id !== currentKnownLanguageId).map((lang) => <Menu.Item>
-                          {({ active }) => (
-                            <div key={lang.id} onClick={(event) => setUserLanguagesOnServer(event, lang.id)}>
-                              <a
-                                href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                <div
-                                  className='flex flex-row justify-between m-2'>
-                                  {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
-                                  </svg>}
-                                  {`${lang.name.slice(0, 1).toUpperCase()}${lang.name.slice(1)}`}
-                                </div>
-                              </a>
+                              {`${lang.name.slice(0, 1).toUpperCase()}${lang.name.slice(1)}`}
                             </div>
-                          )}
-                        </Menu.Item>)}
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
+                          </a>
+                        </div>
+                      )}
+                    </Menu.Item>)}
+                  </Menu.Items>
+                </Transition>
+              </Menu>
 
-                {/* User profile picture dropdown menu */}
-                <Menu as="div" className="ml-3 relative">
-                  <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+              {/* User profile picture dropdown menu */}
+              <Menu as="div" className="ml-3 relative">
+                <div>
+                  <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="h-8 w-8 rounded-full"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
                       />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="settings"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/"
-                            onClick={() => logOut()}
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="settings"
+                          className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                        >
+                          Settings
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="/"
+                          onClick={() => logOut()}
+                          className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                        >
+                          Sign out
+                        </a>
+                      )}
+                    </Menu.Item>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </div>
           </div>
+        </div>
+
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-2 bg-gray-800 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
@@ -284,3 +288,22 @@ export default function Example() {
     </Disclosure>
   );
 }
+
+// return (
+//   <div className='flex flex-row justify-between h-20 p-2 border'>
+//     <><ul className='flex flex-row justify-between items-center w-fit'>
+//       <li className='m-2'><NavLink to='/texts'><img src={logo} alt="Alexandria logo" width="100px" height="100px" /></NavLink></li>
+//       <li className='m-2'><NavLink to='/texts'>Texts</NavLink></li>
+//       <li className='m-2'><NavLink to='/words'>Words</NavLink></li>
+//       <li className='m-2'><NavLink to='/settings'>Setting</NavLink></li>
+//       <li className='m-2'><NavLink to='/' onClick={() => logOut()}>Log out</NavLink></li>
+//     </ul>
+//     <ul className='flex flex-row items-center m-4'>
+//       <li className=''>
+//         <p onClick={() => setShowLanguages(true)}>Languages</p>
+//         {showLanguages && <Languages setShowLanguages={setShowLanguages} />}
+//       </li>
+//     </ul></>
+//   </div>
+// );
+// }
