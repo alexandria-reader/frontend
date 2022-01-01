@@ -16,6 +16,7 @@ import SignUp from './components/SignUp';
 import SingleText from './components/texts/SingleText';
 import './App.css';
 import UserTexts from './components/texts/UserTexts';
+import getToken from './utils/getToken';
 
 <link
   rel="stylesheet"
@@ -26,6 +27,7 @@ import UserTexts from './components/texts/UserTexts';
 <link href="/dist/output.css" rel="stylesheet"></link>;
 
 const rootElement = document.getElementById('root');
+const tokenObj = getToken();
 
 render(
   <React.StrictMode>
@@ -33,7 +35,7 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<Home />}/>
+            <Route index element={tokenObj ? <UserTexts /> : < Home />}/>
             <Route path="texts" element={<UserTexts />}/>
               <Route path="texts/:textId" element={<SingleText />}/>
             <Route path="words" element={<Words />}/>
