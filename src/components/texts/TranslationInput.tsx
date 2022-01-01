@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
@@ -8,6 +10,16 @@ import translationServices from '../../services/translations';
 import {
   userwordsState, currentwordState, currenttextState, currentUserLanguagesState,
 } from '../../states/recoil-states';
+
+const DictionaryIframe = function({ url }: { url: string }) {
+  return (
+    <>
+      <iframe width="350" height="400"
+        src={url}>
+      </iframe>
+    </>
+  );
+};
 
 const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -106,6 +118,8 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
   // if a translation is not set, the state should be restored to 'undefined'
   const [translation, setTranslation] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [showDictionary, setShowDictionary] = useState(false);
   const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
   };
@@ -116,20 +130,16 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
       {currentWord && currentWord?.translations?.length > 0
       && <h2>Current translation: {currentWord?.translations.map((transObj) => `${transObj.translation}, `)}</h2>}
       {currentWord && <>
-      <div>
-        {currentWord && <iframe width="350" height="500"
-          src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}>
-        </iframe>}
-      </div>
       <div className='my-4'>
-        <form className=' flex flex-col items-center' onSubmit={(event) => {
+        <form className=' flex flex-col justify-center' onSubmit={(event) => {
           handleTranslation(event, translation, word);
+          setShowDictionary(false);
           setTranslation('');
         } }>
           <label htmlFor="translation" className="block text-md font-medium text-gray-700">
-            Translation
+            Add translation:
           </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
+          <div className="relative rounded-md shadow-sm flex flex-row items-center my-2">
             <input
               type="text"
               name="translation"
@@ -137,9 +147,19 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
+            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
           </div>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4' type={'submit'}>Submit</button>
         </form>
+        <div>
+        <div className='flex flex-col items-center'>
+          <p>View word in dictionary:</p>
+          {/* <button onClick={() => setShowDictionary(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>WordReference</button> */}
+          {/* {showDictionary && <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}/>} */}
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>DeepL (Popup)</button>
+          <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>WordReference (Popup)</button>
+        </div>
+
+      </div>
       </div></>}
     </div>
   );
