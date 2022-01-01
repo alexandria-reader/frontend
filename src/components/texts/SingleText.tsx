@@ -40,6 +40,7 @@ const SingleText = function () {
     return (
       <div className='bg-gray-100'>
         <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 my-4'>
+        {/* <div className='grid grid-cols-1 md:grid-cols-[1fr, 1fr, 350px] md:gap-4 my-4'> */}
           <TextBody title={currentText.title} textBody={`${currentText.title}\n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>
