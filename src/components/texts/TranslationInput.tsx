@@ -1,7 +1,7 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { ChangeEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent, MouseEvent, useEffect, useState,
+} from 'react';
 import {
   UserWord, Status, CurrentUserLanguages, Translation,
 } from '../../types';
@@ -19,7 +19,6 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     newUserWord.status = status;
 
     if (newUserWord.id) {
-      // return word object rather than just status from backend
       wordsService.updateStatus(newUserWord);
     }
     setCurrentWord(newUserWord);
@@ -153,13 +152,11 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
   // if a translation is not set, the state should be restored to 'undefined'
   const [translation, setTranslation] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showDictionary, setShowDictionary] = useState(false);
   const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
   };
 
-  // once translations are converted to objects, remove the || from the translations.map line
   return (
     <div>
       {currentWord && currentWord?.translations?.length > 0
@@ -185,7 +182,8 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
             <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
           </div>
         </form>
-        {/* <div> */}
+
+        {/* dictionary buttons and change status */}
         <div className='flex flex-col justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-1'>Close Dictionary</button>
           <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`} /></>}
@@ -196,44 +194,50 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${currentUserLanguages?.currentKnownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
         </div>
-      {/* </div> */}
-        {!showDictionary && <ChangeStatus word={word} />
-}
+        {!showDictionary && <ChangeStatus word={word} />}
       </div></>}
     </div>
   );
 };
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
+  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
+
+  const isElement = function(element: Element | EventTarget): element is Element {
+    return (element as Element).nodeName !== undefined;
+  };
+
+  const closeModal = function(event:
+  MouseEvent<HTMLDivElement, globalThis.MouseEvent>) {
+    event?.preventDefault();
+    const element = event.target;
+    if (isElement(element) && element.id === 'outer-modal') {
+      setCurrentWord(null);
+    }
+  };
+
   if (window.innerWidth > 768) {
     return (
       <>
         <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
           <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
           <TranslationComponent word={word} />
-          {/* <ChangeStatus word={word} /> */}
         </div>
       </>
     );
   }
 
-  // blur background when modal?
-  if (word) {
-    return (
-      <div className='sm:hidden m-2 fixed inset-0 flex items-end pointer-events-none sm:p-6 sm:items-start'>
-        <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-gray-300'>
-          <div className='w-full overflow-scroll'>
-            <h2 className='text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
-            <TranslationComponent word={word} />
-            {/* <ChangeStatus word={word} /> */}
-          </div>
+  return (
+    <>
+      {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
+      <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-gray-300'>
+        <div className='w-full'>
+          <h2 className='text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+          <TranslationComponent word={word} />
         </div>
       </div>
-    );
-  }
-
-  return (
-    <></>
+    </div>}
+  </>
   );
 };
 
