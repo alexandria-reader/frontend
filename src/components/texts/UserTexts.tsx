@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import {
   useState,
@@ -26,12 +27,23 @@ const IndividualText = function({ text }: { text: Text }) {
   };
 
   return (
-    <li className='overflow-hidden shadow-lg border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r justify-between leading-normal flex flex-col p-2 m-4 items-center fill-inherit rounded' >
+    <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200 sm:mr-5' >
       <Link key={text.id} to={`/texts/${text.id}`}>
-      <h2 className='font-bold text-xl mb-2' onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
-      <p className='text-gray-700 text-base'>{`${text.body.slice(0, 97)}...`}</p>
+        <div className='w-full flex items-center justify-between p-6 space-x-6 group-hover:shadow-md'>
+          <div className='flex justify-center items-center p-4 rounded-full flex-shrink-0 bg-blue-500'>
+          <svg className="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          </div>
+          <div className='flex-1 truncate'>
+            <div className="flex items-center space-x-3">
+              <h2 className='text-gray-900 text-xl font-medium truncate' onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
+            </div>
+            <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
+          </div>
+        </div>
       </Link>
-      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button>
+      {/* <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button> */}
     </li>
   );
 };
@@ -115,8 +127,8 @@ const UserTexts = function() {
   };
 
   return (
-      <div>
-        <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 flex flex-col'>
           {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
           {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
             : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
@@ -127,7 +139,7 @@ const UserTexts = function() {
         {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
-        {!showNewTextForm && <ul className='flex flex-col'>
+        {!showNewTextForm && <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
           {textList.map((text) => <><IndividualText key={text.id} text={text} /></>)}
         </ul>}
         <Outlet />
