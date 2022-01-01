@@ -84,9 +84,9 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
 
   return (
     <>
-      <div onClick={(event) => removeUnusedWord(event)} className="flex flex-col container mx-auto p-4 m-4">
+      <div onClick={(event) => removeUnusedWord(event)} className="container mx-auto p-4 m-4 col-span-2 col-start-1">
         <h1 className='font-bold text-xl mb-2'>{title}</h1>
-        {paragraphs.map((paragraph, index) => <Paragraph key={index} paragraph={paragraph} />)}
+          {paragraphs.map((paragraph, index) => <Paragraph key={index} paragraph={paragraph} />)}
       </div>
     </>
   );

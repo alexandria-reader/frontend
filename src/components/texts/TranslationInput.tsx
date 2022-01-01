@@ -171,7 +171,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   return (
-    <div className="user-input-div">
+    <div className="user-input-div md:col-start-3 md:col-span-1">
       {word && <p>Selected word: {word.word}</p>}
       {!word && <p>Select a word</p>}
       <TranslationComponent word={word} />
