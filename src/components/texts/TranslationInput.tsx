@@ -112,23 +112,35 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
   // once translations are converted to objects, remove the || from the translations.map line
   return (
-    <div className="translation-div">
+    <div>
       {currentWord && currentWord?.translations?.length > 0
-      && <p>Current translation: {currentWord?.translations.map((transObj) => `${transObj.translation}, `)}</p>}
-      {currentWord && <iframe width="350" height="500"
-        src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}>
+      && <h2>Current translation: {currentWord?.translations.map((transObj) => `${transObj.translation}, `)}</h2>}
+      {currentWord && <>
+      <div>
+        {currentWord && <iframe width="350" height="500"
+          src={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}>
         </iframe>}
-      <form onSubmit={(event) => {
-        handleTranslation(event, translation, word);
-        setTranslation('');
-      }} action="">
-        <label htmlFor='translation'>
-          Write your translation here:
-        </label>
-        <input id='translation' onChange={(event) => handleInput(event)} value={translation} type={'text'} />
-
-        <button type={'submit'}>Submit</button>
-      </form>
+      </div>
+      <div className='my-4'>
+        <form className=' flex flex-col items-center' onSubmit={(event) => {
+          handleTranslation(event, translation, word);
+          setTranslation('');
+        } }>
+          <label htmlFor="translation" className="block text-md font-medium text-gray-700">
+            Translation
+          </label>
+          <div className="mt-1 relative rounded-md shadow-sm">
+            <input
+              type="text"
+              name="translation"
+              id="translation"
+              onChange={(event) => handleInput(event)}
+              value={translation}
+              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
+          </div>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4' type={'submit'}>Submit</button>
+        </form>
+      </div></>}
     </div>
   );
 };
@@ -153,16 +165,16 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
   const wordStatusToolbar = word
     ? <div className="word-status-toolbar">
-        <button onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
-        <button onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
-        <button onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
-        <button onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
+        <button className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
+        <button className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
+        <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
+        <button className='bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
       </div>
     : '';
 
   return (
     <div className="change-status-div">
-      {word && <p>Current status: {word.status}</p>}
+      {word && <p className='text-xl'>Current status: {word.status}</p>}
       {wordStatusToolbar}
     </div>
   );
@@ -171,11 +183,10 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   return (
-    <div className="user-input-div">
-      {word && <p>Selected word: {word.word}</p>}
-      {!word && <p>Select a word</p>}
-      <TranslationComponent word={word} />
-      <ChangeStatus word={word} />
+    <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
+        <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
+        <TranslationComponent word={word} />
+        <ChangeStatus word={word} />
     </div>
   );
 };
