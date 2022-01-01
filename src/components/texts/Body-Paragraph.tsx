@@ -16,6 +16,8 @@ const phrasesState = selector({
 const Sentence = function({ sentence }: { sentence: string }) {
   const phrases = useRecoilValue(phrasesState);
 
+  console.log(phrases);
+
   const phraseFinder = phrases.length === 0 ? '' : `(${phrases.join('|')})|`;
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
   const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
@@ -29,7 +31,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
     <span className='sentence'>
       {
         tokens?.map((token, index) => {
-          if (phrases.includes(token)) {
+          if (phrases.includes(token.toLowerCase())) {
             return <Phrase key={token + index} phrase={token} />;
           }
 

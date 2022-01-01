@@ -31,7 +31,7 @@ export default function Example() {
                     src={logo}
                     alt="Workflow"
                   />
-                    </NavLink>;
+                    </NavLink>
 
                 </div>
 
