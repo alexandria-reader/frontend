@@ -16,8 +16,8 @@ const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
   const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
-
   const currentKnownLanguage = useRecoilValue(currentUserLanguagesState)?.currentKnownLanguageId;
+
   const params = useParams();
 
   const fetchUserwords = async function() {
@@ -46,7 +46,7 @@ const SingleText = function () {
   if (currentText) {
     return (
       <div className='bg-gray-100'>
-        <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 my-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'>
         {/* <div className='grid grid-cols-1 md:grid-cols-[1fr, 1fr, 350px] md:gap-4 my-4'> */}
           <TextBody title={currentText.title} textBody={`${currentText.title}\n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
