@@ -204,6 +204,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
+  const [currentUserLanguages] = useRecoilState(currentUserLanguagesState);
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
@@ -218,11 +219,27 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     }
   };
 
+  // specific language variants can be added
+  const speak = function(_event: MouseEvent<HTMLHeadingElement, globalThis.MouseEvent>) {
+    if (word && currentUserLanguages) {
+      const voices = window.speechSynthesis.getVoices();
+      const utterance = new SpeechSynthesisUtterance(word?.word);
+
+      for (let i = 0; i < voices.length; i += 1) {
+        if (voices[i].lang.startsWith(currentUserLanguages?.currentLearnLanguageId)) {
+          utterance.voice = voices[i];
+        }
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+  };
+
   if (window.innerWidth > 768) {
     return (
       <>
         <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
-          <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
+          <h2 onClick={(event) => speak(event)} className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
           <TranslationComponent word={word} />
         </div>
       </>
@@ -234,7 +251,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
       <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
         <div className='w-full'>
-          <h2 className='text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+          <h2 onClick={(event) => speak(event)} className='text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
           <TranslationComponent word={word} />
         </div>
       </div>
