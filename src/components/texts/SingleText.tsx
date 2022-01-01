@@ -38,8 +38,8 @@ const SingleText = function () {
 
   if (currentText) {
     return (
-      <div className='Text-page'>
-        <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4'>
+      <div className='bg-gray-100'>
+        <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 my-4'>
           <TextBody title={currentText.title} textBody={`${currentText.title}\n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>
