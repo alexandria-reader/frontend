@@ -1,7 +1,7 @@
 export type UserWord = {
   id?: number,
   word: string,
-  status?: string,
+  status?: Status,
   translations: Array<Translation>,
   languageId?: string
 };
