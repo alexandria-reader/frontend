@@ -150,16 +150,18 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
             <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
           </div>
         </form>
-        <div>
-        <div className='flex flex-col items-center'>
-          <p>View word in dictionary:</p>
-          {/* <button onClick={() => setShowDictionary(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>WordReference</button> */}
-          {/* {showDictionary && <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`}/>} */}
-          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>DeepL (Popup)</button>
-          <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4'>WordReference (Popup)</button>
+        {/* <div> */}
+        <div className='flex flex-col justify-center'>
+          {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Close Dictionary</button>
+          <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`} /></>}
+          {!showDictionary && <><p>View word in dictionary:</p>
+          <button onClick={() => setShowDictionary(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference</button>
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>DeepL (Popup)</button>
+          <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${currentUserLanguages?.currentKnownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
+          <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${currentUserLanguages?.currentKnownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button>
+          </>}
         </div>
-
-      </div>
+      {/* </div> */}
       </div></>}
     </div>
   );
@@ -202,12 +204,25 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
+  console.log(word);
   return (
-    <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
+    <>
+      <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
         <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
         <TranslationComponent word={word} />
         <ChangeStatus word={word} />
-    </div>
+      </div>
+      <div className='sm:hidden m-2 fixed inset-0 flex items-end pointer-events-none sm:p-6 sm:items-start'>
+        <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-gray-400'>
+      {/* <div className='sm:hidden fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start'>
+        <div className='w-full flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-gray-400'> */}
+          <div className='w-full overflow-scroll'>
+            <TranslationComponent word={word} />
+            <ChangeStatus word={word} />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
