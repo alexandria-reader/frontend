@@ -7,7 +7,7 @@ import { currentUserLanguagesState } from '../states/recoil-states';
 import loginService from '../services/login';
 import { User } from '../types';
 
-const logo = require('../assets/logo2.png');
+const logo = require('../assets/logo/logo-text-light.png');
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -72,9 +72,8 @@ export default function LoginForm() {
         <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
+              className="mx-auto h-20 w-auto"
               src={logo}
-              // src="../assets/logo.png"
               alt="logo"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>

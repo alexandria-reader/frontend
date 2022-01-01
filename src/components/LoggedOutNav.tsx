@@ -2,7 +2,7 @@ import { Disclosure } from '@headlessui/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import getToken from '../utils/getToken';
 
-const logo = require('../assets/logo.png');
+const logo = require('../assets/logo/logo-crop-dark.png');
 
 const navigation = [
   { name: 'Login', href: '/login' },

@@ -13,7 +13,7 @@ import userService from '../services/users';
 import getToken from '../utils/getToken';
 import LoggedOutNav from './LoggedOutNav';
 
-const logo = require('../assets/logo.png');
+const logo = require('../assets/logo/logo-crop-dark.png');
 
 const navigation = [
   { name: 'Texts', href: '/texts' },
