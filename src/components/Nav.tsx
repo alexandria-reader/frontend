@@ -13,7 +13,7 @@ import userService from '../services/users';
 import getToken from '../utils/getToken';
 import LoggedOutNav from './LoggedOutNav';
 
-const logo = require('../assets/logo.png');
+const logo = require('../assets/logo/logo-crop-dark.png');
 
 const navigation = [
   { name: 'Texts', href: '/texts' },
@@ -144,7 +144,7 @@ export default function Example() {
                       alt="Workflow"
                     />
                   </div>
-                      </NavLink>;
+                      </NavLink>
 
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
