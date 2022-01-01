@@ -54,7 +54,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           // call api with word with translation object attatched
           const translationObj: Translation = {
             translation,
-            targetLanguageId: currentUserLanguages?.currentLearnLanguageId,
+            targetLanguageId: currentUserLanguages?.currentKnownLanguageId,
             context: '',
           };
 
@@ -74,7 +74,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           // call api with translation object, add word id to translation obj
           const newTranslationObj: Translation = {
             translation,
-            targetLanguageId: currentUserLanguages?.currentLearnLanguageId,
+            targetLanguageId: currentUserLanguages?.currentKnownLanguageId,
             context: '',
             wordId: newUserWord.id,
           };

@@ -144,7 +144,7 @@ export default function Example() {
                       alt="Workflow"
                     />
                   </div>
-                      </NavLink>;
+                      </NavLink>
 
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
