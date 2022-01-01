@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-800 w-full py-12">
+    <footer className="bg-white dark:bg-gray-800 w-full py-8">
         <div className="max-w-screen-xl mx-auto">
             <ul className="max-w-screen-md mx-auto text-lg font-light flex flex-wrap justify-between">
                 <li className="my-2">
@@ -25,7 +25,7 @@ export default function Footer() {
                     <a className="text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-200" href="#">© All Rights Reserved 2022</a>
                 </li>
             </ul>
-            <div className="text-center text-gray-500 dark:text-gray-200 pt-10 sm:pt-12 font-light flex items-center justify-center">
+            <div className="text-center text-gray-500 dark:text-gray-200 pt-10 sm:pt-6 font-light flex items-center justify-center">
                 <a className="text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors duration-200" href="https://alexandria-reader.github.io/">Created by Team Alexandria in the 🇪🇺</a>
             </div>
         </div>
