@@ -4,7 +4,7 @@ import Nav from './components/Nav';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen min-w-full bg-gray-100 flex flex-col">
           <Nav />
           <main className='container mx-auto'>
             <Outlet />
