@@ -1,24 +1,29 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 import wordsService from '../../services/words';
 import textsService from '../../services/texts';
-import { userwordsState, currenttextState, currentwordState } from '../../states/recoil-states';
+import {
+  userwordsState,
+  currenttextState,
+  currentwordState,
+  currentUserLanguagesState,
+} from '../../states/recoil-states';
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
   const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
-  // const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
+  const currentKnownLanguage = useRecoilValue(currentUserLanguagesState)?.currentKnownLanguageId;
 
   const params = useParams();
 
   const fetchUserwords = async function() {
     if (currentText) {
       const userWordsResponse = await wordsService
-        .getUserwordsInText(String(currentText.id), currentText.languageId);
+        .getUserwordsInText(String(currentText.id), currentKnownLanguage || '');
       setUserWords(userWordsResponse);
     }
   };

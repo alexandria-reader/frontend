@@ -29,7 +29,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
     <span className='sentence'>
       {
         tokens?.map((token, index) => {
-          if (phrases.includes(token)) {
+          if (phrases.includes(token.toLowerCase())) {
             return <Phrase key={token + index} phrase={token} />;
           }
 
