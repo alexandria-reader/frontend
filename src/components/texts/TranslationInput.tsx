@@ -205,6 +205,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [currentUserLanguages] = useRecoilState(currentUserLanguagesState);
+  const voices = window.speechSynthesis.getVoices();
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
@@ -220,9 +221,8 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   };
 
   // specific language variants can be added
-  const speak = function(_event: MouseEvent<HTMLHeadingElement, globalThis.MouseEvent>) {
+  const speak = async function() {
     if (word && currentUserLanguages) {
-      const voices = window.speechSynthesis.getVoices();
       const utterance = new SpeechSynthesisUtterance(word?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
@@ -239,7 +239,14 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     return (
       <>
         <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
-          <h2 onClick={(event) => speak(event)} className='ml-2 text-3xl font-medium text-gray-900 my-4'>{word ? `${word.word}` : 'Select a word'}</h2>
+          {word && <div className='flex flex-row items-center'>
+            <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+            <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
+          </div>}
+          {!word && <h2 onClick={() => speak()} className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>
+}
           <TranslationComponent word={word} />
         </div>
       </>
@@ -251,7 +258,12 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
       <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
         <div className='w-full'>
-          <h2 onClick={(event) => speak(event)} className='text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+          <div className='flex flex-row items-center'>
+            <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+            <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+          </div>
           <TranslationComponent word={word} />
         </div>
       </div>
