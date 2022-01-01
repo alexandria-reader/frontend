@@ -7,6 +7,12 @@ import wordsService from '../services/words';
 const WordTable = function () {
   const userwords = useRecoilValue(userwordsState);
 
+  const statusClasses = {
+    learning: 'bg-orange-100 text-orange-800',
+    familiar: 'bg-green-100 text-green-800',
+    learned: 'bg-gray-100 text-gray-800',
+  };
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -31,13 +37,13 @@ const WordTable = function () {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Translation
+                    Translations
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Context
+                    Contexts
                   </th>
                 </tr>
               </thead>
@@ -48,15 +54,23 @@ const WordTable = function () {
                       {userword.word}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${userword.status ? statusClasses[userword.status] : ''}`}>
                         {userword.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {userword.translations[0].translation}
+                      {
+                        userword.translations.map((translation) => (
+                          <div className="text-sm font-medium text-gray-900">{translation.translation}</div>
+                        ))
+                      }
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {userword.translations[0].context}
+                    {
+                        userword.translations.map((translation) => (
+                          <div className="text-sm font-medium text-gray-900">{translation.context}</div>
+                        ))
+                      }
                     </td>
                   </tr>
                 ))}
