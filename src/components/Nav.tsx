@@ -31,8 +31,6 @@ export default function Example() {
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
   const tokenObj = getToken();
-  console.log(tokenObj);
-
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
@@ -103,8 +101,11 @@ export default function Example() {
 
   useEffect(() => {
     getLanguageListFromServer();
-    getLanguagesFromLocalStorage();
   }, []);
+
+  useEffect(() => {
+    getLanguagesFromLocalStorage();
+  }, [tokenObj]);
 
   useEffect(() => {
     const langName = languages.filter((lang) => lang.id === currentUserLanguages?.currentLearnLanguageId);
@@ -130,7 +131,8 @@ export default function Example() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex-shrink-0 flex items-center">
+                <NavLink to={'/texts'}>
+                <div className="flex-shrink-0 flex items-center">
                     <img
                       className="block lg:hidden h-8 w-auto"
                       src={logo}
@@ -142,6 +144,8 @@ export default function Example() {
                       alt="Workflow"
                     />
                   </div>
+                      </NavLink>;
+
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                   <div className="hidden sm:block sm:ml-6">
