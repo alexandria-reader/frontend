@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import getToken from '../utils/getToken';
 import Benefits from './home/Benefits';
 import HowItWorks from './home/HowItWorks';
-import Footer from './Footer';
 import FAQ from './home/FAQ';
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
           <Benefits />
           <HowItWorks />
           <FAQ />
-          <Footer />
         </div>
      } </div>
     </div>

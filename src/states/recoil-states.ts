@@ -22,20 +22,23 @@ export const userwordsState = atom<Array<UserWord>>({
 });
 
 
+export const currentwordState = atom<UserWord | null>({
+  key: 'currentwordState',
+  default: null,
+});
+
+
 export const languagesState = atom<Array<Language>>({
   key: 'languagesState',
   default: [],
 });
+
 
 export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
   key: 'currentUserLanguagesState',
   default: null,
 });
 
-export const currentwordState = atom<UserWord | null>({
-  key: 'currentwordState',
-  default: null,
-});
 
 export const loggedinState = atom<TokenObj | null>({
   key: 'loggedinState',

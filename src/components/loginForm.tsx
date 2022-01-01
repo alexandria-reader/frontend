@@ -7,6 +7,8 @@ import { currentUserLanguagesState } from '../states/recoil-states';
 import loginService from '../services/login';
 import { User } from '../types';
 
+const logo = require('../assets/logo2.png');
+
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,12 +68,12 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
+        <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
               className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+              src={logo}
               // src="../assets/logo.png"
               alt="logo"
             />

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { UserWord } from '../types';
-
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://alexandria-reader-staging.herokuapp.com';
+import host from './host';
 
 const baseUrl = `${host}/api/words`;
 
@@ -17,6 +16,20 @@ const getUserwordsInText = async function(currentTextId:string, targetLanguageId
   return userWords;
 };
 
+
+const getUserwordsByLanguage = async function(languageId: string) {
+  const user = JSON.parse(localStorage.user);
+  const { token } = user;
+
+  const request = await axios.get(`${baseUrl}/language/${languageId}/`, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  const userWords: Array<UserWord> = request.data;
+  return userWords;
+};
+
+
 const addWordWithTranslation = async function(word: UserWord) {
   const user = JSON.parse(localStorage.user);
   const { token } = user;
@@ -29,6 +42,7 @@ const addWordWithTranslation = async function(word: UserWord) {
   const response = request.data;
   return response;
 };
+
 
 const updateStatus = async function(word: UserWord) {
   const user = JSON.parse(localStorage.user);
@@ -44,6 +58,7 @@ const updateStatus = async function(word: UserWord) {
 
 export default {
   getUserwordsInText,
+  getUserwordsByLanguage,
   addWordWithTranslation,
   updateStatus,
 };
