@@ -1,3 +1,5 @@
+import parseHTML from 'html-react-parser';
+
 import { useEffect } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { userwordsState, currentUserLanguagesState } from '../states/recoil-states';
@@ -6,6 +8,27 @@ import wordsService from '../services/words';
 
 const WordTable = function () {
   const userwords = useRecoilValue(userwordsState);
+  const setUserWords = useSetRecoilState(userwordsState);
+
+  const sortUserwordsByStatus = function() {
+    const sorted = userwords.slice();
+    sorted.sort((a, b) => {
+      if (a.status === 'learning' && b.status === 'familiar') return -1;
+      if (a.status === 'learning' && b.status === 'learned') return -1;
+      if (a.status === 'familiar' && b.status === 'learned') return -1;
+      return 1;
+    });
+    setUserWords(sorted);
+  };
+
+  const sortUserwordsByABC = function() {
+    const sorted = userwords.slice();
+    sorted.sort((a, b) => {
+      if (a.word < b.word) return -1;
+      return 1;
+    });
+    setUserWords(sorted);
+  };
 
   const statusClasses = {
     learning: 'bg-orange-100 text-orange-800',
@@ -32,13 +55,13 @@ const WordTable = function () {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Word
+                      <span className="underline cursor-pointer" onClick={sortUserwordsByABC}>Word</span>
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Status
+                      <span className="underline cursor-pointer" onClick={sortUserwordsByStatus}>Status</span>
                     </th>
                     <th
                       scope="col"
@@ -72,7 +95,7 @@ const WordTable = function () {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {userword.translations.map((translation) => (
-                          <div className="text-sm font-medium text-gray-900">{translation.context}</div>
+                          <div className="text-sm font-medium text-gray-900">{parseHTML(translation.context)}</div>
                         ))}
                       </td>
                     </tr>
