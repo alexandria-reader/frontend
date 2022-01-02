@@ -1,8 +1,9 @@
 import {
-  selector, useRecoilState, useRecoilValue,
+  selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
 import { Word, Phrase } from './Phrase-Word';
 import {
+  currentwordContextState,
   currentwordState,
   markedwordsState,
   userwordsState,
@@ -30,12 +31,12 @@ const Sentence = function({ sentence }: { sentence: string }) {
       {
         tokens?.map((token, index) => {
           if (phrases.includes(token.toLowerCase())) {
-            return <Phrase key={token + index} phrase={token} />;
+            return <Phrase key={token + index} phrase={token} context={sentence} />;
           }
 
           if (token.match(wordRegExp)) {
             return <Word key={token + index} dataKey={token + index}
-            word={token} />;
+            word={token} context={sentence} />;
           }
 
           return token;
@@ -62,6 +63,7 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
 const TextBody = function ({ title, textBody }: { title: string, textBody: string }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
+  const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const paragraphs = textBody.split('\n');
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -79,6 +81,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
       const updatedWords = [...userWords
         .filter((wordObj) => wordObj.id !== undefined)];
       setUserWords(updatedWords);
+      setCurrentWordContext(null);
     }
   };
 
