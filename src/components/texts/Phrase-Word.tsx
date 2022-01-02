@@ -76,16 +76,22 @@ export const Word = function ({ word, dataKey, context }:
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
 
-  let wordClass = 'word ';
+  let wordClass = '';
 
-  if (wordStatus) wordClass += wordStatus;
+  if (wordStatus === 'learning') {
+    wordClass = 'bg-amber-500';
+  } else if (wordStatus === 'familiar') {
+    wordClass = 'bg-yellow-500';
+  }
 
   return (
-    <span onMouseUp={(event) => getWordOrPhrase(event)}
-          className={wordClass}
-          data-key={dataKey}>
-      {word}
-    </span>
+    <div className='inline-block my-1'>
+      <span onMouseUp={(event) => getWordOrPhrase(event)}
+        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
+        data-key={dataKey}>
+        {word}
+      </span>
+    </div>
   );
 };
 
@@ -94,20 +100,26 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[phrase.toLowerCase()];
 
-  let phraseClass = 'phrase ';
+  let wordClass = '';
 
-  if (phraseStatus) phraseClass += phraseStatus;
+  if (phraseStatus === 'learning') {
+    wordClass = 'bg-amber-500';
+  } else if (phraseStatus === 'familiar') {
+    wordClass = 'bg-yellow-500';
+  }
 
   const parts = phrase.split(' ');
 
   return (
-    <span className={phraseClass}>
-      {
-        parts.map((word, index, array) => <Fragment>
-          <Word key={word + index} dataKey={word + index} word={word} context={context} />
-          <>{index === array.length - 1 ? '' : ' '}</>
-          </Fragment>)
-      }
-    </span>
+    <div className='inline-block'>
+      <span className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-1 rounded-md`}>
+        {
+          parts.map((word, index, array) => <Fragment>
+            <Word key={word + index} dataKey={word + index} word={word} context={context} />
+            <>{index === array.length - 1 ? '' : ' '}</>
+            </Fragment>)
+        }
+      </span>
+    </div>
   );
 };
