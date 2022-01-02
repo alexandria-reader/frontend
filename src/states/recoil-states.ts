@@ -21,6 +21,11 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
+export const currentSelectionState = atom<Array<string>>({
+  key: 'currentSelectionState',
+  default: [],
+});
+
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',

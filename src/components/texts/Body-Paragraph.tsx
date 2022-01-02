@@ -25,9 +25,10 @@ const Sentence = function({ sentence }: { sentence: string }) {
   const tokenRegExp = new RegExp(`${phraseFinder}${wordFinder}|${noWordFinder}`, 'gui');
 
   const tokens = sentence.match(tokenRegExp);
-
+  // console.log(tokens);
   return (
-    <span className='sentence'>
+    // <span className='sentence'>
+    <>
       {
         tokens?.map((token, index) => {
           if (phrases.includes(token.toLowerCase())) {
@@ -42,7 +43,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
           return token;
         })
       }
-    </span>
+    </>
   );
 };
 
@@ -51,11 +52,11 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
   const sentences = paragraph.match(/[^\s]([^!?\\.]|\.{3})*["!?\\.\s]*/gmu) || [''];
 
   return (
-    <p>
+    <>
       {
         sentences.map((sentence, index) => <Sentence key={index} sentence={sentence} />)
       }
-    </p>
+    </>
   );
 };
 
