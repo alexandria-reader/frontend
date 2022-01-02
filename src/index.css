@@ -17,7 +17,7 @@ code {
     monospace;
 } */
 
-.learning {
+/* .learning {
   background-color:coral;
 }
 
@@ -27,19 +27,19 @@ code {
 
 .learned {
   background-color: lightgray;
-}
+} */
 
-.word {
-  border: 1px solid rgba(0, 0, 0, 0);
-  padding: 1px;
-  border-radius: 3px;
-}
+/* .word { */
+  /* border: 1px solid rgba(0, 0, 0, 0);
+  padding: 2px;
+  border-radius: 3px; */
+/* } */
 
-.word:hover {
+/* .word:hover {
   border-color: blue;
-}
+} */
 
-.phrase {
+/* .phrase {
   border: 1px solid rgba(0, 0, 0, 0);
   padding: 4px;
   border-radius: 3px;
@@ -47,5 +47,12 @@ code {
 
 .phrase:hover {
   border-color: red;
+} */
+
+/* span > ::selection {
+  background-color: rgb(1, 0, 0);
 }
 
+:not(p) > span:active {
+  background-color: rgb(1, 0, 0);
+} */

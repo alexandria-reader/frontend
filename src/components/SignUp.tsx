@@ -91,7 +91,7 @@ export default function SignUp() {
           <div className="flex flex-wrap w-full custom-select">
             <label htmlFor="currentKnownLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I know</label>
               {<select {...register('currentKnownLanguageId')} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-              {languages.map((lang) => <option key={lang.id} value={lang.id} className="custom-option">{lang.name}</option>)}
+              {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
               </select>}
           </div>
           <div className="flex flex-wrap w-full custom-select">
