@@ -245,7 +245,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
             </svg>
             <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
           </div>}
-          {!word && <h2 onClick={() => speak()} className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>
+          {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>
 }
           <TranslationComponent word={word} />
         </div>
