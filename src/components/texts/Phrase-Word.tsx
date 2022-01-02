@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, MouseEvent } from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -45,6 +45,10 @@ export const Word = function ({ word, dataKey, context }:
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
+      // console.log(newPhrase);
+      // console.log(startNode, endNode);
+      // console.log(selection);
+      // console.log(context);
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
       let newWordObject: UserWord | undefined;
 
@@ -73,6 +77,26 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
+  const isElement = function(element: Element | EventTarget): element is Element {
+    return (element as Element).nodeName !== undefined;
+  };
+
+  // eslint-disable-next-line max-len
+  const mouseMoveEventHandler = function(event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
+    if (window.getSelection()?.toString()) {
+      // console.log(window.getSelection()?.toString());
+      if (isElement(event.target)) {
+        const element = event.target;
+        console.log(element.textContent);
+        // if (!element.className.match('bg-gray-500')) {
+        //   element.className += ' bg-gray-500';
+        // }
+        // console.log(event.target.className);
+      }
+      // console.log(event.target);
+    }
+  };
+
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
 
@@ -82,11 +106,14 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-amber-500';
   } else if (wordStatus === 'familiar') {
     wordClass = 'bg-yellow-500';
+  } else if (wordStatus === 'learned') {
+    wordClass = 'bg-gray-200';
   }
 
   return (
     <div className='inline-block my-1'>
-      <span onMouseUp={(event) => getWordOrPhrase(event)}
+      <span onMouseMove={(event) => mouseMoveEventHandler(event)}
+        onMouseUp={(event) => getWordOrPhrase(event)}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
@@ -106,6 +133,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
     wordClass = 'bg-amber-500';
   } else if (phraseStatus === 'familiar') {
     wordClass = 'bg-yellow-500';
+  } else if (phraseStatus === 'learned') {
+    wordClass = 'bg-gray-200';
   }
 
   const parts = phrase.split(' ');

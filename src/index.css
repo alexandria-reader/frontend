@@ -49,3 +49,10 @@ code {
   border-color: red;
 } */
 
+/* span > ::selection {
+  background-color: rgb(1, 0, 0);
+}
+
+:not(p) > span:active {
+  background-color: rgb(1, 0, 0);
+} */
