@@ -28,6 +28,7 @@ export type Text = {
 export type Language = {
   id: string,
   name: string,
+  flag: string,
   eachCharIsWord: boolean,
   isRightToLeft: boolean,
 };
