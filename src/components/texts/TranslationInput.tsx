@@ -8,7 +8,8 @@ import {
 import wordsService from '../../services/words';
 import translationServices from '../../services/translations';
 import {
-  userwordsState, currentwordState, currenttextState, currentUserLanguagesState,
+  userwordsState, currentwordState, currenttextState,
+  currentUserLanguagesState, currentwordContextState,
 } from '../../states/recoil-states';
 
 const ChangeStatus = function({ word }: { word: UserWord | null }) {
@@ -61,6 +62,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const currentWord = useRecoilValue(currentwordState);
   const currentText = useRecoilValue(currenttextState);
   const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
+  const [currentWordContext] = useRecoilState(currentwordContextState);
 
   function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
     : currentUserLangs is CurrentUserLanguages {
@@ -101,7 +103,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           const translationObj: Translation = {
             translation,
             targetLanguageId: currentUserLanguages?.currentKnownLanguageId,
-            context: '',
+            context: currentWordContext || '',
           };
 
           const translations = [...userWord.translations, translationObj];

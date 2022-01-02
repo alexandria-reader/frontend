@@ -31,7 +31,7 @@ code {
 
 .word {
   border: 1px solid rgba(0, 0, 0, 0);
-  padding: 1px;
+  padding: 2px;
   border-radius: 3px;
 }
 

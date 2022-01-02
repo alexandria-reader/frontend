@@ -5,12 +5,16 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
-import { markedwordsState, userwordsState, currentwordState } from '../../states/recoil-states';
+import {
+  markedwordsState, userwordsState, currentwordState, currentwordContextState,
+} from '../../states/recoil-states';
 import { UserWord } from '../../types';
 
 
-export const Word = function ({ word, dataKey }: { word: string, dataKey:string }) {
+export const Word = function ({ word, dataKey, context }:
+{ word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
+  const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
 
   const getWordOrPhrase = function(_event: unknown) {
@@ -49,12 +53,14 @@ export const Word = function ({ word, dataKey }: { word: string, dataKey:string 
         newWordObject = existingWord[0];
 
         setCurrentWord(newWordObject);
+        setCurrentWordContext(context);
       } else {
         newWordObject = {
           word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
         };
 
         setCurrentWord(newWordObject);
+        setCurrentWordContext(context);
       }
 
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
@@ -84,7 +90,7 @@ export const Word = function ({ word, dataKey }: { word: string, dataKey:string 
 };
 
 
-export const Phrase = function ({ phrase }: { phrase: string }) {
+export const Phrase = function ({ phrase, context }: { phrase: string, context: string }) {
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[phrase.toLowerCase()];
 
@@ -98,7 +104,7 @@ export const Phrase = function ({ phrase }: { phrase: string }) {
     <span className={phraseClass}>
       {
         parts.map((word, index, array) => <Fragment>
-          <Word key={word + index} dataKey={word + index} word={word} />
+          <Word key={word + index} dataKey={word + index} word={word} context={context} />
           <>{index === array.length - 1 ? '' : ' '}</>
           </Fragment>)
       }
