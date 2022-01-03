@@ -34,10 +34,15 @@ export const Word = function ({ word, dataKey, context }:
 
       if (startNode && startNode.textContent) {
         startWord = startNode.textContent;
-        stringArray[0] = startWord;
+        const firstWordPartial = stringArray[0];
+        if (firstWordPartial[firstWordPartial.length - 1] === '.') {
+          stringArray[0] = `${startWord}.`;
+        } else {
+          stringArray[0] = startWord;
+        }
       }
 
-      if (endNode && endNode.textContent) {
+      if (endNode?.textContent && endNode.textContent !== ' ') {
         endWord = endNode.textContent;
         if (stringArray[stringArray.length - 1] && endWord) {
           stringArray[stringArray.length - 1] = endWord;
@@ -45,19 +50,12 @@ export const Word = function ({ word, dataKey, context }:
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
-      // console.log(newPhrase);
-      // console.log(startNode, endNode);
-      // console.log(selection);
-      // console.log(context);
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
       let newWordObject: UserWord | undefined;
 
       if (existingWord[0]) {
         // eslint-disable-next-line prefer-destructuring
         newWordObject = existingWord[0];
-
-        setCurrentWord(newWordObject);
-        setCurrentWordContext(context);
       } else {
         newWordObject = {
           word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
@@ -67,6 +65,7 @@ export const Word = function ({ word, dataKey, context }:
         setCurrentWordContext(context);
       }
 
+      // if userWords does not include the new word
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
         === newWordObject?.word.toLowerCase()).length === 0) {
         // removes any words without an id, meaning that they also have no translation
@@ -76,26 +75,6 @@ export const Word = function ({ word, dataKey, context }:
       }
     }
   };
-
-  // const isElement = function(element: Element | EventTarget): element is Element {
-  //   return (element as Element).nodeName !== undefined;
-  // };
-
-  // eslint-disable-next-line max-len
-  // const mouseMoveEventHandler = function(event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
-  //   if (window.getSelection()?.toString()) {
-  //     // console.log(window.getSelection()?.toString());
-  //     if (isElement(event.target)) {
-  //       const element = event.target;
-  //       console.log(element.textContent);
-  //       // if (!element.className.match('bg-gray-500')) {
-  //       //   element.className += ' bg-gray-500';
-  //       // }
-  //       // console.log(event.target.className);
-  //     }
-  //     // console.log(event.target);
-  //   }
-  // };
 
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
@@ -113,10 +92,7 @@ export const Word = function ({ word, dataKey, context }:
   return (
     <div className='inline-block my-1'>
       <span
-        onMouseUp={(event) => {
-          getWordOrPhrase(event);
-          window.getSelection()?.empty();
-        }}
+        onMouseUp={(event) => getWordOrPhrase(event)}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
