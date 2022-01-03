@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import loginServices from '../../services/login';
-import wordsService from '../../services/words';
-import textsService from '../../services/texts';
+import loginServices from '../services/login';
+import wordsService from '../services/words';
+import textsService from '../services/texts';
 
 describe('Tests single text and user words', () => {
   test('Gets user words in a piece of text', async () => {
