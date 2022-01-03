@@ -28,6 +28,7 @@ export default function Example() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
   const [currentLangName, setCurrentLangName] = useState('');
+  const [currentLangFlag, setCurrentLangFlag] = useState('');
   const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
   const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
   const tokenObj = getToken();
@@ -110,6 +111,7 @@ export default function Example() {
   useEffect(() => {
     const langName = languages.filter((lang) => lang.id === currentUserLanguages?.currentLearnLanguageId);
     setCurrentLangName(langName[0]?.name);
+    setCurrentLangFlag(langName[0]?.flag);
   }, [currentUserLanguages, languages]);
 
   if (tokenObj) {
@@ -187,10 +189,7 @@ export default function Example() {
                               'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
-                            {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
-                            </svg>}
-                            <p>{currentLangName && `${currentLangName.slice(0, 1).toUpperCase()}${currentLangName.slice(1)}`}</p>
+                            <p><span className="h-5 w-5">{currentLangFlag}</span> {currentLangName && `${currentLangName.slice(0, 1).toUpperCase()}${currentLangName.slice(1)}`}</p>
                             <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                           </a>
                           }
@@ -207,7 +206,7 @@ export default function Example() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {languages.filter((lang) => lang.id !== currentLearnLanguageId && lang.id !== currentKnownLanguageId).map((lang) => <Menu.Item>
                         {({ active }) => (
                           <div key={lang.id} onClick={(event) => setUserLanguagesOnServer(event, lang.id)}>
@@ -215,11 +214,8 @@ export default function Example() {
                               href="#"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
-                              <div
-                                className='flex flex-row justify-between m-2'>
-                                {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
-                                </svg>}
+                              <div className='flex flex-row justify-between m-2'>
+                                <span className="h-5 w-5">{lang.flag}</span>
                                 {`${lang.name.slice(0, 1).toUpperCase()}${lang.name.slice(1)}`}
                               </div>
                             </a>
