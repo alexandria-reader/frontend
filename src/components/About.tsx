@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useNavigate } from 'react-router';
 import getToken from '../utils/getToken';
 import HowItWorks from './home/HowItWorks';

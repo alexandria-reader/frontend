@@ -12,8 +12,8 @@ export default function HowItWorks() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 md:text-4xl font-extrabold mb-4">How Alexandria works</h2>
-            <p className="text-xl text-gray-600">Import your favourite text in the language you're learning, mark the words you are interested in learning. </p>
+            <p className="text-xl text-gray-600">Research shows language acquisition occurs when we comprehend messages alongside its surrounding context. </p>
+            <p className="mt-10 text-xl text-gray-600">This is where Alexandria comes in.</p>
           </div>
 
           {/* Items */}
@@ -33,7 +33,7 @@ export default function HowItWorks() {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Upload text</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p className="text-gray-600 text-center">Add a piece of text you are interested in reading, in the language you are actively learning. For example, a piece of newspaper article, or a story.</p>
             </div>
 
             {/* 2nd item */}
@@ -48,8 +48,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Mark unfamiliar words</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Look up unfamiliar words</h4>
+              <p className="text-gray-600 text-center">Go through text and click on words you don't know, or are not sure about. Multiple dictionaries are available for translation.</p>
             </div>
 
             {/* 3rd item */}
@@ -63,8 +63,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Adjust learned status</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Set learned status</h4>
+              <p className="text-gray-600 text-center">Inititally marked words are marked with a "learned status" of "Learning". But feel free to adjust it based on your level of familiarity with the word.</p>
             </div>
 
             {/* 4th item */}
@@ -81,7 +81,7 @@ export default function HowItWorks() {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Apply translation in context</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p className="text-gray-600 text-center">Based on surrounding context, add the translation that fit best. You can always add another translation for the same word based on a different context later.</p>
             </div>
 
             {/* 5th item */}
@@ -95,8 +95,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Adjust level of familiarity</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Adjust learned status</h4>
+              <p className="text-gray-600 text-center">If previously marked words already exist in your account, they are shown based on "learned status". Adjust status based on your level of familiarity with the word.</p>
             </div>
 
             {/* 6th item */}
@@ -113,7 +113,7 @@ export default function HowItWorks() {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Review word list</h4>
-              <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p className="text-gray-600 text-center">Marked words are available for review at your convenience. Words are presented with translation and surrounding context to ensure maximum retention.</p>
             </div>
 
           </div>

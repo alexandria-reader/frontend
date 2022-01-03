@@ -26,8 +26,22 @@ const setUserLanguages = async function(currentUserLanguages: CurrentUserLanguag
   return updatedUser;
 };
 
+// const setUserInfo = async function(currentUserInfo) {
+//   const user = JSON.parse(localStorage.user);
+
+//   const { token } = user;
+
+//   const request = await axios.put(`${baseUrl}/set-user`, currentUserInfo, {
+//     headers: { Authorization: `bearer ${token}` },
+//   });
+
+//   const updatedUser: SanitizedUser = request.data;
+//   return updatedUser;
+// };
+
 export default {
   setUserLanguages,
   addUser,
+  // setUserInfo,
 };
 
