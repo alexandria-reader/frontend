@@ -1,14 +1,12 @@
 import '@testing-library/jest-dom';
 import loginServices from '../../services/login';
 import textsServices from '../../services/texts';
-// import { render } from '@testing-library/react';
-// import UserTexts from './UserTexts';
 
 describe('Tests user ability to interact with texts', () => {
   test('Renders user text by language id', async () => {
     const user = await loginServices.loginUser({
-      email: 'eamon@example.com',
-      password: 'eamonpwhash',
+      email: 'dana@example.com',
+      password: 'danapwhash',
     });
     localStorage.setItem('user', JSON.stringify(user));
     const fetchUserTexts = await textsServices.getAllUserTextsByLanguage('en');
@@ -24,6 +22,7 @@ describe('Tests user ability to interact with texts', () => {
 
     await textsServices.postNewText(newTextObj);
     const fetchUserTexts = await textsServices.getAllUserTextsByLanguage('en');
+    console.log(fetchUserTexts);
     expect(fetchUserTexts[fetchUserTexts.length - 1].body).toContain('HERE were once five-and-twenty tin soldiers');
   });
 
@@ -34,10 +33,4 @@ describe('Tests user ability to interact with texts', () => {
     const fetchUserTextsAgain = await textsServices.getAllUserTextsByLanguage('en');
     expect(fetchUserTextsAgain[fetchUserTextsAgain.length - 1].body).not.toContain('HERE were once five-and-twenty tin soldiers');
   });
-
-  test('New text form renders when button clicked on', () => {
-    
-  });
 });
-
-
