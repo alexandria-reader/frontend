@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import axios from 'axios';
 import { SanitizedUser, User } from '../types';
-import getToken from '../utils/getToken';
 import host from './host';
 
 const baseUrl = `${host}/api/users`;
@@ -27,11 +26,7 @@ const setUserLanguages = async function(knownLanguageId: string, learnLanguageId
 };
 
 
-const getUserFromToken = async function() {
-  const token = getToken();
-
-  if (!token) return null;
-
+const getUserFromToken = async function(token: string) {
   const response = await axios.put(`${baseUrl}/from-token`, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -39,7 +34,6 @@ const getUserFromToken = async function() {
   const foundUser: SanitizedUser = response.data;
   return foundUser;
 };
-
 
 export default {
   setUserLanguages,

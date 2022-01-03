@@ -1,17 +1,14 @@
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import LoginForm from './loginForm';
-import getToken from '../utils/getToken';
-import { loggedinState } from '../states/recoil-states';
+import { userState } from '../states/recoil-states';
 
 export default function LogIn() {
-  const tokenObj = getToken();
-  const setLoggedinState = useSetRecoilState(loggedinState);
-  setLoggedinState(tokenObj);
+  const user = useRecoilValue(userState);
 
   return (
     <div>
-     <div> { tokenObj
-       ? (`${tokenObj.username} is logged in`) : (
+     <div> { user
+       ? (`${user.username} is logged in`) : (
         <LoginForm />)}
       </div>
     </div>

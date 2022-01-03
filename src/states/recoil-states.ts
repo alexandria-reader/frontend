@@ -22,6 +22,21 @@ export const userwordsState = atom<Array<UserWord>>({
 });
 
 
+export const markedwordsState = selector({
+  key: 'markedwordsState',
+  get: ({ get }) => {
+    const markedWords: MarkedWords = {};
+
+    const userWords = get(userwordsState);
+    userWords.forEach((userWord) => {
+      if (userWord.status) markedWords[userWord.word] = userWord.status;
+    });
+
+    return markedWords;
+  },
+});
+
+
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
   default: null,
@@ -45,20 +60,13 @@ export const userState = atom<LoggedInUser | null>({
 });
 
 
-export const markedwordsState = selector({
-  key: 'markedwordsState',
+export const tokenState = selector({
+  key: 'tokenState',
   get: ({ get }) => {
-    const markedWords: MarkedWords = {};
-
-    const userWords = get(userwordsState);
-    userWords.forEach((userWord) => {
-      if (userWord.status) markedWords[userWord.word] = userWord.status;
-    });
-
-    return markedWords;
+    const user = get(userState);
+    return user?.token || null;
   },
 });
-
 
 export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
   key: 'currentUserLanguagesState',
