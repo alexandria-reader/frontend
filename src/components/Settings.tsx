@@ -43,7 +43,7 @@ export default function Settings() {
           src={logo}
           alt="logo"
         />
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User Account Settings</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User account settings</h2>
       </div>
       <form className='form-div' onSubmit={handleSubmit(async (data) => {
         if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
