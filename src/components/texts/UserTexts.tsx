@@ -1,28 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
-import {
-  useState,
-  useEffect,
-  FormEvent,
-} from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-
+import { useState, useEffect, FormEvent } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import textsService from '../../services/texts';
-import { CurrentUserLanguages, Text } from '../../types';
 
-import { textlistState, currenttextState, currentUserLanguagesState } from '../../states/recoil-states';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  textlistState,
+  currenttextState,
+  userState,
+  userlangidsState,
+} from '../../states/recoil-states';
+
+import textsService from '../../services/texts';
+import { Text } from '../../types';
 
 
 const IndividualText = function({ text }: { text: Text }) {
   const setCurrentText = useSetRecoilState(currenttextState);
   const [textList, setTextList] = useRecoilState(textlistState);
 
+  const user = useRecoilValue(userState);
+
   const removeTextFromServer = async function (id: number | undefined) {
-    if (id) {
+    if (id && user) {
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
       setTextList(updatedTextList);
-      await textsService.removeTextFromServer(id);
+      await textsService.removeTextFromServer(id, user.token);
     }
   };
 
@@ -76,51 +79,37 @@ const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
-  const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
   const [showNewTextForm, setShowNewTextForm] = useState(false);
 
-  const getLanguagesFromLocalStorage = async function() {
-    const user = await JSON.parse(localStorage.user);
+  const user = useRecoilValue(userState);
+  const userLangIds = useRecoilValue(userlangidsState);
 
-    const currentUserLangs: CurrentUserLanguages = {
-      currentKnownLanguageId: user.currentKnownLanguageId,
-      currentLearnLanguageId: user.currentLearnLanguageId,
-    };
-
-    if (!currentUserLanguages) {
-      setCurrentUserLanguages(currentUserLangs);
-    }
-  };
-
-  function isCurrentUserLanguage(currentUserLangs: CurrentUserLanguages | null)
-    : currentUserLangs is CurrentUserLanguages {
-    return (currentUserLangs as CurrentUserLanguages)?.currentLearnLanguageId !== undefined;
-  }
 
   const fetchUserTexts = async function() {
-    if (isCurrentUserLanguage(currentUserLanguages)) {
-      const languageId = currentUserLanguages.currentLearnLanguageId;
-      const userTextsResponse = await textsService.getAllUserTextsByLanguage(languageId);
+    if (userLangIds && user) {
+      const userTextsResponse = await textsService.getAllUserTextsByLanguage(userLangIds.learn, user.token);
       setTextList(userTextsResponse);
     }
   };
 
   useEffect(() => {
-    getLanguagesFromLocalStorage();
     fetchUserTexts();
-  }, [currentUserLanguages]);
+  }, [user]);
 
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const newTextObj: Text = {
-      languageId: currentUserLanguages?.currentLearnLanguageId || '',
+      languageId: userLangIds?.learn || '',
       title: newTextTitle,
       body: newText,
     };
 
-    const addTextResponse = await textsService.postNewText(newTextObj);
-    const newUsersTexts = [...textList, addTextResponse];
-    setTextList(newUsersTexts);
+    if (user) {
+      const addTextResponse = await textsService.postNewText(newTextObj, user.token);
+      const newUsersTexts = [...textList, addTextResponse];
+      setTextList(newUsersTexts);
+    }
+
     setNewText('');
     setNewTextTitle('');
     setShowNewTextForm(false);

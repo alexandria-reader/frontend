@@ -66,38 +66,3 @@ export type LoginDetails = {
   password: string
 };
 
-
-// the ones below need to go
-
-export type CurrentUserLanguages = {
-  currentKnownLanguageId: string,
-  currentLearnLanguageId: string,
-};
-
-// export type User = {
-//   id?: number,
-//   username: string,
-//   password: string,
-//   email: string,
-//   currentKnownLanguageId: string,
-//   currentLearnLanguageId: string,
-// };
-
-export type TokenObj = {
-  id: number,
-  username: string,
-  token: string,
-  email: string,
-  currentKnownLanguageId: string,
-  currentLearnLanguageId: string,
-};
-
-export type LocalStorageUser = {
-  currentKnownLanguageId?: string,
-  currentLearnLanguageId?: string,
-  email: string,
-  token: string,
-  username: string,
-};
-
-// export type SanitizedUser = Omit<User, 'passwordHash'>;

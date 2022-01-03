@@ -22,7 +22,7 @@ const postNewText = async function(newText: Text, token: string) {
   return text;
 };
 
-const getTextById = async function(id: number, token: string) {
+const getTextById = async function(id: string, token: string) {
   const request = await axios.get(`${baseUrl}/${id}`, {
     headers: { Authorization: `bearer ${token}` },
   });

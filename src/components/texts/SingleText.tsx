@@ -9,28 +9,30 @@ import {
   userwordsState,
   currenttextState,
   currentwordState,
-  currentUserLanguagesState,
+  userState,
+  userlangidsState,
 } from '../../states/recoil-states';
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
   const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
-  const currentKnownLanguage = useRecoilValue(currentUserLanguagesState)?.currentKnownLanguageId;
+  const userLangIds = useRecoilValue(userlangidsState);
+  const user = useRecoilValue(userState);
 
   const params = useParams();
 
   const fetchUserwords = async function() {
-    if (currentText) {
+    if (currentText && user && userLangIds) {
       const userWordsResponse = await wordsService
-        .getUserwordsInText(String(currentText.id), currentKnownLanguage || '');
+        .getUserwordsInText(String(currentText.id), userLangIds.known, user.token);
       setUserWords(userWordsResponse);
     }
   };
 
   const getTextById = async function() {
-    if (params.textId) {
-      const text = await textsService.getTextById(params.textId);
+    if (params.textId && user) {
+      const text = await textsService.getTextById(params.textId, user.token);
       setCurrentText(text);
     }
   };

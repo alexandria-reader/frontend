@@ -27,7 +27,7 @@ const setUserLanguages = async function(knownLanguageId: string, learnLanguageId
 
 
 const getUserFromToken = async function(token: string) {
-  const response = await axios.put(`${baseUrl}/from-token`, {
+  const response = await axios.get(`${baseUrl}/from-token`, {
     headers: { Authorization: `bearer ${token}` },
   });
 
