@@ -1,4 +1,4 @@
-import { Fragment, MouseEvent } from 'react';
+import { Fragment } from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -77,25 +77,25 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  const isElement = function(element: Element | EventTarget): element is Element {
-    return (element as Element).nodeName !== undefined;
-  };
+  // const isElement = function(element: Element | EventTarget): element is Element {
+  //   return (element as Element).nodeName !== undefined;
+  // };
 
   // eslint-disable-next-line max-len
-  const mouseMoveEventHandler = function(event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
-    if (window.getSelection()?.toString()) {
-      // console.log(window.getSelection()?.toString());
-      if (isElement(event.target)) {
-        const element = event.target;
-        console.log(element.textContent);
-        // if (!element.className.match('bg-gray-500')) {
-        //   element.className += ' bg-gray-500';
-        // }
-        // console.log(event.target.className);
-      }
-      // console.log(event.target);
-    }
-  };
+  // const mouseMoveEventHandler = function(event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
+  //   if (window.getSelection()?.toString()) {
+  //     // console.log(window.getSelection()?.toString());
+  //     if (isElement(event.target)) {
+  //       const element = event.target;
+  //       console.log(element.textContent);
+  //       // if (!element.className.match('bg-gray-500')) {
+  //       //   element.className += ' bg-gray-500';
+  //       // }
+  //       // console.log(event.target.className);
+  //     }
+  //     // console.log(event.target);
+  //   }
+  // };
 
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
@@ -112,8 +112,11 @@ export const Word = function ({ word, dataKey, context }:
 
   return (
     <div className='inline-block my-1'>
-      <span onMouseMove={(event) => mouseMoveEventHandler(event)}
-        onMouseUp={(event) => getWordOrPhrase(event)}
+      <span
+        onMouseUp={(event) => {
+          getWordOrPhrase(event);
+          window.getSelection()?.empty();
+        }}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
@@ -141,7 +144,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
 
   return (
     <div className='inline-block'>
-      <span className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-1 rounded-md`}>
+      <span className={`${wordClass} cursor-pointer  py-2 rounded-md`}>
         {
           parts.map((word, index, array) => <Fragment>
             <Word key={word + index} dataKey={word + index} word={word} context={context} />
