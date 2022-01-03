@@ -21,7 +21,9 @@ const phrasesState = selector({
 const Sentence = function({ sentence }: { sentence: string }) {
   const phrases = useRecoilValue(phrasesState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
-  const setCurrentWord = useSetRecoilState(currentwordState);
+  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
+  // const setCurrentWord = useSetRecoilState(currentwordState);
+  // const setCurrentWord = useSetRecoilState(currentwordState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
 
   const phraseFinder = phrases.length === 0 ? '' : `(${phrases.join('|')})|`;
@@ -39,14 +41,17 @@ const Sentence = function({ sentence }: { sentence: string }) {
     const selection = window.getSelection();
     const element = event.currentTarget;
 
-    if (isElement(element)) console.log(element?.textContent !== ' ');
+    // if (isElement(element)) console.log(element?.textContent !== ' ');
 
     if (selection !== null && event.buttons > 0 && isElement(element) && element?.textContent !== ' ') {
+      // console.log(event);
       const selectedString = selection.toString();
       const startNode = selection.anchorNode;
       const endNode = selection.focusNode;
       let stringArray = selectedString.split(' ');
-
+      // console.log('selected string');
+      // console.log(selectedString);
+      // console.log(stringArray);
       // ensures the first and last words are whole words
       let startWord = '';
       let endWord = '';
@@ -55,36 +60,43 @@ const Sentence = function({ sentence }: { sentence: string }) {
         stringArray[0] = startWord;
       }
 
+      // console.log('start node');
+      // console.log(startNode);
+
       stringArray = stringArray.filter((str) => str !== ' ').filter(Boolean);
 
+      // is the endNode and current target are not the same node,
       if (endNode?.textContent === ' ' && isElement(element) && element?.textContent && endNode !== element && stringArray[stringArray.length - 1] !== element?.textContent && element?.textContent !== ' ') {
         // stringArray.push(element?.textContent);
-        console.log('target element');
-        console.log(stringArray);
+        // console.log('target element');
+        // console.log(stringArray);
 
-        if (stringArray[stringArray.length] !== element?.textContent) {
+        if (stringArray.length > 0 && stringArray[stringArray.length] !== element?.textContent && event.movementX > 0) {
           stringArray[stringArray.length] = element?.textContent;
         }
-        console.log(stringArray);
+        // console.log(stringArray);
       } else {
         if (endNode && endNode?.parentElement?.nodeName === 'SPAN' && endNode.textContent && endNode.textContent !== ' ') {
           endWord = endNode.textContent;
-          console.log('end node');
+          // console.log('end node');
           if (stringArray[stringArray.length - 1] && endWord) {
             stringArray = stringArray.filter((str) => str !== ' ');
-            console.log(stringArray);
-            if (stringArray[stringArray.length - 1] !== endWord) {
+            // console.log(stringArray);
+            if (stringArray[stringArray.length - 1] !== endWord && endWord.startsWith(stringArray[stringArray.length - 1])) {
               stringArray[stringArray.length - 1] = endWord;
             }
           }
         }
       }
 
-      console.log(stringArray);
+      // console.log(stringArray);
 
       const newPhrase = stringArray.filter((str) => str !== ' ').join(' ').trim().split('.')[0];
-      console.log(newPhrase);
+      // console.log('newPhrase');
+      // console.log(newPhrase);
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
+      // console.log('existing word');
+      // console.log(existingWord);
       let newWordObject: UserWord | undefined;
 
       if (existingWord[0]) {
@@ -102,18 +114,39 @@ const Sentence = function({ sentence }: { sentence: string }) {
         setCurrentWordContext(sentence);
       }
 
-      console.log(newWordObject);
+      // console.log(newWordObject);
+      // if (!newPhrase) {
+      //   newWordObject = currentWord;
+      // }
+      // console.log(newWordObject);
+      // console.log(currentWord);
+      // console.log(userWords.filter((wordObj) => wordObj.word.toLowerCase()
+      // === newWordObject?.word.toLowerCase()).length === 0);
 
+      // check if the word or phrase already exists in user words
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-        === newWordObject?.word.toLowerCase()).length === 0 && newPhrase) {
-        // removes any words without an id, meaning that they also have no translation
-        const updatedWords = [...userWords
-          .filter((wordObj) => wordObj.id !== undefined), newWordObject];
-        setUserWords(updatedWords);
+        === newWordObject?.word.toLowerCase()).length === 0) {
+        // remove any words without an id, meaning that they also have no translation
+        // console.log(newWordObject);
+        // console.log(currentWord);
+        if (newWordObject.word) {
+          // console.log('new word obj');
+          const updatedWords = [...userWords
+            .filter((wordObj) => wordObj.id !== undefined), newWordObject];
+          setUserWords(updatedWords);
+        } else if (currentWord) {
+          // console.log('current word');
+          setCurrentWord(currentWord);
+          const updatedWords = [...userWords
+            .filter((wordObj) => wordObj.id !== undefined), currentWord];
+          setUserWords(updatedWords);
+        }
+      } else {
+        setCurrentWord(currentWord);
       }
     }
   };
-
+  // console.log(userWords);
   const tokens = sentence.match(tokenRegExp);
 
   return (
