@@ -6,11 +6,14 @@ export type UserWord = {
   languageId?: string
 };
 
+
 export type MarkedWords = {
   [word: string]: string,
 };
 
+
 export type Status = 'learning' | 'familiar' | 'learned' | undefined;
+
 
 export type Text = {
   id?: number,
@@ -25,6 +28,7 @@ export type Text = {
   isPublic?: boolean,
 };
 
+
 export type Language = {
   id: string,
   name: string,
@@ -33,19 +37,51 @@ export type Language = {
   isRightToLeft: boolean,
 };
 
-export type CurrentUserLanguages = {
-  currentKnownLanguageId: string,
-  currentLearnLanguageId: string,
-};
 
 export type User = {
   id?: number,
   username: string,
   password: string,
   email: string,
+  knows: string | Language,
+  learns: string | Language,
+};
+
+export type SanitizedUser = Omit<User, 'password'>;
+
+export type LoggedInUser = SanitizedUser & { token: string };
+
+
+export type Translation = {
+  id?: number,
+  wordId?: number,
+  translation: string,
+  targetLanguageId: string,
+  context: string,
+};
+
+
+export type LoginDetails = {
+  email: string,
+  password: string
+};
+
+
+// the ones below need to go
+
+export type CurrentUserLanguages = {
   currentKnownLanguageId: string,
   currentLearnLanguageId: string,
 };
+
+// export type User = {
+//   id?: number,
+//   username: string,
+//   password: string,
+//   email: string,
+//   currentKnownLanguageId: string,
+//   currentLearnLanguageId: string,
+// };
 
 export type TokenObj = {
   id: number,
@@ -64,17 +100,4 @@ export type LocalStorageUser = {
   username: string,
 };
 
-export type SanitizedUser = Omit<User, 'passwordHash'>;
-
-export type Translation = {
-  id?: number,
-  wordId?: number,
-  translation: string,
-  targetLanguageId: string,
-  context: string,
-};
-
-export type LoginDetails = {
-  email: string,
-  password: string
-};
+// export type SanitizedUser = Omit<User, 'passwordHash'>;

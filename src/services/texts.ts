@@ -4,10 +4,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/texts`;
 
-const getAllUserTextsByLanguage = async function(languageId: string) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
-
+const getAllUserTextsByLanguage = async function(languageId: string, token: string) {
   const request = await axios.get(`${baseUrl}/language/${languageId}`, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -16,10 +13,7 @@ const getAllUserTextsByLanguage = async function(languageId: string) {
   return texts;
 };
 
-const postNewText = async function(newText: Text) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
-
+const postNewText = async function(newText: Text, token: string) {
   const request = await axios.post(`${baseUrl}`, newText, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -28,10 +22,7 @@ const postNewText = async function(newText: Text) {
   return text;
 };
 
-const getTextById = async function(id: string) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
-
+const getTextById = async function(id: number, token: string) {
   const request = await axios.get(`${baseUrl}/${id}`, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -39,10 +30,7 @@ const getTextById = async function(id: string) {
   return request.data;
 };
 
-const removeTextFromServer = async function(id: number) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
-
+const removeTextFromServer = async function(id: number, token: string) {
   const response = await axios.delete(`${baseUrl}/${id}`, {
     headers: { Authorization: `bearer ${token}` },
   });
