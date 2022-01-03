@@ -60,13 +60,28 @@ export const userState = atom<LoggedInUser | null>({
 });
 
 
-export const tokenState = selector({
-  key: 'tokenState',
+export const userlangidsState = selector({
+  key: 'userlangidsState',
   get: ({ get }) => {
     const user = get(userState);
-    return user?.token || null;
+    if (user && typeof user.knows === 'string' && typeof user.learns === 'string') {
+      return {
+        known: user.knows,
+        learn: user.learns,
+      };
+    }
+
+    if (user && typeof user.knows !== 'string' && typeof user.learns !== 'string') {
+      return {
+        known: user.knows.id,
+        learn: user.learns.id,
+      };
+    }
+
+    return null;
   },
 });
+
 
 export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
   key: 'currentUserLanguagesState',

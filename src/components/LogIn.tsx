@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
-import LoginForm from './loginForm';
 import { userState } from '../states/recoil-states';
+import LoginForm from './loginForm';
 
 export default function LogIn() {
   const user = useRecoilValue(userState);

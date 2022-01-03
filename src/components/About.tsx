@@ -1,13 +1,15 @@
-import getToken from '../utils/getToken';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../states/recoil-states';
+
 
 export default function About() {
-  const tokenObj = getToken();
+  const user = useRecoilValue(userState);
 
   return (
     <div>
      About
-     <div> { tokenObj
-       ? (`${tokenObj.username} is logged in`) : 'You are not logged in.'
+     <div> { user
+       ? (`${user.username} is logged in`) : 'You are not logged in.'
      } </div>
     </div>
   );
