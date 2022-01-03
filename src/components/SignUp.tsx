@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -105,13 +106,13 @@ export default function SignUp() {
           <div className="flex flex-wrap w-full custom-select">
             <label htmlFor="knownLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I know</label>
               {<select title="language to translate into" {...register('knownLanguageId')} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-              {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
+              {languages.map((language) => <option key={language.id} value={language.id}>{language.flag} {language.name}</option>)}
               </select>}
           </div>
           <div className="flex flex-wrap w-full custom-select">
             <label htmlFor="learnLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I want to learn</label>
             {<select title="language to learn" {...register('learnLanguageId')} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-            {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name} </option>)}
+            {languages.map((language) => <option key={language.id} value={language.id}>{language.flag} {language.name} </option>)}
             </select>}
             {errors.learnLanguageId && errors.learnLanguageId.message}
           </div>
