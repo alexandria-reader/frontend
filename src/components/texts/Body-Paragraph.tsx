@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
@@ -30,144 +31,59 @@ const Sentence = function({ sentence }: { sentence: string }) {
   const wordRegExp = new RegExp(wordFinder, 'gui');
   const tokenRegExp = new RegExp(`${phraseFinder}${wordFinder}|${noWordFinder}`, 'gui');
 
-  const mouseMoveEventHandler = function(event: { buttons: number; }) {
-    // const selection = window.getSelection();
-    // if (selection !== null && event.buttons > 0) {
+  const isElement = function(element: Element | EventTarget | null): element is Element {
+    return (element as Element).textContent !== undefined;
+  };
 
-
-    // if (selection !== null && event.buttons > 0) {
-    //   console.log(event.target);
-    //   const selectedString = selection.toString();
-    //   const stringArray = selectedString.split(' ');
-    //   // console.log(selectedString);
-    //   const startNode = selection.anchorNode;
-    //   const endNode = selection.focusNode;
-
-    //   // ensures the first and last words are whole words
-    //   let startWord = '';
-    //   let endWord = '';
-
-    //   if (startNode && startNode.textContent) {
-    //     startWord = startNode.textContent;
-    //     stringArray[0] = startWord;
-    //   }
-
-    //   if (endNode && endNode.textContent) {
-    //     endWord = endNode.textContent;
-    //     if (stringArray[stringArray.length - 1] && endWord) {
-    //       stringArray[stringArray.length - 1] = endWord;
-    //     }
-    //   }
-    //   console.log(endWord);
-    //   const newPhrase = stringArray.join(' ').trim().split('.')[0];
-    //   // console.log(newPhrase);
-    //   const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
-    //   let newWordObject: UserWord | undefined;
-
-    //   if (existingWord[0]) {
-    //     // eslint-disable-next-line prefer-destructuring
-    //     newWordObject = existingWord[0];
-
-    //     setCurrentWord(newWordObject);
-    //     setCurrentWordContext(context);
-    //   } else {
-    //     newWordObject = {
-    //       word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
-    //     };
-
-    //     setCurrentWord(newWordObject);
-    //     setCurrentWordContext(context);
-    //   }
-
-    //   console.log(newWordObject);
-
-    //   if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-    //     === newWordObject?.word.toLowerCase()).length === 0) {
-    //     // removes any words without an id, meaning that they also have no translation
-    //     const updatedWords = [...userWords
-    //       .filter((wordObj) => wordObj.id !== undefined), newWordObject];
-    //     setUserWords(updatedWords);
-    //   }
-    // }
-
+  const mouseMoveEventHandler = function(event: MouseEvent) {
     const selection = window.getSelection();
+    const element = event.currentTarget;
 
-    if (selection !== null && event.buttons > 0) {
-    //   console.log(event);
+    if (isElement(element)) console.log(element?.textContent !== ' ');
 
-      //   const range = document.createRange();
-
-      //   const sNode = selection.anchorNode?.parentElement?.parentElement;
-      //   let eNode;
-      //   if (selection.focusNode?.parentElement?.parentElement?.nodeName === 'DIV') {
-      //     eNode = selection.focusNode?.parentElement?.parentElement;
-      //   }
-
-      //   // const sNode = selection.anchorNode?.parentElement?.parentElement;
-      //   // const eNode = selection.focusNode?.parentElement?.parentElement;
-      //   if (sNode) {
-      //     range.setStart(sNode, 0);
-      //   }
-      //   // console.log(sNode);
-      //   // console.log(eNode);
-      //   if (eNode) {
-      //     range.setEnd(eNode, 0);
-      //   }
-      //   // currentSelection, setCurrentSelection
-      //   // if (eNode && eNode.textContent) {
-      //   //   const length = eNode.textContent?.length || 0;
-      //   //   if (eNode && length) {
-      //   //     range.setEnd(eNode, length);
-      //   //   }
-      //   // }
-
-      //   console.log(range.cloneContents().children);
-
-      // const newParent = document.createElement('span');
-      // newParent.className = 'bg-gray-900';
-      // range.surroundContents(newParent);
-      // console.log(newParent);
-      // selection.removeAllRanges();
-      // const range = document.createRange();
-
-      // if (selection.anchorNode) {
-      //   range.selectNode(selection.anchorNode);
-      // }
-      // selection.addRange(range);
-      // console.log(selection);
-      // selection.createRange();
-
-      // console.log(selection.getRangeAt(0).surroundContents(newParent));
-      // console.log(selection.getRangeAt(0).parentElement());
-      // const range = selection.getRangeAt(0);
-      // range.selectNode()
-
-
-      // Working version
+    if (selection !== null && event.buttons > 0 && isElement(element) && element?.textContent !== ' ') {
       const selectedString = selection.toString();
-      // console.log(selection);
       const startNode = selection.anchorNode;
       const endNode = selection.focusNode;
-      const stringArray = selectedString.split(' ');
+      let stringArray = selectedString.split(' ');
 
       // ensures the first and last words are whole words
       let startWord = '';
       let endWord = '';
-      console.log(startNode?.nodeName);
       if (startNode && startNode?.parentElement?.nodeName === 'SPAN' && startNode.textContent) {
         startWord = startNode.textContent;
         stringArray[0] = startWord;
       }
 
-      if (endNode && endNode?.parentElement?.nodeName === 'SPAN' && endNode.textContent) {
-        endWord = endNode.textContent;
-        if (stringArray[stringArray.length - 1] && endWord) {
-          stringArray[stringArray.length - 1] = endWord;
+      stringArray = stringArray.filter((str) => str !== ' ').filter(Boolean);
+
+      if (endNode?.textContent === ' ' && isElement(element) && element?.textContent && endNode !== element && stringArray[stringArray.length - 1] !== element?.textContent && element?.textContent !== ' ') {
+        // stringArray.push(element?.textContent);
+        console.log('target element');
+        console.log(stringArray);
+
+        if (stringArray[stringArray.length] !== element?.textContent) {
+          stringArray[stringArray.length] = element?.textContent;
+        }
+        console.log(stringArray);
+      } else {
+        if (endNode && endNode?.parentElement?.nodeName === 'SPAN' && endNode.textContent && endNode.textContent !== ' ') {
+          endWord = endNode.textContent;
+          console.log('end node');
+          if (stringArray[stringArray.length - 1] && endWord) {
+            stringArray = stringArray.filter((str) => str !== ' ');
+            console.log(stringArray);
+            if (stringArray[stringArray.length - 1] !== endWord) {
+              stringArray[stringArray.length - 1] = endWord;
+            }
+          }
         }
       }
 
-      const newPhrase = stringArray.join(' ').trim().split('.')[0];
+      console.log(stringArray);
 
+      const newPhrase = stringArray.filter((str) => str !== ' ').join(' ').trim().split('.')[0];
+      console.log(newPhrase);
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
       let newWordObject: UserWord | undefined;
 
@@ -186,70 +102,21 @@ const Sentence = function({ sentence }: { sentence: string }) {
         setCurrentWordContext(sentence);
       }
 
+      console.log(newWordObject);
+
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-        === newWordObject?.word.toLowerCase()).length === 0) {
+        === newWordObject?.word.toLowerCase()).length === 0 && newPhrase) {
         // removes any words without an id, meaning that they also have no translation
         const updatedWords = [...userWords
           .filter((wordObj) => wordObj.id !== undefined), newWordObject];
         setUserWords(updatedWords);
       }
     }
-
-    //   if (event?.buttons > 0 && window.getSelection()) {
-    //     // console.log(event.target);
-    //     // let elements: string[] = [];
-    //     // if (!currentSelection.includes(event.currentTarget.innerText)) {
-    //     //   console.log(currentSelection);
-    //     //   console.log(event.currentTarget.innerText);
-    //     //   const newCurrentSelection = [...currentSelection, event.currentTarget.innerText];
-    //     //   console.log(newCurrentSelection);
-    //     //   setCurrentSelection(newCurrentSelection);
-    //     // }
-    //     // const selection = window.getSelection();
-    //     // console.log(selection?.toString());
-    //     // const range = document.createRange();
-    //     // console.log();
-    //     // const sNode = selection?.anchorNode?.parentElement;
-    //     // console.log(sNode);
-    //     // const eNode = selection?.focusNode;
-    //     // if (sNode) {
-    //     //   console.log(sNode);
-    //     //   range.setStart(sNode, 0);
-    //     // }
-
-    //     // if (eNode) {
-    //     //   let length = 0;
-    //     //   if (eNode?.textContent && eNode.nodeName === 'SPAN') {
-    //     //     length = eNode.textContent.length - 1;
-    //     //   }
-    //     //   range.setEnd(eNode, length);
-    //     // } else if (sNode) {
-    //     //   let length = 0;
-    //     //   if (sNode?.textContent && sNode.nodeName === 'SPAN') {
-    //     //     length = sNode.textContent.length - 1;
-    //     //   }
-    //     //   range.setEnd(sNode, length);
-    //     // }
-
-    //     // // console.log(range.cloneContents().children);
-
-  //     // // eslint-disable-next-line prefer-destructuring
-  //     // const children = range.cloneContents().children;
-  //     // console.log(children);
-  //     // [...children].forEach((child) => {
-  //     //   if (child.textContent && !currentSelection.includes(child.textContent)) {
-  //     //     const newCurrentSelection = [...currentSelection, child.textContent];
-  //     //     console.log(newCurrentSelection);
-  //     //     setCurrentSelection(newCurrentSelection);
-  //     //   }
-  //     // });
-  //   }
   };
 
   const tokens = sentence.match(tokenRegExp);
-  // console.log(tokens);
+
   return (
-    // <span className='sentence'>
     <>
       {
         tokens?.map((token, index) => {
@@ -262,7 +129,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
             word={token} context={sentence} />;
           }
 
-          return token;
+          return <span>{token}</span>;
         })
       }
     </>

@@ -58,5 +58,5 @@ code {
 } */
 
 ::selection {
-  appearance: none;
+  /* appearance: none; */
 }

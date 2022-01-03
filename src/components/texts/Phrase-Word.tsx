@@ -138,10 +138,6 @@ export const Word = function ({
     }
   };
 
-  // const isElement = function(element: Element | EventTarget): element is Element {
-  //   return (element as Element).nodeName !== undefined;
-  // };
-
   // eslint-disable-next-line max-len
 
   const markedWords = useRecoilValue(markedwordsState);
@@ -158,11 +154,11 @@ export const Word = function ({
   }
 
   return (
-    <div className='inline my-1'>
+    <div className='inline-block my-1.5'>
       <span onMouseMove={(event) => mouseMoveEventHandler(event)}
         // onMouseUp={(event) => getWordOrPhrase(event)}
         onMouseUp={() => setCurrentSelection([])}
-        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-px rounded-md`}
+        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 my-4  rounded-md`}
         data-key={dataKey}>
         {word}
       </span>
@@ -174,7 +170,7 @@ export const Word = function ({
 export const Phrase = function ({ phrase, context, mouseMoveEventHandler }: { phrase: string, context: string, mouseMoveEventHandler: Function }) {
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[phrase.toLowerCase()];
-  console.log(phrase);
+  // console.log(phrase);
   let wordClass = '';
 
   if (phraseStatus === 'learning') {
@@ -189,7 +185,8 @@ export const Phrase = function ({ phrase, context, mouseMoveEventHandler }: { ph
 
   return (
     <div className='inline my-1'>
-      <span className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-1 rounded-md`}>
+      <span className={`${wordClass} cursor-pointer py-2  rounded-md`}>
+      {/* <span className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-px rounded-md`}> */}
         {
           parts.map((word, index, array) => <Fragment>
             <Word mouseMoveEventHandler={mouseMoveEventHandler} key={word + index} dataKey={word + index} word={word} context={context} />
