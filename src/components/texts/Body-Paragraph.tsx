@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
@@ -60,7 +58,7 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
     } else {
       setIsMobile(false);
     }
-  }, [navigator.userAgent]);
+  }, []);
 
   return (
     <div className={`${isMobile ? 'inline' : 'inline-block'}`}>

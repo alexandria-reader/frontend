@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  Fragment, TouchEvent, useEffect, useState,
+  Fragment, TouchEvent, useState,
 } from 'react';
 import {
   useRecoilState,
@@ -19,7 +18,9 @@ export const Word = function ({ word, dataKey, context }:
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
-  const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const markedWords = useRecoilValue(markedwordsState);
+  const wordStatus = markedWords[word.toLowerCase()];
 
   const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
@@ -112,9 +113,6 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  const markedWords = useRecoilValue(markedwordsState);
-  const wordStatus = markedWords[word.toLowerCase()];
-
   let wordClass = '';
 
   if (wordStatus === 'learning') {
@@ -125,43 +123,20 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-gray-200';
   }
 
-  useEffect(() => {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [navigator.userAgent]);
-
-  console.log(isMobile);
   return (
     <div className='inline-block my-1'>
-      {isMobile && <span
+      <span
         onTouchEnd={(event) => {
-          if (window.getSelection()?.toString()) {
-            getHighlightedWordOrPhrase(event);
-          } else {
-            getClickedOnWord(event);
+          if (touchStart === window.scrollY) {
+            if (window.getSelection()?.toString()) {
+              getHighlightedWordOrPhrase(event);
+            } else {
+              getClickedOnWord(event);
+            }
+            window.getSelection()?.removeAllRanges();
           }
-          window.getSelection()?.removeAllRanges();
         }}
-        // onMouseUp={(event) => {
-        //   if (window.getSelection()?.toString()) {
-        //     getHighlightedWordOrPhrase(event);
-        //   } else {
-        //     getClickedOnWord(event);
-        //   }
-        // }}
 
-        onTouchMove={
-          () => console.log(window.scrollY)
-        }
-        // onSelectionChange
-        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
-        data-key={dataKey}>
-        {word}
-      </span>}
-      {!isMobile && <span
         onMouseUp={(event) => {
           if (window.getSelection()?.toString()) {
             getHighlightedWordOrPhrase(event);
@@ -169,10 +144,12 @@ export const Word = function ({ word, dataKey, context }:
             getClickedOnWord(event);
           }
         }}
-        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
+
+        onTouchStart={() => setTouchStart(window.scrollY)}
+        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 betterhover:hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
-      </span>}
+      </span>
     </div>
   );
 };
