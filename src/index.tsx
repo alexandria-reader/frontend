@@ -33,11 +33,11 @@ render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={token ? <UserTexts /> : < Home />}/>
-            <Route path="texts" element={<UserTexts />}/>
-              <Route path="texts/:textId" element={<SingleText />}/>
-            <Route path="words" element={<Words />}/>
+            <Route path="texts" element={token ? <UserTexts /> : < Home />}/>
+              <Route path="texts/:textId" element={token ? <SingleText /> : < Home />}/>
+            <Route path="words" element={token ? <Words /> : < Home />}/>
             <Route path="logout" element={<Home />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="settings" element={token ? <Settings /> : < Home />} />
             <Route path="about" element={<About />} />
             <Route path="login" element={<LogIn />} />
             <Route path="signup" element={<SignUp />} />
