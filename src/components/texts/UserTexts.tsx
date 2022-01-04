@@ -9,7 +9,6 @@ import { textlistState, currenttextState, userState } from '../../states/recoil-
 import textsService from '../../services/texts';
 import { Text } from '../../types';
 
-
 const IndividualText = function({ text }: { text: Text }) {
   const setCurrentText = useSetRecoilState(currenttextState);
   const [textList, setTextList] = useRecoilState(textlistState);
@@ -114,7 +113,7 @@ const UserTexts = function() {
           {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
           {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
             : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(true)}>New Text</button>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' data-testid='new-text' onClick={() => setShowNewTextForm(true)}>New Text</button>
           </div>}
         </div>
 
