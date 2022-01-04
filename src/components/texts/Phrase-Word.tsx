@@ -17,11 +17,12 @@ export const Word = function ({ word, dataKey, context }:
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
 
-  const getWordOrPhrase = function(_event: unknown) {
+  const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
+    // console.log('getting selection');
 
-    if (selection !== null) {
+    if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
 
       const startNode = selection.anchorNode;
@@ -50,7 +51,7 @@ export const Word = function ({ word, dataKey, context }:
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
-      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
+      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord | undefined;
 
       if (existingWord[0]) {
@@ -73,6 +74,38 @@ export const Word = function ({ word, dataKey, context }:
           .filter((wordObj) => wordObj.id !== undefined), newWordObject];
         setUserWords(updatedWords);
       }
+    }
+  };
+
+  const getTappedOnWord = function (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    // console.log('tap');
+    const input = event.target as HTMLElement;
+    const selectedWord = input.textContent || '';
+
+    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+      === selectedWord.toLowerCase());
+
+    if (wordObj.length > 0) {
+      const wordObject = wordObj[0];
+
+      if (wordObject.status === undefined) {
+        wordObject.status = 'learning';
+      }
+
+      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+        !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
+      setUserWords(updatedWords);
+      setCurrentWord(wordObject);
+    } else {
+      const newWordObj: UserWord = {
+        word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
+      };
+
+      setCurrentWord(newWordObj);
+
+      const updatedWords = [...userWords
+        .filter((wordObject) => wordObject.id !== undefined), newWordObj];
+      setUserWords(updatedWords);
     }
   };
 
@@ -100,14 +133,20 @@ export const Word = function ({ word, dataKey, context }:
   return (
     <div className='inline-block my-1'>
       {mobile && <span
-        onTouchEnd={(event) => getWordOrPhrase(event)}
+        onTouchEnd={(event) => getHighlightedWordOrPhrase(event)}
         // onSelectionChange
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
       </span>}
       {!mobile && <span
-        onMouseUp={(event) => getWordOrPhrase(event)}
+        onMouseUp={(event) => {
+          if (window.getSelection()?.toString()) {
+            getHighlightedWordOrPhrase(event);
+          } else {
+            getTappedOnWord(event);
+          }
+        }}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
