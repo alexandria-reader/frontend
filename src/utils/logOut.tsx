@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 export default function logOut() {
-  localStorage.setItem('user', '');
+  localStorage.removeItem('alexandria-user-token');
   const navigate = useNavigate();
   navigate('/');
 }

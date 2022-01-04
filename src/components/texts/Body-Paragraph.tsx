@@ -1,14 +1,11 @@
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
-import { useEffect, useState } from 'react';
-import { Word, Phrase } from './Phrase-Word';
 import {
-  currentwordContextState,
-  currentwordState,
-  markedwordsState,
-  userwordsState,
+  currentwordContextState, currentwordState, markedwordsState, userwordsState,
 } from '../../states/recoil-states';
+
+import { Word, Phrase } from './Phrase-Word';
 
 const phrasesState = selector({
   key: 'phrasesState',

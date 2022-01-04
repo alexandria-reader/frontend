@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import {
-  UserWord, MarkedWords, Text, Language, CurrentUserLanguages, TokenObj,
+  UserWord, StringHash, Text, Language, SanitizedUser,
 } from '../types';
 
 
@@ -8,7 +8,6 @@ export const textlistState = atom<Array<Text>>({
   key: 'textlistState',
   default: [],
 });
-
 
 export const currenttextState = atom<Text | null>({
   key: 'currenttextState',
@@ -21,6 +20,19 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
+export const markedwordsState = selector<StringHash>({
+  key: 'markedwordsState',
+  get: ({ get }) => {
+    const markedWords: StringHash = {};
+
+    const userWords = get(userwordsState);
+    userWords.forEach((userWord) => {
+      if (userWord.status) markedWords[userWord.word] = userWord.status;
+    });
+
+    return markedWords;
+  },
+});
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
@@ -38,29 +50,36 @@ export const languagesState = atom<Array<Language>>({
   default: [],
 });
 
-
-export const currentUserLanguagesState = atom<CurrentUserLanguages | null>({
-  key: 'currentUserLanguagesState',
-  default: null,
-});
-
-
-export const loggedinState = atom<TokenObj | null>({
-  key: 'loggedinState',
-  default: null,
-});
-
-
-export const markedwordsState = selector({
-  key: 'markedwordsState',
+export const languageFlagsState = selector<StringHash>({
+  key: 'languageFlagsState',
   get: ({ get }) => {
-    const markedWords: MarkedWords = {};
+    const flags: StringHash = {};
 
-    const userWords = get(userwordsState);
-    userWords.forEach((userWord) => {
-      if (userWord.status) markedWords[userWord.word] = userWord.status;
+    const languages = get(languagesState);
+    languages.forEach((language) => {
+      flags[language.id] = language.flag;
     });
 
-    return markedWords;
+    return flags;
   },
+});
+
+export const languageNamesState = selector<StringHash>({
+  key: 'languageNamesState',
+  get: ({ get }) => {
+    const names: StringHash = {};
+
+    const languages = get(languagesState);
+    languages.forEach((language) => {
+      names[language.id] = language.name;
+    });
+
+    return names;
+  },
+});
+
+
+export const userState = atom<SanitizedUser | null>({
+  key: 'userState',
+  default: null,
 });

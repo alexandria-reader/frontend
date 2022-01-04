@@ -3,16 +3,16 @@ import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { LockClosedIcon } from '@heroicons/react/solid';
-import { currentUserLanguagesState } from '../states/recoil-states';
+import { userState } from '../states/recoil-states';
 import loginService from '../services/login';
-import { User } from '../types';
+import { LoggedInUser } from '../types';
 
 const logo = require('../assets/logo/logo-text-light.png');
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const setCurrentUserLanguages = useSetRecoilState(currentUserLanguagesState);
+  const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();
 
@@ -20,51 +20,26 @@ export default function LoginForm() {
     event.preventDefault();
 
     try {
-      const user: User = await loginService.loginUser({
+      const loggedInUser: LoggedInUser = await loginService.loginUser({
         email,
         password,
       });
 
-      localStorage.setItem('user', JSON.stringify(user));
+      setUser({
+        username: loggedInUser.username,
+        email: loggedInUser.email,
+        knownLanguageId: loggedInUser.knownLanguageId,
+        learnLanguageId: loggedInUser.learnLanguageId,
+      });
 
-      const currentUserLangs = {
-        currentKnownLanguageId: user.currentKnownLanguageId,
-        currentLearnLanguageId: user.currentLearnLanguageId,
-      };
+      localStorage.setItem('alexandria-user-token', loggedInUser.token);
 
-      setCurrentUserLanguages(currentUserLangs);
       navigate('/texts');
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert(error);
     }
   };
-
-
-  // return (
-  //   <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  //     <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-  //       <h1>Please Log In</h1>
-  //       <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-  //         <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-  //           <form className='space-y-6' onSubmit={(event) => handleSubmit(event)}>
-  //             <label className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'>
-  //               <p>Email</p>
-  //               <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="text" onChange={(e) => setEmail(e.target.value)}/>
-  //             </label>
-  //             <label>
-  //               <p>Password</p>
-  //               <input className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="password" onChange={(e) => setPassword(e.target.value)}/>
-  //             </label>
-  //             <div>
-  //               <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="submit">Submit</button>
-  //             </div>
-  //           </form>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <>

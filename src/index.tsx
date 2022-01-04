@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import './index.css';
 import {
   BrowserRouter as Router,
   Route, Routes,
 } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+
 import App from './App';
 import Home from './components/Home';
 import About from './components/About';
@@ -14,20 +14,17 @@ import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import SingleText from './components/texts/SingleText';
-import './App.css';
 import UserTexts from './components/texts/UserTexts';
+
 import getToken from './utils/getToken';
 
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-  crossOrigin="anonymous"
-/>;
+import './index.css';
+import './App.css';
+
 <link href="/dist/output.css" rel="stylesheet"></link>;
 
 const rootElement = document.getElementById('root');
-const tokenObj = getToken();
+const token = getToken();
 
 render(
   <React.StrictMode>
@@ -35,7 +32,7 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={tokenObj ? <UserTexts /> : < Home />}/>
+            <Route index element={token ? <UserTexts /> : < Home />}/>
             <Route path="texts" element={<UserTexts />}/>
               <Route path="texts/:textId" element={<SingleText />}/>
             <Route path="words" element={<Words />}/>
