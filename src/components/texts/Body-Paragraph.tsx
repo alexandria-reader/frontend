@@ -3,6 +3,7 @@
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
+import { useEffect, useState } from 'react';
 import { Word, Phrase } from './Phrase-Word';
 import {
   currentwordContextState,
@@ -51,16 +52,18 @@ const Sentence = function({ sentence }: { sentence: string }) {
 
 const Paragraph = function({ paragraph }: { paragraph: string }) {
   const sentences = paragraph.match(/[^\s]([^!?\\.]|\.{3})*["!?\\.\s]*/gmu) || [''];
-  let mobile = false;
+  const [isMobile, setIsMobile] = useState(false);
 
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    mobile = true;
-  } else {
-    mobile = false;
-  }
+  useEffect(() => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [navigator.userAgent]);
 
   return (
-    <div className={`${mobile ? 'inline' : 'inline-block'}`}>
+    <div className={`${isMobile ? 'inline' : 'inline-block'}`}>
     {
       sentences.map((sentence, index) => <Sentence key={index} sentence={sentence} />)
     }
@@ -73,7 +76,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
-  const paragraphs = textBody.split('\n');
+  const paragraphs = textBody.split('\n').filter(Boolean);
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;

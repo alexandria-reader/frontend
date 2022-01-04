@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Fragment, TouchEvent } from 'react';
+import {
+  Fragment, TouchEvent, useEffect, useState,
+} from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -17,6 +19,7 @@ export const Word = function ({ word, dataKey, context }:
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
+  const [isMobile, setIsMobile] = useState(false);
 
   const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
@@ -78,44 +81,7 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  const getClickedOnWord = function (event: React.MouseEvent) {
-    // console.log('tap');
-    const input = event.target as HTMLElement;
-    const selectedWord = input.textContent || '';
-
-    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-      === selectedWord.toLowerCase());
-
-    if (wordObj.length > 0) {
-      const wordObject = wordObj[0];
-
-      if (wordObject.status === undefined) {
-        wordObject.status = 'learning';
-      }
-
-      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-        !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
-      setUserWords(updatedWords);
-      setCurrentWord(wordObject);
-    } else {
-      const newWordObj: UserWord = {
-        word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
-      };
-
-      setCurrentWord(newWordObj);
-
-      const updatedWords = [...userWords
-        .filter((wordObject) => wordObject.id !== undefined), newWordObj];
-      setUserWords(updatedWords);
-    }
-    // window.getSelection()?.removeAllRanges();
-  };
-
-  const getTappedOnWord = function (event: TouchEvent<HTMLSpanElement>) {
-    // console.log('tap');
-    // handle scrolling
-    console.log(window.scrollY);
-    console.log(event.type);
+  const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
     const selectedWord = input.textContent || '';
 
@@ -159,22 +125,23 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-gray-200';
   }
 
-  let mobile = false;
+  useEffect(() => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [navigator.userAgent]);
 
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    mobile = true;
-  } else {
-    mobile = false;
-  }
-
+  console.log(isMobile);
   return (
     <div className='inline-block my-1'>
-      {mobile && <span
+      {isMobile && <span
         onTouchEnd={(event) => {
           if (window.getSelection()?.toString()) {
             getHighlightedWordOrPhrase(event);
           } else {
-            getTappedOnWord(event);
+            getClickedOnWord(event);
           }
           window.getSelection()?.removeAllRanges();
         }}
@@ -194,7 +161,7 @@ export const Word = function ({ word, dataKey, context }:
         data-key={dataKey}>
         {word}
       </span>}
-      {!mobile && <span
+      {!isMobile && <span
         onMouseUp={(event) => {
           if (window.getSelection()?.toString()) {
             getHighlightedWordOrPhrase(event);
