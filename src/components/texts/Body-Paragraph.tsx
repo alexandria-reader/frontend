@@ -1,6 +1,7 @@
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
+import { useState } from 'react';
 import {
   currentwordContextState, currentwordState, markedwordsState, userwordsState,
 } from '../../states/recoil-states';
