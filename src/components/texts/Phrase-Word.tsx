@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Fragment, TouchEvent } from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -77,8 +78,43 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  const getTappedOnWord = function (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+  const getClickedOnWord = function (event: React.MouseEvent) {
     // console.log('tap');
+    const input = event.target as HTMLElement;
+    const selectedWord = input.textContent || '';
+
+    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+      === selectedWord.toLowerCase());
+
+    if (wordObj.length > 0) {
+      const wordObject = wordObj[0];
+
+      if (wordObject.status === undefined) {
+        wordObject.status = 'learning';
+      }
+
+      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+        !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
+      setUserWords(updatedWords);
+      setCurrentWord(wordObject);
+    } else {
+      const newWordObj: UserWord = {
+        word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
+      };
+
+      setCurrentWord(newWordObj);
+
+      const updatedWords = [...userWords
+        .filter((wordObject) => wordObject.id !== undefined), newWordObj];
+      setUserWords(updatedWords);
+    }
+  };
+
+  const getTappedOnWord = function (event: TouchEvent<HTMLSpanElement>) {
+    // console.log('tap');
+    // handle scrolling
+    console.log(window.scrollY);
+    console.log(event.type);
     const input = event.target as HTMLElement;
     const selectedWord = input.textContent || '';
 
@@ -133,7 +169,17 @@ export const Word = function ({ word, dataKey, context }:
   return (
     <div className='inline-block my-1'>
       {mobile && <span
-        onTouchEnd={(event) => getHighlightedWordOrPhrase(event)}
+        // onTouchEnd={(event) => {
+        //   if (window.getSelection()?.toString()) {
+        //     getHighlightedWordOrPhrase(event);
+        //   } else {
+        //     getTappedOnWord(event);
+        //   }
+        // }}
+
+        onTouchMove={
+          () => console.log(window.scrollY)
+        }
         // onSelectionChange
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
@@ -144,7 +190,7 @@ export const Word = function ({ word, dataKey, context }:
           if (window.getSelection()?.toString()) {
             getHighlightedWordOrPhrase(event);
           } else {
-            getTappedOnWord(event);
+            getClickedOnWord(event);
           }
         }}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
