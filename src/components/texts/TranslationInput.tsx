@@ -68,12 +68,11 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
 
   const handleTranslation = async function(
-    event: React.FormEvent<HTMLFormElement>,
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null,
   ) {
     event.preventDefault();
-
     if (userWord) {
       const newUserWord = { ...userWord };
 
@@ -137,6 +136,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [showDictionary, setShowDictionary] = useState(false);
   const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
+    // console.log(event.target.value);
   };
 
   return (
@@ -147,11 +147,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           .map((transObj) => <li className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       <div className='my-4'>
-        <form className=' flex flex-col justify-center' onSubmit={(event) => {
-          handleTranslation(event, translation, word);
-          setShowDictionary(false);
-          setTranslation('');
-        } }>
+        <form className=' flex flex-col justify-center' >
           <label htmlFor="translation" className="block text-md font-medium text-gray-700">
             Add translation:
           </label>
@@ -163,7 +159,11 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
-            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
+            <button onClick={(event) => {
+              handleTranslation(event, translation, word);
+              setShowDictionary(false);
+              setTranslation('');
+            }} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
           </div>
         </form>
 
@@ -199,7 +199,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   MouseEvent<HTMLDivElement, globalThis.MouseEvent>) {
     event?.preventDefault();
     const element = event.target;
-    if (isElement(element) && element.id === 'outer-modal') {
+    if (isElement(element) && (element.id === 'outer-modal' || element.id === 'close-modal')) {
       setCurrentWord(null);
     }
   };
@@ -219,10 +219,15 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     }
   };
 
+  // if (currentWord) {
+  //   window.getSelection()?.removeAllRanges();
+  //   window.getSelection()?.empty();
+  // }
+
   if (window.innerWidth > 768) {
     return (
       <>
-        <div className='bg-white shadow sm:rounded-lg sm:px-6 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
+        <div className='bg-white shadow sm:rounded-lg sm:px-6 py-4 md:flex flex-col m-4 md:col-start-3 min-w-min md:col-span-1 hidden'>
           {word && <div className='flex flex-row items-center'>
             <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -242,11 +247,18 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
       <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
         <div className='w-full'>
-          <div className='flex flex-row items-center'>
-            <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            </svg>
-            <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+          <div className='flex flex-row justify-between items-center'>
+            <div className='flex flex-row items-center'>
+              <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+            </div>
+            <div onClick={(event) => closeModal(event)} className='flex flex-row items-center'>
+              <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
           </div>
           <TranslationComponent word={word} />
         </div>

@@ -23,7 +23,7 @@ export default function Example() {
                 <div className="flex-shrink-0 flex items-center">
                 <NavLink to={'/'}>
                   <img
-                    className="block lg:hidden h-8 w-auto"
+                    className="block h-8 w-auto"
                     src={logo}
                     alt="Workflow"
                   />
