@@ -1,13 +1,20 @@
+import { useNavigate } from 'react-router';
 import getToken from '../utils/getToken';
+import HowItWorks from './home/HowItWorks';
+import FAQ from './home/FAQ';
 
 export default function About() {
   const tokenObj = getToken();
+  const navigate = useNavigate();
 
   return (
-    <div>
-     About
+    <div className='home-page'>
      <div> { tokenObj
-       ? (`${tokenObj.username} is logged in`) : 'You are not logged in.'
+       ? navigate('/texts')
+       : <div>
+          <HowItWorks />
+          <FAQ />
+        </div>
      } </div>
     </div>
   );
