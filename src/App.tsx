@@ -19,7 +19,7 @@ function App() {
     if (typeof localToken === 'string') {
       const tokenUser = await userServices.getUserFromToken(localToken);
       if (tokenUser.username) {
-        setUser({ ...tokenUser, token: localToken });
+        setUser(tokenUser);
       } else {
         localStorage.removeItem('alexandria-user-token');
       }

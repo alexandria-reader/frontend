@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import axios from 'axios';
 import { SanitizedUser, User } from '../types';
+import getToken from '../utils/getToken';
 import host from './host';
 
 const baseUrl = `${host}/api/users`;
@@ -16,7 +17,9 @@ const addUser = async function(newUser: User) {
 };
 
 
-const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string, token: string): Promise<SanitizedUser> {
+const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string): Promise<SanitizedUser> {
+  const token = getToken();
+
   const response = await axios.put(`${baseUrl}/set-languages`, { knownLanguageId, learnLanguageId }, {
     headers: { Authorization: `bearer ${token}` },
   });
