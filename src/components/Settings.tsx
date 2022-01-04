@@ -70,7 +70,7 @@ export default function Settings() {
   <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 flex flex-row">
     <div className="max-w-sm w-fit space-y-8 basis-1/2">
     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User account settings</h2>
-    <p>{user.username} at {user.email} is logged in</p>
+    <p className="text-gray-600 text-sm mb-6 px-10">{user.username} at {user.email} is logged in</p>
   </div>
   <div>
     <div className="min-h-full items-center py-12 px-6 sm:px-8 lg:px-10 basis-1/2">
@@ -101,7 +101,7 @@ export default function Settings() {
     <form key={2} onSubmit={handleSubmit2(changePassword)}>
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
-     <label htmlFor="old-password" className="label sr-only">Password</label>
+     <label htmlFor="current-password" className="label sr-only">Password</label>
      {/* <input {...register('currentPassword', { required: true, pattern: /^.{6,}$/ })} */}
      <input {...register2('currentPassword')}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
