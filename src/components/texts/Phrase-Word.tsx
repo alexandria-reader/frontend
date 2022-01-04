@@ -26,7 +26,6 @@ export const Word = function ({ word, dataKey, context }:
   const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
-    // console.log('getting selection');
 
     if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
@@ -139,7 +138,6 @@ export const Word = function ({ word, dataKey, context }:
     <div className='inline-block my-1'>
       <span
         onTouchEnd={(event) => {
-          console.log('touch');
           if (touchStart === window.scrollY) {
             if (window.getSelection()?.toString()) {
               getHighlightedWordOrPhrase(event);
@@ -152,8 +150,6 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onMouseUp={(event) => {
-          console.log('click');
-
           if (window.getSelection()?.toString()) {
             getHighlightedWordOrPhrase(event);
           } else {

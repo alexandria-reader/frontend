@@ -11,6 +11,7 @@ import {
   currentwordState,
   userState,
 } from '../../states/recoil-states';
+import getToken from '../../utils/getToken';
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
@@ -29,7 +30,7 @@ const SingleText = function () {
   };
 
   const getTextById = async function() {
-    if (params.textId && user) {
+    if (params.textId && getToken()) {
       const text = await textsService.getTextById(params.textId);
       setCurrentText(text);
     }
