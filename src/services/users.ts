@@ -37,9 +37,32 @@ const getUserFromToken = async function(token: string) {
   return foundUser;
 };
 
+const updateInfo = async function(token: string, userName: string, email: string) {
+  const response = await axios.put(`${baseUrl}/update`, {
+    token, userName, email,
+  }, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  return response.data;
+};
+
+const updatePassword = async function(currentPassword: string, newPassword: string) {
+  const token = getToken();
+  console.log(currentPassword, newPassword);
+  const response = await axios.put(`${baseUrl}/change-password`, {
+    currentPassword, newPassword,
+  }, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+  return response.data;
+};
+
 export default {
   setUserLanguages,
   addUser,
   getUserFromToken,
+  updateInfo,
+  updatePassword,
 };
 

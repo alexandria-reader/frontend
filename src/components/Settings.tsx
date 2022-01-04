@@ -3,9 +3,10 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { LockClosedIcon } from '@heroicons/react/solid';
-// import userServices from '../services/users';
+import userServices from '../services/users';
 import languageServices from '../services/languages';
 import { languagesState, userState } from '../states/recoil-states';
+import getToken from '../utils/getToken';
 // import users from '../services/users';
 
 const logo = require('../assets/logo2.png');
@@ -14,17 +15,20 @@ export default function Settings() {
   const user = useRecoilValue(userState);
   // const [user, setUser] = useRecoilState(userState);
   const [languages, setLanguages] = useRecoilState(languagesState);
-  console.log(user);
-  // const tokenObj = getToken();
-  // console.log(tokenObj);
-  // const navigate = useNavigate();
+  const token = getToken();
+
   const {
-    register, formState: { errors }, handleSubmit, setError,
+    register, formState: { errors }, handleSubmit,
   } = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      username: user ? user.username : '', email: user ? user.email : '', password: '', currentKnownLanguageId: 'en', currentLearnLanguageId: 'en',
-    },
+    mode: 'onSubmit',
+  });
+
+  const {
+    register: register2,
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
+  } = useForm({
+    mode: 'onSubmit',
   });
 
   const getLanguageListFromServer = async function() {
@@ -32,60 +36,46 @@ export default function Settings() {
     setLanguages(dbLanguages);
   };
 
+  const changeUserInfo = async(data: { username: string; email: string; }) => {
+    if (token) {
+      await userServices.updateInfo(token, data.username, data.email);
+    }
+  };
+
+  const changePassword = async (data: { newPassword1: string; newPassword2: string; currentPassword: string; }) => {
+    // if (data.newPassword1 !== data.newPassword2) {
+    //   errors2.password.message = 'Passwords must match';
+    // }
+    await userServices.updatePassword(data.currentPassword, data.newPassword1);
+  };
+
   useEffect(() => {
     getLanguageListFromServer();
   }, []);
 
-  return (<div> {user && (<div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
-  <div className="max-w-sm w-fit space-y-8">
-    <div>
-      <img
+  return (<div> {user && (
+  <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
+     <img
         className="mx-auto h-20 w-auto"
         src={logo}
         alt="logo"
-      />
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User account settings</h2>
-    </div>
-    <form className='form-div' onSubmit={handleSubmit(async (data) => {
-      if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
-        setError('currentLearnLanguageId', { type: 'languages', message: ' Learning language cannot be the same as known language' });
-        // return;
-      }
-      // const user = {
-      //   username: data.username,
-      //   email: data.email,
-      //   password: data.password,
-      //   currentKnownLanguageId: data.currentKnownLanguageId,
-      //   currentLearnLanguageId: data.currentLearnLanguageId,
-      // };
-      // const response = await userServices.addUser(user);
-      // if (typeof response === 'string') {
-      //   setError('email', { type: 'email', message: response });
-      // }
-      // if (user.currentKnownLanguageId !== tokenObj.currentKnownLanguageId || user.currentLearnLanguageId !== tokenObj.currentLearnLanguageId) {
-      //   userServices.setUserLanguages({ currentKnownLanguageId: user.currentKnownLanguageId, currentLearnLanguageId: user.currentLearnLanguageId });
-      // }
-      // if (user.email !== tokenObj.email || user.username !== tokenObj.username) {
-      //   // userServices.setUserInfo({ username: user.username, email: user.email });
-      // }
-      // navigate('/texts');
-      // else if (response.status === 201) {
-      //   const loggedInUser: User = await loginService.loginUser({
-      //     email: user.email,
-      //     password: user.password,
-      //   });
-      //   localStorage.setItem('user', JSON.stringify(loggedInUser));
-      //   navigate('/texts');
-      // }
-    })}>
+    />
+  <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 flex flex-row">
+    <div className="max-w-sm w-fit space-y-8 basis-1/2">
+    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User account settings</h2>
+    <p>{user.username} at {user.email} is logged in</p>
+  </div>
+  <div>
+    <div className="min-h-full items-center py-12 px-6 sm:px-8 lg:px-10 basis-1/2">
+    <form key={1} onSubmit={handleSubmit(changeUserInfo)}>
      <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
       <label className="label sr-only" htmlFor="username">Name</label>
-        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
+        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
         {errors.username?.type === 'required' && ' Please enter a user name.'}
         {errors.username?.type === 'minLength' && ' Name should have a mininum of 3 characters.'}
         <label htmlFor="email" className="label sr-only">Email</label>
-        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          type="email" />
+        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
+        defaultValue={user.email} type="email" />
         {errors.email?.type === 'required' && ' Email address is required.'}
         {errors.email?.type === 'pattern' && ' Please enter an email address.'}
         {errors.email && errors.email.message}
@@ -100,40 +90,45 @@ export default function Settings() {
           Save
         </button>
     </div>
-
+    </form>
+    <form key={2} onSubmit={handleSubmit2(changePassword)}>
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
      <label htmlFor="old-password" className="label sr-only">Password</label>
-     <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
-      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+     {/* <input {...register('currentPassword', { required: true, pattern: /^.{6,}$/ })} */}
+     <input {...register2('currentPassword')}
+      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Old Password' type="password" />
-    {errors.password?.type === 'required' && ' Password is required.'}
-    {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password?.type === 'required' && ' Password is required.'}
+    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
     <label htmlFor="new-password" className="label sr-only">Password</label>
-     <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
-      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+     {/* <input {...register('newPassword1', { required: true, pattern: /^.{6,}$/ })} */}
+     <input {...register2('newPassword1')}
+      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Password' type="password" />
-    {errors.password?.type === 'required' && ' Password is required.'}
-    {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
-    <label htmlFor="new-password-2" className="label sr-only">New Password</label>
-     <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
+    {errors2.password?.type === 'required' && ' Password is required.'}
+    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
+     <label htmlFor="new-password-2" className="label sr-only">New Password</label>
+     {/* <input {...register('newPassword2', { required: true, pattern: /^.{6,}$/ })} */}
+     <input {...register2('newPassword2')}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Confirm New Password' type="password" />
-    {errors.password?.type === 'required' && ' Password is required.'}
-    {errors.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password?.type === 'required' && ' Password is required.'}
+    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
     <div className='py-6 sm:pt-6 text-right'>
-          <button
-            type="submit"
-            className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
-            <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-          </span>
-          Save
-        </button>
+        <button
+          type="submit"
+          className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+        <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+          <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+        </span>
+        Save
+      </button>
     </div>
     <br></br>
-
+    </form>
+    <form>
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your learning preferences</h2>
     <p className="text-gray-600 text-sm mb-6">Update languages</p>
     <div className="flex flex-wrap w-full custom-select">
@@ -162,7 +157,9 @@ export default function Settings() {
         </button>
     </div>
    </form>
- </div>
-</div>)};
+    </div>
+    </div>
+    </div>
+  </div>)};
   </div>);
 }
