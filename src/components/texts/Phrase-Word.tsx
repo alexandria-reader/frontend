@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Fragment, TouchEvent, useState,
 } from 'react';
@@ -149,7 +150,7 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
-        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 betterhover:hover:border py-1 p-px rounded-md`}
+        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
       </span>
@@ -176,7 +177,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
 
   return (
     <div className='inline'>
-      <span className={`${wordClass} cursor-pointer  py-2 rounded-md`}>
+      {/* <span className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 -p[1px] py-2 rounded-md`}> */}
+      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-orange-500 hover:py-3 py-2 rounded-md`}>
         {
           parts.map((word, index, array) => <Fragment>
             <Word key={word + index} dataKey={word + index} word={word} context={context} />
