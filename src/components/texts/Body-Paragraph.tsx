@@ -97,7 +97,8 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
 
       // if user clicks on a span containing words and a space, it's a phrase
       if (text.length > 1) {
-        const current = userWords.filter((wordObj) => wordObj.word === target.textContent);
+        const current = userWords.filter((wordObj) => wordObj.word === target
+          .textContent?.toLowerCase());
         if (current.length === 1) {
           setCurrentWord(current[0]);
         }
