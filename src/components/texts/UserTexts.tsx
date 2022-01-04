@@ -4,12 +4,7 @@ import { useState, useEffect, FormEvent } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  textlistState,
-  currenttextState,
-  userState,
-  userlangidsState,
-} from '../../states/recoil-states';
+import { textlistState, currenttextState, userState } from '../../states/recoil-states';
 
 import textsService from '../../services/texts';
 import { Text } from '../../types';
@@ -25,7 +20,7 @@ const IndividualText = function({ text }: { text: Text }) {
     if (id && user) {
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
       setTextList(updatedTextList);
-      await textsService.removeTextFromServer(id, user.token);
+      await textsService.removeTextFromServer(id);
     }
   };
 
@@ -82,12 +77,10 @@ const UserTexts = function() {
   const [showNewTextForm, setShowNewTextForm] = useState(false);
 
   const user = useRecoilValue(userState);
-  const userLangIds = useRecoilValue(userlangidsState);
-
 
   const fetchUserTexts = async function() {
-    if (userLangIds && user) {
-      const userTextsResponse = await textsService.getAllUserTextsByLanguage(userLangIds.learn, user.token);
+    if (user) {
+      const userTextsResponse = await textsService.getAllUserTextsByLanguage(user.learnLanguageId);
       setTextList(userTextsResponse);
     }
   };
@@ -99,13 +92,13 @@ const UserTexts = function() {
   const submitText = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const newTextObj: Text = {
-      languageId: userLangIds?.learn || '',
+      languageId: user?.learnLanguageId || '',
       title: newTextTitle,
       body: newText,
     };
 
     if (user) {
-      const addTextResponse = await textsService.postNewText(newTextObj, user.token);
+      const addTextResponse = await textsService.postNewText(newTextObj);
       const newUsersTexts = [...textList, addTextResponse];
       setTextList(newUsersTexts);
     }

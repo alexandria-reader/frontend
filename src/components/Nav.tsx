@@ -6,11 +6,13 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { languagesState, userState, userlangidsState } from '../states/recoil-states';
+import {
+  languagesState, userState, languageFlagsState, languageNamesState,
+} from '../states/recoil-states';
 
 import logOut from '../utils/logOut';
 import languageService from '../services/languages';
-import { LoggedInUser, SanitizedUser } from '../types';
+import { SanitizedUser } from '../types';
 import userService from '../services/users';
 import LoggedOutNav from './LoggedOutNav';
 
@@ -32,9 +34,8 @@ const capitalize = function(string: string) {
 
 export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
-  const [user, setUser] = useRecoilState(userState);
-  const userLangIds = useRecoilValue(userlangidsState);
-
+  const flags = useRecoilValue(languageFlagsState);
+  const names = useRecoilValue(languageNamesState);
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
@@ -42,18 +43,19 @@ export default function Navbar() {
   };
 
 
+  const [user, setUser] = useRecoilState(userState);
+
   const setUserLanguagesOnServer = async function (event: /* eslint-disable max-len */
   MouseEvent<HTMLDivElement, globalThis.MouseEvent>, learnLanguageId: string) {
     event.preventDefault();
-    if (user && userLangIds) {
-      if (userLangIds.known === learnLanguageId) {
+    if (user) {
+      if (user.knownLanguageId === learnLanguageId) {
         // eslint-disable-next-line no-alert
         alert('Leaning language cannot be the same as known language');
       } else {
-        const updatedUser: SanitizedUser = await userService.setUserLanguages(userLangIds?.known, learnLanguageId, user?.token);
-        const newUserState: LoggedInUser = { ...updatedUser, token: user.token };
+        const updatedUser: SanitizedUser = await userService.setUserLanguages(user.knownLanguageId, learnLanguageId);
 
-        setUser(newUserState);
+        setUser(updatedUser);
       }
     } else {
       // eslint-disable-next-line no-alert
@@ -142,11 +144,7 @@ export default function Navbar() {
                               'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
-                            <p><span className="h-5 w-5">{
-                              typeof user.learns !== 'string' ? user.learns.flag : ''
-                            }</span> {
-                              typeof user.learns !== 'string' ? capitalize(user.learns.name) : ''
-                            }</p>
+                            <p><span className="h-5 w-5">{flags[user.learnLanguageId]}</span> {capitalize(names[user.learnLanguageId])}</p>
                             <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                           </a>
                           }
@@ -164,7 +162,7 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {languages.filter((language) => language.id !== userLangIds?.learn && language.id !== userLangIds?.known).map((language) => <Menu.Item>
+                      {languages.filter((language) => language.id !== user.learnLanguageId && language.id !== user.knownLanguageId).map((language) => <Menu.Item>
                         {({ active }) => (
                           <div key={language.id} onClick={(event) => setUserLanguagesOnServer(event, language.id)}>
                             <a

@@ -64,8 +64,8 @@ export default function SignUp() {
                 username: data.username,
                 email: data.email,
                 password: data.password,
-                knows: data.knownLanguageId,
-                learns: data.learnLanguageId,
+                knownLanguageId: data.knownLanguageId,
+                learnLanguageId: data.learnLanguageId,
               };
 
               const response = await userServices.addUser(newUserData);
@@ -78,9 +78,15 @@ export default function SignUp() {
                   password: response.data.password,
                 });
 
-                setUser(loggedInUser);
+                setUser({
+                  username: loggedInUser.username,
+                  email: loggedInUser.email,
+                  knownLanguageId: loggedInUser.knownLanguageId,
+                  learnLanguageId: loggedInUser.learnLanguageId,
+                });
 
                 localStorage.setItem('alexandria-user-token', loggedInUser.token);
+
                 navigate('/texts');
               }
             })

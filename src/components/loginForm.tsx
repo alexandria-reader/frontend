@@ -25,9 +25,14 @@ export default function LoginForm() {
         password,
       });
 
-      localStorage.setItem('alexandria-user-token', loggedInUser.token);
+      setUser({
+        username: loggedInUser.username,
+        email: loggedInUser.email,
+        knownLanguageId: loggedInUser.knownLanguageId,
+        learnLanguageId: loggedInUser.learnLanguageId,
+      });
 
-      setUser(loggedInUser);
+      localStorage.setItem('alexandria-user-token', loggedInUser.token);
 
       navigate('/texts');
     } catch (error) {

@@ -2,7 +2,7 @@ import parseHTML from 'html-react-parser';
 
 import { useEffect } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { userwordsState, userState, userlangidsState } from '../states/recoil-states';
+import { userwordsState, userState } from '../states/recoil-states';
 
 import wordsService from '../services/words';
 
@@ -113,12 +113,11 @@ const WordTable = function () {
 const Words = function() {
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-  const userLangIDs = useRecoilValue(userlangidsState);
 
   const fetchUserwords = async function() {
-    if (user && userLangIDs) {
+    if (user) {
       const userWordsResponse = await wordsService
-        .getUserwordsByLanguage(userLangIDs.learn, user?.token);
+        .getUserwordsByLanguage(user.learnLanguageId);
 
       setUserWords(userWordsResponse);
     }
@@ -126,7 +125,7 @@ const Words = function() {
 
   useEffect(() => {
     fetchUserwords();
-  }, [userLangIDs]);
+  }, [user]);
 
   return (
     <WordTable />

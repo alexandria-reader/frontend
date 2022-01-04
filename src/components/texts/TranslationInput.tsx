@@ -4,7 +4,7 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   userwordsState, currentwordState, currenttextState,
-  currentwordContextState, userState, userlangidsState,
+  currentwordContextState, userState,
 } from '../../states/recoil-states';
 
 import { UserWord, Status, Translation } from '../../types';
@@ -22,7 +22,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     newUserWord.status = status;
 
     if (newUserWord.id && user) {
-      wordsService.updateStatus(newUserWord, user.token);
+      wordsService.updateStatus(newUserWord);
     }
     setCurrentWord(newUserWord);
 
@@ -65,7 +65,6 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const currentWordContext = useRecoilValue(currentwordContextState);
 
   const user = useRecoilValue(userState);
-  const userLangIds = useRecoilValue(userlangidsState);
 
 
   const handleTranslation = async function(
@@ -78,12 +77,12 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     if (userWord) {
       const newUserWord = { ...userWord };
 
-      if (userLangIds && user) {
+      if (user) {
         if (!newUserWord.id) {
           // call api with word with translation object attatched
           const translationObj: Translation = {
             translation,
-            targetLanguageId: userLangIds.known,
+            targetLanguageId: user.knownLanguageId,
             context: currentWordContext || '',
           };
 
@@ -91,7 +90,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           newUserWord.translations = translations;
           setCurrentWord(newUserWord);
 
-          const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord, user.token);
+          const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord);
           setCurrentWord(userWordFromServer);
 
           const updatedWords = [...userWords
@@ -103,7 +102,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           // call api with translation object, add word id to translation obj
           const newTranslationObj: Translation = {
             translation,
-            targetLanguageId: userLangIds.known,
+            targetLanguageId: user.knownLanguageId,
             context: '',
             wordId: newUserWord.id,
           };
@@ -113,7 +112,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           newUserWord.translations = translations;
           setCurrentWord(newUserWord);
 
-          const response = await translationServices.addTranslation(newTranslationObj, user.token);
+          const response = await translationServices.addTranslation(newTranslationObj);
           translations = [...userWord.translations
             .filter((transObj) => transObj.translation !== newTranslationObj.translation),
           response];
@@ -171,12 +170,12 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
         {/* dictionary buttons and change status */}
         <div className='flex flex-col justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-1'>Close Dictionary</button>
-          <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${userLangIds?.known}/${currentWord.word}`} /></>}
+          <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference</button>
-          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${userLangIds?.known}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>DeepL (Popup)</button>
-          {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${userLangIds?.known}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
-          <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${userLangIds?.known}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>DeepL (Popup)</button>
+          {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
+          <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
         </div>
         {!showDictionary && <ChangeStatus word={word} />}
@@ -188,7 +187,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
 
-  const userLangIds = useRecoilValue(userlangidsState);
+  const user = useRecoilValue(userState);
 
   const voices = window.speechSynthesis.getVoices();
 
@@ -207,11 +206,11 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
 
   // specific language variants can be added
   const speak = async function() {
-    if (word && userLangIds) {
+    if (word && user) {
       const utterance = new SpeechSynthesisUtterance(word?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
-        if (voices[i].lang.startsWith(userLangIds.learn)) {
+        if (voices[i].lang.startsWith(user.learnLanguageId)) {
           utterance.voice = voices[i];
         }
       }
