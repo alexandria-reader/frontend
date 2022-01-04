@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Fragment, TouchEvent, useState,
 } from 'react';
@@ -25,7 +26,6 @@ export const Word = function ({ word, dataKey, context }:
   const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
-    // console.log('getting selection');
 
     if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
@@ -84,32 +84,43 @@ export const Word = function ({ word, dataKey, context }:
 
   const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
-    const selectedWord = input.textContent || '';
+    const possiblePhraseDiv = input?.parentElement?.parentElement;
 
-    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-      === selectedWord.toLowerCase());
+    // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
+    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && event.type === 'touchend') {
+      const current = userWords.filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
 
-    if (wordObj.length > 0) {
-      const wordObject = wordObj[0];
-
-      if (wordObject.status === undefined) {
-        wordObject.status = 'learning';
+      if (current.length === 1) {
+        setCurrentWord(current[0]);
       }
-
-      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-        !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
-      setUserWords(updatedWords);
-      setCurrentWord(wordObject);
     } else {
-      const newWordObj: UserWord = {
-        word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
-      };
+      const selectedWord = input.textContent || '';
 
-      setCurrentWord(newWordObj);
+      const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+        === selectedWord.toLowerCase());
 
-      const updatedWords = [...userWords
-        .filter((wordObject) => wordObject.id !== undefined), newWordObj];
-      setUserWords(updatedWords);
+      if (wordObj.length > 0) {
+        const wordObject = { ...wordObj[0] };
+
+        if (wordObject.status === undefined) {
+          wordObject.status = 'learning';
+        }
+
+        const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+          !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
+        setUserWords(updatedWords);
+        setCurrentWord(wordObject);
+      } else {
+        const newWordObj: UserWord = {
+          word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
+        };
+
+        setCurrentWord(newWordObj);
+
+        const updatedWords = [...userWords
+          .filter((wordObject) => wordObject.id !== undefined), newWordObj];
+        setUserWords(updatedWords);
+      }
     }
   };
 
@@ -149,8 +160,9 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
-        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 betterhover:hover:border py-1 p-px rounded-md`}
-        data-key={dataKey}>
+        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 py-1 p-px rounded-md`}
+        data-key={dataKey}
+        data-type={'word'}>
         {word}
       </span>
     </div>
@@ -176,7 +188,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
 
   return (
     <div className='inline'>
-      <span className={`${wordClass} cursor-pointer  py-2 rounded-md`}>
+      {/* <span className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 -p[1px] py-2 rounded-md`}> */}
+      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-orange-500 hover:py-3 py-2 rounded-md`} data-type={'phrase'}>
         {
           parts.map((word, index, array) => <Fragment>
             <Word key={word + index} dataKey={word + index} word={word} context={context} />
