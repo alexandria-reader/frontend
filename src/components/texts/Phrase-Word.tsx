@@ -134,6 +134,7 @@ export const Word = function ({ word, dataKey, context }:
               getClickedOnWord(event);
             }
             window.getSelection()?.removeAllRanges();
+            window.getSelection()?.empty();
           }
         }}
 
@@ -143,6 +144,8 @@ export const Word = function ({ word, dataKey, context }:
           } else {
             getClickedOnWord(event);
           }
+          window.getSelection()?.removeAllRanges();
+          window.getSelection()?.empty();
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
