@@ -108,6 +108,7 @@ export const Word = function ({ word, dataKey, context }:
         .filter((wordObject) => wordObject.id !== undefined), newWordObj];
       setUserWords(updatedWords);
     }
+    // window.getSelection()?.removeAllRanges();
   };
 
   const getTappedOnWord = function (event: TouchEvent<HTMLSpanElement>) {
@@ -169,11 +170,19 @@ export const Word = function ({ word, dataKey, context }:
   return (
     <div className='inline-block my-1'>
       {mobile && <span
-        // onTouchEnd={(event) => {
+        onTouchEnd={(event) => {
+          if (window.getSelection()?.toString()) {
+            getHighlightedWordOrPhrase(event);
+          } else {
+            getTappedOnWord(event);
+          }
+          window.getSelection()?.removeAllRanges();
+        }}
+        // onMouseUp={(event) => {
         //   if (window.getSelection()?.toString()) {
         //     getHighlightedWordOrPhrase(event);
         //   } else {
-        //     getTappedOnWord(event);
+        //     getClickedOnWord(event);
         //   }
         // }}
 
@@ -219,7 +228,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   const parts = phrase.split(' ');
 
   return (
-    <div className='inline-block'>
+    <div className='inline'>
       <span className={`${wordClass} cursor-pointer  py-2 rounded-md`}>
         {
           parts.map((word, index, array) => <Fragment>
