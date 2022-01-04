@@ -3,7 +3,7 @@ import loginServices from '../services/login';
 import wordsService from '../services/words';
 import textsService from '../services/texts';
 
-describe('Tests single text and user words', () => {
+xdescribe('Tests single text and user words', () => {
   test('Gets user words in a piece of text', async () => {
     const user = await loginServices.loginUser({
       email: 'dana@example.com',
