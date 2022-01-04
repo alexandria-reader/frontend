@@ -89,14 +89,29 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-gray-200';
   }
 
+  let mobile = false;
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    mobile = true;
+  } else {
+    mobile = false;
+  }
+
   return (
     <div className='inline-block my-1'>
-      <span
+      {mobile && <span
+        onTouchEnd={(event) => getWordOrPhrase(event)}
+        // onSelectionChange
+        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
+        data-key={dataKey}>
+        {word}
+      </span>}
+      {!mobile && <span
         onMouseUp={(event) => getWordOrPhrase(event)}
         className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
-      </span>
+      </span>}
     </div>
   );
 };
