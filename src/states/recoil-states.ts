@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import {
-  UserWord, MarkedWords, Text, Language, LoggedInUser,
+  UserWord, StringHash, Text, Language, SanitizedUser,
 } from '../types';
 
 
@@ -8,7 +8,6 @@ export const textlistState = atom<Array<Text>>({
   key: 'textlistState',
   default: [],
 });
-
 
 export const currenttextState = atom<Text | null>({
   key: 'currenttextState',
@@ -21,11 +20,10 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
-
-export const markedwordsState = selector({
+export const markedwordsState = selector<StringHash>({
   key: 'markedwordsState',
   get: ({ get }) => {
-    const markedWords: MarkedWords = {};
+    const markedWords: StringHash = {};
 
     const userWords = get(userwordsState);
     userWords.forEach((userWord) => {
@@ -35,7 +33,6 @@ export const markedwordsState = selector({
     return markedWords;
   },
 });
-
 
 export const currentwordState = atom<UserWord | null>({
   key: 'currentwordState',
@@ -53,31 +50,36 @@ export const languagesState = atom<Array<Language>>({
   default: [],
 });
 
+export const languageFlagsState = selector<StringHash>({
+  key: 'languageFlagsState',
+  get: ({ get }) => {
+    const flags: StringHash = {};
 
-export const userState = atom<LoggedInUser | null>({
-  key: 'userState',
-  default: null,
+    const languages = get(languagesState);
+    languages.forEach((language) => {
+      flags[language.id] = language.flag;
+    });
+
+    return flags;
+  },
+});
+
+export const languageNamesState = selector<StringHash>({
+  key: 'languageNamesState',
+  get: ({ get }) => {
+    const names: StringHash = {};
+
+    const languages = get(languagesState);
+    languages.forEach((language) => {
+      names[language.id] = language.name;
+    });
+
+    return names;
+  },
 });
 
 
-export const userlangidsState = selector({
-  key: 'userlangidsState',
-  get: ({ get }) => {
-    const user = get(userState);
-    if (user && typeof user.knows === 'string' && typeof user.learns === 'string') {
-      return {
-        known: user.knows,
-        learn: user.learns,
-      };
-    }
-
-    if (user && typeof user.knows !== 'string' && typeof user.learns !== 'string') {
-      return {
-        known: user.knows.id,
-        learn: user.learns.id,
-      };
-    }
-
-    return null;
-  },
+export const userState = atom<SanitizedUser | null>({
+  key: 'userState',
+  default: null,
 });

@@ -7,8 +7,8 @@ export type UserWord = {
 };
 
 
-export type MarkedWords = {
-  [word: string]: string,
+export type StringHash = {
+  [id: string]: string,
 };
 
 
@@ -43,8 +43,8 @@ export type User = {
   username: string,
   password: string,
   email: string,
-  knows: string | Language,
-  learns: string | Language,
+  knownLanguageId: string,
+  learnLanguageId: string,
 };
 
 export type SanitizedUser = Omit<User, 'password'>;
