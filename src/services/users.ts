@@ -37,9 +37,10 @@ const getUserFromToken = async function(token: string) {
   return foundUser;
 };
 
-const updateInfo = async function(token: string, userName: string, email: string) {
+const updateInfo = async function(userName: string, email: string) {
+  const token = getToken();
   const response = await axios.put(`${baseUrl}/update`, {
-    token, userName, email,
+    userName, email,
   }, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -49,7 +50,6 @@ const updateInfo = async function(token: string, userName: string, email: string
 
 const updatePassword = async function(currentPassword: string, newPassword: string) {
   const token = getToken();
-  console.log(currentPassword, newPassword);
   const response = await axios.put(`${baseUrl}/change-password`, {
     currentPassword, newPassword,
   }, {

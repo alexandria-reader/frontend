@@ -6,16 +6,13 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import { languagesState, userState } from '../states/recoil-states';
-import getToken from '../utils/getToken';
 // import users from '../services/users';
 
 const logo = require('../assets/logo2.png');
 
 export default function Settings() {
   const user = useRecoilValue(userState);
-  // const [user, setUser] = useRecoilState(userState);
   const [languages, setLanguages] = useRecoilState(languagesState);
-  const token = getToken();
 
   const {
     register, formState: { errors }, handleSubmit,
@@ -31,15 +28,21 @@ export default function Settings() {
     mode: 'onSubmit',
   });
 
+  const {
+    register: register3,
+    formState: { errors: errors3 },
+    handleSubmit: handleSubmit3,
+  } = useForm({
+    mode: 'onSubmit',
+  });
+
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageServices.getAllLanguages();
     setLanguages(dbLanguages);
   };
 
   const changeUserInfo = async(data: { username: string; email: string; }) => {
-    if (token) {
-      await userServices.updateInfo(token, data.username, data.email);
-    }
+    await userServices.updateInfo(data.username, data.email);
   };
 
   const changePassword = async (data: { newPassword1: string; newPassword2: string; currentPassword: string; }) => {
@@ -47,6 +50,10 @@ export default function Settings() {
     //   errors2.password.message = 'Passwords must match';
     // }
     await userServices.updatePassword(data.currentPassword, data.newPassword1);
+  };
+
+  const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
+    await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
   };
 
   useEffect(() => {
@@ -70,18 +77,18 @@ export default function Settings() {
     <form key={1} onSubmit={handleSubmit(changeUserInfo)}>
      <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
       <label className="label sr-only" htmlFor="username">Name</label>
-        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
+        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
         {errors.username?.type === 'required' && ' Please enter a user name.'}
         {errors.username?.type === 'minLength' && ' Name should have a mininum of 3 characters.'}
         <label htmlFor="email" className="label sr-only">Email</label>
-        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
+        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
         defaultValue={user.email} type="email" />
         {errors.email?.type === 'required' && ' Email address is required.'}
         {errors.email?.type === 'pattern' && ' Please enter an email address.'}
         {errors.email && errors.email.message}
         <div className='py-6 sm:pt-6 text-right'>
           <button
-            type="submit"
+            type="submit" name="button-name-email"
             className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
           <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
@@ -128,21 +135,21 @@ export default function Settings() {
     </div>
     <br></br>
     </form>
-    <form>
+    <form key={3} onSubmit={handleSubmit3(changeLanguages)}>
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your learning preferences</h2>
     <p className="text-gray-600 text-sm mb-6">Update languages</p>
     <div className="flex flex-wrap w-full custom-select">
       <label htmlFor="currentKnownLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I know</label>
-        {<select {...register('currentKnownLanguageId')} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+        {<select {...register3('currentKnownLanguageId')} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
         {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
         </select>}
     </div>
     <div className="flex flex-wrap w-full custom-select">
       <label htmlFor="currentLearnLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I want to learn</label>
-      {<select {...register('currentLearnLanguageId')} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+      {<select {...register3('currentLearnLanguageId')} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
       {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name} </option>)}
       </select>}
-      {errors.currentLearnLanguageId && errors.currentLearnLanguageId.message}
+      {errors3.currentLearnLanguageId && errors.currentLearnLanguageId.message}
     </div>
     <br></br>
     <div className='py-6 sm:pt-6 text-right'>
