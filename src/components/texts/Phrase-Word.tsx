@@ -1,4 +1,6 @@
-import { Fragment, MouseEvent } from 'react';
+import {
+  Fragment, TouchEvent, useState,
+} from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -16,12 +18,16 @@ export const Word = function ({ word, dataKey, context }:
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
+  const [touchStart, setTouchStart] = useState(0);
+  const markedWords = useRecoilValue(markedwordsState);
+  const wordStatus = markedWords[word.toLowerCase()];
 
-  const getWordOrPhrase = function(_event: unknown) {
+  const getHighlightedWordOrPhrase = function(_event: unknown) {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
+    // console.log('getting selection');
 
-    if (selection !== null) {
+    if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
 
       const startNode = selection.anchorNode;
@@ -34,10 +40,15 @@ export const Word = function ({ word, dataKey, context }:
 
       if (startNode && startNode.textContent) {
         startWord = startNode.textContent;
-        stringArray[0] = startWord;
+        const firstWordPartial = stringArray[0];
+        if (firstWordPartial[firstWordPartial.length - 1] === '.') {
+          stringArray[0] = `${startWord}.`;
+        } else {
+          stringArray[0] = startWord;
+        }
       }
 
-      if (endNode && endNode.textContent) {
+      if (endNode?.textContent && endNode.textContent !== ' ') {
         endWord = endNode.textContent;
         if (stringArray[stringArray.length - 1] && endWord) {
           stringArray[stringArray.length - 1] = endWord;
@@ -45,19 +56,12 @@ export const Word = function ({ word, dataKey, context }:
       }
 
       const newPhrase = stringArray.join(' ').trim().split('.')[0];
-      // console.log(newPhrase);
-      // console.log(startNode, endNode);
-      // console.log(selection);
-      // console.log(context);
-      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase);
+      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord | undefined;
 
       if (existingWord[0]) {
         // eslint-disable-next-line prefer-destructuring
         newWordObject = existingWord[0];
-
-        setCurrentWord(newWordObject);
-        setCurrentWordContext(context);
       } else {
         newWordObject = {
           word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
@@ -67,6 +71,7 @@ export const Word = function ({ word, dataKey, context }:
         setCurrentWordContext(context);
       }
 
+      // if userWords does not include the new word
       if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
         === newWordObject?.word.toLowerCase()).length === 0) {
         // removes any words without an id, meaning that they also have no translation
@@ -77,28 +82,36 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  const isElement = function(element: Element | EventTarget): element is Element {
-    return (element as Element).nodeName !== undefined;
-  };
+  const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
+    const input = event.target as HTMLElement;
+    const selectedWord = input.textContent || '';
 
-  // eslint-disable-next-line max-len
-  const mouseMoveEventHandler = function(event: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) {
-    if (window.getSelection()?.toString()) {
-      // console.log(window.getSelection()?.toString());
-      if (isElement(event.target)) {
-        const element = event.target;
-        console.log(element.textContent);
-        // if (!element.className.match('bg-gray-500')) {
-        //   element.className += ' bg-gray-500';
-        // }
-        // console.log(event.target.className);
+    const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+      === selectedWord.toLowerCase());
+
+    if (wordObj.length > 0) {
+      const wordObject = wordObj[0];
+
+      if (wordObject.status === undefined) {
+        wordObject.status = 'learning';
       }
-      // console.log(event.target);
+
+      const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
+        !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
+      setUserWords(updatedWords);
+      setCurrentWord(wordObject);
+    } else {
+      const newWordObj: UserWord = {
+        word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
+      };
+
+      setCurrentWord(newWordObj);
+
+      const updatedWords = [...userWords
+        .filter((wordObject) => wordObject.id !== undefined), newWordObj];
+      setUserWords(updatedWords);
     }
   };
-
-  const markedWords = useRecoilValue(markedwordsState);
-  const wordStatus = markedWords[word.toLowerCase()];
 
   let wordClass = '';
 
@@ -112,9 +125,31 @@ export const Word = function ({ word, dataKey, context }:
 
   return (
     <div className='inline-block my-1'>
-      <span onMouseMove={(event) => mouseMoveEventHandler(event)}
-        onMouseUp={(event) => getWordOrPhrase(event)}
-        className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-1 p-px rounded-md`}
+      <span
+        onTouchEnd={(event) => {
+          if (touchStart === window.scrollY) {
+            if (window.getSelection()?.toString()) {
+              getHighlightedWordOrPhrase(event);
+            } else {
+              getClickedOnWord(event);
+            }
+            window.getSelection()?.removeAllRanges();
+            window.getSelection()?.empty();
+          }
+        }}
+
+        onMouseUp={(event) => {
+          if (window.getSelection()?.toString()) {
+            getHighlightedWordOrPhrase(event);
+          } else {
+            getClickedOnWord(event);
+          }
+          window.getSelection()?.removeAllRanges();
+          window.getSelection()?.empty();
+        }}
+
+        onTouchStart={() => setTouchStart(window.scrollY)}
+        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 betterhover:hover:border py-1 p-px rounded-md`}
         data-key={dataKey}>
         {word}
       </span>
@@ -140,8 +175,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   const parts = phrase.split(' ');
 
   return (
-    <div className='inline-block'>
-      <span className={`${wordClass} cursor-pointer border border-transparent hover:border-blue-500 hover:border py-2 p-1 rounded-md`}>
+    <div className='inline'>
+      <span className={`${wordClass} cursor-pointer  py-2 rounded-md`}>
         {
           parts.map((word, index, array) => <Fragment>
             <Word key={word + index} dataKey={word + index} word={word} context={context} />

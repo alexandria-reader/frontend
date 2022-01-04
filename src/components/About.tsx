@@ -1,21 +1,18 @@
-/* eslint-disable max-len */
-import { useNavigate } from 'react-router';
-import getToken from '../utils/getToken';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../states/recoil-states';
 import HowItWorks from './home/HowItWorks';
 import FAQ from './home/FAQ';
 
 export default function About() {
-  const tokenObj = getToken();
-  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   return (
-    <div className='home-page'>
-     <div> { tokenObj
-       ? navigate('/texts')
-       : <div>
-          <HowItWorks />
-          <FAQ />
-        </div>
+    <div>
+     About
+     <div> { user && (<div className='home-page'>
+           <HowItWorks />
+           <FAQ />
+         </div>)
      } </div>
     </div>
   );

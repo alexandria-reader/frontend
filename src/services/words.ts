@@ -1,25 +1,25 @@
+/* eslint-disable max-len */
 import axios from 'axios';
 import { UserWord } from '../types';
+import getToken from '../utils/getToken';
 import host from './host';
 
 const baseUrl = `${host}/api/words`;
 
-const getUserwordsInText = async function(currentTextId:string, targetLanguageId: string) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
+const getUserwordsInText = async function(currentTextId:string, targetLanguageId: string): Promise<Array<UserWord>> {
+  const token = getToken();
 
   const request = await axios.get(`${baseUrl}/text/${currentTextId}/language/${targetLanguageId}/`, {
     headers: { Authorization: `bearer ${token}` },
   });
 
-  const userWords: UserWord[] = request.data;
+  const userWords: Array<UserWord> = request.data;
   return userWords;
 };
 
 
-const getUserwordsByLanguage = async function(languageId: string) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
+const getUserwordsByLanguage = async function(languageId: string): Promise<Array<UserWord>> {
+  const token = getToken();
 
   const request = await axios.get(`${baseUrl}/language/${languageId}/`, {
     headers: { Authorization: `bearer ${token}` },
@@ -31,10 +31,8 @@ const getUserwordsByLanguage = async function(languageId: string) {
 
 
 const addWordWithTranslation = async function(word: UserWord) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
+  const token = getToken();
 
-  // backend needs to be changed from word id to word
   const request = await axios.post(`${baseUrl}/`, word, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -45,8 +43,7 @@ const addWordWithTranslation = async function(word: UserWord) {
 
 
 const updateStatus = async function(word: UserWord) {
-  const user = JSON.parse(localStorage.user);
-  const { token } = user;
+  const token = getToken();
   const { id, status } = word;
 
   const response = await axios.put(`${baseUrl}/${id}`, { status }, {

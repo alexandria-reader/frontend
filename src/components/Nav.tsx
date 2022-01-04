@@ -1,16 +1,19 @@
 import {
-  useState, Fragment, useEffect, MouseEvent,
+  Fragment, useEffect, MouseEvent,
 } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { useRecoilState } from 'recoil';
 import { NavLink, useLocation } from 'react-router-dom';
+
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  languagesState, userState, languageFlagsState, languageNamesState,
+} from '../states/recoil-states';
+
 import logOut from '../utils/logOut';
-import { currentUserLanguagesState, languagesState } from '../states/recoil-states';
 import languageService from '../services/languages';
-import { CurrentUserLanguages, LocalStorageUser, User } from '../types';
+import { SanitizedUser } from '../types';
 import userService from '../services/users';
-import getToken from '../utils/getToken';
 import LoggedOutNav from './LoggedOutNav';
 
 const logo = require('../assets/logo/logo-crop-dark.png');
@@ -24,74 +27,35 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+const capitalize = function(string: string) {
+  return string.slice(0, 1).toUpperCase() + string.slice(1);
+};
+
+
+export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
-  const [currentUserLanguages, setCurrentUserLanguages] = useRecoilState(currentUserLanguagesState);
-  const [currentLangName, setCurrentLangName] = useState('');
-  const [currentKnownLanguageId, setCurrentKnownLanguageId] = useState('');
-  const [currentLearnLanguageId, setCurrentLearnLanguageId] = useState('');
-  const tokenObj = getToken();
+  const flags = useRecoilValue(languageFlagsState);
+  const names = useRecoilValue(languageNamesState);
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
     setLanguages(dbLanguages);
   };
 
-  const getLanguagesFromLocalStorage = async function() {
-    const user = await JSON.parse(localStorage.user);
 
-    const currentUserLangs: CurrentUserLanguages = {
-      currentKnownLanguageId: user.currentKnownLanguageId,
-      currentLearnLanguageId: user.currentLearnLanguageId,
-    };
-
-    if (!currentUserLanguages) {
-      setCurrentUserLanguages(currentUserLangs);
-    }
-
-    if (!currentKnownLanguageId) {
-      setCurrentKnownLanguageId(`${currentUserLanguages?.currentKnownLanguageId || currentUserLangs.currentKnownLanguageId}`);
-    }
-
-    if (!currentLearnLanguageId) {
-      setCurrentLearnLanguageId(`${currentUserLanguages?.currentLearnLanguageId || currentUserLangs.currentLearnLanguageId}`);
-    }
-  };
+  const [user, setUser] = useRecoilState(userState);
 
   const setUserLanguagesOnServer = async function (event: /* eslint-disable max-len */
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  MouseEvent<HTMLDivElement, globalThis.MouseEvent>, langId: string) {
+  MouseEvent<HTMLDivElement, globalThis.MouseEvent>, learnLanguageId: string) {
     event.preventDefault();
-    setCurrentLearnLanguageId(langId);
-
-    const currentUserLangs: CurrentUserLanguages = {
-      currentKnownLanguageId,
-      currentLearnLanguageId: langId,
-    };
-
-    if (currentKnownLanguageId && currentLearnLanguageId) {
-      if (currentKnownLanguageId === langId) {
+    if (user) {
+      if (user.knownLanguageId === learnLanguageId) {
         // eslint-disable-next-line no-alert
         alert('Leaning language cannot be the same as known language');
       } else {
-        setCurrentUserLanguages(currentUserLangs);
+        const updatedUser: SanitizedUser = await userService.setUserLanguages(user.knownLanguageId, learnLanguageId);
 
-        const localStorageUser: LocalStorageUser = await JSON.parse(localStorage.user);
-        const updatedUser: User = await userService.setUserLanguages(currentUserLangs);
-
-        const newLocalStorageUser: LocalStorageUser = {
-          currentKnownLanguageId: updatedUser.currentKnownLanguageId,
-          currentLearnLanguageId: updatedUser.currentLearnLanguageId,
-          email: localStorageUser.email,
-          token: localStorageUser.token,
-          username: localStorageUser.username,
-        };
-
-        // updates the languages on user in local storage
-        localStorage.setItem('user', JSON.stringify(newLocalStorageUser));
-
-        setCurrentKnownLanguageId(currentUserLangs.currentKnownLanguageId);
-        setCurrentLearnLanguageId(currentUserLangs.currentLearnLanguageId);
+        setUser(updatedUser);
       }
     } else {
       // eslint-disable-next-line no-alert
@@ -99,20 +63,13 @@ export default function Example() {
     }
   };
 
+
   useEffect(() => {
     getLanguageListFromServer();
   }, []);
 
-  useEffect(() => {
-    getLanguagesFromLocalStorage();
-  }, [tokenObj]);
 
-  useEffect(() => {
-    const langName = languages.filter((lang) => lang.id === currentUserLanguages?.currentLearnLanguageId);
-    setCurrentLangName(langName[0]?.name);
-  }, [currentUserLanguages, languages]);
-
-  if (tokenObj) {
+  if (user) {
     return (
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
@@ -187,10 +144,7 @@ export default function Example() {
                               'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
-                            {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
-                            </svg>}
-                            <p>{currentLangName && `${currentLangName.slice(0, 1).toUpperCase()}${currentLangName.slice(1)}`}</p>
+                            <p><span className="h-5 w-5">{flags[user.learnLanguageId]}</span> {capitalize(names[user.learnLanguageId])}</p>
                             <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                           </a>
                           }
@@ -207,20 +161,17 @@ export default function Example() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {languages.filter((lang) => lang.id !== currentLearnLanguageId && lang.id !== currentKnownLanguageId).map((lang) => <Menu.Item>
+                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {languages.filter((language) => language.id !== user.learnLanguageId && language.id !== user.knownLanguageId).map((language) => <Menu.Item>
                         {({ active }) => (
-                          <div key={lang.id} onClick={(event) => setUserLanguagesOnServer(event, lang.id)}>
+                          <div key={language.id} onClick={(event) => setUserLanguagesOnServer(event, language.id)}>
                             <a
                               href="#"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
-                              <div
-                                className='flex flex-row justify-between m-2'>
-                                {<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
-                                </svg>}
-                                {`${lang.name.slice(0, 1).toUpperCase()}${lang.name.slice(1)}`}
+                              <div className='flex flex-row justify-between m-2'>
+                                <span className="h-5 w-5">{language.flag}</span>
+                                {capitalize(language.name)}
                               </div>
                             </a>
                           </div>

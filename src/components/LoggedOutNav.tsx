@@ -1,6 +1,5 @@
 import { Disclosure } from '@headlessui/react';
 import { NavLink, useLocation } from 'react-router-dom';
-import getToken from '../utils/getToken';
 
 const logo = require('../assets/logo/logo-crop-dark.png');
 
@@ -14,9 +13,6 @@ function classNames(...classes: string[]) {
 }
 
 export default function Example() {
-  const tokenObj = getToken();
-  console.log(tokenObj);
-
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {() => (
@@ -27,7 +23,7 @@ export default function Example() {
                 <div className="flex-shrink-0 flex items-center">
                 <NavLink to={'/'}>
                   <img
-                    className="block lg:hidden h-8 w-auto"
+                    className="block h-8 w-auto"
                     src={logo}
                     alt="Workflow"
                   />

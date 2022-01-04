@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import loginServices from '../services/login';
 import textsServices from '../services/texts';
 
-describe('Tests user ability to interact with texts', () => {
+xdescribe('Tests user ability to interact with texts', () => {
   test('Renders user text by language id', async () => {
     const user = await loginServices.loginUser({
       email: 'dana@example.com',
