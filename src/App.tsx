@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
 import { useEffect } from 'react';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from './states/recoil-states';
 
 import './App.css';
@@ -11,17 +11,21 @@ import getToken from './utils/getToken';
 import userServices from './services/users';
 
 function App() {
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const fetchUserInfo = async function () {
-    const localToken = getToken();
+    if (!user) {
+      const localToken = getToken();
+      console.log('Checking for token');
 
-    if (typeof localToken === 'string') {
-      const tokenUser = await userServices.getUserFromToken(localToken);
-      if (tokenUser.username) {
-        setUser(tokenUser);
-      } else {
-        localStorage.removeItem('alexandria-user-token');
+      if (typeof localToken === 'string') {
+        const tokenUser = await userServices.getUserFromToken(localToken);
+
+        if (tokenUser.username) {
+          setUser(tokenUser);
+        } else {
+          localStorage.removeItem('alexandria-user-token');
+        }
       }
     }
   };

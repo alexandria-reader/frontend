@@ -74,8 +74,8 @@ export default function SignUp() {
                 setError('email', { type: 'email', message: response });
               } else if (response.status === 201) {
                 const loggedInUser: LoggedInUser = await loginService.loginUser({
-                  email: response.data.email,
-                  password: response.data.password,
+                  email: newUserData.email,
+                  password: newUserData.password,
                 });
 
                 setUser({
@@ -131,7 +131,7 @@ export default function SignUp() {
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
               </span>
-              Sign in
+              Sign up
             </button>
           </div>
          </form>
