@@ -102,7 +102,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           const newTranslationObj: Translation = {
             translation,
             targetLanguageId: user.knownLanguageId,
-            context: '',
+            context: currentWordContext || '',
             wordId: newUserWord.id,
           };
 

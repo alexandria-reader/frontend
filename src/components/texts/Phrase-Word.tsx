@@ -110,12 +110,14 @@ export const Word = function ({ word, dataKey, context }:
           !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
         setUserWords(updatedWords);
         setCurrentWord(wordObject);
+        setCurrentWordContext(context);
       } else {
         const newWordObj: UserWord = {
           word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
         };
 
         setCurrentWord(newWordObj);
+        setCurrentWordContext(context);
 
         const updatedWords = [...userWords
           .filter((wordObject) => wordObject.id !== undefined), newWordObj];
