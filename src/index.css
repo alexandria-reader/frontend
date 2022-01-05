@@ -60,3 +60,17 @@ code {
 /* ::slection {
   appearance: none;
 } */
+
+/* iframe {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; */
+/* } */
+
+/* iframe html {
+  -webkit-transform:translate3d(0,0,0);
+  overflow-x: hidden;
+}
+
+iframe > html {
+  width: 300px;
+} */
