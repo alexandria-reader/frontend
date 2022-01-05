@@ -1,16 +1,14 @@
-import { useRecoilValue } from 'recoil';
-import { userState } from '../states/recoil-states';
-import LoginForm from './loginForm';
+import { Location, useLocation } from 'react-router';
+import LoginForm from './LoginForm';
 
 export default function LogIn() {
-  const user = useRecoilValue(userState);
+  const location = useLocation();
+  const state = location.state as { from: Location };
+  const from = state ? state.from?.pathname : '/texts';
 
   return (
     <div>
-     <div> { user
-       ? (`${user.username} is logged in`) : (
-        <LoginForm />)}
-      </div>
+      <LoginForm from={from} />
     </div>
   );
 }
