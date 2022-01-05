@@ -34,7 +34,6 @@ const capitalize = function(string: string) {
   return 'English';
 };
 
-
 export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);

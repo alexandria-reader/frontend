@@ -20,8 +20,9 @@ export default function Settings() {
   const [showPasswordmessage, setShowPasswordmessage] = useState(true);
   const [languagemessage, setLanguagemessage] = useState('');
   const [showLanguageMessage, setShowLanguageMessage] = useState(true);
+
   const {
-    register, formState: { errors }, handleSubmit,
+    register, formState: { errors }, handleSubmit, setError,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -30,7 +31,7 @@ export default function Settings() {
     register: register2,
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
-    // setError: setError2,
+    setError: setError2,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -51,22 +52,22 @@ export default function Settings() {
 
   const changeUserInfo = async(data: { username: string; email: string; }) => {
     const response = await userServices.updateInfo(data.username, data.email);
-    setUser(response);
-    setUsermessage('User information updated');
+    if (typeof response === 'object') {
+      setUser(response);
+      setUsermessage('User information updated');
+    } else {
+      setError('email', { type: 'email', message: 'Email already exists.' });
+    }
   };
 
   const changePassword = async (data: { newPassword1: string; newPassword2: string; currentPassword: string; }) => {
-    // if (data.newPassword1 !== data.newPassword2) {
-    //   setError2('password', { type: 'password', message: 'New passwords must match' });
-    //   return;
-    // }
-    // if (data.newPassword1.length < 6) {
-    //   setError2('password', { type: 'passwordLength', message: 'Password must be longer than 6 characters.' });
-    //   return;
-    // }
     const response = await userServices.updatePassword(data.currentPassword, data.newPassword1);
-    setUser(response);
-    setPasswordmessage('Password updated');
+    if (typeof response === 'string') {
+      setError2('password', { type: 'password', message: response });
+    } else {
+      setUser(response);
+      setPasswordmessage('Password updated');
+    }
   };
 
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
@@ -138,14 +139,15 @@ export default function Settings() {
      <p className="text-sm mb-6 text-green-600 font-bold">{showUserMessage && usermessage}</p>
       <label className="label sr-only" htmlFor="username">Name</label>
         <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
-        {errors.username?.type === 'required' && ' Please enter a user name.'}
-        {errors.username?.type === 'minLength' && ' Name should have a mininum of 3 characters.'}
+        {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
+        {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
+        {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
         <label htmlFor="email" className="label sr-only">Email</label>
         <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
         defaultValue={user.email} type="email" />
-        {errors.email?.type === 'required' && ' Email address is required.'}
-        {errors.email?.type === 'pattern' && ' Please enter an email address.'}
-        {errors.email && errors.email.message}
+        {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
+        {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
+        {errors.email && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors.email.message}</p>)}
         <div className='py-6 sm:pt-6 text-right'>
           <button
             type="submit" name="button-name-email"
@@ -164,27 +166,26 @@ export default function Settings() {
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
      <label htmlFor="current-password" className="label sr-only">Password</label>
      {/* <input {...register('currentPassword', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('currentPassword')}
+     <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Old Password' type="password" />
-    {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password1?.type === 'required' && ' Password is required.'}
+    {errors2.password1?.type === 'pattern' && ' The password should have at least 6 characters.'}
     <label htmlFor="new-password" className="label sr-only">Password</label>
      {/* <input {...register('newPassword1', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('newPassword1')}
+     <input {...register2('password2')}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-      placeholder='Password' type="password" />
-    {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
+      placeholder='New Password' type="password" />
+    {errors2.password2?.type === 'required' && ' Password is required.'}
+    {errors2.password2?.type === 'pattern' && ' The password should have at least 6 characters.'}
      <label htmlFor="new-password-2" className="label sr-only">New Password</label>
      {/* <input {...register('newPassword2', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('newPassword2')}
+     <input {...register2('password3')}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Confirm New Password' type="password" />
-    {/* {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'} */}
-    <p className="text-sm mt-6 text-red-600 font-bold">{errors2.password && errors2.password.message}</p>
-    <p className="text-sm mt-6 text-red-600 font-bold">{errors2.passwordLength && errors2.passwordLength.message}</p>
+    {errors2.password3?.type === 'required' && ' Password is required.'}
+    {errors2.password3?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
     <div className='py-6 sm:pt-6 text-right'>
         <button
           type="submit"
