@@ -32,9 +32,13 @@ export default function Settings() {
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
     setError: setError2,
+    reset,
     // clearErrors: clearErrors2,
   } = useForm({
     mode: 'onSubmit',
+    // defaultValues: {
+    //   password1: '', password2: '', password3: '',
+    // },
   });
 
   const {
@@ -65,9 +69,11 @@ export default function Settings() {
     const response = await userServices.updatePassword(data.password1, data.password2);
     if (data.password2 !== data.password3) {
       setError2('checkInputPasswords', { type: 'password', message: 'New passwords do not match' });
+      reset();
     }
     if (typeof response === 'string') {
       setError2('password', { type: 'password', message: response });
+      reset();
     } else {
       setPasswordmessage('Password updated');
     }
@@ -169,19 +175,19 @@ export default function Settings() {
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
     <p className="text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
-     <label htmlFor="current-password" className="label sr-only">Password</label>
+     <label htmlFor="password1" className="label sr-only">Password</label>
      <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Old Password' type="password" />
     {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
     {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
-    <label htmlFor="new-password" className="label sr-only">Password</label>
+    <label htmlFor="password2" className="label sr-only">Password</label>
      <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='New Password' type="password" />
     {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
     {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
-     <label htmlFor="new-password-2" className="label sr-only">New Password</label>
+     <label htmlFor="password3" className="label sr-only">New Password</label>
      <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Confirm New Password' type="password" />
