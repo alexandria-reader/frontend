@@ -167,9 +167,6 @@ export const Word = function ({ word, dataKey, context }:
 
       if (anchorNodeText?.dataset.type === 'word' && target?.dataset.type === 'word') {
         selection.setBaseAndExtent(anchorNodeText, 0, target, 1);
-        // if (anchorNodeText?.dataset.type === 'word' && focusNodeText?.dataset.type === 'word') {
-        //   selection.setBaseAndExtent(anchorNodeText, 0, focusNodeText, 1);
-
         const newPhrase = selection.toString();
 
         const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
@@ -178,6 +175,8 @@ export const Word = function ({ word, dataKey, context }:
         if (existingWord[0]) {
         // eslint-disable-next-line prefer-destructuring
           newWordObject = existingWord[0];
+          setCurrentWord(newWordObject);
+          setCurrentWordContext(context);
         } else {
           newWordObject = {
             word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
@@ -185,12 +184,6 @@ export const Word = function ({ word, dataKey, context }:
 
           setCurrentWord(newWordObject);
           setCurrentWordContext(context);
-        }
-
-        // if userWords does not include the new word
-        if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-        === newWordObject?.word.toLowerCase()).length === 0) {
-        // removes any words without an id, meaning that they also have no translation
           const updatedWords = [...userWords
             .filter((wordObj) => wordObj.id !== undefined), newWordObject];
           setUserWords(updatedWords);
