@@ -57,15 +57,70 @@ const NewTextForm = function({
   setShowNewTextForm: Function
 }) {
   return (
-    <div className='flex flex-col'>
-      <p>Add a new text here:</p>
-      <form className='flex flex-col items-center' onSubmit={(event) => submitText(event)}>
-      <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
-      <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button>
-      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(false)}>Cancel</button>
-      </form>
-    </div>
+    // <><div className='flex flex-col'>
+    //   <p>Add a new text here:</p>
+    //   <form className='flex flex-col items-center' onSubmit={(event) => submitText(event)}>
+    //     <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
+    //     <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
+    //     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button>
+    //     <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(false)}>Cancel</button>
+    //   </form>
+    // </div>
+    <>
+        <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
+          <div className="max-w-sm w-fit space-y-8">
+            <div>
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add a new text here:</h2>
+            </div>
+            <form className="mt-8 space-y-6" onSubmit={(event) => submitText(event)}>
+              <div className="rounded-md shadow-sm -space-y-px">
+                <div>
+                  <label htmlFor="title" className="sr-only">
+                    Title
+                  </label>
+                  <input
+                    type='text'
+                    placeholder='title'
+                    name='title'
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    value={newTextTitle}
+                    onChange={(e) => setNewTextTitle(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="text" className="sr-only">
+                    Password
+                  </label>
+                  <textarea
+                    name='text'
+                    placeholder='text body'
+                    value={newText}
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    onChange={(e) => setNewText(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Submit
+                </button>
+                <button
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  onClick={() => setShowNewTextForm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </>
   );
 };
 
