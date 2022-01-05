@@ -19,7 +19,6 @@ const SingleText = function () {
   const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-
   const params = useParams();
 
   const fetchUserwords = async function() {
@@ -44,7 +43,7 @@ const SingleText = function () {
       getTextById();
       fetchUserwords();
     }
-  }, [currentText]);
+  }, [currentText, user]);
 
   if (currentText) {
     return (
