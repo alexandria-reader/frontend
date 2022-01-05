@@ -66,14 +66,29 @@ export default function Settings() {
     const response = await userServices.updatePassword(data.password1, data.password2);
     if (data.password2 !== data.password3) {
       setError2('checkInputPasswords', { type: 'password', message: 'New passwords do not match' });
-      reset();
+
+      const timeId = setTimeout(() => {
+        reset();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
     }
+
     if (typeof response === 'string') {
       setError2('password', { type: 'password', message: response });
-      reset();
-    } else {
-      setPasswordmessage('Password updated');
+      const timeId = setTimeout(() => {
+        reset();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
     }
+
+    setPasswordmessage('Password updated');
+    return null;
   };
 
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
@@ -90,7 +105,7 @@ export default function Settings() {
     const response = await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
     setUser(response);
     setLanguagemessage('Language settings updated');
-    console.log(languagemessage);
+    return null;
   };
 
   useEffect(() => {
@@ -124,7 +139,7 @@ export default function Settings() {
   useEffect(() => {
     const timeId = setTimeout(() => {
       setShowLanguageMessage(false);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timeId);
