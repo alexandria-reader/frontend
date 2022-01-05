@@ -16,15 +16,15 @@ const addUser = async function(newUser: User) {
   return response;
 };
 
-const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string): Promise<SanitizedUser> {
+const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string) {
   const token = getToken();
 
   const response = await axios.put(`${baseUrl}/set-languages`, { knownLanguageId, learnLanguageId }, {
     headers: { Authorization: `bearer ${token}` },
   });
 
-  const updatedUser: SanitizedUser = response.data;
-  return updatedUser;
+  // const updatedUser: SanitizedUser = response.data;
+  return response.data;
 };
 
 

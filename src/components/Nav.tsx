@@ -28,7 +28,10 @@ function classNames(...classes: string[]) {
 }
 
 const capitalize = function(string: string) {
-  return string.slice(0, 1).toUpperCase() + string.slice(1);
+  if (string) {
+    return string.slice(0, 1).toUpperCase() + string.slice(1);
+  }
+  return 'English';
 };
 
 
