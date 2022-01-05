@@ -37,7 +37,7 @@ const SingleText = function () {
   };
 
   useEffect(() => {
-    if (currentText) {
+    if (currentText && currentText.id === params.textId) {
       fetchUserwords();
     } else {
       getTextById();
