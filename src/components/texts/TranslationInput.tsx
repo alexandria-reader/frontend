@@ -33,7 +33,6 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
     if (status) {
       setCurrentWord(newUserWord);
-
       const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
         !== newUserWord.word.toLowerCase()), newUserWord];
       setUserWords(updatedWords);
