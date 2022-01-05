@@ -8,6 +8,7 @@ import './App.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import getToken from './utils/getToken';
+// eslint-disable-next-line import/no-named-as-default
 import userServices from './services/users';
 
 function App() {

@@ -44,7 +44,7 @@ export default function SignUp() {
         <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
+              className="mx-auto h-20 w-auto"
               src={logo}
               alt="logo"
             />
@@ -124,15 +124,21 @@ export default function SignUp() {
           </div>
           <br></br>
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-              </span>
-              Sign up
-            </button>
+          <div className="userFields" aria-hidden="true">
+            <label className="label phone">Phone number</label>
+            <input {...register('phone')} className="input phone" type="text" tabIndex={-1}/>
+            <label className="label website">Website</label>
+            <input {...register('website')} className="input website" type="text" tabIndex={-1}/>
+          <br></br>
+          </div>
+          <button
+            type="submit"
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+              <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+            </span>
+            Sign in
+          </button>
           </div>
          </form>
        </div>

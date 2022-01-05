@@ -16,7 +16,6 @@ const addUser = async function(newUser: User) {
   return response;
 };
 
-
 const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string): Promise<SanitizedUser> {
   const token = getToken();
 
@@ -38,9 +37,32 @@ const getUserFromToken = async function(token: string) {
   return foundUser;
 };
 
+const updateInfo = async function(userName: string, email: string) {
+  const token = getToken();
+  const response = await axios.put(`${baseUrl}/update`, {
+    userName, email,
+  }, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  return response.data;
+};
+
+const updatePassword = async function(currentPassword: string, newPassword: string) {
+  const token = getToken();
+  const response = await axios.put(`${baseUrl}/change-password`, {
+    currentPassword, newPassword,
+  }, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+  return response.data;
+};
+
 export default {
   setUserLanguages,
   addUser,
   getUserFromToken,
+  updateInfo,
+  updatePassword,
 };
 
