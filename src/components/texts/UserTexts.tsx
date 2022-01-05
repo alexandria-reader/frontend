@@ -161,7 +161,6 @@ const UserTexts = function() {
     setNewTextTitle('');
     setShowNewTextForm(false);
   };
-  console.log(textList);
 
   return (
       <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>

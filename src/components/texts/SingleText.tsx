@@ -45,7 +45,7 @@ const SingleText = function () {
     }
   }, [currentText, user]);
 
-  if (currentText) {
+  if (currentText && Number(currentText?.id) === Number(params.textId)) {
     return (
       <div className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
         {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
