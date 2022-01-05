@@ -87,7 +87,7 @@ export const Word = function ({ word, dataKey, context }:
     const possiblePhraseDiv = input?.parentElement?.parentElement;
 
     // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
-    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && event.type === 'touchend') {
+    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent) {
       const current = userWords.filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
 
       if (current.length === 1) {
@@ -110,12 +110,14 @@ export const Word = function ({ word, dataKey, context }:
           !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
         setUserWords(updatedWords);
         setCurrentWord(wordObject);
+        setCurrentWordContext(context);
       } else {
         const newWordObj: UserWord = {
           word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
         };
 
         setCurrentWord(newWordObj);
+        setCurrentWordContext(context);
 
         const updatedWords = [...userWords
           .filter((wordObject) => wordObject.id !== undefined), newWordObj];
@@ -150,9 +152,11 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onMouseUp={(event) => {
-          if (window.getSelection()?.toString()) {
+          const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
+
+          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup') {
             getHighlightedWordOrPhrase(event);
-          } else {
+          } else if (pointerEvent.type === 'mouseup') {
             getClickedOnWord(event);
           }
           window.getSelection()?.removeAllRanges();
