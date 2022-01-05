@@ -95,7 +95,7 @@ const WordTable = function () {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {userword.translations.map((translation) => (
-                          <div className="text-sm font-medium text-gray-900">{parseHTML(translation.context)}</div>
+                          <div className="text-sm font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
                         ))}
                       </td>
                     </tr>
