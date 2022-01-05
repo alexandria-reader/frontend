@@ -26,6 +26,10 @@ const IndividualText = function({ text }: { text: Text }) {
     }
   };
 
+  const openOptionsMenu = function () {
+
+  };
+
   useEffect(() => {
     if (currentWord) {
       setCurrentWord(null);
@@ -33,22 +37,32 @@ const IndividualText = function({ text }: { text: Text }) {
   }, []);
 
   return (
-    <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200 sm:mr-5' >
-      <Link key={text.id + text.body.slice(0, 7)} to={`/texts/${text.id}`}>
-        <div onClick={(_event) => setCurrentText(text)} className='w-full flex items-center justify-between p-6 space-x-6 group-hover:shadow-md'>
-          <div className='flex justify-center items-center p-4 rounded-full flex-shrink-0 bg-blue-500'>
-          <svg className="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          </div>
-          <div className='flex-1 truncate'>
-            <div className="flex items-center space-x-3">
-              <h2 className='text-gray-900 text-xl font-medium truncate'>{text.title}</h2>
+    <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200' >
+      <div className='flex flex-row justify-between group-hover:shadow-md'>
+        <Link className='w-full' key={text.id + text.body.slice(0, 7)} to={`/texts/${text.id}`}>
+          <div onClick={(_event) => setCurrentText(text)} className='flex items-center p-6 space-x-6'>
+            <div className='flex justify-center items-center p-4 rounded-full flex-shrink-0 bg-blue-500'>
+            <svg className="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
             </div>
-            <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
+            <div className='flex-1 truncate'>
+              <div className="flex items-center space-x-3">
+                <h2 className='text-gray-900 text-xl font-medium truncate'>{text.title}</h2>
+              </div>
+              <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
+            </div>
           </div>
+        </Link>
+        {/* <div> */}
+          <div className='flex m-3 w-5'>
+            <svg onClick={() => openOptionsMenu()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          {/* </div> */}
         </div>
-      </Link>
+      </div>
+
       {/* <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => removeTextFromServer(text.id)}>Delete</button> */}
     </li>
   );
