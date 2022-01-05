@@ -33,12 +33,8 @@ export default function Settings() {
     handleSubmit: handleSubmit2,
     setError: setError2,
     reset,
-    // clearErrors: clearErrors2,
   } = useForm({
     mode: 'onSubmit',
-    // defaultValues: {
-    //   password1: '', password2: '', password3: '',
-    // },
   });
 
   const {
@@ -46,6 +42,7 @@ export default function Settings() {
     formState: { errors: errors3 },
     handleSubmit: handleSubmit3,
     setError: setError3,
+    reset: reset3,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -80,9 +77,9 @@ export default function Settings() {
   };
 
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
-    console.log(data.currentKnownLanguageId, data.currentLearnLanguageId);
     if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
       setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+      reset3();
       return;
     }
     const response = await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
