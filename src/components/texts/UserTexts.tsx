@@ -3,7 +3,9 @@ import { useState, useEffect, FormEvent } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { textlistState, currenttextState, userState } from '../../states/recoil-states';
+import {
+  textlistState, currenttextState, userState, currentwordState,
+} from '../../states/recoil-states';
 
 import textsService from '../../services/texts';
 import { Text } from '../../types';
@@ -11,6 +13,7 @@ import { Text } from '../../types';
 const IndividualText = function({ text }: { text: Text }) {
   const setCurrentText = useSetRecoilState(currenttextState);
   const [textList, setTextList] = useRecoilState(textlistState);
+  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
 
   const user = useRecoilValue(userState);
 
@@ -22,6 +25,12 @@ const IndividualText = function({ text }: { text: Text }) {
       await textsService.removeTextFromServer(id);
     }
   };
+
+  useEffect(() => {
+    if (currentWord) {
+      setCurrentWord(null);
+    }
+  }, []);
 
   return (
     <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200 sm:mr-5' >
