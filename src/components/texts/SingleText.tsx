@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -37,10 +38,11 @@ const SingleText = function () {
   };
 
   useEffect(() => {
-    if (currentText && currentText.id === params.textId) {
+    if (currentText) {
       fetchUserwords();
     } else {
       getTextById();
+      fetchUserwords();
     }
   }, [currentText]);
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import { useState, useEffect, FormEvent } from 'react';
 import { Link, Outlet } from 'react-router-dom';
@@ -15,6 +14,7 @@ const IndividualText = function({ text }: { text: Text }) {
 
   const user = useRecoilValue(userState);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const removeTextFromServer = async function (id: number | undefined) {
     if (id && user) {
       const updatedTextList = textList.filter((textObj) => textObj.id !== id);
@@ -26,7 +26,7 @@ const IndividualText = function({ text }: { text: Text }) {
   return (
     <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200 sm:mr-5' >
       <Link key={text.id + text.body.slice(0, 7)} to={`/texts/${text.id}`}>
-        <div className='w-full flex items-center justify-between p-6 space-x-6 group-hover:shadow-md'>
+        <div onClick={(_event) => setCurrentText(text)} className='w-full flex items-center justify-between p-6 space-x-6 group-hover:shadow-md'>
           <div className='flex justify-center items-center p-4 rounded-full flex-shrink-0 bg-blue-500'>
           <svg className="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -34,7 +34,7 @@ const IndividualText = function({ text }: { text: Text }) {
           </div>
           <div className='flex-1 truncate'>
             <div className="flex items-center space-x-3">
-              <h2 className='text-gray-900 text-xl font-medium truncate' onClick={(_event) => setCurrentText(text)}>{text.title}</h2>
+              <h2 className='text-gray-900 text-xl font-medium truncate'>{text.title}</h2>
             </div>
             <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
           </div>
@@ -57,15 +57,6 @@ const NewTextForm = function({
   setShowNewTextForm: Function
 }) {
   return (
-    // <><div className='flex flex-col'>
-    //   <p>Add a new text here:</p>
-    //   <form className='flex flex-col items-center' onSubmit={(event) => submitText(event)}>
-    //     <input type={'text'} placeholder='title' name='title' value={newTextTitle} onChange={(e) => setNewTextTitle(e.target.value)}></input>
-    //     <textarea name='text' placeholder='text body' value={newText} onChange={(e) => setNewText(e.target.value)}></textarea>
-    //     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='submit'>Submit</button>
-    //     <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={() => setShowNewTextForm(false)}>Cancel</button>
-    //   </form>
-    // </div>
     <>
         <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
           <div className="max-w-sm w-fit space-y-8">
@@ -161,6 +152,7 @@ const UserTexts = function() {
     setNewTextTitle('');
     setShowNewTextForm(false);
   };
+  console.log(textList);
 
   return (
       <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
