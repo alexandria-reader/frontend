@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import {
   Fragment, TouchEvent, useState,
@@ -156,6 +157,48 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
+  const highlightCurrentSelection = function (target: EventTarget | HTMLElement) {
+    const selection = window.getSelection();
+
+    if (isElement(target) && selection) {
+      const anchorNodeText = selection?.anchorNode?.parentElement;
+      const focusNodeText = selection?.focusNode?.parentElement;
+
+
+      if (anchorNodeText?.dataset.type === 'word' && target?.dataset.type === 'word') {
+        selection.setBaseAndExtent(anchorNodeText, 0, target, 1);
+        // if (anchorNodeText?.dataset.type === 'word' && focusNodeText?.dataset.type === 'word') {
+        //   selection.setBaseAndExtent(anchorNodeText, 0, focusNodeText, 1);
+
+        const newPhrase = selection.toString();
+
+        const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
+        let newWordObject: UserWord | undefined;
+
+        if (existingWord[0]) {
+        // eslint-disable-next-line prefer-destructuring
+          newWordObject = existingWord[0];
+        } else {
+          newWordObject = {
+            word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
+          };
+
+          setCurrentWord(newWordObject);
+          setCurrentWordContext(context);
+        }
+
+        // if userWords does not include the new word
+        if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
+        === newWordObject?.word.toLowerCase()).length === 0) {
+        // removes any words without an id, meaning that they also have no translation
+          const updatedWords = [...userWords
+            .filter((wordObj) => wordObj.id !== undefined), newWordObject];
+          setUserWords(updatedWords);
+        }
+      }
+    }
+  };
+
   return (
     <div className='inline-block my-1.5'>
       <span
@@ -164,7 +207,7 @@ export const Word = function ({ word, dataKey, context }:
 
           if (touchStart === window.scrollY) {
             if (window.getSelection()?.toString()) {
-              getHighlightedWordOrPhrase(event);
+              // getHighlightedWordOrPhrase(event);
             } else {
               getClickedOnWord(event);
             }
@@ -177,7 +220,7 @@ export const Word = function ({ word, dataKey, context }:
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
           if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
-            getHighlightedWordOrPhrase(event);
+            // getHighlightedWordOrPhrase(event);
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
           }
@@ -187,7 +230,11 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
-        onMouseOver={(event) => highlightWordsInPhrases(event.target)}
+        onMouseOver={(event) => {
+          highlightWordsInPhrases(event.target);
+        }}
+
+        onMouseMove={(event) => highlightCurrentSelection(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent  py-1 p-px rounded-md`}
         data-key={dataKey}
         data-type={'word'}>

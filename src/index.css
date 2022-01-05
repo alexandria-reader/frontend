@@ -57,9 +57,9 @@ code {
   background-color: rgb(1, 0, 0);
 } */
 
-/* ::slection {
+::selection {
   appearance: none;
-} */
+}
 
 /* iframe {
   overflow-x: hidden;
