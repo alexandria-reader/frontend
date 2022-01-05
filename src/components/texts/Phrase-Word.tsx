@@ -20,6 +20,7 @@ export const Word = function ({ word, dataKey, context }:
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const [touchStart, setTouchStart] = useState(0);
+  const [isTouch, setIsTouch] = useState(false);
   const [isWordInPhrase, setIsWordInPhrase] = useState(false);
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
@@ -86,9 +87,10 @@ export const Word = function ({ word, dataKey, context }:
   const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
     const possiblePhraseDiv = input?.parentElement?.parentElement;
+    const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
     // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
-    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent) {
+    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && pointerEvent.type === 'touchend') {
       const current = userWords.filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
 
       if (current.length === 1) {
@@ -158,6 +160,8 @@ export const Word = function ({ word, dataKey, context }:
     <div className='inline-block my-1.5'>
       <span
         onTouchEnd={(event) => {
+          setIsTouch(true);
+
           if (touchStart === window.scrollY) {
             if (window.getSelection()?.toString()) {
               getHighlightedWordOrPhrase(event);
@@ -172,13 +176,14 @@ export const Word = function ({ word, dataKey, context }:
         onMouseUp={(event) => {
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
-          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup') {
+          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
             getHighlightedWordOrPhrase(event);
-          } else if (pointerEvent.type === 'mouseup') {
+          } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
           }
           window.getSelection()?.removeAllRanges();
           window.getSelection()?.empty();
+          setIsTouch(false);
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
@@ -212,7 +217,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   return (
     <div className='inline'>
       {/* <span className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 -p[1px] py-2 rounded-md`}> */}
-      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
+      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-[9px] py-1.5 rounded-md`} data-type={'phrase'}>
         {
           parts.map((word, index, array) => <Fragment>
             <Word key={word + index} dataKey={word + index} word={word} context={context} />
