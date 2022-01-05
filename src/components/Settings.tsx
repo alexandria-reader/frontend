@@ -6,7 +6,6 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import { languagesState, userState } from '../states/recoil-states';
-// import users from '../services/users';
 
 const logo = require('../assets/logo2.png');
 
@@ -67,7 +66,7 @@ export default function Settings() {
         src={logo}
         alt="logo"
     />
-  <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 flex flex-row">
+  <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 md:flex flex-row">
     <div className="max-w-sm w-fit space-y-8 basis-1/2">
     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">User account settings</h2>
     <p className="text-gray-600 text-sm mb-6 px-10">{user.username} at {user.email} is logged in</p>
