@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -18,7 +19,6 @@ const SingleText = function () {
   const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-
   const params = useParams();
 
   const fetchUserwords = async function() {
@@ -41,14 +41,15 @@ const SingleText = function () {
       fetchUserwords();
     } else {
       getTextById();
+      fetchUserwords();
     }
-  }, [currentText]);
+  }, [currentText, user]);
 
-  if (currentText) {
+  if (currentText && Number(currentText?.id) === Number(params.textId)) {
     return (
-      <div className='bg-gray-100'>
+      <div className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
         {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
-        <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:max-w-7xl lg:grid-flow-col-dense'>
+        <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
         {/* Check if title ends with a dot, if not add one */}
           <TextBody title={currentText.title} textBody={`${currentText.title}. \n${currentText.body}`} />
           <TranslationInput word={currentWord}/>

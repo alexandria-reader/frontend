@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import {
+  ChangeEvent, MouseEvent, useEffect, useState,
+} from 'react';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -33,10 +35,10 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
   const wordStatusToolbar = word
     ? <div className="flex flex-row justify-center overflow-visible">
-        <button className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
+        <button className='bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
         <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
-        <button className='bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
+        <button className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded my-4' onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
       </div>
     : '';
 
@@ -139,6 +141,12 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     // console.log(event.target.value);
   };
 
+  useEffect(() => {
+    if (showDictionary) {
+      setShowDictionary(false);
+    }
+  }, [currentWord]);
+
   return (
     <div>
       {currentWord && currentWord?.translations?.length > 0
@@ -227,16 +235,17 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   if (window.innerWidth > 768) {
     return (
       <>
-        <div className='bg-white shadow sm:rounded-lg sm:px-6 py-4 md:flex flex-col md:col-start-2 w-[368px] md:col-span-1 hidden'>
-          {word && <div className='flex flex-row items-center'>
-            <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            </svg>
-            <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
-          </div>}
-          {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>
-}
-          <TranslationComponent word={word} />
+        <div className=' md:col-start-2 md:flex flex-col w-[368px] md:col-span-1 hidden'>
+          <div className='sticky top-10 bg-white shadow sm:rounded-lg sm:px-6 py-4 '>
+            {word && <div className='flex flex-row items-center'>
+              <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
+            </div>}
+            {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>}
+            <TranslationComponent word={word} />
+          </div>
         </div>
       </>
     );
