@@ -32,6 +32,7 @@ export default function Settings() {
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
     setError: setError2,
+    // clearErrors: clearErrors2,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -40,7 +41,7 @@ export default function Settings() {
     register: register3,
     formState: { errors: errors3 },
     handleSubmit: handleSubmit3,
-    // setError: setError3,
+    setError: setError3,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -60,24 +61,28 @@ export default function Settings() {
     }
   };
 
-  const changePassword = async (data: { newPassword1: string; newPassword2: string; currentPassword: string; }) => {
-    const response = await userServices.updatePassword(data.currentPassword, data.newPassword1);
+  const changePassword = async (data: { password1: string; password2: string; password3: string; }) => {
+    const response = await userServices.updatePassword(data.password1, data.password2);
+    if (data.password2 !== data.password3) {
+      setError2('checkInputPasswords', { type: 'password', message: 'New passwords do not match' });
+    }
     if (typeof response === 'string') {
       setError2('password', { type: 'password', message: response });
     } else {
-      setUser(response);
       setPasswordmessage('Password updated');
     }
   };
 
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
-    // if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
-    //   setError3('learnLanguageId', { type: 'languages', message: ' Learning language cannot be the same as known language' });
-    //   return;
-    // }
+    console.log(data.currentKnownLanguageId, data.currentLearnLanguageId);
+    if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
+      setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+      return;
+    }
     const response = await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
     setUser(response);
     setLanguagemessage('Language settings updated');
+    console.log(languagemessage);
   };
 
   useEffect(() => {
@@ -165,27 +170,25 @@ export default function Settings() {
     <p className="text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
      <label htmlFor="current-password" className="label sr-only">Password</label>
-     {/* <input {...register('currentPassword', { required: true, pattern: /^.{6,}$/ })} */}
      <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Old Password' type="password" />
-    {errors2.password1?.type === 'required' && ' Password is required.'}
-    {errors2.password1?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
     <label htmlFor="new-password" className="label sr-only">Password</label>
-     {/* <input {...register('newPassword1', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('password2')}
+     <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='New Password' type="password" />
-    {errors2.password2?.type === 'required' && ' Password is required.'}
-    {errors2.password2?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
      <label htmlFor="new-password-2" className="label sr-only">New Password</label>
-     {/* <input {...register('newPassword2', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('password3')}
+     <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Confirm New Password' type="password" />
-    {errors2.password3?.type === 'required' && ' Password is required.'}
-    {errors2.password3?.type === 'pattern' && ' The password should have at least 6 characters.'}
+    {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
     {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
+    {errors2.checkInputPasswords && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.checkInputPasswords.message}</p>)}
     <div className='py-6 sm:pt-6 text-right'>
         <button
           type="submit"
@@ -213,7 +216,7 @@ export default function Settings() {
       {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
       {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name} </option>)}
       </select>}
-      <p className="text-sm mt-6 text-red-600 font-bold">{errors3.learnLanguageId && errors3.learnLanguageId.message}</p>
+      {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
     </div>
     <div className='py-6 sm:pt-6 text-right'>
           <button
