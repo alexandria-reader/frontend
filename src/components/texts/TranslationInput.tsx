@@ -3,7 +3,10 @@ import {
   ChangeEvent, MouseEvent, useEffect, useState,
 } from 'react';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState,
+} from 'recoil';
+
 import {
   userwordsState, currentwordState, currenttextState,
   currentwordContextState, userState,
@@ -16,6 +19,7 @@ import translationServices from '../../services/translations';
 const ChangeStatus = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
+  const resetCurrentWord = useResetRecoilState(currentwordState);
 
   const user = useRecoilValue(userState);
 
@@ -26,11 +30,19 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     if (newUserWord.id && user) {
       wordsService.updateStatus(newUserWord);
     }
-    setCurrentWord(newUserWord);
 
-    const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
-      !== newUserWord.word.toLowerCase()), newUserWord];
-    setUserWords(updatedWords);
+    if (status) {
+      setCurrentWord(newUserWord);
+
+      const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+        !== newUserWord.word.toLowerCase()), newUserWord];
+      setUserWords(updatedWords);
+    } else {
+      resetCurrentWord();
+      const updatedWords = [...userWords.filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+        !== newUserWord.word.toLowerCase())];
+      setUserWords(updatedWords);
+    }
   };
 
   const wordStatusToolbar = word
