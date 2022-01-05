@@ -129,11 +129,11 @@ export const Word = function ({ word, dataKey, context }:
   let wordClass = '';
 
   if (wordStatus === 'learning') {
-    wordClass = 'bg-amber-500';
+    wordClass = 'bg-orange-400';
   } else if (wordStatus === 'familiar') {
-    wordClass = 'bg-yellow-500';
+    wordClass = 'bg-yellow-300';
   } else if (wordStatus === 'learned') {
-    wordClass = 'bg-gray-200';
+    wordClass = 'bg-green-200';
   }
 
   return (
@@ -181,11 +181,11 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   let wordClass = '';
 
   if (phraseStatus === 'learning') {
-    wordClass = 'bg-amber-500';
+    wordClass = 'bg-orange-300';
   } else if (phraseStatus === 'familiar') {
-    wordClass = 'bg-yellow-500';
+    wordClass = 'bg-yellow-300';
   } else if (phraseStatus === 'learned') {
-    wordClass = 'bg-gray-200';
+    wordClass = 'bg-green-200';
   }
 
   const parts = phrase.split(' ');
