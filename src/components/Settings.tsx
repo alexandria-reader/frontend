@@ -79,8 +79,13 @@ export default function Settings() {
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
     if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
       setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
-      reset3();
-      return;
+      const timeId = setTimeout(() => {
+        reset3();
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
     }
     const response = await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
     setUser(response);
