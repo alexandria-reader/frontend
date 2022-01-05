@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import {
+  ChangeEvent, MouseEvent, useEffect, useState,
+} from 'react';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -138,6 +140,12 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     setTranslation(event.target.value);
     // console.log(event.target.value);
   };
+
+  useEffect(() => {
+    if (showDictionary) {
+      setShowDictionary(false);
+    }
+  }, [currentWord]);
 
   return (
     <div>
