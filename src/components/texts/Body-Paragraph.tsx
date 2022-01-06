@@ -97,7 +97,6 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
       setCurrentWordContext(null);
     } else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
       const text = target?.textContent?.split(' ').filter(Boolean);
-      console.log(text);
 
       // if user clicks on a span containing words and a space, it's a phrase
       if (text.length > 1) {

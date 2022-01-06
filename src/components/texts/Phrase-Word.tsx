@@ -43,8 +43,10 @@ export const Word = function ({ word, dataKey, context }:
       if (startNode && startNode.textContent) {
         startWord = startNode.textContent;
         const firstWordPartial = stringArray[0];
-        if (firstWordPartial[firstWordPartial.length - 1] === '.') {
-          stringArray[0] = `${startWord}.`;
+        const lastLetter = firstWordPartial[firstWordPartial.length - 1];
+
+        if (/[.,]/.test(lastLetter)) {
+          stringArray[0] = `${startWord}${lastLetter}`;
         } else {
           stringArray[0] = startWord;
         }
@@ -57,7 +59,7 @@ export const Word = function ({ word, dataKey, context }:
         }
       }
 
-      const newPhrase = stringArray.join(' ').trim().split('.')[0];
+      const newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord | undefined;
 
