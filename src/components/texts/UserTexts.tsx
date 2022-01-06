@@ -219,15 +219,18 @@ const UserTexts = function() {
   };
 
   return (
+    <>
+    <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
       <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
-        <div className='max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8 flex flex-col'>
-          {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
-          {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
-            : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
-          <button className='bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text' onClick={() => setShowNewTextForm(true)}>New Text</button>
-          </div>}
-        </div>
+        {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+        {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
+          : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+        <button className='bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text' onClick={() => setShowNewTextForm(true)}>New Text</button>
+        </div>}
+      </div>
+    </div>
 
+      <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
         {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
@@ -236,6 +239,7 @@ const UserTexts = function() {
         </ul>}
         <Outlet />
       </div>
+      </>
   );
 };
 
