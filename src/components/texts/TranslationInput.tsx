@@ -86,7 +86,8 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
     userWord: UserWord | null,
   ) {
     event.preventDefault();
-    if (userWord) {
+    console.log(translation);
+    if (userWord && translation) {
       const newUserWord = { ...userWord };
 
       if (user) {
@@ -175,6 +176,8 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               type="text"
               name="translation"
               id="translation"
+              required
+              minLength={1}
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
