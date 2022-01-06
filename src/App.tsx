@@ -17,7 +17,6 @@ function App() {
   const fetchUserInfo = async function () {
     if (!user) {
       const localToken = getToken();
-      console.log('Checking for token');
 
       if (typeof localToken === 'string') {
         const tokenUser = await userServices.getUserFromToken(localToken);

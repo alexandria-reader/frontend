@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {
+import React, {
   ChangeEvent, MouseEvent, useEffect, useState,
 } from 'react';
 
@@ -9,7 +9,7 @@ import {
 
 import {
   userwordsState, currentwordState, currenttextState,
-  currentwordContextState, userState,
+  currentwordContextState, userState, currentdictionaryState,
 } from '../../states/recoil-states';
 
 import { UserWord, Status, Translation } from '../../types';
@@ -76,6 +76,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const currentText = useRecoilValue(currenttextState);
   const currentWordContext = useRecoilValue(currentwordContextState);
+  const dictionary = useRecoilValue(currentdictionaryState);
 
   const user = useRecoilValue(userState);
 
@@ -189,7 +190,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
         {/* dictionary buttons and change status */}
         <div className='flex flex-col justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-1'>Close Dictionary</button>
-          <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`} /></>}
+          <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference</button>
           <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>DeepL (Popup)</button>
@@ -255,7 +256,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
             </div>}
             {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>}
-            <TranslationComponent word={word} />
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <TranslationComponent word={word} />
+            </React.Suspense>
           </div>
         </div>
       </>
@@ -280,7 +283,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               </svg>
             </div>
           </div>
-          <TranslationComponent word={word} />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <TranslationComponent word={word} />
+          </React.Suspense>
         </div>
       </div>
     </div>}
