@@ -95,20 +95,19 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
         .filter((wordObj) => wordObj.id !== undefined)];
       setUserWords(updatedWords);
       setCurrentWordContext(null);
-    }
-    // else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
-    //   const text = target?.textContent?.split(' ').filter(Boolean);
-    //   console.log(text);
+    } else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
+      const text = target?.textContent?.split(' ').filter(Boolean);
+      console.log(text);
 
-    //   // if user clicks on a span containing words and a space, it's a phrase
-    //   if (text.length > 1) {
-    //     const current = userWords.filter((wordObj) => wordObj.word === target
-    //       .textContent?.toLowerCase());
-    //     if (current.length === 1) {
-    //       setCurrentWord(current[0]);
-    //     }
-    //   }
-    // }
+      // if user clicks on a span containing words and a space, it's a phrase
+      if (text.length > 1) {
+        const current = userWords.filter((wordObj) => wordObj.word === target
+          .textContent?.toLowerCase());
+        if (current.length === 1) {
+          setCurrentWord(current[0]);
+        }
+      }
+    }
 
     window.getSelection()?.removeAllRanges();
   };

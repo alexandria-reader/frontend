@@ -90,12 +90,12 @@ const WordTable = function () {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {userword.translations.map((translation) => (
-                      <div className="text-sm font-medium text-gray-900">{translation.translation}</div>
+                      <div key={translation.id} className="text-sm font-medium text-gray-900">{translation.translation}</div>
                     ))}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {userword.translations.map((translation) => (
-                      <div className="text-sm font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
+                      <div key={`context ${translation.id}`} className="text-sm font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
                     ))}
                   </td>
                 </tr>
