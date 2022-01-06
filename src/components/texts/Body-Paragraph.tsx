@@ -110,7 +110,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
 
   return (
     <>
-      <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 m-4 md:col-span-2 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
+      <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 md:col-span-1 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
         <h1 className='font-bold text-3xl mb-2'>{title}</h1>
           {paragraphs.map((paragraph, index) => <><div className='mb-3'><Paragraph key={index} paragraph={paragraph} /></div></>)}
       </div>
