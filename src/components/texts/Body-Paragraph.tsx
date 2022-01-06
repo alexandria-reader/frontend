@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
@@ -31,11 +32,11 @@ const Sentence = function({ sentence }: { sentence: string }) {
       {
         tokens?.map((token, index) => {
           if (phrases.includes(token.toLowerCase())) {
-            return <Phrase key={token + index} phrase={token} context={sentence} />;
+            return <Phrase key={index + token} phrase={token} context={sentence} />;
           }
 
           if (token.match(wordRegExp)) {
-            return <Word key={token + index} dataKey={token + index}
+            return <Word key={index + token} dataKey={index + token}
             word={token} context={sentence} />;
           }
 
@@ -62,7 +63,7 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
   return (
     <div className={`${isMobile ? 'inline' : 'inline-block'}`}>
     {
-      sentences.map((sentence, index) => <Sentence key={index} sentence={sentence} />)
+      sentences.map((sentence, index) => <Sentence key={index + sentence.slice(1, 9)} sentence={sentence} />)
     }
     </div>
   );
@@ -112,7 +113,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
     <>
       <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 md:col-span-1 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
         <h1 className='font-bold text-3xl mb-2'>{title}</h1>
-          {paragraphs.map((paragraph, index) => <><div className='mb-3'><Paragraph key={index} paragraph={paragraph} /></div></>)}
+          {paragraphs.map((paragraph, index) => <div className='mb-3'><Paragraph key={index + paragraph.slice(0, 8)} paragraph={paragraph} /></div>)}
       </div>
     </>
   );

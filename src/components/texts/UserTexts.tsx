@@ -38,7 +38,7 @@ const IndividualText = function({ text }: { text: Text }) {
   return (
     <li className='mb-2 col-span-3 bg-white rounded-lg shadow relative group divide-y divide-gray-200' >
       <div className='flex flex-row justify-between group-hover:shadow-md'>
-        <Link className='w-full overflow-hidden' key={text.id + text.body.slice(0, 7)} to={`/texts/${text.id}`}>
+        <Link className='w-full overflow-hidden' key={`${text.id} ${text.body.slice(0, 7)}`} to={`/texts/${text.id}`}>
           <div onClick={(_event) => setCurrentText(text)} className='flex items-center p-6 space-x-6'>
             <div className='flex justify-center items-center p-4 rounded-full flex-shrink-0 bg-indigo-500'>
             <svg className="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -235,7 +235,7 @@ const UserTexts = function() {
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
         {!showNewTextForm && <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
-          {textList.map((text) => <><IndividualText key={text.id + text.body.slice(1, 8)} text={text} /></>)}
+          {textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`} text={text} />)}
         </ul>}
         <Outlet />
       </div>
