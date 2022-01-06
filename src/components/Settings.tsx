@@ -9,7 +9,7 @@ import {
   languagesState, userState,
 } from '../states/recoil-states';
 
-const logo = require('../assets/logo2.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function Settings() {
   const [user, setUser] = useRecoilState(userState);

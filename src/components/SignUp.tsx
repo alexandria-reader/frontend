@@ -13,7 +13,7 @@ import loginService from '../services/login';
 
 import { User, LoggedInUser } from '../types';
 
-const logo = require('../assets/logo2.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function SignUp() {
   const navigate = useNavigate();

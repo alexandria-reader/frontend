@@ -7,7 +7,7 @@ import { userState } from '../states/recoil-states';
 import loginService from '../services/login';
 import { LoggedInUser } from '../types';
 
-const logo = require('../assets/logo/logo-text-light.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function LoginForm({ from }: { from: string }) {
   const [email, setEmail] = useState('');
