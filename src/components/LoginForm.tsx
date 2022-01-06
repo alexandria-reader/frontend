@@ -6,7 +6,7 @@ import { userState } from '../states/recoil-states';
 
 import loginService from '../services/login';
 
-const logo = require('../assets/logo/logo-text-light.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function LoginForm({ from }: { from: string }) {
   const setUser = useSetRecoilState(userState);
