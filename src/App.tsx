@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen min-w-full bg-gray-100 flex flex-col justify-between">
+    <div className="min-h-screen min-w-full bg-gray-100 flex flex-col justify-between mb-auto">
           <Nav />
           <main className='container mx-auto mb-auto'>
             <Outlet />
