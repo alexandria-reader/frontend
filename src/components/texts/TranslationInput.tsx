@@ -155,7 +155,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   }, [currentWord]);
 
   return (
-    <div>
+    <div key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
       && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
         <ul className='flex flex-row'>{currentWord?.translations
@@ -253,7 +253,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
             </div>}
             {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>}
-            <TranslationComponent word={word} />
+            <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
           </div>
         </div>
       </>
@@ -278,7 +278,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               </svg>
             </div>
           </div>
-          <TranslationComponent word={word} />
+          <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
         </div>
       </div>
     </div>}

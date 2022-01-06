@@ -126,7 +126,7 @@ const Words = function() {
   }, [user]);
 
   return (
-    <WordTable />
+    <WordTable key='words-table' />
   );
 };
 

@@ -191,16 +191,17 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   const parts = phrase.split(' ');
 
   return (
-    <div className='inline'>
-      {/* <span className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 -p[1px] py-2 rounded-md`}> */}
-      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
-        {
-          parts.map((word, index, array) => <Fragment>
-            <Word key={word + index} dataKey={word + index} word={word} context={context} />
-            <>{index === array.length - 1 ? '' : ' '}</>
-            </Fragment>)
-        }
-      </span>
-    </div>
+    <>
+      {
+        parts.map((word, index, array) => <Fragment key={word} >
+          <div className='inline'>
+            <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
+              <Word key={word} dataKey={word} word={word} context={context} />
+              <>{index === array.length - 1 ? '' : ' '}</>
+            </span>
+          </div>
+        </Fragment>)
+      }
+    </>
   );
 };

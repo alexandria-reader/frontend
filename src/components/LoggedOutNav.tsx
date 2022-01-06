@@ -37,9 +37,8 @@ export default function Example() {
                     {navigation.map((item) => {
                       const isActive = useLocation().pathname === item.href;
 
-                      return <NavLink to={`${item.href}`}>
+                      return <NavLink key={item.name} to={`${item.href}`}>
                       <Disclosure.Button
-                      key={item.name}
                       as="a"
                       href={item.href}
                       className={classNames(
