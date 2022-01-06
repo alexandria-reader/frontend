@@ -81,7 +81,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const user = useRecoilValue(userState);
 
   const handleTranslation = async function(
-    event: FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLButtonElement>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -162,11 +162,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       <div className='my-4'>
-        <form onSubmit={(event) => {
-          handleTranslation(event, translation, word);
-          setShowDictionary(false);
-          setTranslation('');
-        }} className=' flex flex-col justify-center' >
+        <form className=' flex flex-col justify-center' >
           <label htmlFor="translation" className="block text-md font-medium text-gray-700">
             Add translation:
           </label>
@@ -180,7 +176,11 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-600 focus:border-indigo-600 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
-            <button className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' type={'submit'}>Submit</button>
+            <button onClick={(event) => {
+              handleTranslation(event, translation, word);
+              setShowDictionary(false);
+              setTranslation('');
+            }} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' type={'submit'}>Submit</button>
           </div>
         </form>
 
