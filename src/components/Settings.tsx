@@ -149,8 +149,8 @@ export default function Settings() {
   }, [showLanguageMessage]);
 
   return (<div> {user && (
-  <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
-    <div className='max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8"'>
+  <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
+    <div className='max-w-7xl mx-auto px-4 pt-6 sm:px-6 lg:px-8'>
       <div className='pb-6 border-b border-gray-200 flex items-center justify-between'>
         <img
           className="mx-auto h-20 w-auto"
