@@ -230,7 +230,7 @@ const UserTexts = function() {
       </div>
     </div>
 
-      <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8'>
         {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
           newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
           setShowNewTextForm={setShowNewTextForm} />}
