@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState, useEffect, FormEvent } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -9,6 +10,7 @@ const NewTextForm = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
   const [newText, setNewText] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
+  const [newTextURL, setNewTextURL] = useState('');
   const navigate = useNavigate();
 
   const user = useRecoilValue(userState);
@@ -43,6 +45,12 @@ const NewTextForm = function() {
     setNewTextTitle('');
   };
 
+  const cancelButton = function() {
+    setNewText('');
+    setNewTextTitle('');
+    setNewTextURL('');
+  };
+
   return (
     <>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -52,57 +60,94 @@ const NewTextForm = function() {
           </div>
         </div>
       </div>
-        <div className="min-h-full max-w-7xl flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
-          <div className="space-y-8">
-            <div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add a new text here:</h2>
+        <div className="md:grid md:grid-cols-3 md:gap-6 min-h-full max-w-7xl space-y-8 sm:grid-cols-1 lg:grid-cols-3 px-4 py-8 sm:px-8 lg:px-10">
+          <div className="md:col-span-1">
+            <div className="px-4 sm:px-0">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">New text</h3>
+              <p className="mt-1 text-sm text-gray-600">
+                Add a new text here:
+              </p>
             </div>
-            <form className="mt-8 space-y-6" onSubmit={(event) => submitText(event)}>
-              <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                  <label htmlFor="title" className='text-gray-700'>
-                    Title:
-                  </label>
-                  <input
-                    type='text'
-                    placeholder='title'
-                    name='title'
-                    required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    value={newTextTitle}
-                    onChange={(e) => setNewTextTitle(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="text" className='text-gray-700'>
-                    Text content:
-                  </label>
-                  <textarea
-                    name='text'
-                    placeholder='Enter the text you would like to read here:'
-                    value={newText}
-                    required
-                    rows={6}
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    onChange={(e) => setNewText(e.target.value)}
-                  />
-                </div>
-              </div>
+          </div>
+          <div className="mt-5 md:mt-0 md:col-span-2">
+            <form action="#" method="POST" onSubmit={(event) => submitText(event)}>
+              <div className="shadow sm:rounded-md sm:overflow-hidden">
+                <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
 
-              <div>
-                <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Submit
-                </button>
-                <NavLink to={'/texts'}>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="col-span-3 sm:col-span-2">
+                      <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
+                        Title
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm">
+                        <input
+                          type='text'
+                          placeholder='Title'
+                          name='title'
+                          required
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          value={newTextTitle}
+                          onChange={(e) => setNewTextTitle(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                      Text content:
+                    </label>
+                    <div className="mt-1">
+                      <textarea
+                        id="about"
+                        name="about"
+                        rows={3}
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                        placeholder="Paste your text here"
+                        defaultValue={''}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="col-span-3 sm:col-span-2">
+                      <label htmlFor="text-url" className="block text-sm font-medium text-gray-700">
+                        URL
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm">
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                          http://
+                        </span>
+                        <input
+                          type="text"
+                          name="text-url"
+                          id="text-url"
+                          value={newTextURL}
+                          onChange={(e) => setNewTextURL(e.target.value)}
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          placeholder="www.example.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div className="px-4 py-3 flex justify-end bg-gray-50 text-right sm:px-6">
                   <button
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    type="submit"
+                    className="inline-flex mx-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                  Cancel
+                    Save
                   </button>
-                </NavLink>
+                  <NavLink to={'/texts'} onClick={() => cancelButton()}>
+                    <button
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Cancel
+                    </button>
+                  </NavLink>
+                </div>
               </div>
             </form>
           </div>
