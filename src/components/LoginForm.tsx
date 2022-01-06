@@ -9,7 +9,7 @@ import { LoggedInUser } from '../types';
 
 const logo = require('../assets/logo/logo-text-light.png');
 
-export default function LoginForm() {
+export default function LoginForm({ from }: { from: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setUser = useSetRecoilState(userState);
@@ -34,7 +34,7 @@ export default function LoginForm() {
 
       localStorage.setItem('alexandria-user-token', loggedInUser.token);
 
-      navigate('/texts');
+      navigate(from, { replace: true });
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert(error);

@@ -15,6 +15,7 @@ import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import SingleText from './components/texts/SingleText';
 import UserTexts from './components/texts/UserTexts';
+import PrivateRoute from './components/PrivateRoute';
 
 import getToken from './utils/getToken';
 
@@ -33,13 +34,13 @@ render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={token ? <UserTexts /> : < Home />}/>
-            <Route path="texts" element={<UserTexts />}/>
-              <Route path="texts/:textId" element={<SingleText />}/>
-            <Route path="words" element={<Words />}/>
+            <Route path="texts" element={<PrivateRoute><UserTexts /></PrivateRoute>}/>
+              <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
+            <Route path="words" element={<PrivateRoute><Words /></PrivateRoute>}/>
             <Route path="logout" element={<Home />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path="about" element={<About />} />
-            <Route path="login" element={<LogIn />} />
+            <Route path="login" element={token ? <UserTexts /> : <LogIn />} />
             <Route path="signup" element={<SignUp />} />
             <Route
               path="*"
