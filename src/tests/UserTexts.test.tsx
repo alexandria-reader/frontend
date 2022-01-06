@@ -22,7 +22,6 @@ xdescribe('Tests user ability to interact with texts', () => {
 
     await textsServices.postNewText(newTextObj);
     const fetchUserTexts = await textsServices.getAllUserTextsByLanguage('en');
-    console.log(fetchUserTexts);
     expect(fetchUserTexts[fetchUserTexts.length - 1].body).toContain('HERE were once five-and-twenty tin soldiers');
   });
 
