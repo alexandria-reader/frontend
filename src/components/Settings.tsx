@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { LockClosedIcon } from '@heroicons/react/solid';
+// import { LockClosedIcon } from '@heroicons/react/solid';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import {
@@ -181,9 +181,9 @@ export default function Settings() {
             type="submit" name="button-name-email"
             className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+          {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
             <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-          </span>
+          </span> */}
           Save
         </button>
     </div>
@@ -214,9 +214,9 @@ export default function Settings() {
           type="submit"
           className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-        <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+        {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
           <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-        </span>
+        </span> */}
         Save
       </button>
     </div>
@@ -243,9 +243,9 @@ export default function Settings() {
             type="submit"
             className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+          {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
             <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-          </span>
+          </span> */}
           Save
         </button>
     </div>
