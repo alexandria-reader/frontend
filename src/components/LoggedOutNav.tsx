@@ -12,7 +12,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function LoggedOutNav() {
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {() => (
@@ -39,8 +39,7 @@ export default function Example() {
 
                       return <NavLink key={item.name} to={`${item.href}`}>
                       <Disclosure.Button
-                      as="a"
-                      href={item.href}
+                      as="div"
                       className={classNames(
                         isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block px-3 py-2 rounded-md text-base font-medium',
