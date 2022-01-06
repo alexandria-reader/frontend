@@ -2,6 +2,7 @@
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 import wordsService from '../../services/words';
@@ -13,6 +14,7 @@ import {
   userState,
 } from '../../states/recoil-states';
 import getToken from '../../utils/getToken';
+import NotFound from '../NotFound';
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
@@ -47,11 +49,11 @@ const SingleText = function () {
 
   if (currentText && Number(currentText?.id) === Number(params.textId)) {
     return (
-      <div className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
+      <div key={`text-id:${currentText.id}outer`} className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
         {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
         <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
         {/* Check if title ends with a dot, if not add one */}
-          <TextBody title={currentText.title} textBody={`${currentText.title}. \n${currentText.body}`} />
+          <TextBody key={`text-id:${currentText.id}unique`} title={currentText.title} textBody={`${currentText.title}. \n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>
       </div>
@@ -60,10 +62,7 @@ const SingleText = function () {
 
   return (
     <div className='Text-page'>
-      <div className='text-div'>
-        <h1>No text found. (This sometimes appears when a text is being loaded from the server,
-          it will be replaced later by a placeholder)</h1>
-      </div>
+      <NotFound />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
 import {
-  ChangeEvent, FormEvent, MouseEvent, useEffect, useState,
+  ChangeEvent, FormEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
 
 import {
@@ -10,7 +10,7 @@ import {
 
 import {
   userwordsState, currentwordState, currenttextState,
-  currentwordContextState, userState,
+  currentwordContextState, userState, currentdictionaryState,
 } from '../../states/recoil-states';
 
 import { UserWord, Status, Translation } from '../../types';
@@ -77,11 +77,12 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const currentText = useRecoilValue(currenttextState);
   const currentWordContext = useRecoilValue(currentwordContextState);
+  const dictionary = useRecoilValue(currentdictionaryState);
 
   const user = useRecoilValue(userState);
 
   const handleTranslation = async function(
-    event: FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLButtonElement>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -155,18 +156,14 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   }, [currentWord]);
 
   return (
-    <div>
+    <div key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
       && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
         <ul className='flex flex-row'>{currentWord?.translations
-          .map((transObj) => <li className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
+          .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       <div className='my-4'>
-        <form onSubmit={(event) => {
-          handleTranslation(event, translation, word);
-          setShowDictionary(false);
-          setTranslation('');
-        }} className=' flex flex-col justify-center' >
+        <form className=' flex flex-col justify-center' >
           <label htmlFor="translation" className="block text-md font-medium text-gray-700">
             Add translation:
           </label>
@@ -180,14 +177,18 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-600 focus:border-indigo-600 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
-            <button className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' type={'submit'}>Submit</button>
+            <button onClick={(event) => {
+              handleTranslation(event, translation, word);
+              setShowDictionary(false);
+              setTranslation('');
+            }} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' type={'submit'}>Submit</button>
           </div>
         </form>
 
         {/* dictionary buttons and change status */}
         <div className='flex flex-col justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'>Close Dictionary</button>
-          <DictionaryIframe url={`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`} /></>}
+          <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>WordReference</button>
           <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600'>DeepL (Popup)</button>
@@ -253,7 +254,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
             </div>}
             {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>}
-            <TranslationComponent word={word} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+            </Suspense>
           </div>
         </div>
       </>
@@ -278,7 +281,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               </svg>
             </div>
           </div>
-          <TranslationComponent word={word} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+          </Suspense>
         </div>
       </div>
     </div>}

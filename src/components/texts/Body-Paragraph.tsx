@@ -40,7 +40,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
             word={token} context={sentence} />;
           }
 
-          return <span>{token}</span>;
+          return <span key={index + token}>{token}</span>;
         })
       }
     </>
@@ -61,11 +61,13 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
   }, []);
 
   return (
-    <div className={`${isMobile ? 'inline' : 'inline-block'}`}>
+    <>
     {
-      sentences.map((sentence, index) => <Sentence key={index + sentence.slice(1, 9)} sentence={sentence} />)
+      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className={`${isMobile ? 'inline' : 'inline-block'}`}>
+          <Sentence key={index + sentence.slice(1, 9)} sentence={sentence} />
+        </div>)
     }
-    </div>
+    </>
   );
 };
 
@@ -95,6 +97,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
       setCurrentWordContext(null);
     } else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
       const text = target?.textContent?.split(' ').filter(Boolean);
+      console.log(text);
 
       // if user clicks on a span containing words and a space, it's a phrase
       if (text.length > 1) {
@@ -113,7 +116,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
     <>
       <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 md:col-span-1 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
         <h1 className='font-bold text-3xl mb-2'>{title}</h1>
-          {paragraphs.map((paragraph, index) => <div className='mb-3'><Paragraph key={index + paragraph.slice(0, 8)} paragraph={paragraph} /></div>)}
+          {paragraphs.map((paragraph, index) => <div key={index + paragraph.slice(0, 5)} className='mb-3'><Paragraph key={index + paragraph.slice(0, 5)} paragraph={paragraph} /></div>)}
       </div>
     </>
   );
