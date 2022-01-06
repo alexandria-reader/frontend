@@ -47,7 +47,7 @@ export default function LoginForm({ from }: { from: string }) {
         <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
-              className="mx-auto h-20 w-auto"
+              className="mx-auto h-24 w-auto"
               src={logo}
               alt="logo"
             />

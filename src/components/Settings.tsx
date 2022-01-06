@@ -151,7 +151,7 @@ export default function Settings() {
   return (<div> {user && (
   <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
      <img
-        className="mx-auto h-20 w-auto"
+        className="mx-auto h-24 w-auto"
         src={logo}
         alt="logo"
     />
