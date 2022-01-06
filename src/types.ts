@@ -66,3 +66,11 @@ export type LoginDetails = {
   password: string
 };
 
+
+export type Webdictionary = {
+  id?: number,
+  sourceLanguageId: string,
+  targetLanguageId: string,
+  name: string,
+  url: string
+};
