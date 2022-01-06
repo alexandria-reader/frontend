@@ -13,7 +13,7 @@ import loginService from '../services/login';
 
 import { User, LoggedInUser } from '../types';
 
-const logo = require('../assets/logo2.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function SignUp() {
         <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
-              className="mx-auto h-20 w-auto"
+              className="mx-auto h-24 w-auto"
               src={logo}
               alt="logo"
             />

@@ -7,7 +7,7 @@ import { userState } from '../states/recoil-states';
 import loginService from '../services/login';
 import { LoggedInUser } from '../types';
 
-const logo = require('../assets/logo/logo-text-light.png');
+const logo = require('../assets/logo/logo-light.png');
 
 export default function LoginForm({ from }: { from: string }) {
   const [email, setEmail] = useState('');
@@ -47,7 +47,7 @@ export default function LoginForm({ from }: { from: string }) {
         <div className="max-w-sm w-fit space-y-8">
           <div>
             <img
-              className="mx-auto h-20 w-auto"
+              className="mx-auto h-24 w-auto"
               src={logo}
               alt="logo"
             />
