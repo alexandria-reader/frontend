@@ -13,6 +13,7 @@ import Settings from './components/Settings';
 import Words from './components/Words';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
+import NotFound from './components/NotFound';
 import SingleText from './components/texts/SingleText';
 import UserTexts from './components/texts/UserTexts';
 import PrivateRoute from './components/PrivateRoute';
@@ -42,14 +43,7 @@ render(
             <Route path="about" element={<About />} />
             <Route path="login" element={token ? <UserTexts /> : <LogIn />} />
             <Route path="signup" element={<SignUp />} />
-            <Route
-              path="*"
-              element={
-                <main>
-                  <p>There's nothing here!</p>
-                </main>
-              }
-            />
+            <Route path="*" element={<NotFound />}/>
           </Route>
         </Routes>
       </Router>

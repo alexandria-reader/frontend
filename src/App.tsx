@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { userState } from './states/recoil-states';
 import Fallback from './components/Fallback';
@@ -12,7 +13,7 @@ import userServices from './services/users';
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
-
+  const [errorState, setErrorState] = useState(false);
   const fetchUserInfo = async function () {
     if (!user) {
       const localToken = getToken();
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <div className="min-h-screen min-w-full bg-gray-100 flex flex-col justify-between">
-      <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}>
+      <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler} onReset={() => setErrorState(false)} resetKeys={[errorState]}>
         <Nav />
         <main className='container mx-auto mb-auto'>
           <Outlet />

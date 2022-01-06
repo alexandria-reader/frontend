@@ -2,6 +2,7 @@
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 import wordsService from '../../services/words';
