@@ -1,14 +1,13 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router';
 import { useEffect } from 'react';
-
 import { useRecoilState } from 'recoil';
 import { userState } from './states/recoil-states';
-
+import Fallback from './components/Fallback';
 import './App.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import getToken from './utils/getToken';
-// eslint-disable-next-line import/no-named-as-default
 import userServices from './services/users';
 
 function App() {
@@ -31,17 +30,23 @@ function App() {
     }
   };
 
+  const errorHandler = (error: unknown, errorInfo: unknown) => {
+    console.log('Logging', error, errorInfo);
+  };
+
   useEffect(() => {
     fetchUserInfo();
   }, []);
 
   return (
     <div className="min-h-screen min-w-full bg-gray-100 flex flex-col justify-between">
-          <Nav />
-          <main className='container mx-auto mb-auto'>
-            <Outlet />
-          </main>
-          <Footer />
+      <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}>
+        <Nav />
+        <main className='container mx-auto mb-auto'>
+          <Outlet />
+        </main>
+        <Footer />
+      </ErrorBoundary>
   </div>
   );
 }
