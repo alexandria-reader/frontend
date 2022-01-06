@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {
-  ChangeEvent, MouseEvent, useEffect, useState,
+  ChangeEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
 
 import {
@@ -283,9 +283,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               </svg>
             </div>
           </div>
-          <React.Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading...</div>}>
             <TranslationComponent word={word} />
-          </React.Suspense>
+          </Suspense>
         </div>
       </div>
     </div>}
