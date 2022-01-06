@@ -60,7 +60,7 @@ const NewTextForm = function() {
           </div>
         </div>
       </div>
-        <div className="md:grid md:grid-cols-3 md:gap-6 min-h-full max-w-7xl space-y-8 sm:grid-cols-1 lg:grid-cols-3 px-4 py-8 sm:px-8 lg:px-10">
+        <div className="md:grid md:grid-cols-3 mx-auto md:gap-6 min-h-full max-w-7xl space-y-8 sm:grid-cols-1 lg:grid-cols-3 px-4 py-8 sm:px-8 lg:px-10">
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
               <h3 className="text-lg font-medium leading-6 text-gray-900">New text</h3>
