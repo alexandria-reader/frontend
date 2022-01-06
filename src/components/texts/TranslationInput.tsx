@@ -159,7 +159,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
       {currentWord && currentWord?.translations?.length > 0
       && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
         <ul className='flex flex-row'>{currentWord?.translations
-          .map((transObj) => <li className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
+          .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       <div className='my-4'>
         <form onSubmit={(event) => {

@@ -95,25 +95,27 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
         .filter((wordObj) => wordObj.id !== undefined)];
       setUserWords(updatedWords);
       setCurrentWordContext(null);
-    } else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
-      const text = target?.textContent?.split(' ').filter(Boolean);
-
-      // if user clicks on a span containing words and a space, it's a phrase
-      if (text.length > 1) {
-        const current = userWords.filter((wordObj) => wordObj.word === target
-          .textContent?.toLowerCase());
-        if (current.length === 1) {
-          setCurrentWord(current[0]);
-        }
-      }
     }
+    // else if (isElement(target) && target.nodeName === 'SPAN' && target?.textContent) {
+    //   const text = target?.textContent?.split(' ').filter(Boolean);
+    //   console.log(text);
+
+    //   // if user clicks on a span containing words and a space, it's a phrase
+    //   if (text.length > 1) {
+    //     const current = userWords.filter((wordObj) => wordObj.word === target
+    //       .textContent?.toLowerCase());
+    //     if (current.length === 1) {
+    //       setCurrentWord(current[0]);
+    //     }
+    //   }
+    // }
 
     window.getSelection()?.removeAllRanges();
   };
 
   return (
     <>
-      <div key='text-body' onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 md:col-span-1 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
+      <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} className={`container mx-auto p-4 md:col-span-1 md:col-start-1 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 760 ? 'blur-sm bg-gray-300' : ''}`}>
         <h1 className='font-bold text-3xl mb-2'>{title}</h1>
           {paragraphs.map((paragraph, index) => <div key={index + paragraph.slice(0, 5)} className='mb-3'><Paragraph key={index + paragraph.slice(0, 5)} paragraph={paragraph} /></div>)}
       </div>
