@@ -2,6 +2,7 @@
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import TranslationInput from './TranslationInput';
 import TextBody from './Body-Paragraph';
 import wordsService from '../../services/words';
@@ -13,6 +14,7 @@ import {
   userState,
 } from '../../states/recoil-states';
 import getToken from '../../utils/getToken';
+import NotFound from '../NotFound';
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
@@ -59,11 +61,8 @@ const SingleText = function () {
   }
 
   return (
-    <div key={'no-text'} className='Text-page'>
-      <div className='text-div'>
-        <h1>No text found. (This sometimes appears when a text is being loaded from the server,
-          it will be replaced later by a placeholder)</h1>
-      </div>
+    <div className='Text-page'>
+      <NotFound />
     </div>
   );
 };
