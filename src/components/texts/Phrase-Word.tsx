@@ -20,6 +20,8 @@ export const Word = function ({ word, dataKey, context }:
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const [touchStart, setTouchStart] = useState(0);
+  const [isTouch, setIsTouch] = useState(false);
+  const [isWordInPhrase, setIsWordInPhrase] = useState(false);
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
 
@@ -85,9 +87,10 @@ export const Word = function ({ word, dataKey, context }:
   const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
     const possiblePhraseDiv = input?.parentElement?.parentElement;
+    const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
     // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
-    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent) {
+    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && pointerEvent.type === 'touchend') {
       const current = userWords.filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
 
       if (current.length === 1) {
@@ -136,10 +139,29 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-green-200';
   }
 
+  const isElement = function(element: Element | EventTarget): element is Element {
+    return (element as Element).nodeName !== undefined;
+  };
+
+  const highlightWordsInPhrases = function (target: EventTarget | Element) {
+    if (isElement(target)) {
+      const possiblePhraseDiv = target?.parentElement?.parentElement;
+
+      // checks if user is hovering over an existing phrase
+      if (possiblePhraseDiv?.dataset?.type === 'phrase') {
+        setIsWordInPhrase(true);
+      } else {
+        setIsWordInPhrase(false);
+      }
+    }
+  };
+
   return (
     <div className='inline-block my-1.5'>
       <span
         onTouchEnd={(event) => {
+          setIsTouch(true);
+
           if (touchStart === window.scrollY) {
             if (window.getSelection()?.toString()) {
               getHighlightedWordOrPhrase(event);
@@ -154,17 +176,19 @@ export const Word = function ({ word, dataKey, context }:
         onMouseUp={(event) => {
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
-          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup') {
+          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
             getHighlightedWordOrPhrase(event);
-          } else if (pointerEvent.type === 'mouseup') {
+          } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
           }
           window.getSelection()?.removeAllRanges();
           window.getSelection()?.empty();
+          setIsTouch(false);
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
-        className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 py-1 p-px rounded-md`}
+        onMouseOver={(event) => highlightWordsInPhrases(event.target)}
+        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent  py-1 p-px rounded-md`}
         data-key={dataKey}
         data-type={'word'}>
         {word}
@@ -191,16 +215,17 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   const parts = phrase.split(' ');
 
   return (
-    <div className='inline'>
-      {/* <span className={`${wordClass} cursor-pointer border border-transparent betterhover:hover:border-blue-500 -p[1px] py-2 rounded-md`}> */}
-      <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
-        {
-          parts.map((word, index, array) => <Fragment>
-            <Word key={word + index} dataKey={word + index} word={word} context={context} />
-            <>{index === array.length - 1 ? '' : ' '}</>
-            </Fragment>)
-        }
-      </span>
-    </div>
+    <>
+      <div className='inline'>
+        <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
+      {
+        parts.map((word, index, array) => <Fragment key={word} >
+          <Word key={word} dataKey={word} word={word} context={context} />
+          <>{index === array.length - 1 ? '' : ' '}</>
+        </Fragment>)
+      }
+        </span>
+      </div>
+    </>
   );
 };

@@ -75,7 +75,7 @@ export default function Navbar() {
 
   if (user) {
     return (
-      <Disclosure as="nav" className="bg-gray-800">
+      <Disclosure key='disclosure' as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -111,14 +111,12 @@ export default function Navbar() {
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                   <div className="hidden sm:block sm:ml-6">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => {
+                      {navigation.map((item, index) => {
                         const isActive = useLocation().pathname === item.href;
 
-                        return <NavLink to={`${item.href}`}>
+                        return <NavLink key={item.name + index} to={`${item.href}`}>
                         <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
+                        as="div"
                         className={classNames(
                           isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'block px-3 py-2 rounded-md text-base font-medium',
@@ -166,9 +164,11 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {languages.filter((language) => language.id !== user.learnLanguageId && language.id !== user.knownLanguageId).map((language) => <Menu.Item>
+                      {languages.filter((language) => language.id !== user.learnLanguageId
+                        && language.id !== user.knownLanguageId)
+                        .map((language) => <Menu.Item key={language.id}>
                         {({ active }) => (
-                          <div key={language.id} onClick={(event) => setUserLanguagesOnServer(event, language.id)}>
+                          <div onClick={(event) => setUserLanguagesOnServer(event, language.id)}>
                             <a
                               href="#"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
@@ -212,8 +212,7 @@ export default function Navbar() {
                           <NavLink to='/settings'>
                             <Disclosure.Button
                               key='Settings'
-                              as="a"
-                              href='/settings'
+                              as="div"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               aria-current={active ? 'page' : undefined}
                             >
@@ -224,13 +223,16 @@ export default function Navbar() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="/"
-                            onClick={() => logOut()}
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
+                          <NavLink to='/' onClick={() => logOut()}>
+                            <Disclosure.Button
+                              key='Sign Out'
+                              as="div"
+                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              aria-current={active ? 'page' : undefined}
+                            >
                             Sign out
-                          </a>
+                          </Disclosure.Button>
+                        </NavLink>
                         )}
                       </Menu.Item>
                     </Menu.Items>
@@ -246,11 +248,9 @@ export default function Navbar() {
               {navigation.map((item) => {
                 const isActive = useLocation().pathname === item.href;
 
-                return <NavLink to={`${item.href}`}>
+                return <NavLink key={item.name} to={`${item.href}`}>
                           <Disclosure.Button
-                            key={item.name}
                             as="div"
-                            // href={item.href}
                             className={classNames(
                               isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                               'block px-3 py-2 rounded-md text-base font-medium',
