@@ -99,7 +99,7 @@ export default function SignUp() {
           <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email"
            type="email" />
           {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
-          {errors.email?.type === 'pattern' && ' Please enter an email address.'}
+          {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
           {errors.email && (<p style={{ color: 'red', fontSize: '14px' }}> {errors.email.message}</p>)}
           <label htmlFor="password" className="label sr-only">Password</label>
           <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
