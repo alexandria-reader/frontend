@@ -10,6 +10,7 @@ import {
   languagesState, userState, languageFlagsState, languageNamesState,
 } from '../states/recoil-states';
 
+
 import logOut from '../utils/logOut';
 import languageService from '../services/languages';
 import { SanitizedUser } from '../types';
@@ -27,7 +28,8 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const capitalize = function(string: string) {
+// eslint-disable-next-line consistent-return
+const capitalize = function (string: string) {
   if (string) {
     return string.slice(0, 1).toUpperCase() + string.slice(1);
   }
