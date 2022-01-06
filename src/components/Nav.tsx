@@ -34,7 +34,6 @@ const capitalize = function(string: string) {
   return 'English';
 };
 
-
 export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);
@@ -134,8 +133,8 @@ export default function Navbar() {
               </div>
 
               {/* Language dropdown */}
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Menu as="div" className="ml-3 relative">
+              <div className="absolute inset-y-0 right-0 flex justify-end items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <Menu as="div" className="sm:ml-3 relative">
                   <div>
                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
                       <div className="sm:block sm:ml-6">
@@ -144,7 +143,7 @@ export default function Navbar() {
                             key={'languages'}
                             href={'#'}
                             className={classNames(
-                              'text-gray-300  hover:text-white flex flex-row px-3 py-2 rounded-md text-sm font-medium',
+                              'text-gray-300  hover:text-white flex flex-row px-1 sm:px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
                             <p><span className="h-5 w-5">{flags[user.learnLanguageId]}</span> {capitalize(names[user.learnLanguageId])}</p>
@@ -185,7 +184,7 @@ export default function Navbar() {
                 </Menu>
 
                 {/* User profile picture dropdown menu */}
-                <Menu as="div" className="ml-3 relative">
+                <Menu as="div" className="sm:ml-3 relative">
                   <div>
                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">Open user menu</span>

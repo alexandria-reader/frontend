@@ -2,14 +2,14 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { LockClosedIcon } from '@heroicons/react/solid';
+// import { LockClosedIcon } from '@heroicons/react/solid';
 import { userState } from '../states/recoil-states';
 import loginService from '../services/login';
 import { LoggedInUser } from '../types';
 
 const logo = require('../assets/logo/logo-text-light.png');
 
-export default function LoginForm() {
+export default function LoginForm({ from }: { from: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setUser = useSetRecoilState(userState);
@@ -34,7 +34,7 @@ export default function LoginForm() {
 
       localStorage.setItem('alexandria-user-token', loggedInUser.token);
 
-      navigate('/texts');
+      navigate(from, { replace: true });
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert(error);
@@ -88,8 +88,8 @@ export default function LoginForm() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
+            <div className="flex items-center justify-end">
+              {/* <div className="flex items-center">
                 <input
                   id="remember-me"
                   name="remember-me"
@@ -99,7 +99,7 @@ export default function LoginForm() {
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
                 </label>
-              </div>
+              </div> */}
 
               <div className="text-sm">
                 <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -113,9 +113,9 @@ export default function LoginForm() {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                {/* <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-                </span>
+                </span> */}
                 Sign in
               </button>
             </div>

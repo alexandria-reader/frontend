@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { LockClosedIcon } from '@heroicons/react/solid';
+// import { LockClosedIcon } from '@heroicons/react/solid';
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import {
@@ -20,8 +20,9 @@ export default function Settings() {
   const [showPasswordmessage, setShowPasswordmessage] = useState(true);
   const [languagemessage, setLanguagemessage] = useState('');
   const [showLanguageMessage, setShowLanguageMessage] = useState(true);
+
   const {
-    register, formState: { errors }, handleSubmit,
+    register, formState: { errors }, handleSubmit, setError,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -30,7 +31,8 @@ export default function Settings() {
     register: register2,
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
-    // setError: setError2,
+    setError: setError2,
+    reset,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -39,7 +41,8 @@ export default function Settings() {
     register: register3,
     formState: { errors: errors3 },
     handleSubmit: handleSubmit3,
-    // setError: setError3,
+    setError: setError3,
+    reset: reset3,
   } = useForm({
     mode: 'onSubmit',
   });
@@ -51,32 +54,58 @@ export default function Settings() {
 
   const changeUserInfo = async(data: { username: string; email: string; }) => {
     const response = await userServices.updateInfo(data.username, data.email);
-    setUser(response);
-    setUsermessage('User information updated');
+    if (typeof response === 'object') {
+      setUser(response);
+      setUsermessage('User information updated');
+    } else {
+      setError('email', { type: 'email', message: 'Email already exists.' });
+    }
   };
 
-  const changePassword = async (data: { newPassword1: string; newPassword2: string; currentPassword: string; }) => {
-    // if (data.newPassword1 !== data.newPassword2) {
-    //   setError2('password', { type: 'password', message: 'New passwords must match' });
-    //   return;
-    // }
-    // if (data.newPassword1.length < 6) {
-    //   setError2('password', { type: 'passwordLength', message: 'Password must be longer than 6 characters.' });
-    //   return;
-    // }
-    const response = await userServices.updatePassword(data.currentPassword, data.newPassword1);
-    setUser(response);
+  const changePassword = async (data: { password1: string; password2: string; password3: string; }) => {
+    const response = await userServices.updatePassword(data.password1, data.password2);
+    if (data.password2 !== data.password3) {
+      setError2('checkInputPasswords', { type: 'password', message: 'New passwords do not match' });
+
+      const timeId = setTimeout(() => {
+        reset();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
+    }
+
+    if (typeof response === 'string') {
+      setError2('password', { type: 'password', message: response });
+      const timeId = setTimeout(() => {
+        reset();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
+    }
+
     setPasswordmessage('Password updated');
+    return null;
   };
 
   const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
-    // if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
-    //   setError3('learnLanguageId', { type: 'languages', message: ' Learning language cannot be the same as known language' });
-    //   return;
-    // }
+    if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
+      setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+      const timeId = setTimeout(() => {
+        reset3();
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeId);
+      };
+    }
     const response = await userServices.setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
     setUser(response);
     setLanguagemessage('Language settings updated');
+    return null;
   };
 
   useEffect(() => {
@@ -110,7 +139,7 @@ export default function Settings() {
   useEffect(() => {
     const timeId = setTimeout(() => {
       setShowLanguageMessage(false);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timeId);
@@ -136,24 +165,25 @@ export default function Settings() {
     <form key={1} onSubmit={handleSubmit(changeUserInfo)}>
      <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
      <p className="text-sm mb-6 text-green-600 font-bold">{showUserMessage && usermessage}</p>
-      <label className="label sr-only" htmlFor="username">Name</label>
-        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
-        {errors.username?.type === 'required' && ' Please enter a user name.'}
-        {errors.username?.type === 'minLength' && ' Name should have a mininum of 3 characters.'}
-        <label htmlFor="email" className="label sr-only">Email</label>
-        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
+      <label className="label text-sm mb-6" htmlFor="username">Name</label>
+        <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
+        {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
+        {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
+        {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
+        <label htmlFor="email" className="label text-sm mb-6">Email</label>
+        <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
         defaultValue={user.email} type="email" />
-        {errors.email?.type === 'required' && ' Email address is required.'}
-        {errors.email?.type === 'pattern' && ' Please enter an email address.'}
-        {errors.email && errors.email.message}
+        {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
+        {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
+        {errors.email && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors.email.message}</p>)}
         <div className='py-6 sm:pt-6 text-right'>
           <button
             type="submit" name="button-name-email"
             className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+          {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
             <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-          </span>
+          </span> */}
           Save
         </button>
     </div>
@@ -162,37 +192,31 @@ export default function Settings() {
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
     <p className="text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
-     <label htmlFor="current-password" className="label sr-only">Password</label>
-     {/* <input {...register('currentPassword', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('currentPassword')}
-      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-      placeholder='Old Password' type="password" />
-    {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
-    <label htmlFor="new-password" className="label sr-only">Password</label>
-     {/* <input {...register('newPassword1', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('newPassword1')}
-      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-      placeholder='Password' type="password" />
-    {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'}
-     <label htmlFor="new-password-2" className="label sr-only">New Password</label>
-     {/* <input {...register('newPassword2', { required: true, pattern: /^.{6,}$/ })} */}
-     <input {...register2('newPassword2')}
-      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-      placeholder='Confirm New Password' type="password" />
-    {/* {errors2.password?.type === 'required' && ' Password is required.'}
-    {errors2.password?.type === 'pattern' && ' The password should have at least 6 characters.'} */}
-    <p className="text-sm mt-6 text-red-600 font-bold">{errors2.password && errors2.password.message}</p>
-    <p className="text-sm mt-6 text-red-600 font-bold">{errors2.passwordLength && errors2.passwordLength.message}</p>
+     <label htmlFor="password1" className="label text-sm mb-6">Current Password</label>
+     <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
+      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+    {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
+    <label htmlFor="password2" className="label text-sm mb-6">New Password</label>
+     <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
+      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+    {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
+     <label htmlFor="password3" className="label text-sm mb-6">New Password Again</label>
+     <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
+      className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+    {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
+    {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
+    {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
+    {errors2.checkInputPasswords && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.checkInputPasswords.message}</p>)}
     <div className='py-6 sm:pt-6 text-right'>
         <button
           type="submit"
           className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-        <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+        {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
           <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-        </span>
+        </span> */}
         Save
       </button>
     </div>
@@ -201,27 +225,27 @@ export default function Settings() {
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your learning preferences</h2>
     <p className="text-gray-600 text-sm mb-6">Update languages</p>
     <p className="text-sm mb-6 text-green-600 font-bold">{showLanguageMessage && languagemessage}</p>
-    <div className="flex flex-wrap w-full custom-select">
-      <label htmlFor="currentKnownLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I know</label>
-        {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-        {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
+    <div>
+      <label htmlFor="currentKnownLanguageId" className='label text-sm mb-6'>I know</label>
+        {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+        {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)}</option>)}
         </select>}
     </div>
-    <div className="flex flex-wrap w-full custom-select">
-      <label htmlFor="currentLearnLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I want to learn</label>
-      {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-      {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name} </option>)}
+    <div>
+      <label htmlFor="currentLearnLanguageId" className='label text-sm mb-6'>I want to learn</label>
+      {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+      {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)} </option>)}
       </select>}
-      <p className="text-sm mt-6 text-red-600 font-bold">{errors3.learnLanguageId && errors3.learnLanguageId.message}</p>
+      {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
     </div>
     <div className='py-6 sm:pt-6 text-right'>
           <button
             type="submit"
             className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
+          {/* <span className="absolute left-0 inset-y-0 flex items-center pl-2 ">
             <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-          </span>
+          </span> */}
           Save
         </button>
     </div>

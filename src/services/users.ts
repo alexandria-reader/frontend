@@ -43,7 +43,11 @@ const updateInfo = async function(userName: string, email: string) {
     userName, email,
   }, {
     headers: { Authorization: `bearer ${token}` },
-  });
+  }).then((res) => res)
+    .catch((error) => {
+      const { message } = error.response.data.error;
+      return message;
+    });
 
   return response.data;
 };
@@ -54,8 +58,12 @@ const updatePassword = async function(currentPassword: string, newPassword: stri
     currentPassword, newPassword,
   }, {
     headers: { Authorization: `bearer ${token}` },
-  });
-  return response.data;
+  }).then((res) => res)
+    .catch((error) => {
+      const { message } = error.response.data.error;
+      return message;
+    });
+  return response;
 };
 
 export default {
