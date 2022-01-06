@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable max-len */
 import {
   ChangeEvent, FormEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';

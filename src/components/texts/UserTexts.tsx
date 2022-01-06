@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import {
   useState, useEffect, FormEvent, Fragment,
 } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Menu, Transition } from '@headlessui/react';
 import {
   textlistState, currenttextState, userState, currentwordState,
 } from '../../states/recoil-states';
-
+import NewTextForm from './TextUploadForm';
 import textsService from '../../services/texts';
 import { Text } from '../../types';
 
@@ -110,82 +111,9 @@ const IndividualText = function({ text }: { text: Text }) {
   );
 };
 
-const NewTextForm = function({
-  submitText, setNewTextTitle, setNewText, newTextTitle, newText, setShowNewTextForm,
-}:
-{
-  submitText: Function,
-  setNewTextTitle: Function,
-  setNewText: Function,
-  newTextTitle: string,
-  newText: string,
-  setShowNewTextForm: Function
-}) {
-  return (
-    <>
-        <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
-          <div className="max-w-sm w-fit space-y-8">
-            <div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add a new text here:</h2>
-            </div>
-            <form className="mt-8 space-y-6" onSubmit={(event) => submitText(event)}>
-              <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                  <label htmlFor="title" className="sr-only">
-                    Title
-                  </label>
-                  <input
-                    type='text'
-                    placeholder='title'
-                    name='title'
-                    required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    value={newTextTitle}
-                    onChange={(e) => setNewTextTitle(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="text" className="sr-only">
-                    Password
-                  </label>
-                  <textarea
-                    name='text'
-                    placeholder='text body'
-                    value={newText}
-                    required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    onChange={(e) => setNewText(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Submit
-                </button>
-                <button
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  onClick={() => setShowNewTextForm(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </>
-  );
-};
 
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
-  const [newText, setNewText] = useState('');
-  const [newTextTitle, setNewTextTitle] = useState('');
-  const [showNewTextForm, setShowNewTextForm] = useState(false);
-
   const user = useRecoilValue(userState);
 
   const fetchUserTexts = async function() {
@@ -199,46 +127,26 @@ const UserTexts = function() {
     fetchUserTexts();
   }, [user]);
 
-  const submitText = async function(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const newTextObj: Text = {
-      languageId: user?.learnLanguageId || '',
-      title: newTextTitle,
-      body: newText,
-    };
-
-    if (user) {
-      const addTextResponse = await textsService.postNewText(newTextObj);
-      const newUsersTexts = [...textList, addTextResponse];
-      setTextList(newUsersTexts);
-    }
-
-    setNewText('');
-    setNewTextTitle('');
-    setShowNewTextForm(false);
-  };
-
   return (
     <>
-    <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-      <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
-        {!showNewTextForm && <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
-        {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
-          : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
-        <button className='bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text' onClick={() => setShowNewTextForm(true)}>New Text</button>
-        </div>}
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
+          <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+          {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
+            : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+          <NavLink to={'/texts/new'}>
+            <button className='bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
+          </NavLink>
+          </div>
+        </div>
       </div>
-    </div>
 
       <div className='max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8'>
-        {showNewTextForm && <NewTextForm submitText={submitText} newTextTitle={newTextTitle}
-          newText={newText} setNewTextTitle={setNewTextTitle} setNewText={setNewText}
-          setShowNewTextForm={setShowNewTextForm} />}
-        {!showNewTextForm && <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
+        <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
           {textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`} text={text} />)}
-        </ul>}
-        <Outlet />
+        </ul>
       </div>
+      <Outlet />
       </>
   );
 };
