@@ -1,8 +1,9 @@
 import { atom, selector } from 'recoil';
 import {
-  UserWord, StringHash, Text, Language, SanitizedUser,
+  UserWord, StringHash, Text, Language, SanitizedUser, Webdictionary,
 } from '../types';
 
+import webdictionaries from '../services/webdictionaries';
 
 export const textlistState = atom<Array<Text>>({
   key: 'textlistState',
@@ -82,4 +83,18 @@ export const languageNamesState = selector<StringHash>({
 export const userState = atom<SanitizedUser | null>({
   key: 'userState',
   default: null,
+});
+
+
+export const currentdictionaryState = selector<Webdictionary | null>({
+  key: 'currentdictionaryState',
+  get: async ({ get }) => {
+    const user = get(userState);
+    if (user) {
+      const dictionaries = await webdictionaries
+        .getBySourceTarget(user?.learnLanguageId, user?.knownLanguageId);
+      return dictionaries[0];
+    }
+    return null;
+  },
 });
