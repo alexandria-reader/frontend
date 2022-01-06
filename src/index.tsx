@@ -37,6 +37,7 @@ render(
             <Route index element={token ? <UserTexts /> : < Home />}/>
             <Route path="texts" element={<PrivateRoute><UserTexts /></PrivateRoute>}/>
               <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
+              <Route path="texts/*" element={<PrivateRoute><NotFound /></PrivateRoute>}/>
             <Route path="words" element={<PrivateRoute><Words /></PrivateRoute>}/>
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
