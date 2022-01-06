@@ -165,12 +165,12 @@ export default function Settings() {
     <form key={1} onSubmit={handleSubmit(changeUserInfo)}>
      <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
      <p className="text-sm mb-6 text-green-600 font-bold">{showUserMessage && usermessage}</p>
-      <label className="label sr-only" htmlFor="username">Name</label>
-        <input {...register('username', { required: true, minLength: 3, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
+      <label className="label text-sm mb-6" htmlFor="username">Name</label>
+        <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
         {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
         {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
         {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
-        <label htmlFor="email" className="label sr-only">Email</label>
+        <label htmlFor="email" className="label text-sm mb-6">Email</label>
         <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-b-md"
         defaultValue={user.email} type="email" />
         {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
@@ -192,19 +192,19 @@ export default function Settings() {
     <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
     <p className="text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
     <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
-     <label htmlFor="password1" className="label sr-only">Password</label>
+     <label htmlFor="password1" className="label text-sm mb-6">Current Password</label>
      <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Old Password' type="password" />
     {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
     {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
-    <label htmlFor="password2" className="label sr-only">Password</label>
+    <label htmlFor="password2" className="label text-sm mb-6">New Password</label>
      <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='New Password' type="password" />
     {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
     {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
-     <label htmlFor="password3" className="label sr-only">New Password</label>
+     <label htmlFor="password3" className="label text-sm mb-6">New Password Again</label>
      <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
       className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
       placeholder='Confirm New Password' type="password" />
@@ -231,13 +231,13 @@ export default function Settings() {
     <div className="flex flex-wrap w-full custom-select">
       <label htmlFor="currentKnownLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I know</label>
         {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="appearance-none rounded-none relative w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-        {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
+        {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)}</option>)}
         </select>}
     </div>
     <div className="flex flex-wrap w-full custom-select">
       <label htmlFor="currentLearnLanguageId" className='text-ml font-normal text-gray-700 w-1/3 py-2'>I want to learn</label>
       {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-none w-2/3 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-      {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.name} </option>)}
+      {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)} </option>)}
       </select>}
       {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
     </div>
