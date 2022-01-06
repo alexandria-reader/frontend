@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
 import {
-  ChangeEvent, MouseEvent, useEffect, useState,
+  ChangeEvent, FormEvent, MouseEvent, useEffect, useState,
 } from 'react';
 
 import {
@@ -79,68 +80,63 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
 
   const user = useRecoilValue(userState);
 
-
   const handleTranslation = async function(
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    event: FormEvent<HTMLFormElement>,
     translation: string,
     userWord: UserWord | null,
   ) {
     event.preventDefault();
-    console.log(translation);
-    if (userWord && translation) {
+
+    if (userWord && translation && user) {
       const newUserWord = { ...userWord };
 
-      if (user) {
-        if (!newUserWord.id) {
-          // call api with word with translation object attatched
-          const translationObj: Translation = {
-            translation,
-            targetLanguageId: user.knownLanguageId,
-            context: currentWordContext || '',
-          };
+      if (!newUserWord.id) {
+        // call api with word with translation object attatched
+        const translationObj: Translation = {
+          translation,
+          targetLanguageId: user.knownLanguageId,
+          context: currentWordContext || '',
+        };
 
-          const translations = [...userWord.translations, translationObj];
-          newUserWord.translations = translations;
-          setCurrentWord(newUserWord);
+        const translations = [...userWord.translations, translationObj];
+        newUserWord.translations = translations;
+        setCurrentWord(newUserWord);
 
-          const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord);
-          setCurrentWord(userWordFromServer);
+        const userWordFromServer = await wordsService.addWordWithTranslation(newUserWord);
+        setCurrentWord(userWordFromServer);
 
-          const updatedWords = [...userWords
-            .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
-            !== newUserWord.word.toLowerCase()), userWordFromServer];
+        const updatedWords = [...userWords
+          .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+          !== newUserWord.word.toLowerCase()), userWordFromServer];
+        setUserWords(updatedWords);
+      } else {
+        // call api with translation object, add word id to translation obj
+        const newTranslationObj: Translation = {
+          translation,
+          targetLanguageId: user.knownLanguageId,
+          context: currentWordContext || '',
+          wordId: newUserWord.id,
+        };
 
-          setUserWords(updatedWords);
-        } else {
-          // call api with translation object, add word id to translation obj
-          const newTranslationObj: Translation = {
-            translation,
-            targetLanguageId: user.knownLanguageId,
-            context: currentWordContext || '',
-            wordId: newUserWord.id,
-          };
+        // translation is added immediately so if appears instant to user
+        let translations = [...userWord.translations, newTranslationObj];
+        newUserWord.translations = translations;
+        setCurrentWord(newUserWord);
+        const response = await translationServices.addTranslation(newTranslationObj);
+        translations = [...userWord.translations
+          .filter((transObj) => transObj.translation !== newTranslationObj.translation),
+        response];
 
-          // translation is added immediately so if appears instant to user
-          let translations = [...userWord.translations, newTranslationObj];
-          newUserWord.translations = translations;
-          setCurrentWord(newUserWord);
+        // once translation is recieved from the server, the word is updated to include
+        // the translation id
+        const updatedUserWord = { ...userWord };
+        updatedUserWord.translations = translations;
+        setCurrentWord(updatedUserWord);
 
-          const response = await translationServices.addTranslation(newTranslationObj);
-          translations = [...userWord.translations
-            .filter((transObj) => transObj.translation !== newTranslationObj.translation),
-          response];
-
-          // once translation is recieved from the server, the word is updated to include
-          // the translation id
-          const updatedUserWord = { ...userWord };
-          updatedUserWord.translations = translations;
-          setCurrentWord(updatedUserWord);
-
-          const updatedWords = [...userWords
-            .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
-            !== updatedUserWord.word.toLowerCase()), updatedUserWord];
-          setUserWords(updatedWords);
-        }
+        const updatedWords = [...userWords
+          .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+          !== updatedUserWord.word.toLowerCase()), updatedUserWord];
+        setUserWords(updatedWords);
       }
     }
   };
@@ -150,7 +146,6 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [showDictionary, setShowDictionary] = useState(false);
   const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
-    // console.log(event.target.value);
   };
 
   useEffect(() => {
@@ -167,7 +162,11 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
           .map((transObj) => <li className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       <div className='my-4'>
-        <form className=' flex flex-col justify-center' >
+        <form onSubmit={(event) => {
+          handleTranslation(event, translation, word);
+          setShowDictionary(false);
+          setTranslation('');
+        }} className=' flex flex-col justify-center' >
           <label htmlFor="translation" className="block text-md font-medium text-gray-700">
             Add translation:
           </label>
@@ -181,11 +180,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               onChange={(event) => handleInput(event)}
               value={translation}
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
-            <button onClick={(event) => {
-              handleTranslation(event, translation, word);
-              setShowDictionary(false);
-              setTranslation('');
-            }} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
+            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type={'submit'}>Submit</button>
           </div>
         </form>
 
