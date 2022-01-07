@@ -84,7 +84,7 @@ const WordTable = function () {
                     {userword.word}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${userword.status ? statusClasses[userword.status] : ''}`}>
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded ${userword.status ? statusClasses[userword.status] : ''}`}>
                       {userword.status}
                     </span>
                   </td>
