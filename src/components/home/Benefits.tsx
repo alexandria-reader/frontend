@@ -27,7 +27,7 @@ export default function Benefits() {
                 </div>
               </div>
           </div>
-        <div className=" md:flex-2 ">
+        <div className=" flex-1 ">
           <img src={svg} alt="" />
         </div>
       </div>
