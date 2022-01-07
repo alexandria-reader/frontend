@@ -170,7 +170,7 @@ export default function Settings() {
       <div className="md:col-span-1">
         <div className="px-4 sm:px-0">
           <h2 className="text-lg font-medium leading-6 text-gray-900">User account settings</h2>
-          <p className="mt-1 text-sm text-gray-600">{user.username} at {user.email} is logged in</p>
+          <p id="loggedin-status" className="loggedin-status mt-1 text-sm text-gray-600">{user.username} at {user.email} is logged in</p>
         </div>
       </div>
 
@@ -195,7 +195,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit" name="button-name-email"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                  className="relative button-name-email inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                   >
                   Save
                 </button>
