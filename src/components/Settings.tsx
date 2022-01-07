@@ -176,7 +176,7 @@ export default function Settings() {
               <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
               <p className="text-sm mb-6 text-green-600 font-bold">{showUserMessage && usermessage}</p>
               <label className="label text-sm mb-6" htmlFor="username">Name</label>
-              <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
+              <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
               {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
               {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
               {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
