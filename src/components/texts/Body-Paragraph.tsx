@@ -63,7 +63,8 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
   return (
     <>
     {
-      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className={`${isMobile ? 'inline' : 'inline-block'}`}>
+      // sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className={`${isMobile ? 'inline' : 'inline-block'}`}>
+      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className={`${isMobile ? 'inline' : 'inline'}`}>
           <Sentence key={index + sentence.slice(1, 9)} sentence={sentence} />
         </div>)
     }

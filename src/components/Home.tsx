@@ -11,15 +11,15 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className='home-page'>
-     <div> { user
+  // <div className='home-page'>
+     <> { user
        ? navigate('/texts')
-       : <div>
+       : <>
           <Benefits />
           <HowItWorks />
           <FAQ />
-        </div>
-     } </div>
-    </div>
+        </>
+     } </>
+  // </div>
   );
 }

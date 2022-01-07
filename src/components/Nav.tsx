@@ -3,7 +3,9 @@ import {
 } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { NavLink, useLocation } from 'react-router-dom';
+import {
+  NavLink, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -34,6 +36,8 @@ export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);
   const names = useRecoilValue(languageNamesState);
+  const params = useParams();
+  const navigate = useNavigate();
 
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
@@ -130,8 +134,8 @@ export default function Navbar() {
               <div className="absolute inset-y-0 right-0 flex justify-end items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Menu as="div" className="sm:ml-3 relative">
                   <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
-                      <div className="sm:block sm:ml-6">
+                    <Menu.Button className=" flex text-sm">
+                      <div className="sm:block hover:bg-gray-800 focus:outline-none rounded-md sm:ml-6">
                         <div className="flex space-x-4">
                           {<a
                             key={'languages'}
@@ -162,9 +166,14 @@ export default function Navbar() {
                         && language.id !== user.knownLanguageId)
                         .map((language) => <Menu.Item key={language.id}>
                         {({ active }) => (
-                          <div onClick={(event) => setUserLanguagesOnServer(event, language.id)}>
+                          <div onClick={(event) => {
+                            setUserLanguagesOnServer(event, language.id);
+                            if (params.textId) {
+                              navigate('/texts');
+                            }
+                          }}>
                             <a
-                              href="#"
+                              href=""
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
                               <div className='flex flex-row justify-between m-2'>
@@ -185,7 +194,7 @@ export default function Navbar() {
                     <Menu.Button className="bg-gray-500 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
                       </svg>
                     </Menu.Button>
                   </div>

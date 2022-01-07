@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-const logo = require('../../assets/logo/logo-light.png');
+// const logo = require('../../assets/logo/logo-light.png');
 
 export default function HowItWorks() {
   return (
@@ -15,11 +15,11 @@ export default function HowItWorks() {
         <div className="py-12 md:py-6">
 
           {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+          {/* <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <img src={logo} alt="Alexandria logo" className="mx-auto h-40 w-auto pb-8"/>
             <p className="text-xl text-gray-600">Research shows language acquisition occurs when we comprehend messages alongside its surrounding context. </p>
             <p className="mt-10 text-xl text-gray-600">This is where Alexandria comes in.</p>
-          </div>
+          </div> */}
 
           {/* Items */}
           <div className="max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
