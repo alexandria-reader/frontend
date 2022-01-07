@@ -75,7 +75,7 @@ export default function Navbar() {
 
   if (user) {
     return (
-      <Disclosure key='disclosure' as="nav" className="bg-gray-800">
+      <Disclosure key='disclosure' as="nav" className="bg-black">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -92,20 +92,20 @@ export default function Navbar() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <NavLink to={'/texts'}>
-                <div className="flex-shrink-0 flex items-center">
+                <NavLink to={'/about'}>
+                  <div className="flex-shrink-0 flex items-center">
                     <img
                       className="block lg:hidden h-8 w-auto"
                       src={logo}
-                      alt="Workflow"
+                      alt="Alexandria logo"
                     />
                     <img
                       className="hidden lg:block h-8 w-auto"
                       src={logo}
-                      alt="Workflow"
+                      alt="Alexandria logo"
                     />
                   </div>
-                      </NavLink>
+                </NavLink>
 
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
@@ -188,13 +188,11 @@ export default function Navbar() {
                 {/* User profile picture dropdown menu */}
                 <Menu as="div" className="sm:ml-3 relative">
                   <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <Menu.Button className="bg-gray-500 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                        />
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+                      </svg>
                     </Menu.Button>
                   </div>
                   <Transition

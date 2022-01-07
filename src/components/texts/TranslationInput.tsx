@@ -174,24 +174,24 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
               minLength={1}
               onChange={(event) => handleInput(event)}
               value={translation}
-              className="focus:ring-indigo-600 focus:border-indigo-600 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
+              className="focus:ring-sky-600 focus:border-sky-600 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
             <button onClick={(event) => {
               handleTranslation(event, translation, word);
               setShowDictionary(false);
               setTranslation('');
-            }} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' type={'submit'}>Submit</button>
+            }} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button>
           </div>
         </form>
 
         {/* dictionary buttons and change status */}
         <div className='flex flex-col justify-center'>
-          {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'>Close Dictionary</button>
+          {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
           <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
-          <button onClick={() => setShowDictionary(true)} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>WordReference</button>
-          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600'>DeepL (Popup)</button>
-          {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
-          <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
+          <button onClick={() => setShowDictionary(true)} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
+          {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
+          <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
         </div>
         {!showDictionary && <ChangeStatus word={word} />}

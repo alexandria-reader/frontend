@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 const logo = require('../assets/logo/logo-crop-dark.png');
 
 const navigation = [
-  { name: 'Login', href: '/login' },
+  { name: 'Log in', href: '/login' },
   { name: 'Sign up', href: '/signup' },
 ];
 
@@ -14,7 +14,7 @@ function classNames(...classes: string[]) {
 
 export default function LoggedOutNav() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-black">
       {() => (
         <>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">

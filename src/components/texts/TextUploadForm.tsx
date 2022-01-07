@@ -86,7 +86,7 @@ const NewTextForm = function() {
                         placeholder='Title'
                         name='title'
                         required
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+                        className="focus:ring-sky-500 focus:border-sky-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
                         value={newTextTitle}
                         onChange={(e) => setNewTextTitle(e.target.value)}
                       />
@@ -103,7 +103,7 @@ const NewTextForm = function() {
                       id="about"
                       name="about"
                       rows={3}
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                      className="shadow-sm focus:ring-sky-500 focus:border-sky-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                       placeholder="Paste your text here"
                       defaultValue={''}
                     />
@@ -125,7 +125,7 @@ const NewTextForm = function() {
                         id="text-url"
                         value={newTextURL}
                         onChange={(e) => setNewTextURL(e.target.value)}
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                        className="focus:ring-sky-500 focus:border-sky-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                         placeholder="www.example.com"
                       />
                     </div>
@@ -136,13 +136,13 @@ const NewTextForm = function() {
               <div className="px-4 py-3 flex justify-end bg-white text-right sm:px-6">
                 <button
                   type="submit"
-                  className="inline-flex mx-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex mx-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                 >
                   Save
                 </button>
                 <NavLink to={'/texts'} onClick={() => cancelButton()}>
                   <button
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
                   >
                     Cancel
                   </button>
