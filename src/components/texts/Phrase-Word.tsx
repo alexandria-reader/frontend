@@ -13,17 +13,17 @@ import {
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
 
-
-export const Word = function ({ word, dataKey, context }:
-{ word: string, dataKey:string, context: string }) {
+export const Word = function ({ word, dataKey, context }: { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
+  const markedWords = useRecoilValue(markedwordsState);
+
   const [touchStart, setTouchStart] = useState(0);
   const [isTouch, setIsTouch] = useState(false);
   const [isWordInPhrase, setIsWordInPhrase] = useState(false);
-  const markedWords = useRecoilValue(markedwordsState);
+
   const wordStatus = markedWords[word.toLowerCase()];
 
   const isMouseEvent = function(event: TouchEvent | MouseEvent): event is MouseEvent {
@@ -80,7 +80,7 @@ export const Word = function ({ word, dataKey, context }:
 
       const newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
-      let newWordObject: UserWord | undefined;
+      let newWordObject: UserWord;
 
       if (existingWord[0]) {
         // eslint-disable-next-line prefer-destructuring
@@ -247,8 +247,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
       <div className='inline'>
         <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
       {
-        parts.map((word, index, array) => <Fragment key={word} >
-          <Word key={word} dataKey={word} word={word} context={context} />
+        parts.map((word, index, array) => <Fragment key={index + word} >
+          <Word key={index + word} dataKey={index + word} word={word} context={context} />
           <>{index === array.length - 1 ? '' : ' '}</>
         </Fragment>)
       }
