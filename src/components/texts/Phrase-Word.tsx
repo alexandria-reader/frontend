@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  Fragment, MouseEvent, TouchEvent, useState,
+  MouseEvent, TouchEvent, useState,
 } from 'react';
 import {
   useRecoilState,
@@ -240,17 +240,33 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
     wordClass = 'bg-green-200';
   }
 
-  const parts = phrase.split(' ');
+  const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
+  const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
+
+  const wordRegExp = new RegExp(wordFinder, 'gui');
+  const tokenRegExp = new RegExp(`${wordFinder}|${noWordFinder}`, 'gui');
+
+  const tokens = phrase.match(tokenRegExp);
 
   return (
     <>
       <div className='inline'>
         <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
-      {
+      {/* {
         parts.map((word, index, array) => <Fragment key={index + word} >
           <Word key={index + word} dataKey={index + word} word={word} context={context} />
           <>{index === array.length - 1 ? '' : ' '}</>
         </Fragment>)
+      } */}
+      {
+        tokens?.map((token, index) => {
+          if (token.match(wordRegExp)) {
+            return <Word key={index + token} dataKey={index + token}
+            word={token} context={context} />;
+          }
+
+          return <span key={index + token}>{token}</span>;
+        })
       }
         </span>
       </div>
