@@ -14,7 +14,8 @@ function classNames(...classes: string[]) {
 
 export default function LoggedOutNav() {
   return (
-    <Disclosure as="nav" className="bg-black sticky top-0 z-10">
+    <Disclosure as="nav" className="bg-black">
+    {/* <Disclosure as="nav" className="bg-black sticky top-0 z-10"> */}
       {() => (
         <>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">

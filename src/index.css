@@ -74,3 +74,7 @@ code {
 iframe > html {
   width: 300px;
 } */
+
+.hero {
+  max-height: calc(100vh - 64px);
+}

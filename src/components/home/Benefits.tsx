@@ -6,11 +6,13 @@ import svg from '../../assets/undraw.svg';
 
 export default function Benefits() {
   return (
-    <div className=" mx-auto px-4 sm:px-6">
+    <>
         {/* Hero content */}
-        <div className="pt-32  flex flex-row pb-12 md:pt-20 md:pb-4">
+        {/* <div className=""> */}
+        <div className="hero">
+        <div className="items-center px-20 py-10 flex flex-col md:flex-row ">
           {/* Section header */}
-          <div className=" flex-1 pb-12 md:pb-16">
+          <div className=" flex-1">
             <h1 className="text-3xl md:text-8xl sm:text-6xl font-extrabold leading-tighter tracking-normal mb-16" data-aos="zoom-y-out">Learn languages by<br></br><span className="bg-clip-text text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span></h1>
             <div className="max-w-3xl mx-auto">
               <p className="text-xl text-gray-600 mb-16 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Upload texts. Highlight words you want to learn. Review regularly.</p>
@@ -40,11 +42,13 @@ export default function Benefits() {
 
 
           </div>
-          <div className="  flex-3">
+          <div className="  flex-1">
               {/* <p>img</p> */}
               <img src={svg} alt="" />
           </div>
+          </div>
+        {/* </div> */}
         </div>
-      </div>
+      </>
   );
 }
