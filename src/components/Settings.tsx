@@ -176,12 +176,12 @@ export default function Settings() {
               <h2 className="text-xl text-gray-600 mb-6 tracking-normal">Update your display name and email</h2>
               <p className="text-sm mb-6 text-green-600 font-bold">{showUserMessage && usermessage}</p>
               <label className="label text-sm mb-6" htmlFor="username">Name</label>
-              <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="text" />
+              <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
               {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
               {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
               {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
               <label htmlFor="email" className="label text-sm mb-6">Email</label>
-              <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
               defaultValue={user.email} type="email" />
               {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
               {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
@@ -189,7 +189,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit" name="button-name-email"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                   >
                   Save
                 </button>
@@ -206,17 +206,17 @@ export default function Settings() {
               <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
               <label htmlFor="password1" className="label text-sm mb-6">Current Password</label>
               <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               <label htmlFor="password2" className="label text-sm mb-6">New Password</label>
               <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               <label htmlFor="password3" className="label text-sm mb-6">New Password Again</label>
               <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" type="password" />
+                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
@@ -224,7 +224,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-700 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600"
                 >
                   Save
                 </button>
@@ -241,13 +241,13 @@ export default function Settings() {
               <p className="text-sm mb-6 text-green-600 font-bold">{showLanguageMessage && languagemessage}</p>
               <div>
                 <label htmlFor="currentKnownLanguageId" className='label text-sm mb-6'>I know</label>
-                {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
                 {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)}</option>)}
                 </select>}
               </div>
               <div>
                 <label htmlFor="currentLearnLanguageId" className='label text-sm mb-6'>I want to learn</label>
-                {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
                 {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)} </option>)}
                 </select>}
                 {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
@@ -255,7 +255,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700"
                 >
                   Save
                 </button>

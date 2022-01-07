@@ -10,10 +10,10 @@ export default function Benefits() {
               <p className="text-xl text-gray-600 mb-16 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Upload texts. Highlight words you want to learn. Review regularly.</p>
               <div className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
-                  <a href="/login"><button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-10 rounded mx-10 my-3">Sign in</button></a>
+                  <a href="/login"><button className="bg-sky-600 hover:bg-sky-500 text-white py-2 px-10 rounded mx-10 my-3">Log in</button></a>
                 </div>
                 <div>
-                  <a href="/signup"><button className="bg-gray-900 hover:bg-gray-800 text-white py-2 px-10 rounded mx-10 my-3">Sign up</button></a>
+                  <a href="/signup"><button className="bg-fuchsia-900 hover:bg-fuchsia-700 text-white py-2 px-10 rounded mx-10 my-3">Sign up</button></a>
                 </div>
               </div>
             </div>
