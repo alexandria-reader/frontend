@@ -64,7 +64,7 @@ export const languageFlagsState = selector<StringHash>({
 
     const languages = get(languagesState);
     languages.forEach((language) => {
-      flags[language.id] = language.flag;
+      flags[language.id] = navigator.userAgent.includes('indows') ? '' : language.flag;
     });
 
     return flags;

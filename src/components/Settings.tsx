@@ -1,19 +1,25 @@
 /* eslint-disable max-len */
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
-// import { LockClosedIcon } from '@heroicons/react/solid';
-import userServices from '../services/users';
-import languageServices from '../services/languages';
+
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
+  languageFlagsState,
   languagesState, userState,
 } from '../states/recoil-states';
+
+import userServices from '../services/users';
+import languageServices from '../services/languages';
+
+import capitalize from '../utils/capitalize';
 
 const logo = require('../assets/logo/logo-light.png');
 
 export default function Settings() {
   const [user, setUser] = useRecoilState(userState);
   const [languages, setLanguages] = useRecoilState(languagesState);
+  const flags = useRecoilValue(languageFlagsState);
+
   const [usermessage, setUsermessage] = useState('');
   const [showUserMessage, setShowUserMessage] = useState(true);
   const [passwordmessage, setPasswordmessage] = useState('');
@@ -242,13 +248,13 @@ export default function Settings() {
               <div>
                 <label htmlFor="currentKnownLanguageId" className='label text-sm mb-6'>I know</label>
                 {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
-                {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)}</option>)}
+                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)}</option>)}
                 </select>}
               </div>
               <div>
                 <label htmlFor="currentLearnLanguageId" className='label text-sm mb-6'>I want to learn</label>
                 {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
-                {languages.map((lang) => <option key={lang.id} value={lang.id}>{lang.flag} {lang.name.charAt(0).toUpperCase() + lang.name.slice(1)} </option>)}
+                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)} </option>)}
                 </select>}
                 {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
               </div>
