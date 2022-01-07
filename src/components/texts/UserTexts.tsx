@@ -1,33 +1,31 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import {
-  useState, useEffect, FormEvent, Fragment,
+  useState, useEffect, Fragment,
 } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Menu, Transition } from '@headlessui/react';
+// import { , Transition } from '@headlessui/react';
 import {
   textlistState, currenttextState, userState, currentwordState,
 } from '../../states/recoil-states';
-import NewTextForm from './TextUploadForm';
 import textsService from '../../services/texts';
 import { Text } from '../../types';
+import Modal from '../Modal';
 
-const IndividualText = function({ text }: { text: Text }) {
+// import { Fragment, useRef } from 'react';
+
+const IndividualText = function({ text, setOpenModal, setTextToDelete }:
+{ text: Text, setOpenModal: Function, setTextToDelete: Function }) {
   const setCurrentText = useSetRecoilState(currenttextState);
-  const [textList, setTextList] = useRecoilState(textlistState);
+  // const [textList, setTextList] = useRecoilState(textlistState);
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
 
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
 
-  const removeTextFromServer = async function () {
-    const { id } = text;
-    if (id && user) {
-      const updatedTextList = textList.filter((textObj) => textObj.id !== id);
-      setTextList(updatedTextList);
-      await textsService.removeTextFromServer(id);
-    }
+  const confirmDeleteText = function() {
+    setTextToDelete(text);
+    setOpenModal(true);
   };
 
   useEffect(() => {
@@ -91,7 +89,7 @@ const IndividualText = function({ text }: { text: Text }) {
               <Menu.Item>
                 {({ active }) => (
                   <a
-                    onClick={() => removeTextFromServer()}
+                    onClick={() => confirmDeleteText()}
                     className={`block px-4 py-2 text-sm text-gray-700 ${active ? 'bg-gray-100' : ''}`}
                   >
                     <div className='flex flex-row justify-between m-2'>
@@ -115,6 +113,19 @@ const IndividualText = function({ text }: { text: Text }) {
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
   const user = useRecoilValue(userState);
+  const [openModal, setOpenModal] = useState(false);
+  const [textToDelete, setTextToDelete] = useState(null);
+
+  const removeTextFromServer = async function () {
+    if (textToDelete) {
+      const { id } = textToDelete;
+      if (id && user) {
+        const updatedTextList = textList.filter((textObj) => textObj.id !== id);
+        setTextList(updatedTextList);
+        await textsService.removeTextFromServer(id);
+      }
+    }
+  };
 
   const fetchUserTexts = async function() {
     if (user) {
@@ -143,9 +154,12 @@ const UserTexts = function() {
 
       <div className='max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8'>
         <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
-          {textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`} text={text} />)}
+          {textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`}
+            setOpenModal={setOpenModal} setTextToDelete={setTextToDelete} text={text} />)}
         </ul>
       </div>
+      <Modal openModal={openModal} setOpenModal={setOpenModal}
+        removeTextFromServer={removeTextFromServer} />
       <Outlet />
       </>
   );

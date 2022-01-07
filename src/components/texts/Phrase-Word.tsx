@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  Fragment, TouchEvent, useState,
+  Fragment, MouseEvent, TouchEvent, useState,
 } from 'react';
 import {
   useRecoilState,
@@ -9,7 +9,7 @@ import {
 } from 'recoil';
 
 import {
-  markedwordsState, userwordsState, currentwordState, currentwordContextState,
+  markedwordsState, userwordsState, currentwordState, currentwordContextState, mouseStartXState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
 
@@ -17,6 +17,7 @@ import { UserWord } from '../../types';
 export const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
+  const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const [touchStart, setTouchStart] = useState(0);
@@ -25,15 +26,33 @@ export const Word = function ({ word, dataKey, context }:
   const markedWords = useRecoilValue(markedwordsState);
   const wordStatus = markedWords[word.toLowerCase()];
 
-  const getHighlightedWordOrPhrase = function(_event: unknown) {
+  const isMouseEvent = function(event: TouchEvent | MouseEvent): event is MouseEvent {
+    return (event as MouseEvent).nativeEvent.type === 'mouseup';
+  };
+
+  const getHighlightedWordOrPhrase = function(event: TouchEvent | MouseEvent) {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
 
-      const startNode = selection.anchorNode;
-      const endNode = selection.focusNode;
+      let startNode;
+      let endNode;
+
+      if (isMouseEvent(event) && mouseStartX) {
+        if (event.clientX < mouseStartX) {
+          endNode = selection.anchorNode;
+          startNode = selection.focusNode;
+        } else {
+          startNode = selection.anchorNode;
+          endNode = selection.focusNode;
+        }
+      } else {
+        startNode = selection.anchorNode;
+        endNode = selection.focusNode;
+      }
+
       const stringArray = selectedString.split(' ');
 
       // ensures the first and last words are whole words
@@ -158,6 +177,8 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
+  // const setMouseStartX = function () {};
+
   return (
     <div className='inline-block my-1.5'>
       <span
@@ -186,6 +207,11 @@ export const Word = function ({ word, dataKey, context }:
           window.getSelection()?.removeAllRanges();
           window.getSelection()?.empty();
           setIsTouch(false);
+        }}
+
+        onMouseDown={(event) => {
+          // console.log(event);
+          setMouseStartX(event.clientX);
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}

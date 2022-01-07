@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable max-len */
 import parseHTML from 'html-react-parser';
 
 import { useEffect } from 'react';
@@ -48,9 +50,52 @@ const WordTable = function () {
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8 overflow-x-auto">
         <div className="shadow overflow-x-auto border-b border-gray-200 sm:rounded-lg">
+          {/* <div className="min-w-full divide-y divide-gray-200">
+            <div className="bg-gray-50">
+              <div className='flex flex-row w-full'>
+                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
+                  <span className="underline cursor-pointer" onClick={sortUserwordsByABC}>Word</span>
+                </div>
+                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
+                  <span className="underline cursor-pointer" onClick={sortUserwordsByStatus}>Status</span>
+                </div>
+                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
+                  Translations
+                </div>
+                <div className="px-6 py-3 text-left text-xs font-medium flex-1 text-gray-500 uppercase tracking-wider">
+                  Contexts
+                </div>
+              </div>
+            </div>
+            <div className="bg-white divide-y divide-gray-200">
+              {userwords.map((userword) => (
+                <div className=' flex flex-row flex-wrap min-w-full' key={userword.word}>
+                  <div className="px-6 py-4 w-1/6 text-sm font-medium text-gray-900">
+                    {userword.word}
+                  </div>
+                  <div className="px-6 py-4  w-1/6">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${userword.status ? statusClasses[userword.status] : ''}`}>
+                      {userword.status}
+                    </span>
+                  </div>
+                  <div className="px-6 py-4  w-1/6 text-sm text-gray-900">
+                    {userword.translations.map((translation) => (
+                      <div key={translation.id} className="text-sm font-medium text-gray-900">{translation.translation}</div>
+                    ))}
+                  </div>
+                  <div className="px-6 py-4 hidden md:flex flex-1 overflow-auto text-sm text-gray-500">
+                    {userword.translations.map((translation) => (
+                      <div key={`context ${translation.id}`} className="text-sm font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div> */}
+
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
-              <tr>
+              <tr className='flex md:table-row flex-wrap'>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -79,7 +124,7 @@ const WordTable = function () {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {userwords.map((userword) => (
-                <tr key={userword.word}>
+                <tr className='flex md:table-row flex-wrap' key={userword.word}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {userword.word}
                   </td>
@@ -90,12 +135,12 @@ const WordTable = function () {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {userword.translations.map((translation) => (
-                      <div key={translation.id} className="text-sm font-medium text-gray-900">{translation.translation}</div>
+                      <div key={translation.id} className="text-sm pb-2 font-medium text-gray-900">{translation.translation}</div>
                     ))}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-gray-500">
                     {userword.translations.map((translation) => (
-                      <div key={`context ${translation.id}`} className="text-sm font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
+                      <div key={`context ${translation.id}`} className="text-sm pb-2 font-medium text-gray-900">{parseHTML(translation.context || '')}</div>
                     ))}
                   </td>
                 </tr>
