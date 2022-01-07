@@ -21,6 +21,12 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
+export const mouseStartXState = atom<Number | null>({
+  key: 'mouseStartXState',
+  default: null,
+});
+
+
 export const markedwordsState = selector<StringHash>({
   key: 'markedwordsState',
   get: ({ get }) => {
@@ -58,7 +64,7 @@ export const languageFlagsState = selector<StringHash>({
 
     const languages = get(languagesState);
     languages.forEach((language) => {
-      flags[language.id] = language.flag;
+      flags[language.id] = navigator.userAgent.includes('indows') ? '' : language.flag;
     });
 
     return flags;

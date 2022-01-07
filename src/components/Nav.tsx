@@ -10,12 +10,14 @@ import {
   languagesState, userState, languageFlagsState, languageNamesState,
 } from '../states/recoil-states';
 
+import languageService from '../services/languages';
+import userService from '../services/users';
 
 import logOut from '../utils/logOut';
-import languageService from '../services/languages';
-import { SanitizedUser } from '../types';
-import userService from '../services/users';
 import LoggedOutNav from './LoggedOutNav';
+import capitalize from '../utils/capitalize';
+
+import { SanitizedUser } from '../types';
 
 const logo = require('../assets/logo/logo-crop-dark.png');
 
@@ -27,14 +29,6 @@ const navigation = [
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
-
-// eslint-disable-next-line consistent-return
-const capitalize = function (string: string) {
-  if (string) {
-    return string.slice(0, 1).toUpperCase() + string.slice(1);
-  }
-  return 'English';
-};
 
 export default function Navbar() {
   const [languages, setLanguages] = useRecoilState(languagesState);
@@ -174,7 +168,7 @@ export default function Navbar() {
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
                               <div className='flex flex-row justify-between m-2'>
-                                <span className="h-5 w-5">{language.flag}</span>
+                                <span className="h-5 w-5">{flags[language.id]}</span>
                                 {capitalize(language.name)}
                               </div>
                             </a>
