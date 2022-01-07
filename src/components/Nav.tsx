@@ -92,20 +92,20 @@ export default function Navbar() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <NavLink to={'/texts'}>
-                <div className="flex-shrink-0 flex items-center">
+                <NavLink to={'/about'}>
+                  <div className="flex-shrink-0 flex items-center">
                     <img
                       className="block lg:hidden h-8 w-auto"
                       src={logo}
-                      alt="Workflow"
+                      alt="Alexandria logo"
                     />
                     <img
                       className="hidden lg:block h-8 w-auto"
                       src={logo}
-                      alt="Workflow"
+                      alt="Alexandria logo"
                     />
                   </div>
-                      </NavLink>
+                </NavLink>
 
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
