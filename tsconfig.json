@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["cypress", "node"],
     "importHelpers": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,6 +27,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/**/*", ".eslintrc.js", "cypress/**/*"
   ]
 }

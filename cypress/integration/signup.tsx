@@ -3,3 +3,9 @@ describe('renders the home page', () => {
     cy.visit("/")
   })
 })
+
+describe ('can log in an existing user', () => {
+  it('logs in user', () => {
+    // cy.get('')
+  })
+})
