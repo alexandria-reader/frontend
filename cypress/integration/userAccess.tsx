@@ -1,15 +1,22 @@
 beforeEach(() => {
-  Cypress.Cookies.preserveOnce('alexandria-user-token');
+  cy.visit('/login');
+  cy.login('testUser@example.com', 'testpassword');
+  // cy.request('POST', 'http://localhost:3000/api/login', {
+  //   email: 'testUser@example.com', password: 'testpassword',
+  // }).then((response) => {
+  //   localStorage.setItem('alexandria-user-token', JSON.stringify(response.body));
+  //   cy.visit('/');
+  // });
 });
 
 describe('renders the home page', () => {
-  it.skip('renders correctly', () => {
+  it('renders correctly', () => {
     cy.visit('/');
   });
 });
 
-describe('can sign up a new user', () => {
-  it.skip('signs up new user fails because of existing email', () => {
+xdescribe('can sign up a new user', () => {
+  it('signs up new user fails because of existing email', () => {
     cy.visit('/signup');
 
     cy.get('input[name="username').type('dana@example.com');
@@ -22,7 +29,7 @@ describe('can sign up a new user', () => {
     cy.location('pathname').should('eq', '/signup');
   });
 
-  it.skip('signs up new user succeeds', () => {
+  it('signs up new user succeeds', () => {
     cy.visit('/signup');
 
     const newUserName = `${Array(4).fill(0).map((_num) => Math.random().toString(36).charAt(2)).join('')}@example.com`;
@@ -36,30 +43,48 @@ describe('can sign up a new user', () => {
 
     cy.location('pathname').should('eq', '/signup');
   });
+});
 
-  describe('can log in an existing user', () => {
-    it.skip('logs in user', () => {
-      cy.visit('/login');
-      cy.login('testUser@example.com', 'testpassword');
-      cy.location('pathname').should('eq', '/texts');
-    });
+describe('can log in an existing user', () => {
+  it('logs in user', () => {
+    cy.location('pathname').should('eq', '/texts');
+  });
+});
 
-    it('navigates to the settings page', () => {
-      cy.visit('/login');
-      cy.login('testUser@example.com', 'testpassword');
-      cy.get('.click-user').click();
-      cy.get('.settings-key').click();
-      cy.get('.loggedin-status').contains('testUser at testUser@example.com is logged in');
-    });
+describe('can change existing user settings', () => {
+  it('navigates to the settings page', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('.loggedin-status').contains('testUser@example.com is logged in');
+  });
 
-    it('updates user info', () => {
-      cy.get('input[name="username').type('2');
-      cy.get('.button-name-email').click();
-      // cy.get('.button-name-email').click();
-      // cy.get('.loggedin-status').contains('newUser2');
-    });
+  it('updates user info', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('input[name="username').clear().type('testUser2');
+    cy.get('.button-name-email').click();
+    cy.get('.loggedin-status').contains('testUser2');
+  });
 
-    it.skip('updates language preferences', async () => {
-    });
+  it('updates learning preferences', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('select').eq(0).select('fr').should('have.value', 'fr');
+    cy.get('select').eq(1).select('de').should('have.value', 'de');
+    cy.get('.button-lang-preferences').click();
+  });
+
+  it('updates password', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('#password').type('testpassword');
+    cy.get('#password2').type('testpassword2');
+    cy.get('#password3').type('testpassword2');
+    cy.get('.button-password').click();
+    cy.get('.password-message').contains('Password updated');
+    cy.get('#password').clear().type('testpassword2');
+    cy.get('#password2').clear().type('testpassword');
+    cy.get('#password3').clear().type('testpassword');
+    cy.get('.button-password').click();
   });
 });

@@ -208,21 +208,21 @@ export default function Settings() {
           <div className="shadow sm:rounded-md sm:overflow-hidden mb-6">
             <div className="px-4 py-5 bg-white sm:p-6">
               <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
-              <p className="text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
+              <p className="password-message text-sm mb-6 text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
               <p className="text-gray-600 text-sm mb-6">Update password by providing a new one with the current password.</p>
               <label htmlFor="password1" className="label text-sm mb-6">Current Password</label>
               <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                id="password" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               <label htmlFor="password2" className="label text-sm mb-6">New Password</label>
               <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                id="password2" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               <label htmlFor="password3" className="label text-sm mb-6">New Password Again</label>
               <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
-                className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                id="password3" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
               {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
               {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
               {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
@@ -230,7 +230,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-700 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600"
+                  className="button-password relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-700 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600"
                 >
                   Save
                 </button>
@@ -261,7 +261,7 @@ export default function Settings() {
               <div className='pt-6 text-right'>
                 <button
                   type="submit"
-                  className="relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700"
+                  className="button-lang-preferences relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700"
                 >
                   Save
                 </button>
