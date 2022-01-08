@@ -10,9 +10,19 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('login', (email, password) => { 
+  cy.get('input[name="email').type(email);
+  cy.get('input[name="password').type(password);
+  cy.get('button').click();
+});
 //
-//
+
+// now any cookie with the name 'session_id' will
+// not be cleared before each test runs
+Cypress.Cookies.defaults({
+  preserve: 'alexandria-user-token',
+});
+
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //

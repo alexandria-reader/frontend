@@ -1,6 +1,12 @@
 beforeEach(() => {
-  // root-level hook
-  // runs before every test block
+  cy.visit('/login');
+  cy.login('testUser@example.com', 'testpassword');
+  // cy.request('POST', 'http://localhost:3000/api/login', {
+  //   email: 'testUser@example.com', password: 'testpassword',
+  // }).then((response) => {
+  //   localStorage.setItem('alexandria-user-token', JSON.stringify(response.body));
+  //   cy.visit('/');
+  // });
 });
 
 describe('renders the home page', () => {
@@ -9,19 +15,7 @@ describe('renders the home page', () => {
   });
 });
 
-describe('can log in an existing user', () => {
-  it('logs in user', () => {
-    cy.visit('/login');
-
-    cy.get('input[name="email').type('dana@example.com');
-    cy.get('input[name="password').type('danapwhash');
-    cy.get('button').click();
-
-    cy.location('pathname').should('eq', '/texts');
-  });
-});
-
-describe('can sign up a new user', () => {
+xdescribe('can sign up a new user', () => {
   it('signs up new user fails because of existing email', () => {
     cy.visit('/signup');
 
@@ -31,7 +25,7 @@ describe('can sign up a new user', () => {
     cy.get('select').eq(0).select('fr');
     cy.get('select').eq(1).select('es');
     cy.get('button').click();
-    
+
     cy.location('pathname').should('eq', '/signup');
   });
 
@@ -46,7 +40,51 @@ describe('can sign up a new user', () => {
     cy.get('select').eq(0).select('fr');
     cy.get('select').eq(1).select('es');
     cy.get('button').click();
-    
+
     cy.location('pathname').should('eq', '/signup');
+  });
+});
+
+describe('can log in an existing user', () => {
+  it('logs in user', () => {
+    cy.location('pathname').should('eq', '/texts');
+  });
+});
+
+describe('can change existing user settings', () => {
+  it('navigates to the settings page', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('.loggedin-status').contains('testUser@example.com is logged in');
+  });
+
+  it('updates user info', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('input[name="username').clear().type('testUser2');
+    cy.get('.button-name-email').click();
+    cy.get('.loggedin-status').contains('testUser2');
+  });
+
+  it('updates learning preferences', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('select').eq(0).select('fr').should('have.value', 'fr');
+    cy.get('select').eq(1).select('de').should('have.value', 'de');
+    cy.get('.button-lang-preferences').click();
+  });
+
+  it('updates password', () => {
+    cy.get('.click-user').click();
+    cy.get('.settings-key').click();
+    cy.get('#password').type('testpassword');
+    cy.get('#password2').type('testpassword2');
+    cy.get('#password3').type('testpassword2');
+    cy.get('.button-password').click();
+    cy.get('.password-message').contains('Password updated');
+    cy.get('#password').clear().type('testpassword2');
+    cy.get('#password2').clear().type('testpassword');
+    cy.get('#password3').clear().type('testpassword');
+    cy.get('.button-password').click();
   });
 });
