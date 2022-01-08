@@ -16,11 +16,11 @@ export default function Benefits() {
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
             </h1>
             <div className="max-w-3xl">
-              <p className="text-xl text-center md:text-left text-gray-600 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Upload texts. Translate words. Review.</p>
+              <p className="text-xl text-center md:text-left text-gray-600 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
             </div>
             <div className="flex justify-center flex-row" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
-                  <a href="/signup"><button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-sky-600 transition duration-150 ease-in-out hover:bg-sky-500 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-sky-600 py-2 sm:py-4 text-sm">Sign up</button></a>
+                  <a href="/signup"><button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700 bg-fuchsia-900 transition duration-150 ease-in-out hover:bg-fuchsia-700 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-fuchsia-900 py-2 sm:py-4 text-sm">Sign up</button></a>
                 </div>
                 <div>
                   <a href="#how-it-works" onClick={(event) => {
