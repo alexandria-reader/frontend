@@ -44,7 +44,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className="flex flex-row text-lg justify-center overflow-visible">
+    ? <div className="flex flex-row text-lg max-w-full justify-evenly overflow-visible">
         <button className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button className='bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
         <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
@@ -155,13 +155,13 @@ const TranslationComponent = function({ word }:
   }, [currentWord]);
 
   return (
-    <div className='text-xl flex flex-col gap-2' key={`translation-component ${word?.id}`}>
+    <div className='text-xl flex flex-col gap-6' key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
       && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
         <ul className='flex flex-row flex-wrap'>{currentWord?.translations
           .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
-      <div className='py-2'>
+      <div className='py-'>
         <p>Context: {currentWordContext}</p>
       </div>
       <div className=''>
@@ -178,15 +178,15 @@ const TranslationComponent = function({ word }:
               minLength={1}
               onChange={(event) => handleInput(event)}
               value={translation}
-              className="focus:ring-sky-600 focus:border-sky-600 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" />
+              className="focus:ring-sky-600 mt-1 focus:border-sky-600 block w-full pl-7 shadow-sm pr-12 sm:text-sm border-gray-300 rounded-md" />
             <button onClick={(event) => {
               handleTranslation(event, translation, word);
               setShowDictionary(false);
               setTranslation('');
-            }} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button>
+            }} className='bg-sky-600 mt-1 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button>
           </div>
         </form>
-
+            </div><div>
         {/* dictionary buttons and change status */}
         <div className='flex flex-col gap-1 justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
@@ -198,8 +198,11 @@ const TranslationComponent = function({ word }:
           <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
         </div>
-        {!showDictionary && <ChangeStatus word={word} />}
-      </div></>}
+      </div>
+      <div>
+      {!showDictionary && <ChangeStatus word={word} />}
+      </div>
+      </>}
     </div>
   );
 };
