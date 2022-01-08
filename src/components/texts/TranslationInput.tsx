@@ -44,7 +44,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className="flex flex-row justify-center overflow-visible">
+    ? <div className="flex flex-row text-lg justify-center overflow-visible">
         <button className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button className='bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
         <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
@@ -53,7 +53,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     : '';
 
   return (
-    <div className="">
+    <div className="mt-3">
       {word && <p className='text-xl'>Current status: {word.status}</p>}
       {wordStatusToolbar}
     </div>
@@ -70,7 +70,8 @@ const DictionaryIframe = function({ url }: { url: string }) {
   );
 };
 
-const TranslationComponent = function({ word }: { word: UserWord | null }) {
+const TranslationComponent = function({ word }:
+{ word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const currentText = useRecoilValue(currenttextState);
@@ -154,15 +155,18 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
   }, [currentWord]);
 
   return (
-    <div key={`translation-component ${word?.id}`}>
+    <div className='text-xl flex flex-col gap-2' key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
       && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
-        <ul className='flex flex-row'>{currentWord?.translations
+        <ul className='flex flex-row flex-wrap'>{currentWord?.translations
           .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
-      <div className='my-4'>
+      <div className='py-2'>
+        <p>Context: {currentWordContext}</p>
+      </div>
+      <div className=''>
         <form className=' flex flex-col justify-center' >
-          <label htmlFor="translation" className="block text-md font-medium text-gray-700">
+          <label htmlFor="translation" className="block text-md">
             Add translation:
           </label>
           <div className="relative rounded-md shadow-sm flex flex-row items-center my-2">
@@ -184,7 +188,7 @@ const TranslationComponent = function({ word }: { word: UserWord | null }) {
         </form>
 
         {/* dictionary buttons and change status */}
-        <div className='flex flex-col justify-center'>
+        <div className='flex flex-col gap-1 justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
           <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
