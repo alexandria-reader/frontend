@@ -1,14 +1,10 @@
-/* eslint-disable max-len */
-// import undraw from '../../assets/undraw_researching.svg';
-// eslint-disable-next-line global-require
-// const undraw = require('../../assets/undraw.svg') as String;
 import svg from '../../assets/undraw-mh2.svg';
 
 export default function Benefits() {
   return (
     <>
       {/* Hero content */}
-      <div className="hero h-screen px-4 py-10 md:px-20 md:py-10">
+      <div className="hero h-screen max-w-7xl mx-auto px-4 py-10 md:px-20 md:py-10">
         <div className="items-center h-full flex flex-col md:flex-row ">
         {/* Section header */}
           <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6">
