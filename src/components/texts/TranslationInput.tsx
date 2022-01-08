@@ -161,7 +161,7 @@ const TranslationComponent = function({ word }:
         <ul className='flex flex-row flex-wrap'>{currentWord?.translations
           .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
-      <div className='py-'>
+      <div className='md:hidden'>
         <p>Context: {currentWordContext}</p>
       </div>
       <div className=''>
