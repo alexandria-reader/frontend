@@ -54,7 +54,7 @@ const Paragraph = function({ paragraph }: { paragraph: string }) {
   return (
     <>
     {
-      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className="inline">
+      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className="font-serif text-lg inline">
           <Sentence sentence={sentence} />
         </div>)
     }
@@ -97,7 +97,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
           }
           return false;
         });
-        if (current.length > 1) {
+        if (current.length > 0) {
           setCurrentWord(current[0]);
         }
       }
