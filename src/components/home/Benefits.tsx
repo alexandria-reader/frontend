@@ -1,10 +1,13 @@
 import svg from '../../assets/undraw-mh2.svg';
 
 export default function Benefits() {
+  console.log(window.innerWidth);
+  console.log(window.innerHeight);
   return (
     <>
       {/* Hero content */}
-      <div className={`h-screen ${window.innerHeight < 800 ? 'mt-[-4rem]' : 'mt-[-2rem]'}  md:mt-[-2rem] pt-20 md:pt-0 max-w-7xl mx-auto px-4 py-10 md:px-20 md:py-10`}>
+      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] sm:py-12 lg:py-36 `}>
+      <div className={`max-w-7xl mx-auto px-4 ${window.innerWidth > 1500 ? '' : 'md:px-20'}  ${window.innerHeight > window.innerWidth ? 'md:py-12' : 'md:py-10'}`}>
         <div className="items-center h-full flex flex-col md:flex-row ">
         {/* Section header */}
           <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6">
@@ -14,21 +17,22 @@ export default function Benefits() {
             <div className="max-w-3xl">
               <p className="text-xl text-center md:text-left text-gray-600 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
             </div>
-            <div className="flex justify-center flex-row" data-aos="zoom-y-out" data-aos-delay="300">
+            <div className="flex justify-center md:justify-start flex-row" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
-                  <a href="/signup"><button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700 bg-fuchsia-900 transition duration-150 ease-in-out hover:bg-fuchsia-700 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-fuchsia-900 py-2 sm:py-4 text-md">Sign up</button></a>
+                  <a href="/signup"><button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700 bg-fuchsia-900 transition duration-150 ease-in-out hover:bg-fuchsia-700 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-9 border border-fuchsia-900 py-2 sm:py-4 text-md">Sign up</button></a>
                 </div>
                 <div>
                   <a href="#how-it-works" onClick={(event) => {
                     event.preventDefault();
                     document.querySelector('#how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                  }}><button className="ml-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 px-4 sm:px-10 py-2 sm:py-4 text-md">Learn more</button></a>
+                  }}><button className="ml-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 px-4 sm:px-9 py-2 sm:py-4 text-md">Learn more</button></a>
                 </div>
               </div>
           </div>
-        <div className=" flex-1 ">
+        <div className={`${window.innerWidth > 1500 ? 'flex-2' : 'flex-1'}`}>
           <img src={svg} alt="" />
         </div>
+      </div>
       </div>
     </div>
   </>
