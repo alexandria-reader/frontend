@@ -42,9 +42,9 @@ function App() {
     <div className="min-h-screen min-w-full bg-gray-100 flex flex-col justify-between  mb-auto">
       <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler} onReset={() => setErrorState(false)} resetKeys={[errorState]}>
         <Nav />
-        <main className='container mx-auto mb-auto'>
+        {user ? <main className='container mx-auto mb-auto'>
           <Outlet />
-        </main>
+        </main> : <Outlet />}
         <Footer />
       </ErrorBoundary>
   </div>

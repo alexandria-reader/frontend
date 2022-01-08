@@ -2,11 +2,11 @@
 import {
   selector, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
-import { useState, useEffect } from 'react';
-// import { textContent } from 'domutils';
+
 import {
   currentwordContextState, currentwordState, markedwordsState, userwordsState,
 } from '../../states/recoil-states';
+import { stripPunctuation } from '../../utils/punctuation';
 
 import { Word, Phrase } from './Phrase-Word';
 
@@ -49,22 +49,13 @@ const Sentence = function({ sentence }: { sentence: string }) {
 
 
 const Paragraph = function({ paragraph }: { paragraph: string }) {
-  const sentences = paragraph.match(/[^\s]([^!?\\.]|\.{3})*["!?\\.\s]*/gmu) || [''];
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, []);
+  const sentences = paragraph.match(/[^\s]([^!?.:;]|\.{3})*["!?.:;\s]*/gmu) || [''];
 
   return (
     <>
     {
-      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className={`${isMobile ? 'inline' : 'inline-block'}`}>
-          <Sentence key={index + sentence.slice(1, 9)} sentence={sentence} />
+      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className="inline">
+          <Sentence sentence={sentence} />
         </div>)
     }
     </>
@@ -100,9 +91,13 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
 
       // if user clicks on a span containing words and a space, it's a phrase
       if (text.length > 1) {
-        const current = userWords.filter((wordObj) => wordObj.word === target
-          .textContent?.toLowerCase());
-        if (current.length === 1) {
+        const current = userWords.filter((wordObj) => {
+          if (target.textContent) {
+            return stripPunctuation(wordObj.word) === stripPunctuation(target.textContent?.toLowerCase());
+          }
+          return false;
+        });
+        if (current.length > 1) {
           setCurrentWord(current[0]);
         }
       }

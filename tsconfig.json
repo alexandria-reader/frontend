@@ -27,6 +27,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*", ".eslintrc.js", "cypress/**/*"
+    "src", "src/components", "src/custom.d.ts"
   ]
 }
