@@ -78,7 +78,8 @@ export default function Navbar() {
           <>
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
               <div className="relative flex items-center justify-between h-16">
-                <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
+
                   {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
@@ -89,22 +90,23 @@ export default function Navbar() {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <NavLink to={'/about'}>
-                  <div className="flex-shrink-0 flex items-center">
-                    <img
-                      className="block lg:hidden h-8 w-auto"
-                      src={logo}
-                      alt="Alexandria logo"
-                    />
-                    <img
-                      className="hidden lg:block h-8 w-auto"
-                      src={logo}
-                      alt="Alexandria logo"
-                    />
-                  </div>
-                </NavLink>
 
+                {/* logo */}
+                <div className="flex items-center justify-center sm:items-start sm:justify-start">
+                  <NavLink to={'/about'}>
+                    <div className="flex-shrink-0 ml-2 sm:ml-0 flex items-center">
+                      <img
+                        className="block lg:hidden h-8 w-auto"
+                        src={logo}
+                        alt="Alexandria logo"
+                      />
+                      <img
+                        className="hidden lg:block h-8 w-auto"
+                        src={logo}
+                        alt="Alexandria logo"
+                      />
+                    </div>
+                  </NavLink>
 
                   {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                   <div className="hidden sm:block sm:ml-6">
@@ -131,7 +133,7 @@ export default function Navbar() {
               </div>
 
               {/* Language dropdown */}
-              <div className="absolute inset-y-0 right-0 flex justify-end items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="flex justify-end mr-8 items-center pr-2 sm:ml-6 sm:pr-0">
                 <Menu as="div" className="sm:ml-3 relative">
                   <div>
                     <Menu.Button className=" flex text-sm">
@@ -144,7 +146,7 @@ export default function Navbar() {
                               'text-gray-300  hover:text-white flex flex-row px-1 sm:px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
-                            <p><span className="h-5 w-5 user-lang-flag">{flags[user.learnLanguageId]}</span> {capitalize(names[user.learnLanguageId])}</p>
+                            <p><span className="h-5 w-5 user-lang-flag mr-2">{flags[user.learnLanguageId]}</span> {capitalize(names[user.learnLanguageId])}</p>
                             <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                           </a>
                           }
@@ -189,7 +191,7 @@ export default function Navbar() {
                 </Menu>
 
                 {/* User profile picture dropdown menu */}
-                <Menu as="div" className="sm:ml-3 relative">
+                <Menu as="div" className="hidden sm:block sm:ml-3 relative">
                   <div>
                     <Menu.Button className="bg-gray-500 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
@@ -247,22 +249,49 @@ export default function Navbar() {
             {/* This is the mobile dropdown menu */}
             <Disclosure.Panel className="sm:hidden">
               <div className="px-2 bg-gray-800 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => {
-                const isActive = useLocation().pathname === item.href;
+                <div className='pb-2'>
+                  {navigation.map((item) => {
+                    const isActive = useLocation().pathname === item.href;
 
-                return <NavLink key={item.name} to={`${item.href}`}>
-                          <Disclosure.Button
-                            as="div"
-                            className={classNames(
-                              isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'block px-3 py-2 rounded-md text-base font-medium',
-                            )}
-                            aria-current={isActive ? 'page' : undefined}
-                          >
-                        {item.name}
-                        </Disclosure.Button>
-                      </NavLink>;
-              })}
+                    return <NavLink key={item.name} to={`${item.href}`}>
+                            <Disclosure.Button
+                              as="div"
+                              className={classNames(
+                                isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'block px-3 py-2 rounded-md text-base font-medium',
+                              )}
+                              aria-current={isActive ? 'page' : undefined}
+                            >
+                          {item.name}
+                          </Disclosure.Button>
+                        </NavLink>;
+                  })}
+                </div>
+                <div className='border-t border-gray-600 pt-2'>
+                  <NavLink key={'Settings'} to={'/settings'}>
+                    <Disclosure.Button
+                      as="div"
+                      className={classNames(
+                        useLocation().pathname === '/settings'
+                          ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'block px-3 py-2 rounded-md text-base font-medium',
+                      )}
+                      aria-current={useLocation().pathname === '/settings' ? 'page' : undefined}
+                    >
+                      {'Settings'}
+                    </Disclosure.Button>
+                  </NavLink>
+                  <NavLink key={'SignOut'} to={'/'} onClick={() => logOut()}>
+                    <Disclosure.Button
+                      as="div"
+                      className={classNames(
+                        'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium',
+                      )}
+                    >
+                    {'Sign Out'}
+                    </Disclosure.Button>
+                  </NavLink>;
+                </div>
               </div>
             </Disclosure.Panel>
           </>
