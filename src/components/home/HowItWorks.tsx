@@ -47,8 +47,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Look up unfamiliar words</h4>
-              <p className="text-gray-600 text-center">Go through text and click on words you don't know, or are not sure about. Multiple dictionaries are available for translation.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Look up words</h4>
+              <p className="text-gray-600 text-center">Go through the text and click on words you don't know, or are not sure about. Multiple dictionaries are available for translation.</p>
             </div>
 
             {/* 3rd item */}
@@ -62,8 +62,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Set learned status</h4>
-              <p className="text-gray-600 text-center">Inititally marked words are marked with a "learned status" of "Learning". But feel free to adjust it based on your level of familiarity with the word.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Set word status</h4>
+              <p className="text-gray-600 text-center">Words that you mark are assigned the status "learning". But you can adjust it based on your level of familiarity with the word.</p>
             </div>
 
             {/* 4th item */}
@@ -79,8 +79,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Apply translation in context</h4>
-              <p className="text-gray-600 text-center">Based on surrounding context, add the translation that fit best. You can always add another translation for the same word based on a different context later.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Translate in context</h4>
+              <p className="text-gray-600 text-center">Based on surrounding context, add the translation that fits best. You can always add another translation for the same word based on a different context later.</p>
             </div>
 
             {/* 5th item */}
@@ -94,8 +94,8 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Adjust learned status</h4>
-              <p className="text-gray-600 text-center">If previously marked words already exist in your account, they are shown based on "learned status". Adjust status based on your level of familiarity with the word.</p>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Update word status</h4>
+              <p className="text-gray-600 text-center">Words that you have marked before are highlighted throughout your texts based on their status. Update it according your familiarity with the word.</p>
             </div>
 
             {/* 6th item */}
@@ -112,7 +112,7 @@ export default function HowItWorks() {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Review word list</h4>
-              <p className="text-gray-600 text-center">Marked words are available for review at your convenience. Words are presented with translation and surrounding context to ensure maximum retention.</p>
+              <p className="text-gray-600 text-center">All your marked words are available for review at your convenience. Words are presented with translation and surrounding context to ensure maximum retention.</p>
             </div>
 
           </div>
