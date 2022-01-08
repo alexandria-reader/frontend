@@ -3,6 +3,8 @@ import {
   UserWord, StringHash, Text, Language, SanitizedUser, Webdictionary,
 } from '../types';
 
+import { isPunctuated, stripPunctuation } from '../utils/punctuation';
+
 import webdictionaries from '../services/webdictionaries';
 
 export const textlistState = atom<Array<Text>>({
@@ -34,7 +36,13 @@ export const markedwordsState = selector<StringHash>({
 
     const userWords = get(userwordsState);
     userWords.forEach((userWord) => {
-      if (userWord.status) markedWords[userWord.word] = userWord.status;
+      if (userWord.status) {
+        markedWords[userWord.word] = userWord.status;
+
+        if (isPunctuated(userWord.word)) {
+          markedWords[stripPunctuation(userWord.word)] = userWord.status;
+        }
+      }
     });
 
     return markedWords;

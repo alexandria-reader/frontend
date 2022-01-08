@@ -8,7 +8,7 @@ import { Text } from '../../types';
 
 const NewTextForm = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
-  const [newText, setNewText] = useState('');
+  const [newTextBody, setNewTextBody] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
   const [newTextURL, setNewTextURL] = useState('');
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const NewTextForm = function() {
     const newTextObj: Text = {
       languageId: user?.learnLanguageId || '',
       title: newTextTitle,
-      body: newText,
+      body: newTextBody,
     };
 
     if (user) {
@@ -41,12 +41,12 @@ const NewTextForm = function() {
       navigate('/texts');
     }
 
-    setNewText('');
+    setNewTextBody('');
     setNewTextTitle('');
   };
 
   const cancelButton = function() {
-    setNewText('');
+    setNewTextBody('');
     setNewTextTitle('');
     setNewTextURL('');
   };
@@ -96,7 +96,7 @@ const NewTextForm = function() {
 
                 <div>
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                    Text content:
+                    Text body:
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -106,7 +106,9 @@ const NewTextForm = function() {
                       className="shadow-sm focus:ring-sky-500 focus:border-sky-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                       placeholder="Paste your text here"
                       defaultValue={''}
-                    />
+                      value={newTextBody}
+                      onChange={(e) => setNewTextBody(e.target.value)}
+                  />
                   </div>
                 </div>
 
