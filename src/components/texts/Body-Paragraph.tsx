@@ -97,7 +97,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
           }
           return false;
         });
-        if (current.length > 1) {
+        if (current.length > 0) {
           setCurrentWord(current[0]);
         }
       }
