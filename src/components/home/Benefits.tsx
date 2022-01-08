@@ -14,7 +14,7 @@ export default function Benefits() {
             <div className="max-w-3xl">
               <p className="text-xl text-center md:text-left text-gray-600 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
             </div>
-            <div className="flex justify-center flex-row" data-aos="zoom-y-out" data-aos-delay="300">
+            <div className="flex justify-center md:justify-start flex-row" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>
                   <a href="/signup"><button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700 bg-fuchsia-900 transition duration-150 ease-in-out hover:bg-fuchsia-700 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-fuchsia-900 py-2 sm:py-4 text-md">Sign up</button></a>
                 </div>
