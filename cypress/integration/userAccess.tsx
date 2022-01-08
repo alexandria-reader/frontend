@@ -1,12 +1,6 @@
 beforeEach(() => {
   cy.visit('/login');
   cy.login('testUser@example.com', 'testpassword');
-  // cy.request('POST', 'http://localhost:3000/api/login', {
-  //   email: 'testUser@example.com', password: 'testpassword',
-  // }).then((response) => {
-  //   localStorage.setItem('alexandria-user-token', JSON.stringify(response.body));
-  //   cy.visit('/');
-  // });
 });
 
 describe('renders the home page', () => {
