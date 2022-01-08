@@ -3,7 +3,7 @@
 // const logo = require('../../assets/logo/logo-light.png');
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCloudUploadAlt, faSearch, faAdjust, faCommentDots, faCheck, faCompass,
+  faCloudUploadAlt, faSearch, faAdjust, faCommentDots, faCheck, faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function HowItWorks() {
@@ -120,7 +120,7 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg> */}
-              <FontAwesomeIcon icon={faCompass} size='3x' style={{ color: '#0084c7' }}/>
+              <FontAwesomeIcon icon={faChalkboardTeacher} size='3x' style={{ color: '#0084c7' }}/>
               <h4 className="text-xl font-bold leading-snug tracking-tight mt-3 mb-1">Review word list</h4>
               <p className="text-gray-600 text-center">Marked words are available for review at your convenience. Words are presented with translation and surrounding context to ensure maximum retention.</p>
             </div>
