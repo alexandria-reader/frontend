@@ -75,14 +75,15 @@ iframe > html {
   width: 300px;
 } */
 
-.hero {
+/* .hero { */
   /* max-height: calc(100vh - 64px); */
-  max-height: 100vh;
-  box-sizing: border-box;
-  padding-top: 64px;
-  margin-top: -64px;
-}
+  /* max-height: 100vh; */
+  /* box-sizing: border-box; */
+  /* padding-top: 64px; */
+  /* margin-top: -64px; */
+  /* margin-top: -2rem; */
+/* } */
 
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
