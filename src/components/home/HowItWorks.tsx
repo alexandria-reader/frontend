@@ -3,7 +3,7 @@
 // const logo = require('../../assets/logo/logo-light.png');
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCloudUploadAlt, faSearch, faAdjust, faSave, faCheck, faCompass,
+  faCloudUploadAlt, faSearch, faAdjust, faCommentDots, faCheck, faCompass,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function HowItWorks() {
@@ -86,7 +86,7 @@ export default function HowItWorks() {
                   </g>
                 </g>
               </svg> */}
-              <FontAwesomeIcon icon={faSave} size='3x' style={{ color: '#0084c7' }}/>
+              <FontAwesomeIcon icon={faCommentDots} size='3x' style={{ color: '#0084c7' }}/>
               <h4 className="text-xl font-bold leading-snug tracking-tight mt-3 mb-1">Apply translation in context</h4>
               <p className="text-gray-600 text-center">Based on surrounding context, add the translation that fit best. You can always add another translation for the same word based on a different context later.</p>
             </div>
