@@ -270,8 +270,8 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
 
   return (
     <>
-      {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
-      <div className='w-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
+      {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden h-full p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
+      <div className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
         <div className='w-full'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center'>
