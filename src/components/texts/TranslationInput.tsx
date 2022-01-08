@@ -62,8 +62,8 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
 const DictionaryIframe = function({ url }: { url: string }) {
   return (
-    <div className=''>
-      <iframe title='Wordreference dictionary' className='' width="320" height="350"
+    <div className='flex justify-center'>
+      <iframe title='Wordreference dictionary' className='' width="350" height="450"
         src={url}>
       </iframe>
     </div>
