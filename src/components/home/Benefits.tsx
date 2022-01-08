@@ -1,10 +1,13 @@
 import svg from '../../assets/undraw-mh2.svg';
 
 export default function Benefits() {
+  console.log(window.innerWidth);
+  console.log(window.innerHeight);
   return (
     <>
       {/* Hero content */}
-      <div className={`h-screen ${window.innerHeight < 800 ? 'mt-[-4rem]' : 'mt-[-2rem]'}  md:mt-[-2rem] pt-20 md:pt-0 max-w-7xl mx-auto px-4 py-10 md:px-20 md:py-10`}>
+      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] sm:py-12 lg:py-36 `}>
+      <div className={`max-w-7xl mx-auto px-4 md:px-20 ${window.innerHeight > window.innerWidth ? 'md:py-12' : 'md:py-10'}`}>
         <div className="items-center h-full flex flex-col md:flex-row ">
         {/* Section header */}
           <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6">
@@ -29,6 +32,7 @@ export default function Benefits() {
         <div className=" flex-1 ">
           <img src={svg} alt="" />
         </div>
+      </div>
       </div>
     </div>
   </>
