@@ -21,7 +21,7 @@ import capitalize from '../utils/capitalize';
 
 import { SanitizedUser } from '../types';
 
-const logo = require('../assets/logo/logo-crop-dark.png');
+const logo = require('../assets/logo/logo-dark.png');
 
 const navigation = [
   { name: 'Texts', href: '/texts' },
