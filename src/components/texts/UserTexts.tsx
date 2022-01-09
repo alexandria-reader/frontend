@@ -144,13 +144,17 @@ const UserTexts = function() {
     <>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
-          <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
-          {(user && textList && textList.length === 0) ? <h2 className='text-lg leading-6 font-medium text-gray-900'>{`You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`}</h2>
-            : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
-          <NavLink to={'/texts/new'}>
-            <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
-          </NavLink>
+          {textList
+            ? <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+              {(user && textList.length === 0)
+                ? <h2 className='text-lg leading-6 font-medium text-gray-900'>{`You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`}</h2>
+                : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+            <NavLink to={'/texts/new'}>
+              <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
+            </NavLink>
           </div>
+            : ''
+          }
         </div>
       </div>
 
