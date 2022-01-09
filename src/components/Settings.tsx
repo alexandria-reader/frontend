@@ -280,7 +280,7 @@ export default function Settings() {
                   {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
                   {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
                   </select>}
-                  {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]} </option>)}
+                  {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
                 </div>
 
                 <div className='pt-2 text-right'>
