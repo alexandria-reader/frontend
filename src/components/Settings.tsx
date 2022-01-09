@@ -4,14 +4,12 @@ import { useForm } from 'react-hook-form';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  languageFlagsState,
+  languageFlagsState, languageNamesState,
   languagesState, userState,
 } from '../states/recoil-states';
 
 import userServices from '../services/users';
 import languageServices from '../services/languages';
-
-import capitalize from '../utils/capitalize';
 
 const logo = require('../assets/logo/logo-light.png');
 
@@ -19,6 +17,7 @@ export default function Settings() {
   const [user, setUser] = useRecoilState(userState);
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);
+  const names = useRecoilValue(languageNamesState);
 
   const [usermessage, setUsermessage] = useState('');
   const [showUserMessage, setShowUserMessage] = useState(true);
@@ -248,13 +247,13 @@ export default function Settings() {
               <div>
                 <label htmlFor="currentKnownLanguageId" className='label text-sm mb-6'>I know</label>
                 {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
-                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)}</option>)}
+                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
                 </select>}
               </div>
               <div>
                 <label htmlFor="currentLearnLanguageId" className='label text-sm mb-6'>I want to learn</label>
                 {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
-                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)} </option>)}
+                {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]} </option>)}
                 </select>}
                 {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
               </div>

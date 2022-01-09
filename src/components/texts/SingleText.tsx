@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import TranslationInput from './TranslationInput';
@@ -22,6 +22,7 @@ const SingleText = function () {
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const params = useParams();
+  const [error, setError] = useState('');
 
   const fetchUserwords = async function() {
     if (currentText && user) {
@@ -31,10 +32,15 @@ const SingleText = function () {
     }
   };
 
-  const getTextById = async function() {
+  const fetchTextAndUserwords = async function() {
     if (params.textId && getToken()) {
-      const text = await textsService.getTextById(params.textId);
-      setCurrentText(text);
+      try {
+        const text = await textsService.getTextById(params.textId);
+        setCurrentText(text);
+        fetchUserwords();
+      } catch (e) {
+        setError('error');
+      }
     }
   };
 
@@ -42,12 +48,11 @@ const SingleText = function () {
     if (currentText) {
       fetchUserwords();
     } else {
-      getTextById();
-      fetchUserwords();
+      fetchTextAndUserwords();
     }
   }, [currentText, user]);
 
-  if (currentText && Number(currentText?.id) === Number(params.textId)) {
+  if (currentText && Number(currentText.id) === Number(params.textId)) {
     return (
       <div key={`text-id:${currentText.id}outer`} className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
         {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
@@ -60,9 +65,16 @@ const SingleText = function () {
     );
   }
 
+  if (error === 'error') {
+    return (
+      <div className='Text-page'>
+        <NotFound />
+      </div>
+    );
+  }
+
   return (
     <div className='Text-page'>
-      <NotFound />
     </div>
   );
 };
