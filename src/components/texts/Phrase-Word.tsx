@@ -116,6 +116,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
 
       if (current.length === 1) {
         setCurrentWord(current[0]);
+        setCurrentWordContext(context);
       }
     } else {
       const selectedWord = input.textContent || '';
