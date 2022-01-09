@@ -2,8 +2,6 @@
 import svg from '../../assets/undraw-mh2.svg';
 
 export default function Benefits() {
-  console.log(window.innerWidth);
-  console.log(window.innerHeight);
   return (
     <>
       {/* Hero content */}

@@ -18,6 +18,11 @@ export const currenttextState = atom<Text | null>({
   default: null,
 });
 
+export const textToEditState = atom<Text | null>({
+  key: 'textToEditState',
+  default: null,
+});
+
 
 export const userwordsState = atom<Array<UserWord>>({
   key: 'userwordsState',
