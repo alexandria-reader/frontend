@@ -34,7 +34,7 @@ const NewTextForm = function() {
       body: newTextBody,
     };
 
-    if (user) {
+    if (user && textList) {
       const addTextResponse = await textsService.postNewText(newTextObj);
       const newUsersTexts = [...textList, addTextResponse];
       setTextList(newUsersTexts);

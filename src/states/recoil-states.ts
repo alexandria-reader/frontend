@@ -4,12 +4,13 @@ import {
 } from '../types';
 
 import { isPunctuated, stripPunctuation } from '../utils/punctuation';
+import capitalize from '../utils/capitalize';
 
 import webdictionaries from '../services/webdictionaries';
 
-export const textlistState = atom<Array<Text>>({
+export const textlistState = atom<Array<Text> | null>({
   key: 'textlistState',
-  default: [],
+  default: null,
 });
 
 export const currenttextState = atom<Text | null>({
@@ -86,7 +87,7 @@ export const languageNamesState = selector<StringHash>({
 
     const languages = get(languagesState);
     languages.forEach((language) => {
-      names[language.id] = language.name;
+      names[language.id] = capitalize(language.name);
     });
 
     return names;
