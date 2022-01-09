@@ -42,7 +42,7 @@ export default function SignUp() {
   }, []);
 
   return (
-    <div>
+    <main className='container mx-auto mb-auto'>
      <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
         <div className="max-w-sm w-fit space-y-8">
           <div>
@@ -144,6 +144,6 @@ export default function SignUp() {
          </form>
        </div>
       </div>
-     </div>
+     </main>
   );
 }
