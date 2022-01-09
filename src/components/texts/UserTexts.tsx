@@ -2,26 +2,20 @@ import {
   useState, useEffect, Fragment,
 } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Menu, Transition } from '@headlessui/react';
-// import { , Transition } from '@headlessui/react';
 import {
-  textlistState, currenttextState, userState, currentwordState, languageNamesState,
+  textlistState, currenttextState, userState, currentwordState, languageNamesState, textToEditState,
 } from '../../states/recoil-states';
 import textsService from '../../services/texts';
 import { Text } from '../../types';
 import Modal from '../Modal';
 
-// import { Fragment, useRef } from 'react';
-
 const IndividualText = function({ text, setOpenModal, setTextToDelete }:
 { text: Text, setOpenModal: Function, setTextToDelete: Function }) {
   const setCurrentText = useSetRecoilState(currenttextState);
-  // const [textList, setTextList] = useRecoilState(textlistState);
-  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
-
-  // const user = useRecoilValue(userState);
+  const setCurrentWord = useSetRecoilState(currentwordState);
+  const setTextToEdit = useSetRecoilState(textToEditState);
 
   const confirmDeleteText = function() {
     setTextToDelete(text);
@@ -29,9 +23,8 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
   };
 
   useEffect(() => {
-    if (currentWord) {
-      setCurrentWord(null);
-    }
+    setTextToEdit(null);
+    setCurrentWord(null);
   }, []);
 
   return (
@@ -73,8 +66,9 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href=""
+                  <NavLink
+                    to="/texts/edit"
+                    onClick={() => setTextToEdit(text)}
                     className={ `block px-4 py-2 text-sm text-gray-700 ${active ? 'bg-gray-100' : ''}` }
                   >
                     <div className='flex flex-row justify-between m-2'>
@@ -83,7 +77,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
                       </svg>
                       Edit
                     </div>
-                  </a>
+                  </NavLink>
                 )}
               </Menu.Item>
               <Menu.Item>
@@ -117,6 +111,7 @@ const UserTexts = function() {
 
   const [openModal, setOpenModal] = useState(false);
   const [textToDelete, setTextToDelete] = useState(null);
+  // const [textToEdit, setTextToEdit] = useState(null);
 
   const removeTextFromServer = async function () {
     if (textToDelete) {

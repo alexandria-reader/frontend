@@ -22,7 +22,7 @@ import getToken from './utils/getToken';
 
 import './index.css';
 import './App.css';
-import NewTextForm from './components/texts/TextUploadForm';
+import TextForm from './components/texts/TextForm';
 
 <link href="/dist/output.css" rel="stylesheet"></link>;
 
@@ -37,7 +37,8 @@ render(
           <Route path="/" element={<App />}>
             <Route index element={token ? <UserTexts /> : < Home />}/>
             <Route path="texts" element={<PrivateRoute><UserTexts /></PrivateRoute>}/>
-              <Route path="texts/new" element={<PrivateRoute><NewTextForm /></PrivateRoute>}/>
+              <Route path="texts/new" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
+              <Route path="texts/edit" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
               <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
               <Route path="texts/*" element={<PrivateRoute><NotFound /></PrivateRoute>}/>
             <Route path="words" element={<PrivateRoute><Words /></PrivateRoute>}/>

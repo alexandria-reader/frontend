@@ -210,11 +210,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
           setIsTouch(false);
         }}
 
-        onMouseDown={(event) => {
-          // console.log(event);
-          setMouseStartX(event.clientX);
-        }}
-
+        onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent  py-1 p-px rounded-md`}
