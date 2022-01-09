@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import svg from '../../assets/undraw-mh2.svg';
 
 export default function Benefits() {
@@ -6,11 +7,13 @@ export default function Benefits() {
   return (
     <>
       {/* Hero content */}
-      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] sm:py-12 lg:py-36 `}>
-      <div className={`max-w-7xl mx-auto px-4 ${window.innerWidth > 1500 ? '' : 'md:px-20'}  ${window.innerHeight > window.innerWidth ? 'md:py-12' : 'md:py-10'}`}>
+      {/* <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] sm:py-12 lg:py-36 `}> */}
+      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] xl:mt-[-4rem] sm:py-12 lg:py-36 ${window.innerWidth > 1500 ? 'xl:py-24' : ''}`}>
+      <div className={`max-w-7xl mx-auto px-4 ${window.innerWidth > 1500 ? '' : 'md:px-20'} ${window.innerHeight > window.innerWidth ? 'md:py-12' : 'md:py-10'}`}>
         <div className="items-center h-full flex flex-col md:flex-row ">
         {/* Section header */}
-          <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6">
+          <div className=" flex-1 flex justify-between h-max flex-col gap-6">
+          {/* <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6"> */}
             <h1 className={`${window.innerHeight < 800 ? 'text-4xl' : 'text-5xl'} text-center md:text-left xl:text-6xl lg:text-5xl md:text-4xl sm:text-6xl font-extrabold leading-tighter tracking-normal`} data-aos="zoom-y-out">Alexandria:<br />Learn languages by<br />
               <span className="bg-clip-text block text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
             </h1>
