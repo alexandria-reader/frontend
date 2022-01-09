@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { languagesState, userState, languageFlagsState } from '../states/recoil-states';
+import {
+  languagesState, userState, languageFlagsState, languageNamesState,
+} from '../states/recoil-states';
 
 import userServices from '../services/users';
 import languageServices from '../services/languages';
 import loginService from '../services/login';
-
-import capitalize from '../utils/capitalize';
 
 import { User, LoggedInUser } from '../types';
 
@@ -21,6 +21,7 @@ export default function SignUp() {
 
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);
+  const names = useRecoilValue(languageNamesState);
   const setUser = useSetRecoilState(userState);
 
   const {
@@ -128,14 +129,14 @@ export default function SignUp() {
           <div>
             <label htmlFor="knownLanguageId" className='label text-sm'>I know</label>
               {<select title="language to translate into" {...register('knownLanguageId')} className="knownLanguageId input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
-              {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)}</option>)}
+              {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
               </select>}
           </div>
 
           <div>
             <label htmlFor="learnLanguageId" className='label text-sm'>I want to learn</label>
             {<select title="language to learn" {...register('learnLanguageId')} className="learnLanguageId input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
-            {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {capitalize(lang.name)}</option>)}
+            {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
             </select>}
             {errors.learnLanguageId && (<p style={{ color: 'red', fontSize: '14px' }}>{errors.learnLanguageId.message}</p>)}
           </div>
