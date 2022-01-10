@@ -12,6 +12,7 @@ import {
   markedwordsState, userwordsState, currentwordState, currentwordContextState, mouseStartXState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
+import { stripPunctuation } from '../../utils/punctuation';
 
 export const Word = function ({ word, dataKey, context }: { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -225,7 +226,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
 
 export const Phrase = function ({ phrase, context }: { phrase: string, context: string }) {
   const markedWords = useRecoilValue(markedwordsState);
-  const phraseStatus = markedWords[phrase.toLowerCase()];
+  const phraseStatus = markedWords[stripPunctuation(phrase.toLowerCase())];
 
   let wordClass = '';
 
