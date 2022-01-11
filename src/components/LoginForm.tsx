@@ -54,7 +54,7 @@ export default function LoginForm({ from }: { from: string }) {
             src={logo}
             alt="logo"
           />
-          <h2 className=" text-center text-3xl font-serif font-extrabold text-gray-900 py-6">Log in to your account</h2>
+          <h2 className=" text-center text-3xl font-source font-extrabold text-gray-900 py-6">Log in to your account</h2>
         </div>
         <form key={1} className='form-div flex flex-col gap-4' onSubmit={handleSubmit(userInfo)}>
           <div>

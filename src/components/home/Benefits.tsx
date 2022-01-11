@@ -12,7 +12,7 @@ export default function Benefits() {
         {/* Section header */}
           <div className=" flex-1 flex justify-between h-max flex-col gap-6">
           {/* <div className=" flex-1 xl:py-28 flex justify-between h-max flex-col gap-6"> */}
-            <h1 className={`${window.innerHeight < 800 ? 'text-4xl' : 'text-5xl'} font-serif text-center md:text-left xl:text-6xl lg:text-5xl md:text-4xl sm:text-6xl font-extrabold leading-normal tracking-normal`} data-aos="zoom-y-out">Alexandria:<br />Learn languages by<br />
+            <h1 className={`${window.innerHeight < 800 ? 'text-4xl' : 'text-5xl'} font-source text-center md:text-left xl:text-6xl lg:text-5xl md:text-4xl sm:text-6xl font-extrabold leading-normal tracking-normal`} data-aos="zoom-y-out">Alexandria:<br />Learn languages by<br />
               <span className="bg-clip-text block text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
             </h1>
             <div className="max-w-3xl">

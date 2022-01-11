@@ -7,6 +7,9 @@ module.exports = {
         screens: {
           'betterhover': {'raw': '(hover: hover)'},
         },
+        fontFamily: {
+          'source': ['Source Serif Pro'],
+        },
     }
   },
   plugins: [
