@@ -71,6 +71,7 @@ const DictionaryIframe = function({ url }: { url: string }) {
 };
 
 const CurrentTranslationInput = function({ translation }: { translation: Translation }) {
+  console.log(translation);
   const [value, setValue] = useState(translation.translation);
   return (
     <input value={value} onChange={(event) => setValue(event.target.value)} className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 sm:text-sm"></input>
@@ -191,7 +192,7 @@ const TranslationComponent = function({ word }:
               minLength={1}
               onChange={(event) => handleInput(event)}
               value={translation}
-              className="focus:ring-sky-600 mt-1 focus:border-sky-600 block w-full pl-7 shadow-sm pr-12 sm:text-sm border-gray-300 rounded-md" />
+              className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none  focus:ring-sky-600 mt-1 focus:border-sky-600 w-full pl-7 shadow-sm pr-12 sm:text-sm" />
             <button onClick={(event) => {
               handleTranslation(event, translation, word);
               setShowDictionary(false);
