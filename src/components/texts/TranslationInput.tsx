@@ -1,7 +1,7 @@
 import {
   ChangeEvent, FormEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
-
+import parseHTML from 'html-react-parser';
 import {
   useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState,
 } from 'recoil';
@@ -154,6 +154,8 @@ const TranslationComponent = function({ word }:
     }
   }, [currentWord]);
 
+  const regex = new RegExp(`${currentWord?.word}`, 'ig');
+
   return (
     <div className='text-xl flex flex-col gap-6' key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
@@ -162,7 +164,7 @@ const TranslationComponent = function({ word }:
           .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
       {currentWord && <>
       {currentWordContext && <div className='md:hidden'>
-        <p>Context: {currentWordContext}</p>
+        <p>Context: {parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
       </div>}
       <div className=''>
         <form className=' flex flex-col justify-center' >
