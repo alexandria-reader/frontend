@@ -39,7 +39,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             </div>
             <div className='flex-1 truncate'>
               <div className="flex items-center space-x-3">
-                <h2 className='text-gray-900 text-xl font-medium truncate'>{text.title}</h2>
+                <h2 className='text-gray-900 text-xl font-bold font-serif truncate'>{text.title}</h2>
               </div>
               <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
             </div>

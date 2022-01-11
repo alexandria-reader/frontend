@@ -4,12 +4,12 @@ export default function FAQ() {
     <div>
       <div className="bg-lightblue py-20 px-4 md:px-16">
           <div className="mx-auto max-w-6xl flex flex-col md:flex-row">
-              <h2 className="mr-8 w-full md:w-1/3 text-3xl font-extrabold leading-9">
+              <h2 className="mr-8 w-full md:w-1/3 text-3xl font-serif font-extrabold leading-9">
                   Frequently-asked questions
               </h2>
               <dl className="w-full md:w-2/3">
                   <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                      <h3 className="text-xl font-bold font-serif leading-snug tracking-tight mb-1">
                           What motivated you all to make this app?
                       </h3>
                   </dt>
@@ -19,7 +19,7 @@ export default function FAQ() {
                       </p>
                   </dd>
                   <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                      <h3 className="text-xl font-bold font-serif leading-snug tracking-tight mb-1">
                           Do I need an account to access what Alexandria has to offer?
                       </h3>
                   </dt>
@@ -29,7 +29,7 @@ export default function FAQ() {
                       </p>
                   </dd>
                   <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                      <h3 className="text-xl font-bold font-serif leading-snug tracking-tight mb-1">
                           How do you compare with other language learning apps?
                       </h3>
                   </dt>
@@ -39,7 +39,7 @@ export default function FAQ() {
                       </p>
                   </dd>
                   <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                      <h3 className="text-xl font-bold font-serif leading-snug tracking-tight mb-1">
                           I have a suggestion for a feature, or found a bug. What should I do?
                       </h3>
                   </dt>
@@ -49,7 +49,7 @@ export default function FAQ() {
                       </p>
                   </dd>
                   <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                      <h3 className="text-xl font-bold font-serif leading-snug tracking-tight mb-1">
                           Can I contribute to the project by fixing up a bug or adding a new feature?
                       </h3>
                   </dt>

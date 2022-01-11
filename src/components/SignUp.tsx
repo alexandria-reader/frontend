@@ -55,7 +55,7 @@ export default function SignUp() {
           </div>
 
           <div>
-            <h2 className="text-center text-3xl font-extrabold text-gray-900">Sign up for a new account</h2>
+            <h2 className="text-center font-serif text-3xl font-extrabold text-gray-900">Sign up for a new account</h2>
             <p className="text-center">All fields are required.</p>
           </div>
 
