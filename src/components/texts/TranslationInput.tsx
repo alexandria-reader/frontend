@@ -70,6 +70,13 @@ const DictionaryIframe = function({ url }: { url: string }) {
   );
 };
 
+const CurrentTranslationInput = function({ translation }: { translation: Translation }) {
+  const [value, setValue] = useState(translation.translation);
+  return (
+    <input value={value} onChange={(event) => setValue(event.target.value)} className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 sm:text-sm"></input>
+  );
+};
+
 const TranslationComponent = function({ word }:
 { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -157,14 +164,18 @@ const TranslationComponent = function({ word }:
   const regex = new RegExp(`${currentWord?.word}`, 'ig');
 
   return (
-    <div className='text-xl flex flex-col gap-6' key={`translation-component ${word?.id}`}>
+    <div className='text-xl flex flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
       {currentWord && currentWord?.translations?.length > 0
-      && <><h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
-        <ul className='flex flex-row flex-wrap'>{currentWord?.translations
-          .map((transObj) => <li key={`${transObj.id}`} className='p-2 mx-1 shadow-md bg-gray-50 rounded-lg'>{transObj.translation}</li>)}</ul></>}
+      && <>
+        <div className='flex flex-col flex-wrap gap-2'>
+        <h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
+          {currentWord?.translations
+            .map((transObj) => <CurrentTranslationInput
+              key={transObj.translation} translation={transObj} />)}</div></>}
       {currentWord && <>
-      {currentWordContext && <div className='md:hidden'>
-        <p>Context: {parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
+      {currentWordContext && <div className='md:hidden flex flex-col gap-1'>
+        {/* <p>Context:</p> */}
+        <p>{parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
       </div>}
       <div className=''>
         <form className=' flex flex-col justify-center' >
@@ -243,11 +254,6 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       speechSynthesis.speak(utterance);
     }
   };
-
-  // if (currentWord) {
-  //   window.getSelection()?.removeAllRanges();
-  //   window.getSelection()?.empty();
-  // }
 
   if (window.innerWidth > 768) {
     return (
