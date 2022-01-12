@@ -30,7 +30,8 @@ export default function HowItWorks() {
 
             {/* 2nd item */}
             <div className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl py-8">
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">Look up words</h4>
+            <FontAwesomeIcon icon={faSearch} size='3x' style={{ color: '#0084c7' }}/>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1 mt-3">Look up words</h4>
               <p className="text-gray-600 text-center">Go through the text and click on words you don't know, or are not sure about. Multiple dictionaries are available for translation.</p>
             </div>
 

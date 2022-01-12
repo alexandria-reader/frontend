@@ -15,7 +15,7 @@ export default function FAQ() {
                   </dt>
                   <dd className="mb-16">
                       <p className="text-gray-600">
-                          Although a number of apps exist in either open source or paid form, none of them met the full spectrum of needs based on the checklist of our language-learning enthusiast team member.
+                          We are a trio of software engineers. While searching for ideas to hone our skills, we came across the challenge of creating an app that faciliated learning languages through reading. Although a number of apps exist in either open source or paid form, none of them met the full spectrum of needs based on the checklist of our language-learning enthusiast team member.
                       </p>
                   </dd>
                   <dt className="mb-4">
@@ -56,16 +56,6 @@ export default function FAQ() {
                   <dd className="mb-16">
                       <p className="text-gray-600">
                           Yes you can! Clone our <a rel="noopener noreferrer" className="underline decoration-2 decoration-sky-600" target="_blank" href="https://github.com/alexandria-reader/frontend">Git repository</a>, add your awesome patch or sparkling new feature, and push it to the main branch for review!
-                      </p>
-                  </dd>
-                  <dt className="mb-4">
-                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                          Who are you?
-                      </h3>
-                  </dt>
-                  <dd className="mb-16">
-                      <p className="text-gray-600">
-                          We are a trio of software engineers who met at <a rel="noopener noreferrer" className="underline decoration-2 decoration-sky-600" target="_blank" href="https://launchschool.com">Launch School</a>.
                       </p>
                   </dd>
               </dl>
