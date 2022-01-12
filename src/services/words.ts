@@ -26,6 +26,7 @@ const getUserwordsByLanguage = async function(languageId: string): Promise<Array
   });
 
   const userWords: Array<UserWord> = request.data;
+  console.log(userWords);
   return userWords;
 };
 
