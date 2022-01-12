@@ -10,12 +10,12 @@ export default function FAQ() {
               <dl className="w-full md:w-2/3">
                   <dt className="mb-4">
                       <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                          What motivated you all to make this app?
+                          What motivated you to make this app?
                       </h3>
                   </dt>
                   <dd className="mb-16">
                       <p className="text-gray-600">
-                          We are a trio of early-career developers. While searching for ideas to hone our skills, we came across the challenge of creating an app that faciliated learning languages through reading. Although a number of apps exist in either open source or paid form, none of them met the full spectrum of needs based on the checklist of our language-learning enthusiast team member.
+                        We are a trio of software engineers who came across the challenge of creating an app that facilitated learning languages through reading. Although a number of apps exist in either open source or paid form, none of them met the full spectrum of needs based on the checklist of our language-learning enthusiast team member.
                       </p>
                   </dd>
                   <dt className="mb-4">
@@ -45,7 +45,7 @@ export default function FAQ() {
                   </dt>
                   <dd className="mb-16">
                       <p className="text-gray-600">
-                          Great! Please get in touch by <a className="underline decoration-2 decoration-sky-600" href="mailto:support@tryalexandria.com"> emailing us</a>, or <a className="underline decoration-2 decoration-sky-600" target="_blank" href="https://github.com/alexandria-reader/frontend/issues/new/choose">opening a ticket directly in our Github repository here</a>.
+                          Great! Please get in touch by <a className="underline decoration-2 decoration-sky-600" href="mailto:support@tryalexandria.com">emailing us</a>, or opening a <a rel="noopener noreferrer" className="underline decoration-2 decoration-sky-600" target="_blank" href="https://github.com/alexandria-reader/frontend/issues/new/choose">ticket</a> directly in our Github repository.
                       </p>
                   </dd>
                   <dt className="mb-4">
@@ -55,7 +55,7 @@ export default function FAQ() {
                   </dt>
                   <dd className="mb-16">
                       <p className="text-gray-600">
-                          Yes you can! Clone our <a className="underline decoration-2 decoration-sky-600" target="_blank" href="https://github.com/alexandria-reader/frontend">Git repository</a>, add your awesome patch or sparkling new feature, and push it to the main branch for review!
+                          Yes you can! Clone our <a rel="noopener noreferrer" className="underline decoration-2 decoration-sky-600" target="_blank" href="https://github.com/alexandria-reader/frontend">Git repository</a>, add your awesome patch or sparkling new feature, and push it to the main branch for review!
                       </p>
                   </dd>
               </dl>
