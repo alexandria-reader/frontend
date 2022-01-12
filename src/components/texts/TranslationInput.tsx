@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable max-len */
 import {
   ChangeEvent, FormEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
@@ -172,15 +174,36 @@ const TranslationComponent = function({ word }:
         <h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
           {currentWord?.translations
             .map((transObj) => <CurrentTranslationInput
-              key={transObj.translation} translation={transObj} />)}</div></>}
+              key={transObj.translation} translation={transObj} />)}
+        <label htmlFor="translation" className="block sr-only text-md">
+            Add translation:
+          </label>
+          {/* <div className=""> */}
+            <input
+              type="text"
+              name="translation"
+              id="translation"
+              required
+              minLength={1}
+              placeholder='Enter a new translation here'
+              onChange={(event) => handleInput(event)}
+              value={translation}
+              className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 text-xl sm:text-sm" />
+            {/* <button onClick={(event) => {
+              handleTranslation(event, translation, word);
+              setShowDictionary(false);
+              setTranslation('');
+            }} className='bg-sky-600 mt-1 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button> */}
+          {/* </div> */}
+          </div></>}
       {currentWord && <>
       {currentWordContext && <div className='md:hidden flex flex-col gap-1'>
         {/* <p>Context:</p> */}
         <p>{parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
       </div>}
-      <div className=''>
+      {/* <div className=''>
         <form className=' flex flex-col justify-center' >
-          <label htmlFor="translation" className="block text-md">
+          <label htmlFor="translation" className="block sr-only text-md">
             Add translation:
           </label>
           <div className="relative rounded-md shadow-sm flex flex-row items-center my-2">
@@ -190,6 +213,7 @@ const TranslationComponent = function({ word }:
               id="translation"
               required
               minLength={1}
+              placeholder='Enter your translation here'
               onChange={(event) => handleInput(event)}
               value={translation}
               className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none  focus:ring-sky-600 mt-1 focus:border-sky-600 w-full pl-7 shadow-sm pr-12 sm:text-sm" />
@@ -200,7 +224,8 @@ const TranslationComponent = function({ word }:
             }} className='bg-sky-600 mt-1 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button>
           </div>
         </form>
-            </div><div>
+            </div> */}
+            <div>
         {/* dictionary buttons and change status */}
         <div className='flex flex-col gap-1 justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
