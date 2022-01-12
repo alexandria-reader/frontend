@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
 import {
-  MouseEvent, TouchEvent, useState,
+  TouchEvent, useState,
 } from 'react';
 import {
   useRecoilState,
@@ -9,14 +8,15 @@ import {
 } from 'recoil';
 
 import {
-  markedwordsState, userwordsState, currentwordState, currentwordContextState, mouseStartXState,
+  markedwordsState, userwordsState, currentwordState, currentwordContextState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
 import { stripPunctuation } from '../../utils/punctuation';
 
-export const Word = function ({ word, dataKey, context }: { word: string, dataKey:string, context: string }) {
+export const Word = function ({ word, dataKey, context }:
+{ word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
-  const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
+  // const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const markedWords = useRecoilValue(markedwordsState);
@@ -27,33 +27,15 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
 
   const wordStatus = markedWords[word.toLowerCase()];
 
-  const isMouseEvent = function(event: TouchEvent | MouseEvent): event is MouseEvent {
-    return (event as MouseEvent).nativeEvent.type === 'mouseup';
-  };
-
-  const getHighlightedWordOrPhrase = function(event: TouchEvent | MouseEvent) {
+  const getHighlightedWordOrPhrase = function() {
     // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
       const selectedString = selection.toString();
 
-      let startNode;
-      let endNode;
-
-      if (isMouseEvent(event) && mouseStartX) {
-        if (event.clientX < mouseStartX) {
-          endNode = selection.anchorNode;
-          startNode = selection.focusNode;
-        } else {
-          startNode = selection.anchorNode;
-          endNode = selection.focusNode;
-        }
-      } else {
-        startNode = selection.anchorNode;
-        endNode = selection.focusNode;
-      }
-
+      const startNode = selection.anchorNode;
+      const endNode = selection.focusNode;
       const stringArray = selectedString.split(' ');
 
       // ensures the first and last words are whole words
@@ -79,7 +61,18 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
         }
       }
 
-      const newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
+      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
+      const regex = new RegExp(newPhrase, 'gi');
+
+      // if the phrase is not found in the sentence, then the selection was done backwards
+      if (!regex.test(context)) {
+        const array = newPhrase.split(' ');
+        const end = array[array.length - 1];
+        const start = array[0];
+        const middle = array.filter((_, index) => index !== 0 && index !== array.length - 1);
+        newPhrase = [end, ...middle, start].join(' ');
+      }
+
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord;
 
@@ -113,7 +106,8 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
 
     // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
     if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && pointerEvent.type === 'touchend') {
-      const current = userWords.filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
+      const current = userWords
+        .filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
 
       if (current.length === 1) {
         setCurrentWord(current[0]);
@@ -189,7 +183,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
 
           if (touchStart === window.scrollY) {
             if (window.getSelection()?.toString()) {
-              getHighlightedWordOrPhrase(event);
+              getHighlightedWordOrPhrase();
             } else {
               getClickedOnWord(event);
             }
@@ -202,7 +196,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
           if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
-            getHighlightedWordOrPhrase(event);
+            getHighlightedWordOrPhrase();
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
           }
@@ -211,7 +205,7 @@ export const Word = function ({ word, dataKey, context }: { word: string, dataKe
           setIsTouch(false);
         }}
 
-        onMouseDown={(event) => setMouseStartX(event.clientX)}
+        // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent  py-1 p-px rounded-md`}
