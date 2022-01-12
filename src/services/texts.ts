@@ -27,6 +27,17 @@ const postNewText = async function(newText: Text) {
   return text;
 };
 
+const updateText = async function(textToUpdate: Text) {
+  const token = getToken();
+
+  const response = await axios.put(`${baseUrl}/${textToUpdate.id}`, textToUpdate, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  const text: Text = response.data;
+  return text;
+};
+
 const getTextById = async function(id: string) {
   const token = getToken();
 
@@ -53,4 +64,5 @@ export default {
   getTextById,
   postNewText,
   removeTextFromServer,
+  updateText,
 };

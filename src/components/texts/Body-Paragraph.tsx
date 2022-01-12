@@ -18,7 +18,9 @@ const phrasesState = selector({
 const Sentence = function({ sentence }: { sentence: string }) {
   const phrases = useRecoilValue(phrasesState);
 
-  const phraseFinder = phrases.length === 0 ? '' : `(${phrases.join('|')})|`;
+  const phraseRegExps = phrases.map((phrase) => stripPunctuation(phrase).split(' ').join('[^\\p{Letter}\\p{Mark}\'-]+'));
+
+  const phraseFinder = phraseRegExps.length === 0 ? '' : `(${phraseRegExps.join('|')})|`;
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
   const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
 
@@ -31,7 +33,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
     <>
       {
         tokens?.map((token, index) => {
-          if (phrases.includes(token.toLowerCase())) {
+          if (token.split(' ').length > 1) {
             return <Phrase key={index + token} phrase={token} context={sentence} />;
           }
 

@@ -2,26 +2,20 @@ import {
   useState, useEffect, Fragment,
 } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Menu, Transition } from '@headlessui/react';
-// import { , Transition } from '@headlessui/react';
 import {
-  textlistState, currenttextState, userState, currentwordState,
+  textlistState, currenttextState, userState, currentwordState, languageNamesState, textToEditState,
 } from '../../states/recoil-states';
 import textsService from '../../services/texts';
 import { Text } from '../../types';
 import Modal from '../Modal';
 
-// import { Fragment, useRef } from 'react';
-
 const IndividualText = function({ text, setOpenModal, setTextToDelete }:
 { text: Text, setOpenModal: Function, setTextToDelete: Function }) {
   const setCurrentText = useSetRecoilState(currenttextState);
-  // const [textList, setTextList] = useRecoilState(textlistState);
-  const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
-
-  // const user = useRecoilValue(userState);
+  const setCurrentWord = useSetRecoilState(currentwordState);
+  const setTextToEdit = useSetRecoilState(textToEditState);
 
   const confirmDeleteText = function() {
     setTextToDelete(text);
@@ -29,9 +23,8 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
   };
 
   useEffect(() => {
-    if (currentWord) {
-      setCurrentWord(null);
-    }
+    setTextToEdit(null);
+    setCurrentWord(null);
   }, []);
 
   return (
@@ -73,8 +66,9 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href=""
+                  <NavLink
+                    to="/texts/edit"
+                    onClick={() => setTextToEdit(text)}
                     className={ `block px-4 py-2 text-sm text-gray-700 ${active ? 'bg-gray-100' : ''}` }
                   >
                     <div className='flex flex-row justify-between m-2'>
@@ -83,7 +77,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
                       </svg>
                       Edit
                     </div>
-                  </a>
+                  </NavLink>
                 )}
               </Menu.Item>
               <Menu.Item>
@@ -113,13 +107,16 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
 const UserTexts = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
   const user = useRecoilValue(userState);
+  const names = useRecoilValue(languageNamesState);
+
   const [openModal, setOpenModal] = useState(false);
   const [textToDelete, setTextToDelete] = useState(null);
+  // const [textToEdit, setTextToEdit] = useState(null);
 
   const removeTextFromServer = async function () {
     if (textToDelete) {
       const { id } = textToDelete;
-      if (id && user) {
+      if (id && user && textList) {
         const updatedTextList = textList.filter((textObj) => textObj.id !== id);
         setTextList(updatedTextList);
         await textsService.removeTextFromServer(id);
@@ -142,20 +139,24 @@ const UserTexts = function() {
     <>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
-          <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
-          {textList.length === 0 ? <h2 className='text-lg leading-6 font-medium text-gray-900'>You have no texts, please add a text to begin.</h2>
-            : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
-          <NavLink to={'/texts/new'}>
-            <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
-          </NavLink>
+          {textList
+            ? <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+              {(user && textList.length === 0)
+                ? <h2 className='text-lg leading-6 font-medium text-gray-900'>{`You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`}</h2>
+                : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+            <NavLink to={'/texts/new'}>
+              <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
+            </NavLink>
           </div>
+            : ''
+          }
         </div>
       </div>
 
       <div className='max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8'>
         <ul className='grid grid-cols-3 gap-3 sm:grid-cols-1 lg:grid-cols-3'>
-          {textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`}
-            setOpenModal={setOpenModal} setTextToDelete={setTextToDelete} text={text} />)}
+          {(textList && textList.length > 0) ? textList.map((text) => <IndividualText key={`${text.id} ${text.body.slice(1, 8)}`}
+            setOpenModal={setOpenModal} setTextToDelete={setTextToDelete} text={text} />) : ''}
         </ul>
       </div>
       <Modal openModal={openModal} setOpenModal={setOpenModal}

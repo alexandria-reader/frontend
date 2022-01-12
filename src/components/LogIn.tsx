@@ -7,8 +7,8 @@ export default function LogIn() {
   const from = state ? state.from?.pathname : '/texts';
 
   return (
-    <div>
+    <main className='container mx-auto mb-auto'>
       <LoginForm from={from} />
-    </div>
+    </main>
   );
 }
