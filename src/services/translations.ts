@@ -17,13 +17,12 @@ const addTranslation = async function(translationObj: Translation) {
 
 const updateTranslation = async function(translationObj: Translation) {
   const token = getToken();
-  console.log(translationObj);
+
   const response = await axios.put(`${baseUrl}/translation/${translationObj.id}`, translationObj, {
     headers: { Authorization: `bearer ${token}` },
   });
 
-  // update once backend correctly returns modified object
-  const updatedTranslation = response.data.rows[0];
+  const updatedTranslation = response.data;
   return updatedTranslation;
 };
 
@@ -34,9 +33,7 @@ const removeTranslation = async function(translationObj: Translation) {
     headers: { Authorization: `bearer ${token}` },
   });
 
-  // update once backend correctly returns modified object
-  const deletedTranslation = response.data.rows[0];
-  return deletedTranslation;
+  return response.status === 204;
 };
 
 export default {

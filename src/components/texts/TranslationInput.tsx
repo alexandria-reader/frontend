@@ -44,17 +44,36 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className="flex flex-row sm:text-sm max-w-full justify-evenly overflow-visible">
-        <button className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
-        <button className='bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
-        <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
-        <button className='bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' onClick={() => setWordStatus(undefined, word)} type={'button'}>Ignore</button>
+    ? <div className={'flex flex-row sm:text-sm max-w-full justify-center rounded-md shadow-sm overflow-visible '}>
+        <button className={`hover:bg-orange-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M12 14l9-5-9-5-9 5 9 5z" />
+            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+          </svg>
+        </button>
+        <button className={`hover:bg-yellow-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          </svg>
+        </button>
+        <button className={`hover:bg-green-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        </button>
+        <button className={`hover:bg-red-600 border-gray-300 flex flex-row group place-content-center align-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+          </svg>
+        </button>
       </div>
     : '';
 
   return (
-    <div className="mt-3">
-      {word && <p className=''>Current status: {word.status}</p>}
+    // <div className="mt-3">
+    <div className="">
+      {/* {word && <p className=''>Current status: {word.status}</p>} */}
       {wordStatusToolbar}
     </div>
   );
@@ -79,17 +98,19 @@ const CurrentTranslationInput = function({ translation, currentWord }:
 
   const deleteTranslation = async function() {
     const response = await translationServices.removeTranslation(translation);
-    const currentWordTranslations = currentWord.translations
-      .filter((obj) => obj.id !== response.translation_id);
-    const newUserWord = { ...currentWord };
-    newUserWord.translations = currentWordTranslations;
-    setCurrentWord(newUserWord);
+    if (response) {
+      const currentWordTranslations = currentWord.translations
+        .filter((obj) => obj.id !== translation.id);
+      const newUserWord = { ...currentWord };
+      newUserWord.translations = currentWordTranslations;
+      setCurrentWord(newUserWord);
 
-    const updatedWords = [...userWords
-      .filter((wordObj: UserWord) => wordObj.id
-      !== newUserWord.id), newUserWord];
+      const updatedWords = [...userWords
+        .filter((wordObj: UserWord) => wordObj.id
+        !== newUserWord.id), newUserWord];
 
-    setUserWords(updatedWords);
+      setUserWords(updatedWords);
+    }
   };
 
   const updateTranslation = async function() {
