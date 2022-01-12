@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.tooltip {
+/* .tooltip {
   @apply invisible absolute p-1 -mt-10 rounded border border-gray-200 text-white;
 }
 
 .has-tooltip:hover .tooltip {
   @apply md:visible z-50
-}
+} */
 
 
 /* body {
