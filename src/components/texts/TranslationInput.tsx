@@ -250,7 +250,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   if (window.innerWidth > 768) {
     return (
       <>
-        <div className=' md:col-start-2 md:flex flex-col w-[368px] md:col-span-1 hidden'>
+        <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
           <div className='sticky top-10 bg-white shadow sm:rounded-lg sm:px-6 py-4 '>
             {word && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -270,9 +270,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
 
   return (
     <>
-      {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='sm:hidden h-full p-2 fixed inset-0 flex items-end sm:p-6 pointer-events-auto sm:items-start'>
+      {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='h-full p-2 fixed inset-0 flex sm:p-6 pointer-events-auto items-end'>
       <div className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
-        <div className='w-full'>
+        <div className='w-full sm:px-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
