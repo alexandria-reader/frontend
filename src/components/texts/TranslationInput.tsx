@@ -171,7 +171,7 @@ const TranslationComponent = function({ word }:
       {currentWord && currentWord?.translations?.length > 0
       && <>
         <div className='flex flex-col flex-wrap gap-2'>
-        <h2>Current translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
+        <h2>Your translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
           {currentWord?.translations
             .map((transObj) => <CurrentTranslationInput
               key={transObj.translation} translation={transObj} />)}
