@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.tooltip {
+  @apply invisible absolute p-1 -mt-10 rounded border border-gray-200 text-white;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply md:visible z-50
+}
+
+
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

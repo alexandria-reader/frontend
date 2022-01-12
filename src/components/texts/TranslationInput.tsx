@@ -44,26 +44,31 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className={'flex flex-row sm:text-sm max-w-full justify-center rounded-md shadow-sm overflow-visible '}>
-        <button className={`hover:bg-orange-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+    ? <div className={'flex flex-row text-sm max-w-full justify-center gap-1 rounded-md shadow-sm overflow-visible '}>
+        <button className={`hover:bg-orange-600 has-tooltip border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        <span className='tooltip bg-orange-600'>Learning</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
           </svg>
+
         </button>
-        <button className={`hover:bg-yellow-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={`hover:bg-yellow-600 has-tooltip border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+          <span className='tooltip bg-yellow-600'>Familiar</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
           </svg>
         </button>
-        <button className={`hover:bg-green-600 border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+        <button className={`hover:bg-green-600 has-tooltip border-gray-300 flex group place-content-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+          <span className='tooltip bg-green-600'>Learned</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         </button>
-        <button className={`hover:bg-red-600 border-gray-300 flex flex-row group place-content-center align-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button className={`hover:bg-red-600 has-tooltip border-gray-300 flex flex-row group place-content-center align-center border hover:text-white font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+          <span className='tooltip bg-red-600'>Ignore</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
           </svg>
         </button>
@@ -142,7 +147,7 @@ const CurrentTranslationInput = function({ translation, currentWord }:
             deleteTranslation();
           }}
           title='Delete translation'
-          className={'group-hover:inline-flex group-focus:inline-flex hidden order-2 group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-red-600 text-white text-sm'} >
+          className={'group-hover:inline-flex w-[55px] justify-center group-focus:inline-flex hidden order-2 group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-red-600 text-white text-sm'} >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
@@ -249,7 +254,7 @@ const TranslationComponent = function({ word }:
   const regex = new RegExp(`${currentWord?.word}`, 'ig');
 
   return (
-    <div className='text-lg flex flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
+    <div className='text-md flex flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
       {currentWord && <>
         <div className='flex flex-col flex-wrap gap-1'>
           {currentWord?.translations?.length > 0 && <>
@@ -271,7 +276,7 @@ const TranslationComponent = function({ word }:
                     className="group flex rounded-md shadow-sm">
                   <button
                   type='submit'
-                  className={`inline-flex order-2 group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-500 pointer-events-none'}   text-sm`} >
+                  className={`inline-flex order-2 w-[55px] group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-500 pointer-events-none'}   text-sm`} >
                     Save
                   </button>
                   <input
