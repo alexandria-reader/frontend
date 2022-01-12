@@ -143,12 +143,12 @@ const CurrentTranslationInput = function({ translation, currentWord }:
   return (
     <div className="grid grid-cols-3 gap-6">
       <div className="col-span-3">
-        <div className="group flex rounded-md group-focus:ring-indigo-500 group-focus:border-indigo-500 shadow-sm">
+        <div className="group flex rounded-md shadow-sm">
           <button onClick={() => {
             deleteTranslation();
           }}
           title='Delete translation'
-          className={'group-hover:inline-flex w-[55px] border justify-center group-focus:inline-flex hidden order-2  items-center px-3 rounded-r-md border-l-0 border-gray-300 bg-red-600 text-white text-sm'} >
+          className={'group-hover:inline-flex w-[55px] border justify-center group-focus:inline-flex hidden order-2 items-center px-3 rounded-r-md border-l-0 border-gray-300 bg-red-600 text-white text-sm'} >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
@@ -160,7 +160,7 @@ const CurrentTranslationInput = function({ translation, currentWord }:
             id="translation"
             onChange={(event) => setValue(event.target.value)}
             value={value}
-            className=" flex-1 block w-full group-hover:rounded-r-none rounded-md sm:text-sm border-gray-300"
+            className=" flex-1 block focus:ring-0 w-full group-hover:rounded-r-none rounded-md sm:text-sm border-gray-300"
             placeholder='Enter a new translation here' />
         </div>
       </div>
@@ -277,7 +277,7 @@ const TranslationComponent = function({ word }:
                     className="group flex rounded-md shadow-sm">
                   <button
                   type='submit'
-                  className={`inline-flex order-2 w-[55px] group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-500 pointer-events-none'}   text-sm`} >
+                  className={`inline-flex order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-500 pointer-events-none'}   text-sm`} >
                     Save
                   </button>
                   <input
@@ -285,7 +285,7 @@ const TranslationComponent = function({ word }:
                     id="translation"
                     onChange={(event) => handleInput(event)}
                     value={translation}
-                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
+                    className=" focus:border focus:ring-0 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
                     placeholder='Enter a new translation here' />
                 </form>
               </div>
