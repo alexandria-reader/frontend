@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import {
-  ChangeEvent, FormEvent, MouseEvent, useEffect, useState, Suspense,
+  ChangeEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
 import parseHTML from 'html-react-parser';
 import {
@@ -46,7 +44,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className="flex flex-row text-lg max-w-full justify-evenly overflow-visible">
+    ? <div className="flex flex-row sm:text-sm max-w-full justify-evenly overflow-visible">
         <button className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' onClick={() => setWordStatus('learning', word)} type={'button'}>Learning</button>
         <button className='bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500' onClick={() => setWordStatus('familiar', word)} type={'button'}>Familiar</button>
         <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mx-0.5 my-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500' onClick={() => setWordStatus('learned', word)} type={'button'}>Learned</button>
@@ -56,7 +54,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
   return (
     <div className="mt-3">
-      {word && <p className='text-xl'>Current status: {word.status}</p>}
+      {word && <p className=''>Current status: {word.status}</p>}
       {wordStatusToolbar}
     </div>
   );
@@ -72,11 +70,74 @@ const DictionaryIframe = function({ url }: { url: string }) {
   );
 };
 
-const CurrentTranslationInput = function({ translation }: { translation: Translation }) {
-  console.log(translation);
+const CurrentTranslationInput = function({ translation, currentWord }:
+{ translation: Translation, currentWord: UserWord }) {
   const [value, setValue] = useState(translation.translation);
+  const [initialValue, setInitialValue] = useState('');
+  const setCurrentWord = useSetRecoilState(currentwordState);
+  const [userWords, setUserWords] = useRecoilState(userwordsState);
+
+  const deleteTranslation = async function() {
+    const response = await translationServices.removeTranslation(translation);
+    const currentWordTranslations = currentWord.translations
+      .filter((obj) => obj.id !== response.translation_id);
+    const newUserWord = { ...currentWord };
+    newUserWord.translations = currentWordTranslations;
+    setCurrentWord(newUserWord);
+
+    const updatedWords = [...userWords
+      .filter((wordObj: UserWord) => wordObj.id
+      !== newUserWord.id), newUserWord];
+
+    setUserWords(updatedWords);
+  };
+
+  const updateTranslation = async function() {
+    // should the object be deleted if all the chars are deleted?
+    if (value !== initialValue && value) {
+      const newTranslation = { ...translation };
+      newTranslation.translation = value;
+      const updatedTranslation = await translationServices.updateTranslation(newTranslation);
+
+      const newUserWord = { ...currentWord };
+      const currentWordTranslations = [updatedTranslation, ...currentWord.translations
+        .filter((obj) => obj.id !== updatedTranslation.id)];
+      newUserWord.translations = currentWordTranslations;
+      setCurrentWord(newUserWord);
+
+      const updatedWords = [...userWords
+        .filter((wordObj: UserWord) => wordObj.id
+        !== newUserWord.id), newUserWord];
+
+      setUserWords(updatedWords);
+    }
+  };
+
   return (
-    <input value={value} onChange={(event) => setValue(event.target.value)} className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 sm:text-sm"></input>
+    <div className="grid grid-cols-3 gap-6">
+      <div className="col-span-3">
+        <div className="group flex rounded-md shadow-sm">
+          <button onClick={() => {
+            deleteTranslation();
+          }}
+          title='Delete translation'
+          className={'group-hover:inline-flex group-focus:inline-flex hidden order-2 group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-red-600 text-white text-sm'} >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+          <input
+            type="text"
+            onBlur={() => updateTranslation()}
+            onFocus={() => setInitialValue(value)}
+            id="translation"
+            onChange={(event) => setValue(event.target.value)}
+            value={value}
+            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full group-hover:rounded-r-none rounded-md sm:text-sm border-gray-300"
+            placeholder='Enter a new translation here' />
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -89,9 +150,9 @@ const TranslationComponent = function({ word }:
   const dictionary = useRecoilValue(currentdictionaryState);
 
   const user = useRecoilValue(userState);
-
+  console.log(currentWord);
   const handleTranslation = async function(
-    event: FormEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -167,72 +228,55 @@ const TranslationComponent = function({ word }:
   const regex = new RegExp(`${currentWord?.word}`, 'ig');
 
   return (
-    <div className='text-xl flex flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
-      {currentWord && currentWord?.translations?.length > 0
-      && <>
-        <div className='flex flex-col flex-wrap gap-2'>
-        <h2>Your translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
-          {currentWord?.translations
-            .map((transObj) => <CurrentTranslationInput
-              key={transObj.translation} translation={transObj} />)}
-        <label htmlFor="translation" className="block sr-only text-md">
-            Add translation:
+    <div className='text-lg flex flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
+      {currentWord && <>
+        <div className='flex flex-col flex-wrap gap-1'>
+          {currentWord?.translations?.length > 0 && <>
+          <h2>Your translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
+          {currentWord?.translations.map((transObj) => <CurrentTranslationInput
+            key={transObj.translation} translation={transObj} currentWord={currentWord} />)}</>}
+
+          <label htmlFor="translation" className={`block text-sm font-medium text-gray-700 ${currentWord?.translations?.length > 0 ? 'sr-only' : ''}`} >
+              Add translation:
           </label>
-          {/* <div className=""> */}
-            <input
-              type="text"
-              name="translation"
-              id="translation"
-              required
-              minLength={1}
-              placeholder='Enter a new translation here'
-              onChange={(event) => handleInput(event)}
-              value={translation}
-              className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 text-xl sm:text-sm" />
-            {/* <button onClick={(event) => {
-              handleTranslation(event, translation, word);
-              setShowDictionary(false);
-              setTranslation('');
-            }} className='bg-sky-600 mt-1 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button> */}
-          {/* </div> */}
-          </div></>}
+            <div className="grid grid-cols-3 gap-6">
+              <div className="col-span-3">
+
+                <form onClick={(event) => {
+                  handleTranslation(event, translation, word);
+                  setShowDictionary(false);
+                  setTranslation('');
+                }}
+                    className="group flex rounded-md shadow-sm">
+                  <button
+                  type='submit'
+                  className={`inline-flex order-2 group-focus:ring-indigo-500 group-focus:border-indigo-500 items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white' : 'bg-gray-50 text-gray-500 pointer-events-none'}   text-sm`} >
+                    Save
+                  </button>
+                  <input
+                    type="text"
+                    id="translation"
+                    onChange={(event) => handleInput(event)}
+                    value={translation}
+                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
+                    placeholder='Enter a new translation here' />
+                </form>
+              </div>
+            </div>
+         </div></>}
       {currentWord && <>
       {currentWordContext && <div className='md:hidden flex flex-col gap-1'>
         {/* <p>Context:</p> */}
         <p>{parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
       </div>}
-      {/* <div className=''>
-        <form className=' flex flex-col justify-center' >
-          <label htmlFor="translation" className="block sr-only text-md">
-            Add translation:
-          </label>
-          <div className="relative rounded-md shadow-sm flex flex-row items-center my-2">
-            <input
-              type="text"
-              name="translation"
-              id="translation"
-              required
-              minLength={1}
-              placeholder='Enter your translation here'
-              onChange={(event) => handleInput(event)}
-              value={translation}
-              className="input appearance-none relative rounded-lg block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none  focus:ring-sky-600 mt-1 focus:border-sky-600 w-full pl-7 shadow-sm pr-12 sm:text-sm" />
-            <button onClick={(event) => {
-              handleTranslation(event, translation, word);
-              setShowDictionary(false);
-              setTranslation('');
-            }} className='bg-sky-600 mt-1 hover:bg-sky-500 text-white font-bold py-2 ml-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500' type={'submit'}>Submit</button>
-          </div>
-        </form>
-            </div> */}
             <div>
         {/* dictionary buttons and change status */}
         <div className='flex flex-col gap-1 justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
           <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p>View word in dictionary:</p>
-          <button onClick={() => setShowDictionary(true)} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
-          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
+          <button onClick={() => setShowDictionary(true)} className='bg-sky-600 sm:text-sm hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm focus:ring-sky-500'>DeepL (Popup)</button>
           {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
           <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
