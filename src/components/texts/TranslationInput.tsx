@@ -47,8 +47,8 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
   };
 
   const wordStatusToolbar = word
-    ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 justify-center gap-0 rounded-md overflow-visible '}>
-        <button className={`hover:bg-orange-600 rounded-l-md has-tooltip border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+    ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 dark:border-gray-600 justify-center gap-0 rounded-md overflow-visible '}>
+        <button className={`hover:bg-orange-600 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -56,21 +56,21 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
           </svg> */}
           Learning
         </button>
-        <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
           {/* <span className='tooltip bg-yellow-600'>Familiar</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
           </svg> */}
           Familiar
         </button>
-        <button className={`hover:bg-green-600 has-tooltip  flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+        <button className={`hover:bg-green-600 has-tooltip  flex flex-col group place-content-center dark:border-gray-600 hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
           {/* <span className='tooltip bg-green-600'>Learned</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg> */}
           Learned
         </button>
-        <button className={`hover:bg-red-600 has-tooltip rounded-r-md border-gray-300 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+        <button className={`hover:bg-red-600 has-tooltip rounded-r-md border-gray-300 dark:border-gray-600 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
           {/* <span className='tooltip bg-red-600'>Ignore</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
@@ -162,7 +162,7 @@ const CurrentTranslationInput = function({ translation, currentWord }:
             id="translation"
             onChange={(event) => setValue(event.target.value)}
             value={value}
-            className=" flex-1 block focus:ring-0 w-full group-hover:rounded-r-none rounded-md sm:text-sm border-gray-300"
+            className=" flex-1 block focus:ring-0 bg-four dark:border-transparent w-full group-hover:rounded-r-none rounded-md sm:text-sm border-gray-300"
             placeholder='Enter a new translation here' />
         </div>
       </div>
@@ -253,7 +253,7 @@ const TranslationComponent = function({ word }:
     }
   }, [currentWord]);
 
-  const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'ig');
+  const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'gui');
 
   let shortenedContext = '';
   if (currentWord?.word && currentWordContext) {
@@ -269,7 +269,7 @@ const TranslationComponent = function({ word }:
           {currentWord?.translations.map((transObj) => <CurrentTranslationInput
             key={transObj.translation} translation={transObj} currentWord={currentWord} />)}</>}
 
-          <label htmlFor="translation" className={`block text-sm font-normal text-gray-700 ${currentWord?.translations?.length > 0 ? 'sr-only' : ''}`} >
+          <label htmlFor="translation" className={`block text-sm font-normal text-six ${currentWord?.translations?.length > 0 ? 'sr-only' : ''}`} >
               Add translation:
           </label>
             <div className="grid grid-cols-3 gap-6">
@@ -283,7 +283,7 @@ const TranslationComponent = function({ word }:
                   className="group flex rounded-md">
                   <button
                   type='submit'
-                  className={`inline-flex shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-50 text-gray-500 pointer-events-none'} text-sm`}
+                  className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-primary dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
                   >
                   Save
                   </button>
@@ -292,7 +292,7 @@ const TranslationComponent = function({ word }:
                     id="translation"
                     onChange={(event) => handleInput(event)}
                     value={translation}
-                    className=" focus:border focus:ring-0 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
+                    className=" focus:border bg-four dark:border-transparent focus:ring-0 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
                     placeholder='Enter a new translation here' />
                 </form>
               </div>
@@ -364,14 +364,14 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     return (
       <>
         <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
-          <div className='sticky top-10 bg-white shadow sm:rounded-lg sm:px-6 py-4 '>
+          <div className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
             {word && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word.word}</h2>
+              <h2 className=' ml-2 text-3xl font-medium text-tertiary mb-2'>{word.word}</h2>
             </div>}
-            {!word && <h2 className='ml-2 text-3xl font-medium text-gray-900 my-4'>Select a word</h2>}
+            {!word && <h2 className='ml-2 text-3xl font-medium text-tertiary my-4'>Select a word</h2>}
             <Suspense fallback={<div>Loading...</div>}>
               <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
             </Suspense>
@@ -384,14 +384,14 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   return (
     <>
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='h-full p-2 fixed inset-0 flex sm:p-6 pointer-events-auto items-end'>
-      <div className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-white'>
+      <div className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-tertiary'>
         <div className='w-full sm:px-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 -mt-1 -ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className='text-3xl font-medium text-gray-900 mb-2 '>{word ? `${word.word}` : 'Select a word'}</h2>
+              <h2 className='text-3xl font-medium text-tertiary mb-2 '>{word ? `${word.word}` : 'Select a word'}</h2>
             </div>
             <div onClick={(event) => closeModal(event)} className='flex flex-row items-center '>
               <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">

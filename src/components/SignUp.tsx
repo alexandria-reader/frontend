@@ -55,7 +55,7 @@ export default function SignUp() {
           </div>
 
           <div>
-            <h2 className="text-center text-3xl font-extrabold text-gray-900">Sign up for a new account</h2>
+            <h2 className="text-center text-3xl font-extrabold text-tertiary">Sign up for a new account</h2>
             <p className="text-center">All fields are required.</p>
           </div>
 
@@ -103,14 +103,14 @@ export default function SignUp() {
 
           <div>
             <label className="label text-sm" htmlFor="username">Name</label>
-            <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" placeholder='' className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm" type="text" />
+            <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" placeholder='' className="input bg-four dark:border-transparent rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary rounded-t-md focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm" type="text" />
             {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
             {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a minimum of 2 characters.</p>)}
           </div>
 
           <div>
             <label htmlFor="email" className="label text-sm">Email</label>
-            <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm"
+            <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input bg-four dark:border-transparent rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm"
              type="email" />
             {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
             {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
@@ -120,7 +120,7 @@ export default function SignUp() {
           <div>
             <label htmlFor="password" className="label text-sm">Password</label>
             <input {...register('password', { required: true, pattern: /^.{6,}$/ })}
-              className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm"
+              className="input appearance-none relative block w-full px-3 py-2 border bg-four dark:border-transparent rounded-md border-gray-300 placeholder-gray-500 text-tertiary rounded-b-md focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm"
               type="password" />
             {errors.password?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required.</p>)}
             {errors.password?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters.</p>)}
@@ -128,14 +128,14 @@ export default function SignUp() {
 
           <div>
             <label htmlFor="knownLanguageId" className='label text-sm'>I know</label>
-              {<select title="language to translate into" {...register('knownLanguageId')} className="knownLanguageId input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
+              {<select title="language to translate into" {...register('knownLanguageId')} className="knownLanguageId input bg-four dark:border-transparent rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
               {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
               </select>}
           </div>
 
           <div>
             <label htmlFor="learnLanguageId" className='label text-sm'>I want to learn</label>
-            {<select title="language to learn" {...register('learnLanguageId')} className="learnLanguageId input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
+            {<select title="language to learn" {...register('learnLanguageId')} className="learnLanguageId input appearance-none bg-four dark:border-transparent rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-fuchsia-700 focus:border-fuchsia-700 focus:z-10 sm:text-sm">
             {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
             </select>}
             {errors.learnLanguageId && (<p style={{ color: 'red', fontSize: '14px' }}>{errors.learnLanguageId.message}</p>)}

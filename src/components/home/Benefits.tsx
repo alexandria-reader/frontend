@@ -4,7 +4,7 @@ import svg from '../../assets/undraw-mh2.svg';
 export default function Benefits() {
   return (
     <>
-      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} sm:mt-[-2rem] xl:mt-[-4rem] sm:py-12 lg:py-36 ${window.innerWidth > 1500 ? 'xl:py-24' : ''}`}>
+      <div className={`${window.innerHeight < 700 ? 'pt-5' : 'pt-10'} text-primary sm:mt-[-2rem] xl:mt-[-4rem] sm:py-12 lg:py-36 ${window.innerWidth > 1500 ? 'xl:py-24' : ''}`}>
       <div className={`max-w-7xl mx-auto px-4 ${window.innerWidth > 1500 ? '' : 'md:px-20'} ${window.innerHeight > window.innerWidth ? 'md:py-12' : 'md:py-10'}`}>
         <div className="items-center h-full flex flex-col md:flex-row ">
         {/* Section header */}
@@ -13,7 +13,7 @@ export default function Benefits() {
               <span className="bg-clip-text block text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
             </h1>
             <div className="max-w-3xl">
-              <p className="text-xl text-center md:text-left text-gray-600 tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
+              <p className="text-xl text-center md:text-left text-secondary tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
             </div>
             <div className="flex justify-center md:justify-start flex-row" data-aos="zoom-y-out" data-aos-delay="300">
                 <div>

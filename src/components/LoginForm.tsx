@@ -46,20 +46,20 @@ export default function LoginForm({ from }: { from: string }) {
   );
 
   return (
-    <div className="min-h-full flex items-center  gap-6 justify-center py-12 px-6 sm:px-8 lg:px-10">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full flex items-center gap-6 justify-center py-12 px-6 sm:px-8 lg:px-10">
+      <div className="max-w-7x sm:rounded-md mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
         <div>
           <img
             className="mx-auto h-24 w-auto"
             src={logo}
             alt="logo"
           />
-          <h2 className=" text-center text-3xl font-extrabold text-gray-900 py-6">Log in to your account</h2>
+          <h2 className="text-center text-3xl font-extrabold text-tertiary py-6">Log in to your account</h2>
         </div>
-        <form key={1} className='form-div flex flex-col gap-4' onSubmit={handleSubmit(userInfo)}>
+        <form key={1} className='flex flex-col gap-4' onSubmit={handleSubmit(userInfo)}>
           <div>
             <label htmlFor="email" className="label text-sm " >Email</label>
-            <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" placeholder="Email"
+            <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input bg-four dark:border-transparent rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" placeholder="Email"
             type="email" />
             {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
             {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a valid email address.</p>)}
@@ -68,7 +68,7 @@ export default function LoginForm({ from }: { from: string }) {
           <div>
             <label htmlFor="password" className="label text-sm">Password</label>
             <input {...register('password', { required: true })}
-              className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+              className="input appearance-none rounded-md relative block bg-four dark:border-transparent w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
               placeholder="Password" type="password" />
             {errors.password?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required.</p>)}
             {errors.passwordCheck && (<p style={{ color: 'red', fontSize: '14px' }}> {errors.passwordCheck.message}</p>)}

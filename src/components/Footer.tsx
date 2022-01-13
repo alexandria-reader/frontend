@@ -6,7 +6,7 @@ export default function Footer() {
   const user = useRecoilValue(userState);
 
   return (
-    <footer className="bg-white dark:bg-black w-full py-8 mt-10 md:text-lg text-md">
+    <footer className="bg-primary w-full py-8 mt-10 md:text-lg text-md">
       <div className='md:mx-14 lg:mx-48 px-4 sm:px-6 lg:px-8'>
         <div className="max-w-screen-xl  px-4 md:px-10 sm:px-6 lg:px-14 mx-auto flex flex-col items-center">
           <ul className="md:text-lg text-md max-w-lg font-light flex flex-wrap flex-row gap-x-12  md:gap-x-24 justify-between">

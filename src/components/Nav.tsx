@@ -72,15 +72,15 @@ export default function Navbar() {
 
   if (user) {
     return (
-      <Disclosure key='disclosure' as="nav" className="bg-black">
+      <Disclosure key='disclosure' as="nav" className="bg-primary">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-              <div className="relative flex items-center justify-between h-16">
+              <div className="relative dark:border-b-gray-700 dark:border-b flex items-center justify-between h-16">
                 <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
 
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-six hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -117,7 +117,7 @@ export default function Navbar() {
                         <Disclosure.Button
                         as="div"
                         className={classNames(
-                          isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          isActive ? 'bg-gray-900 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
                           'block px-3 py-2 rounded-md text-base font-medium',
                         )}
                         aria-current={isActive ? 'page' : undefined}
@@ -142,11 +142,11 @@ export default function Navbar() {
                             key={'languages'}
                             href={'#'}
                             className={classNames(
-                              'text-gray-300  hover:text-white flex flex-row px-1 sm:px-3 py-2 rounded-md text-sm font-medium',
+                              'text-five  hover:text-white flex flex-row px-1 sm:px-3 py-2 rounded-md text-sm font-medium',
                             )}
                           >
                             <p><span className="h-5 w-5 user-lang-flag mr-2">{flags[user.learnLanguageId]}</span> {names[user.learnLanguageId]}</p>
-                            <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                            <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-secondary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                           </a>
                           }
                         </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {languages.filter((language) => language.id !== user.learnLanguageId
                         && language.id !== user.knownLanguageId)
                         .map((language) => <Menu.Item key={language.id}>
@@ -175,7 +175,7 @@ export default function Navbar() {
                           }}>
                             <a
                               href=""
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six')}
                             >
                               <div className='flex flex-row justify-between m-2'>
                                 <span className="h-5 w-5">{flags[language.id]}</span>
@@ -208,7 +208,7 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <NavLink to='/settings'>
@@ -216,7 +216,7 @@ export default function Navbar() {
                               key='Settings'
                               id='settings-key'
                               as="div"
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 settings-key')}
+                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six settings-key')}
                               aria-current={active ? 'page' : undefined}
                             >
                             Settings
@@ -230,7 +230,7 @@ export default function Navbar() {
                             <Disclosure.Button
                               key='Sign Out'
                               as="div"
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six')}
                               aria-current={active ? 'page' : undefined}
                             >
                             Sign out
@@ -256,7 +256,7 @@ export default function Navbar() {
                             <Disclosure.Button
                               as="div"
                               className={classNames(
-                                isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                isActive ? 'bg-gray-900 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
                                 'block px-3 py-2 rounded-md text-base font-medium',
                               )}
                               aria-current={isActive ? 'page' : undefined}
@@ -272,7 +272,7 @@ export default function Navbar() {
                       as="div"
                       className={classNames(
                         useLocation().pathname === '/settings'
-                          ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          ? 'bg-gray-900 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
                         'block px-3 py-2 rounded-md text-base font-medium',
                       )}
                       aria-current={useLocation().pathname === '/settings' ? 'page' : undefined}
@@ -284,7 +284,7 @@ export default function Navbar() {
                     <Disclosure.Button
                       as="div"
                       className={classNames(
-                        'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium',
+                        'text-five hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium',
                       )}
                     >
                     {'Sign Out'}

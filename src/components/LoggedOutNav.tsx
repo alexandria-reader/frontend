@@ -14,7 +14,7 @@ function classNames(...classes: string[]) {
 
 export default function LoggedOutNav() {
   return (
-    <Disclosure as="nav" className="bg-black">
+    <Disclosure as="nav" className="bg-primary">
     {/* <Disclosure as="nav" className="bg-black sticky top-0 z-10"> */}
       {() => (
         <>
@@ -42,7 +42,7 @@ export default function LoggedOutNav() {
                       <Disclosure.Button
                       as="div"
                       className={classNames(
-                        isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        isActive ? 'bg-gray-900 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
                         'block px-3 py-2 rounded-md text-base font-medium',
                       )}
                       aria-current={isActive ? 'page' : undefined}

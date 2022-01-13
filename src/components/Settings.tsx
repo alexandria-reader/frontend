@@ -156,7 +156,7 @@ export default function Settings() {
   return (<div> {user && (
   <div className="max-w-7xl mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
     <div className='max-w-7xl mx-auto px-4 pt-6 sm:px-6 lg:px-8'>
-      <div className='pb-6 border-b border-gray-200 flex items-center justify-between'>
+      <div className='pb-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between'>
         <img
           className="mx-auto h-20 w-auto"
           src={logo}
@@ -165,11 +165,11 @@ export default function Settings() {
       </div>
     </div>
 
-    <div className="md:grid md:grid-cols-3 mx-auto md:gap-6 min-h-full max-w-7xl sm:grid-cols-1 lg:grid-cols-3 px-4 py-8 sm:px-8 lg:px-10">
+    <div className="md:grid md:grid-cols-3  mx-auto md:gap-6 min-h-full max-w-7xl sm:grid-cols-1 lg:grid-cols-3 px-4 py-8 sm:px-8 lg:px-10">
       <div className="md:col-span-1">
         <div className="px-4 sm:px-0">
-          <h2 className="text-lg font-medium leading-6 text-gray-900">User account settings</h2>
-          <p id="loggedin-status" className="loggedin-status mt-1 text-sm text-gray-600">{user.username} at {user.email} is logged in</p>
+          <h2 className="text-lg font-medium leading-6 text-tertiary">User account settings</h2>
+          <p id="loggedin-status" className="loggedin-status mt-1 text-sm text-secondary">{user.username} at {user.email} is logged in</p>
         </div>
       </div>
 
@@ -177,15 +177,15 @@ export default function Settings() {
         <div className='flex flex-col gap-6'>
           <form key={1} onSubmit={handleSubmit(changeUserInfo)}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 py-5 bg-white sm:p-6 flex flex-col gap-4">
+              <div className="px-4 py-5 bg-tertiary sm:p-6 flex flex-col gap-4">
                 <div>
-                  <h2 className="text-xl text-gray-600 tracking-normal">Update your display name and email</h2>
+                  <h2 className="text-xl text-secondary tracking-normal">Update your display name and email</h2>
                   <p className="text-sm text-green-600 font-bold">{showUserMessage && usermessage}</p>
                 </div>
 
                 <div>
                   <label className="label text-sm mb-6" htmlFor="username">Name</label>
-                  <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
+                  <input {...register('username', { required: true, minLength: 2, maxLength: 20 })} id="username" name="username" defaultValue={user.username} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-four dark:border-transparent placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500  focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
                   {errors.username?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a user name.</p>)}
                   {errors.username?.type === 'minLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a mininum of 3 characters.</p>)}
                   {errors.username?.type === 'maxLength' && (<p style={{ color: 'red', fontSize: '14px' }}> Name should have a maxinum of 20 characters.</p>)}
@@ -193,7 +193,7 @@ export default function Settings() {
 
                 <div>
                   <label htmlFor="email" className="label text-sm mb-6">Email</label>
-                  <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                  <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
                   defaultValue={user.email} type="email" />
                   {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
                   {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
@@ -214,17 +214,17 @@ export default function Settings() {
 
           <form key={2} onSubmit={handleSubmit2(changePassword)}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 py-5 bg-white sm:p-6  flex flex-col gap-4">
+              <div className="px-4 py-5 bg-tertiary sm:p-6  flex flex-col gap-4">
                 <div className=''>
-                  <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your password</h2>
+                  <h2 className="text-xl text-secondary mb-3 tracking-normal">Update your password</h2>
                   <p className="password-message text-sm text-green-600 font-bold">{showPasswordmessage && passwordmessage}</p>
-                  <p className="text-gray-600 text-sm">Update password by providing a new one with the current password:</p>
+                  <p className="text-secondary text-sm">Update password by providing a new one with the current password:</p>
                 </div>
 
                 <div>
                   <label htmlFor="password1" className="label text-sm">Current Password</label>
                   <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
-                    id="password" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                 </div>
@@ -232,14 +232,14 @@ export default function Settings() {
                 <div>
                   <label htmlFor="password2" className="label text-sm">New Password</label>
                   <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
-                    id="password2" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password2" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                 </div>
                 <div>
                   <label htmlFor="password3" className="label text-sm">New Password Again</label>
                   <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
-                    id="password3" className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password3" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                   {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
@@ -261,23 +261,23 @@ export default function Settings() {
 
           <form key={3} onSubmit={handleSubmit3(changeLanguages)}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 py-5 bg-white sm:p-6 flex flex-col gap-4">
+              <div className="px-4 py-5 bg-tertiary sm:p-6 flex flex-col gap-4">
                 <div>
-                  <h2 className="text-xl text-gray-600 mb-3 tracking-normal">Update your learning preferences</h2>
-                  <p className="text-gray-600 text-sm">Update languages:</p>
+                  <h2 className="text-xl text-secondary mb-3 tracking-normal">Update your learning preferences</h2>
+                  <p className="text-secondary text-sm">Update languages:</p>
                   <p className="text-sm text-green-600 font-bold">{showLanguageMessage && languagemessage}</p>
                 </div>
 
                 <div>
                   <label htmlFor="currentKnownLanguageId" className='label text-sm'>I know</label>
-                    {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
+                    {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
                     {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
                     </select>}
                 </div>
 
                 <div>
                   <label htmlFor="currentLearnLanguageId" className='label text-sm'>I want to learn</label>
-                  {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
+                  {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-fuchsia-600 focus:border-fuchsia-600 focus:z-10 sm:text-sm">
                   {languages.map((lang) => <option key={lang.id} value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
                   </select>}
                   {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}

@@ -11,7 +11,7 @@ export default function Fallback({ resetErrorBoundary }: { resetErrorBoundary: M
   return (
     <div>
        <Nav />
-      <div className="bg-white text-black overflow-hidden relative lg:flex lg:items-center">
+      <div className="bg-secondary text-black overflow-hidden relative lg:flex lg:items-center">
       <div className="w-1/2 py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-20">
       <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
         <span className="block">

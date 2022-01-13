@@ -54,7 +54,7 @@ const SingleText = function () {
 
   if (currentText && Number(currentText.id) === Number(params.textId)) {
     return (
-      <div key={`text-id:${currentText.id}outer`} className='bg-gray-100 mx-auto max-w-7xl lg:px-8'>
+      <div key={`text-id:${currentText.id}outer`} className='bg-secondary mx-auto max-w-7xl lg:px-8'>
         {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
         <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
         {/* Check if title ends with a dot, if not add one */}
