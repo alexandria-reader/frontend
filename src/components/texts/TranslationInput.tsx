@@ -16,6 +16,7 @@ import {
 import { UserWord, Status, Translation } from '../../types';
 import wordsService from '../../services/words';
 import translationServices from '../../services/translations';
+import shortenContext from '../../utils/shortenContext';
 
 const ChangeStatus = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -252,7 +253,12 @@ const TranslationComponent = function({ word }:
     }
   }, [currentWord]);
 
-  const regex = new RegExp(`${currentWord?.word}`, 'ig');
+  const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'ig');
+
+  let shortenedContext = '';
+  if (currentWord?.word && currentWordContext) {
+    shortenedContext = shortenContext(currentWord.word, currentWordContext).replaceAll(regex, (match) => `<strong>${match}</strong>`);
+  }
 
   return (
     <div className='text-md flex text-lg sm:text-sm flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
@@ -294,8 +300,7 @@ const TranslationComponent = function({ word }:
          </div></>}
       {currentWord && <>
       {currentWordContext && <div className='md:hidden flex flex-col gap-1'>
-        {/* <p>Context:</p> */}
-        <p>{parseHTML(currentWordContext.replaceAll(regex, (match) => `<strong>${match}</strong>`))}</p>
+        <p>{parseHTML(shortenedContext)}</p>
       </div>}
       <div>
         {/* dictionary buttons and change status */}
@@ -329,8 +334,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     return (element as Element).nodeName !== undefined;
   };
 
-  const closeModal = function(event:
-  MouseEvent<HTMLDivElement, globalThis.MouseEvent>) {
+  const closeModal = function(event: MouseEvent) {
     event?.preventDefault();
     const element = event.target;
     if (isElement(element) && (element.id === 'outer-modal' || element.id === 'close-modal')) {
