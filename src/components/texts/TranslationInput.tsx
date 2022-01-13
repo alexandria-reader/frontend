@@ -320,7 +320,7 @@ const TranslationComponent = function({ word }:
 
 const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
-
+  const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
 
   const voices = window.speechSynthesis.getVoices();
@@ -336,6 +336,9 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     if (isElement(element) && (element.id === 'outer-modal' || element.id === 'close-modal')) {
       setCurrentWord(null);
     }
+
+    const updatedWords = userWords.filter((wordObj: UserWord) => wordObj.id);
+    setUserWords(updatedWords);
   };
 
   // specific language variants can be added
