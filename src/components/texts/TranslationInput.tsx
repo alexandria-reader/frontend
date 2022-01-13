@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import {
   ChangeEvent, MouseEvent, useEffect, useState, Suspense, FormEvent,
@@ -178,7 +179,7 @@ const TranslationComponent = function({ word }:
   const user = useRecoilValue(userState);
 
   const handleTranslation = async function(
-    event: FormEvent<HTMLFormElement>,
+    event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -267,17 +268,18 @@ const TranslationComponent = function({ word }:
           </label>
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3">
-
-                <form onSubmit={(event) => {
+                <form onClick={(event) => {
                   handleTranslation(event, translation, word);
                   setShowDictionary(false);
                   setTranslation('');
                 }}
-                    className="group flex rounded-md">
+                  action=''
+                  className="group flex rounded-md">
                   <button
                   type='submit'
-                  className={`inline-flex shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-50 text-gray-500 pointer-events-none'} text-sm`} >
-                    Save
+                  className={`inline-flex shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-50 text-gray-500 pointer-events-none'} text-sm`}
+                  >
+                  Save
                   </button>
                   <input
                     type="text"
@@ -379,13 +381,13 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
         <div className='w-full sm:px-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center'>
-              <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 -mt-1 -ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className=' ml-2 text-3xl font-medium text-gray-900 mb-2'>{word ? `${word.word}` : 'Select a word'}</h2>
+              <h2 className='text-3xl font-medium text-gray-900 mb-2 '>{word ? `${word.word}` : 'Select a word'}</h2>
             </div>
-            <div onClick={(event) => closeModal(event)} className='flex flex-row items-center'>
-              <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div onClick={(event) => closeModal(event)} className='flex flex-row items-center '>
+              <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
