@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  ChangeEvent, MouseEvent, useEffect, useState, Suspense,
+  ChangeEvent, MouseEvent, useEffect, useState, Suspense, FormEvent,
 } from 'react';
 import parseHTML from 'html-react-parser';
 import {
@@ -46,7 +46,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
   const wordStatusToolbar = word
     ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 justify-center gap-0 rounded-md overflow-visible '}>
-        <button className={`hover:bg-orange-600 rounded-l-md has-tooltip border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        <button className={`hover:bg-orange-600 rounded-l-md has-tooltip border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -54,21 +54,21 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
           </svg> */}
           Learning
         </button>
-        <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
           {/* <span className='tooltip bg-yellow-600'>Familiar</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
           </svg> */}
           Familiar
         </button>
-        <button className={`hover:bg-green-600 has-tooltip  flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+        <button className={`hover:bg-green-600 has-tooltip  flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
           {/* <span className='tooltip bg-green-600'>Learned</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg> */}
           Learned
         </button>
-        <button className={`hover:bg-red-600 has-tooltip rounded-r-md border-gray-300 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-2 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+        <button className={`hover:bg-red-600 has-tooltip rounded-r-md border-gray-300 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
           {/* <span className='tooltip bg-red-600'>Ignore</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
@@ -79,9 +79,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     : '';
 
   return (
-    // <div className="mt-3">
     <div className="">
-      {/* {word && <p className=''>Current status: {word.status}</p>} */}
       {wordStatusToolbar}
     </div>
   );
@@ -177,11 +175,10 @@ const TranslationComponent = function({ word }:
   const currentText = useRecoilValue(currenttextState);
   const currentWordContext = useRecoilValue(currentwordContextState);
   const dictionary = useRecoilValue(currentdictionaryState);
-
   const user = useRecoilValue(userState);
 
   const handleTranslation = async function(
-    event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
+    event: FormEvent<HTMLFormElement>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -271,7 +268,7 @@ const TranslationComponent = function({ word }:
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3">
 
-                <form onClick={(event) => {
+                <form onSubmit={(event) => {
                   handleTranslation(event, translation, word);
                   setShowDictionary(false);
                   setTranslation('');
