@@ -149,9 +149,9 @@ export const Word = function ({ word, dataKey, context }:
   let wordClass = '';
 
   if (wordStatus === 'learning') {
-    wordClass = 'bg-orange-400';
+    wordClass = 'bg-orange-400 dark:bg-fuchsia-800';
   } else if (wordStatus === 'familiar') {
-    wordClass = 'bg-yellow-300';
+    wordClass = ' bg-indigo-800';
   }
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -223,11 +223,9 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   let wordClass = '';
 
   if (phraseStatus === 'learning') {
-    wordClass = 'bg-orange-300';
+    wordClass = 'bg-orange-300 dark:bg-fuchsia-800';
   } else if (phraseStatus === 'familiar') {
-    wordClass = 'bg-yellow-300';
-  } else if (phraseStatus === 'learned') {
-    wordClass = 'bg-green-200';
+    wordClass = 'bg-yellow-300 dark:bg-indigo-800 dark:text-white';
   }
 
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
