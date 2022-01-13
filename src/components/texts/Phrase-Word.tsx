@@ -174,7 +174,7 @@ export const Word = function ({ word, dataKey, context }:
   // const setMouseStartX = function () {};
 
   return (
-    <div className='inline-block text-lg my-1.5'>
+    <div className='inline-block text-xl md:text-lg my-2 md:my-1.5'>
       <span
         onTouchEnd={(event) => {
           setIsTouch(true);
@@ -206,7 +206,7 @@ export const Word = function ({ word, dataKey, context }:
         // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
-        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent  py-1 p-px rounded-md`}
+        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
         data-key={dataKey}
         data-type={'word'}>
         {word}
@@ -240,8 +240,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
 
   return (
     <>
-      <div className='inline'>
-        <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 py-1.5 rounded-md`} data-type={'phrase'}>
+      <div className='inline text-xl md:text-lg'>
+        <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 md:py-1.5 py-2 rounded-md`} data-type={'phrase'}>
       {/* {
         parts.map((word, index, array) => <Fragment key={index + word} >
           <Word key={index + word} dataKey={index + word} word={word} context={context} />
