@@ -142,11 +142,11 @@ export default function SignUp() {
           </div>
 
           <div>
-            <div className="userFields" aria-hidden="true">
+            <div className="userFields hidden" aria-hidden="true">
               <label className="label phone">Phone number</label>
               <input {...register('phone')} className="input phone" type="text" tabIndex={-1}/>
               <label className="label website">Website</label>
-              <input {...register('website')} className="input website" type="text" tabIndex={-1}/>
+              <input {...register('website')} className="input website hidden" type="text" tabIndex={-1}/>
             </div>
             <button
               type="submit"
