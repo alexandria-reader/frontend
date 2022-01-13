@@ -152,8 +152,6 @@ export const Word = function ({ word, dataKey, context }:
     wordClass = 'bg-orange-400';
   } else if (wordStatus === 'familiar') {
     wordClass = 'bg-yellow-300';
-  } else if (wordStatus === 'learned') {
-    wordClass = 'bg-green-200';
   }
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -176,7 +174,7 @@ export const Word = function ({ word, dataKey, context }:
   // const setMouseStartX = function () {};
 
   return (
-    <div className='inline-block my-1.5'>
+    <div className='inline-block text-lg my-1.5'>
       <span
         onTouchEnd={(event) => {
           setIsTouch(true);
