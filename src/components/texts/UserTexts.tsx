@@ -249,10 +249,10 @@ const UserTexts = function() {
                           {
                             user.verified === true
                               ? `You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`
-                              : <span>You need to verify your email address to add texts. <Link className="text-sky-600 underline hover:text-sky-500" to="/verify">More information.</Link></span>
+                              : ''
                           }
                         </h2>
-                      : <h2 className='text-lg leading-6 font-medium text-tertiary'>Texts</h2>
+                      : <h2 className='text-lg leading-6 font-medium text-tertiary pr-16'>Texts</h2>
                   }
                   {
                     (user && user.verified === true)

@@ -62,12 +62,12 @@ export default function Verified() {
       : <div>
           <div className="bg-secondary text-black overflow-hidden relative lg:flex lg:items-center">
             <div className="py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-20">
-              <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
+              <h2 className="text-3xl font-extrabold text-primary sm:text-4xl">
                 <span className="block">
                   Your email address has not been verified, yet.
                 </span>
               </h2>
-              <div className="text-md mt-4 text-gray-800">
+              <div className="text-md mt-4 text-secondary">
                 <p className="pb-2">That means you have a can look around but won't be able to add your own texts.</p>
                 <p className="pb-2">We have sent an email to the address you gave us when you signed up.<br/>
                    Please click the link in that email to verify your address.<br/>
