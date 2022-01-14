@@ -35,7 +35,7 @@ export default function LoggedOutNav() {
       {() => (
         <>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="relative flex items-center justify-between h-16">
+            <div className="relative dark:border-b-gray-700 dark:border-b flex items-center justify-between h-16">
               <div className="flex-1 flex items-stretch justify-between">
                 <div className="flex-shrink-0 flex items-center">
                 <NavLink to={'/'}>

@@ -46,8 +46,8 @@ export default function SignUp() {
   return (
     <main className='container mx-auto mb-auto'>
      <div className="min-h-full flex items-center justify-center py-12 px-6 sm:px-8 lg:px-10">
-        <div className="max-w-sm w-fit flex flex-col gap-6">
-          <div>
+        <div className="max-w-md dark:shadow dark:bg-tertiary py-8 px-4 sm:py-6 sm:px-6 w-fit flex flex-col gap-6">
+          <div className=''>
             <img
               className="mx-auto dark:hidden h-24 w-auto"
               src={logo}

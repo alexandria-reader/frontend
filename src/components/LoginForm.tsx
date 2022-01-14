@@ -48,8 +48,8 @@ export default function LoginForm({ from }: { from: string }) {
 
   return (
     <div className="min-h-full flex items-center gap-6 justify-center py-12 px-6 sm:px-8 lg:px-10">
-      <div className="max-w-7x shadow sm:rounded-md mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
-        <div>
+      <div className="max-w-7x dark:shadow dark:bg-tertiary sm:rounded-md mx-auto py-8 px-4 sm:py-6 sm:px-6 lg:px-8">
+        <div className=''>
           <img
             className="mx-auto dark:hidden h-24 w-auto"
             src={logo}
