@@ -39,13 +39,13 @@ export default function Verified() {
       ? <div>
           <div className="bg-secondary text-black overflow-hidden relative lg:flex lg:items-center">
             <div className="py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-20">
-              <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
+              <h2 className="text-3xl font-extrabold text-primary sm:text-4xl">
                 <span className="block">
                   Your email address has been verified.
                 </span>
               </h2>
-              <div className="text-md mt-4 text-gray-800">
-                <p className="pb-2">That means you add your own texts and start reading and learning.</p>
+              <div className="text-md mt-4 text-secondary">
+                <p className="pb-2">That means you can add your own texts and start reading and learning.</p>
               </div>
               <div className="lg:mt-0 lg:flex-shrink-0">
                 <div className="mt-12 inline-flex rounded-md shadow">
