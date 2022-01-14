@@ -133,7 +133,6 @@ iframe > html {
 }
 
 .dark {
-  /* --bg-primary: #1f2937; gray-800 */
   --bg-primary: #111827; /* gray-900 */
   --bg-secondary: #111827; /* gray-800 */
   --bg-tertiary: #1f2937; /* gray-900 */
@@ -147,23 +146,21 @@ iframe > html {
   --text-five: #d1d5db; /* gray-300 */
   --text-six: #d1d5db; /* gray-300 */
 
-
   --btn-primary: #701a75; /* fuchsia-900 */
   --btn-secondary: #0284c7; /* sky-600 */
-
 }
 
 /* dark - gray-900, boxes gray-800, heading text white, other text gray-400 */
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
   /* border: none; */
   -webkit-text-fill-color: #f9fafb;
   /* -webkit-box-shadow-color: #4b5563;
