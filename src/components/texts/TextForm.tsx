@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 import { useState, useEffect, FormEvent } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import textsService from '../../services/texts';
 import { textlistState, textToEditState, userState } from '../../states/recoil-states';
-import { Text } from '../../types';
+import { ArticleData, Text } from '../../types';
+import urlService from '../../services/url';
 
 const TextForm = function() {
   const [textList, setTextList] = useRecoilState(textlistState);
@@ -52,6 +54,27 @@ const TextForm = function() {
 
     setNewTextBody('');
     setNewTextTitle('');
+  };
+
+  const extractTextFromURL = async function(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const textObject: ArticleData | null = await urlService.postURL(newTextExtractionURL);
+
+    if (textObject?.content) {
+      const body = textObject.content;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = body;
+      const { textContent } = tempDiv;
+
+      setNewTextBody(textContent || '');
+      setNewTextTitle(textObject.title);
+      setNewTextURL(textObject.url);
+      setNewTextExtractionURL('');
+      alert('Text extraction successful. Please edit the text if necessary and click save.');
+    } else {
+      alert('Text extraction failed. Please try another link or copy the text manually');
+    }
   };
 
   const updateText = async function(event: FormEvent<HTMLFormElement>) {
@@ -195,20 +218,23 @@ const TextForm = function() {
             </div>
           </form>
         </div>
-        <div className="mt-5 md:mt-0 md:col-span-2">
-          <form action="#" method="POST" onSubmit={(event) => {
-            if (textToEdit) {
-              updateText(event);
-            } else {
-              submitText(event);
-            }
-          }}>
+
+        {!textToEdit && <div className="md:col-span-1">
+          <div className="px-4 sm:px-0">
+            <h3 className="text-lg font-medium leading-6 text-tertiary">{'BETA feature: Extract text from URL'}</h3>
+            <p className="mt-1 text-sm text-secondary">
+            {'Automatically extract text. May not work on every website.'}
+            </p>
+          </div>
+        </div>}
+        {!textToEdit && <div className="mt-5 md:mt-0 md:col-span-2">
+          <form action="#" method="POST" onSubmit={(event) => extractTextFromURL(event)}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
               <div className="px-4 py-5 bg-secondary space-y-6 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label htmlFor="text-url" className="block text-sm font-medium text-six">
-                      Post a URL here and we will extract the text for you automatically:
+                      Paste a URL:
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <span className="inline-flex items-center px-3 dark:border-transparent rounded-l-md border border-r-0 border-gray-300 bg-four text-gray-500 text-sm">
@@ -233,7 +259,7 @@ const TextForm = function() {
                   type="submit"
                   className="inline-flex mx-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                 >
-                  Save
+                  Extract
                 </button>
                 <NavLink to={'/texts'} onClick={() => cancelButton()}>
                   <button
@@ -245,7 +271,7 @@ const TextForm = function() {
               </div>
             </div>
           </form>
-        </div>
+        </div>}
       </div>
     </>
   );
