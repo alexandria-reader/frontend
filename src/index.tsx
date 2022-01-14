@@ -48,7 +48,7 @@ render(
             <Route path="about" element={<About />} />
             <Route path="login" element={token ? <UserTexts /> : <LogIn />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="verified" element={<PrivateRoute><Verify /></PrivateRoute>} />
+            <Route path="verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
             <Route path="*" element={<NotFound />}/>
           </Route>
         </Routes>
