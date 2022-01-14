@@ -17,6 +17,7 @@ import NotFound from './components/NotFound';
 import SingleText from './components/texts/SingleText';
 import UserTexts from './components/texts/UserTexts';
 import PrivateRoute from './components/PrivateRoute';
+import Verify from './components/Verify';
 
 import getToken from './utils/getToken';
 
@@ -47,6 +48,7 @@ render(
             <Route path="about" element={<About />} />
             <Route path="login" element={token ? <UserTexts /> : <LogIn />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
             <Route path="*" element={<NotFound />}/>
           </Route>
         </Routes>
