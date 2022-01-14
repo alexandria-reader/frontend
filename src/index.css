@@ -119,7 +119,7 @@ iframe > html {
 
 .light {
   --bg-primary: #111827; /* gray-900 */
-  --bg-secondary: #f3f4f6; /* sky-600 */
+  --bg-secondary: #f3f4f6; /* gray-100 */
   --bg-tertiary: #fff; /* white*/
   --bg-four: #fff; /* white */
   --bg-five: #000; /* black */

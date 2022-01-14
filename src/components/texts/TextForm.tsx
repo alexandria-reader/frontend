@@ -71,7 +71,7 @@ const TextForm = function() {
       setNewTextTitle(textObject.title);
       setNewTextURL(textObject.url);
       setNewTextExtractionURL('');
-      alert('Text extraction successful. Please edit the text if necessary and click save.');
+      // alert('Text extraction successful. Please edit the text if necessary and click save.');
     } else {
       alert('Text extraction failed. Please try another link or copy the text manually');
     }
@@ -139,7 +139,7 @@ const TextForm = function() {
             }
           }}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 py-5 bg-secondary space-y-6 sm:p-6">
+              <div className="px-4 bg-secondary space-y-6 sm:px-6 ">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label htmlFor="company-website" className="block text-sm font-medium text-six">
@@ -219,7 +219,7 @@ const TextForm = function() {
           </form>
         </div>
 
-        {!textToEdit && <div className="md:col-span-1">
+        {!textToEdit && <div className="md:col-span-1 mt-6 sm:mt-6">
           <div className="px-4 sm:px-0">
             <h3 className="text-lg font-medium leading-6 text-tertiary">{'BETA feature: Extract text from URL'}</h3>
             <p className="mt-1 text-sm text-secondary">
@@ -227,10 +227,10 @@ const TextForm = function() {
             </p>
           </div>
         </div>}
-        {!textToEdit && <div className="mt-5 md:mt-0 md:col-span-2">
+        {!textToEdit && <div className="mt-6 md:mt-6 md:col-span-2">
           <form action="#" method="POST" onSubmit={(event) => extractTextFromURL(event)}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 py-5 bg-secondary space-y-6 sm:p-6">
+              <div className="px-4 bg-secondary space-y-6 sm:px-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label htmlFor="text-url" className="block text-sm font-medium text-six">

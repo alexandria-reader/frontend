@@ -33,9 +33,9 @@ const WordTable = function () {
   };
 
   const statusClasses = {
-    learning: 'bg-orange-400 text-orange-900',
-    familiar: 'bg-yellow-300 text-yellow-800',
-    learned: 'bg-green-200 text-green-700',
+    learning: 'bg-fuchsia-500/70 dark:bg-fuchsia-600/60',
+    familiar: 'bg-sky-400/70 dark:bg-sky-600/80',
+    learned: 'bg-green-500/70 dark:bg-green-600/70',
   };
 
   return (
@@ -50,51 +50,8 @@ const WordTable = function () {
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8 overflow-x-auto">
         <div className="shadow overflow-x-auto border-b border-gray-200 dark:border-gray-700 sm:rounded-lg">
-          {/* <div className="min-w-full divide-y divide-gray-200">
-            <div className="bg-primary">
-              <div className='flex flex-row w-full'>
-                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
-                  <span className="underline cursor-pointer" onClick={sortUserwordsByABC}>Word</span>
-                </div>
-                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
-                  <span className="underline cursor-pointer" onClick={sortUserwordsByStatus}>Status</span>
-                </div>
-                <div className="px-6 py-3 text-left text-xs font-medium  w-1/6 text-gray-500 uppercase tracking-wider">
-                  Translations
-                </div>
-                <div className="px-6 py-3 text-left text-xs font-medium flex-1 text-gray-500 uppercase tracking-wider">
-                  Contexts
-                </div>
-              </div>
-            </div>
-            <div className="bg-secondary divide-y divide-gray-200">
-              {userwords.map((userword) => (
-                <div className=' flex flex-row flex-wrap min-w-full' key={userword.word}>
-                  <div className="px-6 py-4 w-1/6 text-sm font-medium text-tertiary">
-                    {userword.word}
-                  </div>
-                  <div className="px-6 py-4  w-1/6">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${userword.status ? statusClasses[userword.status] : ''}`}>
-                      {userword.status}
-                    </span>
-                  </div>
-                  <div className="px-6 py-4  w-1/6 text-sm text-tertiary">
-                    {userword.translations.map((translation) => (
-                      <div key={translation.id} className="text-sm font-medium text-tertiary">{translation.translation}</div>
-                    ))}
-                  </div>
-                  <div className="px-6 py-4 hidden md:flex flex-1 overflow-auto text-sm text-gray-500">
-                    {userword.translations.map((translation) => (
-                      <div key={`context ${translation.id}`} className="text-sm font-medium text-tertiary">{parseHTML(translation.context || '')}</div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div> */}
-
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-primary">
+            <thead className="bg-gray-50 dark:bg-gray-800">
               <tr className='flex md:table-row flex-wrap'>
                 <th
                   scope="col"
@@ -122,25 +79,25 @@ const WordTable = function () {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-secondary divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-tertiary divide-y divide-gray-200 dark:divide-gray-700">
               {userwords.map((userword) => (
                 <tr className='flex md:table-row flex-wrap' key={userword.word}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-tertiary">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-tertiary">
                     {userword.word}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded ${userword.status ? statusClasses[userword.status] : ''}`}>
+                    <span className={`px-2 inline-flex text-sm font-semibold rounded ${userword.status ? statusClasses[userword.status] : ''}`}>
                       {userword.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-tertiary">
                     {userword.translations.map((translation) => (
-                      <div key={translation.id} className="text-sm pb-2 font-medium text-tertiary">{translation.translation}</div>
+                      <div key={translation.id} className="text-sm text-tertiary">{translation.translation}</div>
                     ))}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                  <td className="px-6 py-5 text-sm text-gray-500">
                     {userword.translations.map((translation) => (
-                      <div key={`context ${translation.id}`} className="text-sm pb-2 font-medium text-tertiary">{parseHTML(translation.context || '')}</div>
+                      <div key={`context ${translation.id}`} className="text-sm text-tertiary">{parseHTML(translation.context || '')}</div>
                     ))}
                   </td>
                 </tr>

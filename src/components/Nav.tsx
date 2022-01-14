@@ -334,7 +334,7 @@ export default function Navbar() {
                     >
                     {'Sign Out'}
                     </Disclosure.Button>
-                  </NavLink>;
+                  </NavLink>
                 </div>
               </div>
             </Disclosure.Panel>
