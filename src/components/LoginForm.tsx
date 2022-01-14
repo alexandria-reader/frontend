@@ -19,7 +19,6 @@ export default function LoginForm({ from }: { from: string }) {
   });
 
   const navigate = useNavigate();
-  console.log(from);
 
   const userInfo = (async (data: { email: string; password: string; }) => {
     const newUserData = {
@@ -40,9 +39,8 @@ export default function LoginForm({ from }: { from: string }) {
     }
 
     setUser(response);
-    console.log(response);
     localStorage.setItem('alexandria-user-token', response.token);
-    navigate('/texts');
+    navigate(from);
     return null;
   }
   );

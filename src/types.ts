@@ -2,7 +2,7 @@ export type UserWord = {
   id?: number,
   word: string,
   status?: Status,
-  translations: Array<Translation>,
+  translations: Array<UserTranslation>,
   languageId?: string
 };
 
@@ -45,6 +45,7 @@ export type User = {
   email: string,
   knownLanguageId: string,
   learnLanguageId: string,
+  verified?: boolean
 };
 
 export type SanitizedUser = Omit<User, 'password'>;
@@ -57,8 +58,9 @@ export type Translation = {
   wordId?: number,
   translation: string,
   targetLanguageId: string,
-  context: string,
 };
+
+export type UserTranslation = Translation & { context: string };
 
 
 export type LoginDetails = {

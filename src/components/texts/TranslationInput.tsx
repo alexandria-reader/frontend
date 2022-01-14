@@ -13,7 +13,10 @@ import {
   currentwordContextState, userState, currentdictionaryState,
 } from '../../states/recoil-states';
 
-import { UserWord, Status, Translation } from '../../types';
+import {
+  UserWord, Status, Translation, UserTranslation,
+} from '../../types';
+
 import wordsService from '../../services/words';
 import translationServices from '../../services/translations';
 import shortenContext from '../../utils/shortenContext';
@@ -197,7 +200,7 @@ const TranslationComponent = function({ word }:
 
       if (!newUserWord.id) {
         // call api with word with translation object attatched
-        const translationObj: Translation = {
+        const translationObj: UserTranslation = {
           translation,
           targetLanguageId: user.knownLanguageId,
           context: currentWordContext || '',
@@ -216,7 +219,7 @@ const TranslationComponent = function({ word }:
         setUserWords(updatedWords);
       } else {
         // call api with translation object, add word id to translation obj
-        const newTranslationObj: Translation = {
+        const newTranslationObj: UserTranslation = {
           translation,
           targetLanguageId: user.knownLanguageId,
           context: currentWordContext || '',
