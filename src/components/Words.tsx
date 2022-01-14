@@ -49,7 +49,7 @@ const WordTable = function () {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8 overflow-x-auto">
-        <div className="shadow overflow-x-auto border-b border-gray-200 sm:rounded-lg">
+        <div className="shadow overflow-x-auto border-b border-gray-200 dark:border-gray-700 sm:rounded-lg">
           {/* <div className="min-w-full divide-y divide-gray-200">
             <div className="bg-primary">
               <div className='flex flex-row w-full'>
@@ -93,7 +93,7 @@ const WordTable = function () {
             </div>
           </div> */}
 
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead className="bg-primary">
               <tr className='flex md:table-row flex-wrap'>
                 <th
@@ -122,7 +122,7 @@ const WordTable = function () {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-secondary divide-y divide-gray-200">
+            <tbody className="bg-secondary divide-y divide-gray-200 dark:divide-gray-700">
               {userwords.map((userword) => (
                 <tr className='flex md:table-row flex-wrap' key={userword.word}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-tertiary">

@@ -12,6 +12,7 @@ import userServices from '../services/users';
 import languageServices from '../services/languages';
 
 const logo = require('../assets/logo/logo-light.png');
+const logoDark = require('../assets/logo/logo-dark.png');
 
 export default function Settings() {
   const [user, setUser] = useRecoilState(userState);
@@ -158,8 +159,13 @@ export default function Settings() {
     <div className='max-w-7xl mx-auto px-4 pt-6 sm:px-6 lg:px-8'>
       <div className='pb-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between'>
         <img
-          className="mx-auto h-20 w-auto"
+          className="mx-auto dark:hidden h-20 w-auto"
           src={logo}
+          alt="logo"
+        />
+        <img
+          className="mx-auto hidden dark:block h-20 w-auto"
+          src={logoDark}
           alt="logo"
         />
       </div>

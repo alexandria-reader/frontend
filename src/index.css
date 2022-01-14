@@ -155,7 +155,7 @@ iframe > html {
 
 /* dark - gray-900, boxes gray-800, heading text white, other text gray-400 */
 
-/* input:-webkit-autofill,
+input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
@@ -164,9 +164,10 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: none;
-  -webkit-text-fill-color: green;
-  -webkit-box-shadow-color: #4b5563;
-  box-shadow: #4b5563;
+  /* border: none; */
+  -webkit-text-fill-color: #f9fafb;
+  /* -webkit-box-shadow-color: #4b5563;
+  box-shadow: #4b5563; */
   transition: background-color 5000s ease-in-out 0s;
-} */
+  /* color: white !important; */
+}

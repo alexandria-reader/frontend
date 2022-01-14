@@ -15,6 +15,7 @@ import loginService from '../services/login';
 import { User, LoggedInUser } from '../types';
 
 const logo = require('../assets/logo/logo-light.png');
+const logoDark = require('../assets/logo/logo-dark.png');
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -48,8 +49,13 @@ export default function SignUp() {
         <div className="max-w-sm w-fit flex flex-col gap-6">
           <div>
             <img
-              className="mx-auto h-24 w-auto"
+              className="mx-auto dark:hidden h-24 w-auto"
               src={logo}
+              alt="logo"
+            />
+            <img
+              className="mx-auto hidden dark:block h-24 w-auto"
+              src={logoDark}
               alt="logo"
             />
           </div>
