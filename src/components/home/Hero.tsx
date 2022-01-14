@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
-import svg from '../../assets/undraw-mh2.svg';
+import heroImgDark from '../../assets/undraw-mh2-dark.svg';
+import heroImgLight from '../../assets/undraw-mh2-light.svg';
 
 export default function Benefits() {
   return (
@@ -28,7 +29,8 @@ export default function Benefits() {
               </div>
           </div>
         <div className={`${window.innerWidth > 1500 ? 'flex-2' : 'flex-1'}`}>
-          <img src={svg} alt="" />
+          <img src={heroImgLight} className='dark:hidden' alt="" />
+          <img src={heroImgDark} className='hidden dark:block' alt="" />
         </div>
       </div>
       </div>

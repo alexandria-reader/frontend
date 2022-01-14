@@ -29,7 +29,7 @@ export default function LoginForm({ from }: { from: string }) {
 
     const response = await loginService.loginUser(newUserData);
     if (typeof response === 'string') {
-      setError('password', { type: 'password', message: 'Email and password do not match' });
+      setError('password', { type: 'password', message: response });
       const timeId = setTimeout(() => {
         reset();
       }, 3000);
@@ -40,6 +40,7 @@ export default function LoginForm({ from }: { from: string }) {
     }
 
     setUser(response);
+    console.log(response);
     localStorage.setItem('alexandria-user-token', response.token);
     navigate('/texts');
     return null;
@@ -77,7 +78,7 @@ export default function LoginForm({ from }: { from: string }) {
               className="input appearance-none rounded-md relative block bg-four w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-700 focus:border-sky-700 focus:z-10 sm:text-sm"
               placeholder="Password" type="password" />
             {errors.password?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required.</p>)}
-            {errors.passwordCheck && (<p style={{ color: 'red', fontSize: '14px' }}> {errors.passwordCheck.message}</p>)}
+            {errors.password && (<p style={{ color: 'red', fontSize: '14px' }}> {errors.password.message}</p>)}
           </div>
 
           <div className="py-4">
