@@ -10,6 +10,7 @@ const TextForm = function() {
   const [newTextBody, setNewTextBody] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
   const [newTextURL, setNewTextURL] = useState('');
+  const [newTextExtractionURL, setNewTextExtractionURL] = useState('');
   const [textToEdit, setTextToEdit] = useRecoilState(textToEditState);
   const navigate = useNavigate();
 
@@ -168,6 +169,57 @@ const TextForm = function() {
                         id="text-url"
                         value={newTextURL}
                         onChange={(e) => setNewTextURL(e.target.value)}
+                        className="focus:ring-sky-500 dark:border-transparent bg-tertiary focus:border-sky-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                        placeholder="www.example.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="px-4 py-3 flex justify-end bg-secondary text-right sm:px-6">
+                <button
+                  type="submit"
+                  className="inline-flex mx-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                >
+                  Save
+                </button>
+                <NavLink to={'/texts'} onClick={() => cancelButton()}>
+                  <button
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
+                  >
+                    Cancel
+                  </button>
+                </NavLink>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className="mt-5 md:mt-0 md:col-span-2">
+          <form action="#" method="POST" onSubmit={(event) => {
+            if (textToEdit) {
+              updateText(event);
+            } else {
+              submitText(event);
+            }
+          }}>
+            <div className="shadow sm:rounded-md sm:overflow-hidden">
+              <div className="px-4 py-5 bg-secondary space-y-6 sm:p-6">
+                <div className="grid grid-cols-3 gap-6">
+                  <div className="col-span-3 sm:col-span-2">
+                    <label htmlFor="text-url" className="block text-sm font-medium text-six">
+                      Post a URL here and we will extract the text for you automatically:
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <span className="inline-flex items-center px-3 dark:border-transparent rounded-l-md border border-r-0 border-gray-300 bg-four text-gray-500 text-sm">
+                        http://
+                      </span>
+                      <input
+                        type="text"
+                        name="text-url"
+                        id="text-url"
+                        value={newTextExtractionURL}
+                        onChange={(e) => setNewTextExtractionURL(e.target.value)}
                         className="focus:ring-sky-500 dark:border-transparent bg-tertiary focus:border-sky-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                         placeholder="www.example.com"
                       />
