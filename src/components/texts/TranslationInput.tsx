@@ -46,9 +46,14 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
     }
   };
 
+  //   bg-sky-400/70 dark:bg-sky-600/80';
+  // } else if (wordStatus === 'familiar') {
+  //   wordClass = 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80';
+
   const wordStatusToolbar = word
     ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 dark:border-gray-600 justify-center gap-0 rounded-md overflow-visible '}>
-        <button className={`hover:bg-orange-600 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        <button className={`hover:bg-sky-400/70 dark:hover:bg-sky-600/80 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-sky-400/70 dark:bg-sky-600/80 text-white' : ''} focus:ring-sky-400/70 dark:focus:ring-sky-600/80`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        {/* <button className={`hover:bg-orange-600 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}> */}
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -56,21 +61,22 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
           </svg> */}
           Learning
         </button>
-        <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={` hover:bg-fuchsia-500/70 dark:hover:bg-fuchsia-800/80 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80 text-white' : ''} focus:ring-fuchsia-500/70 dark:focus:ring-fuchsia-800/80`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        {/* <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}> */}
           {/* <span className='tooltip bg-yellow-600'>Familiar</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
           </svg> */}
           Familiar
         </button>
-        <button className={`hover:bg-green-600 has-tooltip  flex flex-col group place-content-center dark:border-gray-600 hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+        <button className={`hover:bg-green-600 dark:hover:bg-green-800 has-tooltip  flex flex-col group place-content-center dark:border-gray-600 hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 dark:bg-green-800 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
           {/* <span className='tooltip bg-green-600'>Learned</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg> */}
           Learned
         </button>
-        <button className={`hover:bg-red-600 has-tooltip rounded-r-md border-gray-300 dark:border-gray-600 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+        <button className={`hover:bg-red-600 dark:hover:bg-red-700/90 has-tooltip rounded-r-md border-gray-300 dark:border-gray-600 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
           {/* <span className='tooltip bg-red-600'>Ignore</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
@@ -150,7 +156,7 @@ const CurrentTranslationInput = function({ translation, currentWord }:
             deleteTranslation();
           }}
           title='Delete translation'
-          className={'group-hover:inline-flex w-[55px] border justify-center group-focus:inline-flex hidden order-2 items-center px-3 rounded-r-md border-l-0 border-red-600 bg-red-600 text-white text-sm'} >
+          className={'group-hover:inline-flex w-[55px] border justify-center group-focus:inline-flex hidden order-2 items-center px-3 rounded-r-md border-l-0 border-red-600 dark:border-red-700/90 bg-red-600 dark:bg-red-700/90 text-white text-sm'} >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
@@ -283,7 +289,7 @@ const TranslationComponent = function({ word }:
                   className="group flex rounded-md">
                   <button
                   type='submit'
-                  className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-primary dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
+                  className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
                   >
                   Save
                   </button>
@@ -308,8 +314,8 @@ const TranslationComponent = function({ word }:
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
           <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p className=''>View word in dictionary:</p>
-          <button onClick={() => setShowDictionary(true)} className='bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
-          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
+          <button onClick={() => setShowDictionary(true)} className='bg-sky-600 dark:bg-sky-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
+          <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 dark:bg-sky-700 dark:hover:bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
           {/* <button onClick={() => window.open(`https://www.wordreference.com/${currentText?.languageId}${user?.knownLanguageId}/${currentWord.word}`, 'WordReference', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>WordReference (Popup)</button>
           <button onClick={() => window.open(`https://translate.google.com/?sl=${currentText?.languageId}&tl=${user?.knownLanguageId}&text=${currentWord.word}%0A&op=translate/`, 'Google Translate', 'left=100,top=100,width=350,height=550')} className='bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded my-1'>Google Translate (Popup)</button> */}
           </>}
