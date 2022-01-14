@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../states/recoil-states';
 
-import Benefits from './home/Benefits';
+import Hero from './home/Hero';
 import HowItWorks from './home/HowItWorks';
 import FAQ from './home/FAQ';
 
@@ -15,7 +15,7 @@ export default function Home() {
      <> { user
        ? navigate('/texts')
        : <>
-          <Benefits />
+          <Hero />
           <HowItWorks />
           <FAQ />
         </>

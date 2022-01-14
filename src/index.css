@@ -96,3 +96,75 @@ iframe > html {
 /* html {
   scroll-behavior: smooth;
 } */
+
+@layer base {
+  :root {
+    --bg-primary: #000; /* black */
+    --bg-secondary: #f3f4f6; /* gray-100 */
+    --bg-tertiary: #fff; /* white */
+    --bg-four: #fff; /* white */
+    --bg-five: #000; /* black */
+    
+    --text-primary: #000000; /* black */
+    --text-secondary: #4b5563; /* gray-600 */
+    --text-tertiary: #111827; /* gray-900 */
+    --text-four: #fff; /* white */
+    --text-five: #d1d5db; /* gray-300 */
+    --text-six: #374151; /* gray-700 */
+
+    --btn-secondary: #0284c7; /* sky-600 */
+    --btn-tertiary: #701a75; /* fuchsia-900 */
+  }
+}
+
+.light {
+  --bg-primary: #111827; /* gray-900 */
+  --bg-secondary: #f3f4f6; /* sky-600 */
+  --bg-tertiary: #fff; /* white*/
+  --bg-four: #fff; /* white */
+  --bg-five: #000; /* black */
+
+  --text-primary: #000000; /* black */
+  --text-secondary: #4b5563; /* gray-600 */
+  --text-tertiary: #111827; /* gray-900 */
+  --text-four: #fff; /* white */
+  --text-five: #d1d5db; /* gray-300 */
+  --text-six: #374151; /* gray-700 */
+}
+
+.dark {
+  --bg-primary: #111827; /* gray-900 */
+  --bg-secondary: #111827; /* gray-800 */
+  --bg-tertiary: #1f2937; /* gray-900 */
+  --bg-four: #374151; /* gray-700 */
+  --bg-five: #000; /* black */
+
+  --text-primary: #e4e4e7 ; /* gray-200 */
+  --text-secondary: #cbd5e1; /*  */
+  --text-tertiary: #f9fafb; /*  */
+  --text-four: #000; /* black */
+  --text-five: #d1d5db; /* gray-300 */
+  --text-six: #d1d5db; /* gray-300 */
+
+  --btn-primary: #701a75; /* fuchsia-900 */
+  --btn-secondary: #0284c7; /* sky-600 */
+}
+
+/* dark - gray-900, boxes gray-800, heading text white, other text gray-400 */
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
+  /* border: none; */
+  -webkit-text-fill-color: #f9fafb;
+  /* -webkit-box-shadow-color: #4b5563;
+  box-shadow: #4b5563; */
+  transition: background-color 5000s ease-in-out 0s;
+  /* color: white !important; */
+}

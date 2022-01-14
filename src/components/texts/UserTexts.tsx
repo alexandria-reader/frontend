@@ -30,7 +30,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
   }, []);
 
   return (
-    <li className='mb-2 col-span-2 bg-white rounded-lg shadow relative group divide-y divide-gray-200' >
+    <li className='mb-2 col-span-2 bg-tertiary rounded-lg shadow relative group divide-y divide-gray-200' >
       <div className='flex flex-row justify-between group-hover:shadow-md'>
         <Link className='w-full overflow-hidden' key={`${text.id} ${text.body.slice(0, 7)}`} to={`/texts/${text.id}`}>
           <div onClick={(_event) => setCurrentText(text)} className='flex items-center p-6 space-x-6'>
@@ -41,7 +41,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             </div>
             <div className='flex-1 truncate'>
               <div className="flex items-center space-x-3">
-                <h2 className='text-gray-900 text-xl font-medium truncate'>{text.title}</h2>
+                <h2 className='text-tertiary text-xl font-medium truncate'>{text.title}</h2>
               </div>
               <p className='mt-1 text-gray-500 text-sm truncate'>{`${text.body.slice(0, 97)}...`}</p>
             </div>
@@ -65,13 +65,13 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-tertiary ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
                   <NavLink
                     to="/texts/edit"
                     onClick={() => setTextToEdit(text)}
-                    className={ `block px-4 py-2 text-sm text-gray-700 ${active ? 'bg-gray-100' : ''}` }
+                    className={ `block px-4 py-2 text-sm text-six ${active ? 'bg-primary' : ''}` }
                   >
                     <div className='flex flex-row justify-between m-2'>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,7 +86,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
                 {({ active }) => (
                   <a
                     onClick={() => confirmDeleteText()}
-                    className={`block px-4 py-2 text-sm text-gray-700 ${active ? 'bg-gray-100' : ''}`}
+                    className={`block px-4 py-2 text-sm text-six ${active ? 'bg-primary' : ''}`}
                   >
                     <div className='flex flex-row justify-between m-2'>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -169,10 +169,10 @@ const UserTexts = function() {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
           {textList
-            ? <div className='pb-5 border-b border-gray-200 flex items-center justify-between'>
+            ? <div className='pb-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between'>
               {(user && textList.length === 0)
-                ? <h2 className='text-lg leading-6 font-medium text-gray-900'>{`You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`}</h2>
-                : <h2 className='text-lg leading-6 font-medium text-gray-900'>Texts</h2>}
+                ? <h2 className='text-lg leading-6 font-medium text-tertiary'>{`You have no texts in ${names[user.learnLanguageId]}, please add a text to begin.`}</h2>
+                : <h2 className='text-lg leading-6 font-medium text-tertiary'>Texts</h2>}
             <NavLink to={'/texts/new'}>
               <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
             </NavLink>
@@ -189,7 +189,7 @@ const UserTexts = function() {
               setOpenModal={setOpenModal} setTextToDelete={setTextToDelete} text={text} />) : ''}
           </ul>
 
-          <div className="md:col-span-1 hidden md:flex flex-col gap-6 bg-white rounded-lg shadow p-6">
+          <div className="md:col-span-1 hidden md:flex flex-col gap-6 bg-tertiary rounded-lg shadow p-6">
             <div className="flex gap-2 items-center">
               <div className='p-3'>
                 <div className='p-4 flex justify-center items-center rounded-xl bg-fuchsia-800 flex-shrink-0 '>

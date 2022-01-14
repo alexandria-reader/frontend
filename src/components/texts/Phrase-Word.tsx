@@ -149,9 +149,9 @@ export const Word = function ({ word, dataKey, context }:
   let wordClass = '';
 
   if (wordStatus === 'learning') {
-    wordClass = 'bg-orange-400';
+    wordClass = 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80';
   } else if (wordStatus === 'familiar') {
-    wordClass = 'bg-yellow-300';
+    wordClass = 'bg-sky-400/70 dark:bg-sky-600/80';
   }
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -206,7 +206,7 @@ export const Word = function ({ word, dataKey, context }:
         // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
-        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-amber-300' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
+        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
         data-key={dataKey}
         data-type={'word'}>
         {word}
@@ -223,11 +223,9 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   let wordClass = '';
 
   if (phraseStatus === 'learning') {
-    wordClass = 'bg-orange-300';
+    wordClass = 'bg-fuchsia-500/70 dark:bg-fuchsia-600/60';
   } else if (phraseStatus === 'familiar') {
-    wordClass = 'bg-yellow-300';
-  } else if (phraseStatus === 'learned') {
-    wordClass = 'bg-green-200';
+    wordClass = 'bg-sky-400/70 dark:bg-sky-600/80';
   }
 
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';

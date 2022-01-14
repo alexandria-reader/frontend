@@ -23,6 +23,7 @@
     "react-scripts": "5.0.0",
     "recoil": "^0.5.2",
     "styled-components": "^5.3.3",
+    "use-local-storage": "^2.2.6",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
