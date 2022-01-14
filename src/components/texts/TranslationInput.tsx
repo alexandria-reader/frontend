@@ -52,7 +52,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 
   const wordStatusToolbar = word
     ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 dark:border-gray-600 justify-center gap-0 rounded-md overflow-visible '}>
-        <button className={`hover:bg-sky-400/70 dark:hover:bg-sky-600/80 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-sky-400/70 dark:bg-sky-600/80 text-white' : ''} focus:ring-sky-400/70 dark:focus:ring-sky-600/80`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        <button className={` hover:bg-fuchsia-500/70 dark:hover:bg-fuchsia-800/80 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80 text-white' : ''}  focus:ring-fuchsia-500/70 dark:focus:ring-fuchsia-800/80`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
         {/* <button className={`hover:bg-orange-600 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-orange-600 text-white' : ''} focus:ring-orange-500`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}> */}
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -61,7 +61,7 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
           </svg> */}
           Learning
         </button>
-        <button className={` hover:bg-fuchsia-500/70 dark:hover:bg-fuchsia-800/80 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80 text-white' : ''} focus:ring-fuchsia-500/70 dark:focus:ring-fuchsia-800/80`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={`hover:bg-sky-400/70 dark:hover:bg-sky-600/80 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-sky-400/70 dark:bg-sky-600/80 text-white' : ''} focus:ring-sky-400/70 dark:focus:ring-sky-600/80`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
         {/* <button className={`hover:bg-yellow-600 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-yellow-600 text-white' : ''} focus:ring-yellow-500`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}> */}
           {/* <span className='tooltip bg-yellow-600'>Familiar</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
