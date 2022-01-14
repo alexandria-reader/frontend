@@ -127,7 +127,7 @@ export default function Navbar() {
                         <Disclosure.Button
                         as="div"
                         className={classNames(
-                          isActive ? 'bg-gray-900 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
+                          isActive ? 'bg-gray-800 text-white' : 'text-five hover:bg-gray-700 hover:text-white',
                           'block px-3 py-2 rounded-md text-base font-medium',
                         )}
                         aria-current={isActive ? 'page' : undefined}
@@ -149,7 +149,7 @@ export default function Navbar() {
                     id="theme-toggle"
                     type="button"
                     onClick={() => toggleDarkMode()}
-                    className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-transparent dark:focus:ring-transparent rounded-lg text-sm p-2.5"
+                    className="text-gray-500 dark:text-gray-400 hover:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-transparent dark:focus:ring-transparent rounded-lg text-sm p-2.5"
                   >
                     <svg
                       id="theme-toggle-dark-icon"
@@ -177,10 +177,11 @@ export default function Navbar() {
                     </svg>
                   </button>
                 </div>
+
                 <Menu as="div" className="relative">
                   <div>
-                    <Menu.Button className=" flex text-sm">
-                      <div className="sm:block hover:bg-gray-800 focus:outline-none rounded-md">
+                    <Menu.Button className=" flex  text-sm">
+                      <div className="sm:block hover:bg-gray-700 focus:outline-none rounded-md">
                         <div className="flex space-x-4">
                           {<a
                             key={'languages'}
@@ -206,12 +207,12 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black dark:ring-white/20 ring-opacity-5 focus:outline-none">
                       {languages.filter((language) => language.id !== user.learnLanguageId
                         && language.id !== user.knownLanguageId)
                         .map((language) => <Menu.Item key={language.id}>
                         {({ active }) => (
-                          <div onClick={(event) => {
+                          <div className='' onClick={(event) => {
                             setUserLanguagesOnServer(event, language.id);
                             if (params.textId) {
                               navigate('/texts');
@@ -219,7 +220,7 @@ export default function Navbar() {
                           }}>
                             <a
                               href=""
-                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six')}
+                              className={classNames(active ? 'bg-gray-200 dark:bg-gray-700' : '', 'block px-4 py-2 text-sm text-six')}
                             >
                               <div className='flex flex-row justify-between m-2'>
                                 <span className="h-5 w-5">{flags[language.id]}</span>
@@ -252,7 +253,7 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black dark:ring-white/20 ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <NavLink to='/settings'>
@@ -260,7 +261,7 @@ export default function Navbar() {
                               key='Settings'
                               id='settings-key'
                               as="div"
-                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six settings-key')}
+                              className={classNames('block hover:bg-gray-200 hover:dark:bg-gray-700 px-4 py-2 text-sm text-six settings-key')}
                               aria-current={active ? 'page' : undefined}
                             >
                             Settings
@@ -274,7 +275,7 @@ export default function Navbar() {
                             <Disclosure.Button
                               key='Sign Out'
                               as="div"
-                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-six')}
+                              className={classNames('block hover:bg-gray-200 hover:dark:bg-gray-700 px-4 py-2 text-sm text-six')}
                               aria-current={active ? 'page' : undefined}
                             >
                             Sign out
