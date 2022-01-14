@@ -259,7 +259,7 @@ const UserTexts = function() {
                       ? <NavLink to={'/texts/new'}>
                           <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
                         </NavLink>
-                      : ''
+                      : <span>You need to verify your email address to add texts. <Link className="text-sky-600 underline hover:text-sky-500" to="/verify">More information.</Link></span>
                   }
                 </div>
               : ''
