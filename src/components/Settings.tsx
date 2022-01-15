@@ -199,7 +199,7 @@ export default function Settings() {
 
                 <div>
                   <label htmlFor="email" className="label text-sm mb-6">Email</label>
-                  <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                  <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} id="email" name="email" autoComplete='email' className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
                   defaultValue={user.email} type="email" />
                   {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
                   {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter an email address.</p>)}
@@ -227,10 +227,16 @@ export default function Settings() {
                   <p className="text-secondary text-sm">Update password by providing a new one with the current password:</p>
                 </div>
 
+                <div className='hidden'>
+                  <label htmlFor="username-hidden" className="label text-sm">Username</label>
+                  <input
+                    id="username-hidden" autoComplete='username' className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
+                </div>
+
                 <div>
                   <label htmlFor="password1" className="label text-sm">Current Password</label>
                   <input {...register2('password1', { required: true, pattern: /^.{6,}$/ })}
-                    id="password" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password" autoComplete='current-password' className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password1?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password1?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                 </div>
@@ -238,14 +244,14 @@ export default function Settings() {
                 <div>
                   <label htmlFor="password2" className="label text-sm">New Password</label>
                   <input {...register2('password2', { required: true, pattern: /^.{6,}$/ })}
-                    id="password2" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password2" autoComplete='new-password' className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password2?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password2?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                 </div>
                 <div>
                   <label htmlFor="password3" className="label text-sm">New Password Again</label>
                   <input {...register2('password3', { required: true, pattern: /^.{6,}$/ })}
-                    id="password3" className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
+                    id="password3" autoComplete='new-password' className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="password" />
                   {errors2.password3?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required </p>)}
                   {errors2.password3?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> The password should have at least 6 characters</p>)}
                   {errors2.password && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors2.password.message}</p>)}
