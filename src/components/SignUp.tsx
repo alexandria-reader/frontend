@@ -102,7 +102,7 @@ export default function SignUp() {
 
                 localStorage.setItem('alexandria-user-token', loggedInUser.token);
 
-                navigate('/texts');
+                navigate('/verify');
               }
             })
           }>
