@@ -16,19 +16,16 @@ import SignUp from './components/SignUp';
 import NotFound from './components/NotFound';
 import SingleText from './components/texts/SingleText';
 import UserTexts from './components/texts/UserTexts';
+import TextForm from './components/texts/TextForm';
 import PrivateRoute from './components/PrivateRoute';
 import Verify from './components/Verify';
 
-import getToken from './utils/getToken';
-
 import './index.css';
 import './App.css';
-import TextForm from './components/texts/TextForm';
 
 <link href="/dist/output.css" rel="stylesheet"></link>;
 
 const rootElement = document.getElementById('root');
-const token = getToken();
 
 render(
   <React.StrictMode>
@@ -36,7 +33,7 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={token ? <UserTexts /> : < Home />}/>
+            <Route index element={< Home />}/>
             <Route path="texts" element={<PrivateRoute><UserTexts /></PrivateRoute>}/>
               <Route path="texts/new" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
               <Route path="texts/edit" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
@@ -46,7 +43,7 @@ render(
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path="about" element={<About />} />
-            <Route path="login" element={token ? <UserTexts /> : <LogIn />} />
+            <Route path="login" element={<LogIn />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
             <Route path="*" element={<NotFound />}/>

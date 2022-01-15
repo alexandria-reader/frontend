@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../states/recoil-states';
 
@@ -8,18 +8,19 @@ import FAQ from './home/FAQ';
 
 export default function Home() {
   const user = useRecoilValue(userState);
-  const navigate = useNavigate();
 
   return (
   // <div className='home-page'>
-     <> { user
-       ? navigate('/texts')
-       : <>
-          <Hero />
-          <HowItWorks />
-          <FAQ />
-        </>
-     } </>
+     <>
+     {
+        !user
+          ? <>
+              <Hero />
+              <HowItWorks />
+              <FAQ />
+            </>
+          : <Navigate to="/texts"/>
+      } </>
   // </div>
   );
 }
