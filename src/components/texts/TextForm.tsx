@@ -66,7 +66,8 @@ const TextForm = function() {
       const textObject: ArticleData | null = await urlService.postURL(newTextExtractionURL);
 
       if (textObject?.content) {
-        const body = textObject.content;
+        let body = textObject.content;
+        body = body.replaceAll('</p>', '</p> \r\n');
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = body;
         const { textContent } = tempDiv;
