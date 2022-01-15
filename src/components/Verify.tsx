@@ -68,7 +68,7 @@ export default function Verified() {
                 </span>
               </h2>
               <div className="text-md mt-4 text-secondary">
-                <p className="pb-2">That means you have a can look around but won't be able to add your own texts.</p>
+                <p className="pb-2">That means you can have a look around but won't be able to add your own texts.</p>
                 <p className="pb-2">We have sent an email to the address you gave us when you signed up.<br/>
                    Please click the link in that email to verify your address.<br/>
                    Don't forget to check your spam folder and look for <em>read.with.alexandria</em>.</p>
@@ -84,6 +84,13 @@ export default function Verified() {
                         Mail sent
                       </button>
                   }
+                </div>
+                <div className="mt-12 ml-8 inline-flex rounded-md shadow">
+                  <Link to="/texts">
+                    <button type="button" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                      Look around
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
