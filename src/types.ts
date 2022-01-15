@@ -76,3 +76,17 @@ export type Webdictionary = {
   name: string,
   url: string
 };
+
+
+export type ArticleData = {
+  url: string,
+  title: string,
+  description: string,
+  image: string,
+  author: string,
+  content: string,
+  published: string,
+  source: string, // original publisher
+  links: string[], // list of alternative links
+  ttr: number, // time to read in second, 0 = unknown
+};
