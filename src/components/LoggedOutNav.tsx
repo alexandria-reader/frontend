@@ -50,7 +50,7 @@ export default function LoggedOutNav() {
 
                 {/* These are the navigation buttons e.g. Texts/Vocabulary */}
                 <div className="ml-6">
-                  <div className="flex space-x-4">
+                  <div className="flex sm:space-x-4">
                     {/* dark mode toggle */}
                     <button
                       id="theme-toggle"
