@@ -65,6 +65,7 @@ export default function LoginForm({ from }: { from: string }) {
           <div>
             <label htmlFor="email" className="label text-sm " >Email</label>
             <input {...register('email', { required: true, pattern: /^\S+@\S+$/i })} className="input bg-four dark:border-transparent rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-700 focus:border-sky-700 focus:z-10 sm:text-sm" placeholder="Email"
+            autoComplete='email'
             type="email" />
             {errors.email?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Email address is required.</p>)}
             {errors.email?.type === 'pattern' && (<p style={{ color: 'red', fontSize: '14px' }}> Please enter a valid email address.</p>)}
@@ -74,6 +75,7 @@ export default function LoginForm({ from }: { from: string }) {
             <label htmlFor="password" className="label text-sm">Password</label>
             <input {...register('password', { required: true })}
               className="input appearance-none rounded-md relative block bg-four w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-700 focus:border-sky-700 focus:z-10 sm:text-sm"
+              autoComplete='current-password'
               placeholder="Password" type="password" />
             {errors.password?.type === 'required' && (<p style={{ color: 'red', fontSize: '14px' }}> Password is required.</p>)}
             {errors.password && (<p style={{ color: 'red', fontSize: '14px' }}> {errors.password.message}</p>)}

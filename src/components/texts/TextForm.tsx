@@ -67,10 +67,11 @@ const TextForm = function() {
 
       if (textObject?.content) {
         const body = textObject.content;
+        console.log(body.replaceAll('</p>', '</p> /n'));
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = body;
         const { textContent } = tempDiv;
-
+        console.log(textContent);
         setNewTextBody(textContent || '');
         setNewTextTitle(textObject.title);
         setNewTextURL(textObject.url);
@@ -175,6 +176,7 @@ const TextForm = function() {
                     <textarea
                       id="about"
                       name="about"
+                      //
                       rows={10}
                       className="shadow-sm bg-tertiary dark:border-transparent focus:ring-0 focus:border-sky-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                       placeholder="Paste your text here"
