@@ -1,6 +1,6 @@
 beforeEach(() => {
   cy.visit('/login');
-  cy.login('testUser@example.com', 'testpassword');
+  cy.login('eamon@example.com', 'eamonpwhash');
 });
 
 describe('renders the home page', () => {
@@ -18,7 +18,7 @@ xdescribe('can sign up a new user', () => {
     cy.get('input[name="password').type('danapwhash');
     cy.get('select').eq(0).select('fr');
     cy.get('select').eq(1).select('es');
-    cy.get('button').click();
+    cy.get('#submitButton').click();
 
     cy.location('pathname').should('eq', '/signup');
   });
@@ -33,7 +33,7 @@ xdescribe('can sign up a new user', () => {
     cy.get('input[name="password').type(newPassword);
     cy.get('select').eq(0).select('fr');
     cy.get('select').eq(1).select('es');
-    cy.get('button').click();
+    cy.get('#submitButton').click();
 
     cy.location('pathname').should('eq', '/signup');
   });
@@ -49,7 +49,7 @@ describe('can change existing user settings', () => {
   it('navigates to the settings page', () => {
     cy.get('.click-user').click();
     cy.get('.settings-key').click();
-    cy.get('.loggedin-status').contains('testUser@example.com is logged in');
+    cy.get('.loggedin-status').contains('eamon@example.com is logged in');
   });
 
   it('updates user info', () => {
@@ -71,14 +71,14 @@ describe('can change existing user settings', () => {
   it('updates password', () => {
     cy.get('.click-user').click();
     cy.get('.settings-key').click();
-    cy.get('#password').type('testpassword');
+    cy.get('#password').type('eamonpwhash');
     cy.get('#password2').type('testpassword2');
     cy.get('#password3').type('testpassword2');
     cy.get('.button-password').click();
     cy.get('.password-message').contains('Password updated');
     cy.get('#password').clear().type('testpassword2');
-    cy.get('#password2').clear().type('testpassword');
-    cy.get('#password3').clear().type('testpassword');
+    cy.get('#password2').clear().type('eamonpwhash');
+    cy.get('#password3').clear().type('eamonpwhash');
     cy.get('.button-password').click();
   });
 });
