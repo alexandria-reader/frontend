@@ -14,6 +14,7 @@ import userServices from './services/users';
 function App() {
   const [user, setUser] = useRecoilState(userState);
   const [errorState, setErrorState] = useState(false);
+
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [theme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
@@ -30,11 +31,10 @@ function App() {
       const localToken = getToken();
 
       if (typeof localToken === 'string') {
-        const tokenUser = await userServices.getUserFromToken(localToken);
-
-        if (tokenUser.username) {
+        try {
+          const tokenUser = await userServices.getUserFromToken(localToken);
           setUser(tokenUser);
-        } else {
+        } catch (error) {
           localStorage.removeItem('alexandria-user-token');
         }
       }
@@ -47,7 +47,7 @@ function App() {
 
   useEffect(() => {
     fetchUserInfo();
-  }, []);
+  });
 
   return (
     <div className="min-h-screen min-w-full text-primary bg-secondary flex flex-col justify-between  mb-auto">

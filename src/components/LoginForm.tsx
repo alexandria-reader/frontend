@@ -20,7 +20,7 @@ export default function LoginForm({ from }: { from: string }) {
 
   const navigate = useNavigate();
 
-  const userInfo = (async (data: { email: string; password: string; }) => {
+  const userInfo = async (data: { email: string; password: string; }) => {
     const newUserData = {
       email: data.email,
       password: data.password,
@@ -42,8 +42,7 @@ export default function LoginForm({ from }: { from: string }) {
     localStorage.setItem('alexandria-user-token', response.token);
     navigate(from);
     return null;
-  }
-  );
+  };
 
   return (
     <div className="min-h-full flex items-center gap-6 justify-center py-12 px-6 sm:px-8 lg:px-10">
