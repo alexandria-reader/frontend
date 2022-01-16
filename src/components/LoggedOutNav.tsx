@@ -54,6 +54,7 @@ export default function LoggedOutNav() {
                     {/* dark mode toggle */}
                     <button
                       id="theme-toggle"
+                      aria-label="toggle-light-dark-mode"
                       type="button"
                       onClick={() => toggleDarkMode()}
                       className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-transparent dark:focus:ring-transparent rounded-lg text-sm p-2.5"
