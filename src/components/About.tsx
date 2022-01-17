@@ -1,5 +1,6 @@
 import HowItWorks from './home/HowItWorks';
 import FAQ from './home/FAQ';
+import Screenshots from './Screenshots';
 
 const logo = require('../assets/logo/logo-light.png');
 
@@ -16,6 +17,7 @@ export default function About() {
         </div>
       </div>
       <HowItWorks />
+      <Screenshots />
       <FAQ />
     </div>
   );
