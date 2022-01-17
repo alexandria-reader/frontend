@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../states/recoil-states';
 
@@ -20,7 +20,7 @@ export default function LoginForm({ from }: { from: string }) {
 
   const navigate = useNavigate();
 
-  const userInfo = async (data: { email: string; password: string; }) => {
+  const userInfo: SubmitHandler<FieldValues> = async (data) => {
     const newUserData = {
       email: data.email,
       password: data.password,

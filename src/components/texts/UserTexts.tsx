@@ -242,7 +242,7 @@ const UserTexts = function() {
         <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
           {
             textList
-              ? <div className='pb-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between'>
+              ? <div className='pb-5 border-b gap-4 border-gray-200 dark:border-gray-700 flex justify-between items-start'>
                   {
                     (user && textList.length === 0)
                       ? <h2 className='text-lg leading-6 font-medium text-tertiary'>
@@ -257,7 +257,7 @@ const UserTexts = function() {
                   {
                     (user && user.verified === true)
                       ? <NavLink to={'/texts/new'}>
-                          <button className='bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
+                          <button className='bg-sky-600 w-28 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded' data-testid='new-text'>New Text</button>
                         </NavLink>
                       : <span>You need to verify your email address to add texts. <Link className="text-sky-600 underline hover:text-sky-500" to="/verify">More information.</Link></span>
                   }
