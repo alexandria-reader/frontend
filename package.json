@@ -69,6 +69,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-plugin-import": "^2.25.3",
+    "mini-css-extract-plugin": "2.4.5",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.8",
     "tslib": "^2.3.1",
