@@ -8,12 +8,12 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 
 ### Light and dark modes
 
-![](/light-dark.gif)
+![](light-dark.gif)
 
 ### Add translation for selected words
 
-![](/set-translation.gif)
+![](set-translation.gif)
 
 ### Phrase selection
 
-![](/phrase-selection.gif)
+![](phrase-selection.gif)
