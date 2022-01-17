@@ -66,11 +66,44 @@ const updatePassword = async function(currentPassword: string, newPassword: stri
   return response;
 };
 
+const verifyPassword = async function(password: string) {
+  const token = getToken();
+
+  const response = await axios.post(`${baseUrl}/verify`, {
+    password,
+  }, {
+    headers: { Authorization: `bearer ${token}` },
+  }).then((res) => res)
+    .catch((error) => {
+      const { message } = error.response.data.error;
+      return message;
+    });
+
+  const { match } = response.data;
+  return match === 'true';
+};
+
+const removeUser = async function() {
+  const token = getToken();
+
+  const response = await axios.delete(`${baseUrl}/`, {
+    headers: { Authorization: `bearer ${token}` },
+  }).then((res) => res)
+    .catch((error) => {
+      const { message } = error.response.data.error;
+      return message;
+    });
+
+  return response;
+};
+
 export default {
   setUserLanguages,
   addUser,
   getUserFromToken,
   updateInfo,
   updatePassword,
+  verifyPassword,
+  removeUser,
 };
 
