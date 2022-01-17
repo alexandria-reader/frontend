@@ -8,7 +8,7 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 
 ### Light and dark modes
 
-![](light-dark.gif)
+![](src/assets/light-dark.gif)
 
 ### Add translation for selected words
 
