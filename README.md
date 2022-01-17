@@ -12,8 +12,8 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 
 ### Add translation for selected words
 
-![](set-translation.gif)
+![](src/assets/set-translation.gif)
 
 ### Phrase selection
 
-![](phrase-selection.gif)
+![](src/assets/phrase-selection.gif)
