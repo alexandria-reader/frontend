@@ -41,18 +41,20 @@ export default function Navbar() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    } else {
+      if (!document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      }
+    } else if (document.documentElement.classList.contains('dark')) {
       document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
   };
+
   const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
     setLanguages(dbLanguages);
   };
-
 
   const [user, setUser] = useRecoilState(userState);
 
