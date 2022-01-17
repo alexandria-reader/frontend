@@ -242,7 +242,7 @@ const UserTexts = function() {
         <div className='max-w-7xl mx-auto px-4 pt-8 sm:px-6 lg:px-8'>
           {
             textList
-              ? <div className='pb-5 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between'>
+              ? <div className='pb-5 border-b gap-4 border-gray-200 dark:border-gray-700 flex items-center justify-between'>
                   {
                     (user && textList.length === 0)
                       ? <h2 className='text-lg leading-6 font-medium text-tertiary'>
