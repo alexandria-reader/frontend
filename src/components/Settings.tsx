@@ -6,7 +6,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ExclamationIcon } from '@heroicons/react/outline';
 import { Transition, Dialog } from '@headlessui/react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   languageFlagsState, languageNamesState,
   languagesState, userState,
@@ -23,16 +23,18 @@ export default function Settings() {
   const [languages, setLanguages] = useRecoilState(languagesState);
   const flags = useRecoilValue(languageFlagsState);
   const names = useRecoilValue(languageNamesState);
-  const [openModal, setOpenModal] = useState(false);
 
+  const [openModal, setOpenModal] = useState(false);
   const [usermessage, setUsermessage] = useState('');
   const [showUserMessage, setShowUserMessage] = useState(true);
   const [passwordmessage, setPasswordmessage] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordIsVerified, setPasswordIsVerified] = useState(false);
+  const [passwordIsConfirmed, setPasswordIsConfirmed] = useState(false);
   const [showPasswordmessage, setShowPasswordmessage] = useState(true);
   const [languagemessage, setLanguagemessage] = useState('');
   const [showLanguageMessage, setShowLanguageMessage] = useState(true);
+
+  const navigate = useNavigate();
 
   const {
     register, formState: { errors }, handleSubmit, setError,
@@ -162,15 +164,16 @@ export default function Settings() {
     };
   }, [showLanguageMessage]);
 
-  const verifyPassword = async function(event: FormEvent<HTMLFormElement>) {
+  const confirmPassword = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const match = await userServices.verifyPassword(password);
-    setPasswordIsVerified(match);
+    const match = await userServices.confirmPassword(password);
+    setPasswordIsConfirmed(match);
   };
 
   const removeUser = async function() {
     const response = await userServices.removeUser();
     if (response.status === 204) {
+      setUser(null);
       localStorage.clear();
     }
   };
@@ -393,7 +396,7 @@ export default function Settings() {
                       Are you sure you wish to delete your account? Once deleted,
                       it cannot be recovered. If so, please confirm your password here:
                     </p>
-                    <form className='flex flex-row' onSubmit={(event) => verifyPassword(event)} action="">
+                    <form className='flex flex-row' onSubmit={(event) => confirmPassword(event)} action="">
                       <input value={password} onChange={(event) => setPassword(event?.target.value)} type="password" autoComplete='new-password' className="input bg-four dark:border-transparent appearance-none rounded-l-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" />
                       <div className='hidden'>
                         <label htmlFor="username" className="label hidden text-sm">Username</label>
@@ -401,34 +404,33 @@ export default function Settings() {
                           autoComplete='username' name='username' className="input hidden w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm" type="text" />
                       </div>
                       <button type='submit' className="relative button-name-email inline-flex items-center px-4 py-2 border border-transparent rounded-r-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                      >Verify</button>
+                      >Confirm</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
             <div className="bg-primary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <NavLink to='/' >
               <button
                 type="button"
-                className={`${passwordIsVerified ? ' hover:bg-red-700 bg-red-600 focus:ring-red-500' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm`}
-                onClick={() => {
-                  if (passwordIsVerified) {
-                    removeUser();
-                    setOpenModal(false);
+                className={`${passwordIsConfirmed ? ' hover:bg-red-700 bg-red-600 focus:ring-red-500' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm`}
+                onClick={async () => {
+                  if (passwordIsConfirmed) {
+                    await removeUser();
+                    window.scrollTo(0, 0);
+                    navigate('/');
                   }
                 }}
               >
                 Delete
               </button>
-              </NavLink>
               <button
                 type="button"
                 className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-secondary text-base font-medium text-six hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 onClick={() => {
                   setOpenModal(false);
                   setPassword('');
-                  setPasswordIsVerified(false);
+                  setPasswordIsConfirmed(false);
                 }}
               >
                 Cancel

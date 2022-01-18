@@ -66,10 +66,10 @@ const updatePassword = async function(currentPassword: string, newPassword: stri
   return response;
 };
 
-const verifyPassword = async function(password: string) {
+const confirmPassword = async function(password: string) {
   const token = getToken();
 
-  const response = await axios.post(`${baseUrl}/verify`, {
+  const response = await axios.post(`${baseUrl}/confirm`, {
     password,
   }, {
     headers: { Authorization: `bearer ${token}` },
@@ -103,7 +103,7 @@ export default {
   getUserFromToken,
   updateInfo,
   updatePassword,
-  verifyPassword,
+  confirmPassword,
   removeUser,
 };
 
