@@ -19,9 +19,11 @@ function App() {
   const [theme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
   if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-    document.documentElement.classList.remove('light');
-  } else {
+    if (!document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
+  } else if (document.documentElement.classList.contains('dark')) {
     document.documentElement.classList.add('light');
     document.documentElement.classList.remove('dark');
   }
