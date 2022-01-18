@@ -8,6 +8,7 @@ import {
   useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState,
 } from 'recoil';
 
+import { useLocation } from 'react-router-dom';
 import {
   userwordsState, currentwordState, currenttextState,
   currentwordContextState, userState, currentdictionaryState,
@@ -164,6 +165,10 @@ const TranslationComponent = function({ word }:
   const currentWordContext = useRecoilValue(currentwordContextState);
   const dictionary = useRecoilValue(currentdictionaryState);
   const user = useRecoilValue(userState);
+  const location = useLocation();
+
+  console.log(location.pathname === '/demo');
+  console.log(dictionary);
 
   const handleTranslation = async function(
     event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
@@ -245,7 +250,8 @@ const TranslationComponent = function({ word }:
   if (currentWord?.word && currentWordContext) {
     shortenedContext = shortenContext(currentWord.word, currentWordContext).replaceAll(regex, (match) => `<strong>${match}</strong>`);
   }
-
+  console.log(dictionary?.url);
+  console.log(dictionary);
   return (
     <div className='text-md flex text-lg sm:text-sm flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
       {currentWord && <>
@@ -292,7 +298,8 @@ const TranslationComponent = function({ word }:
         {/* dictionary buttons and change status */}
         <div className='flex flex-col gap-1 text-lg sm:text-sm justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
-          <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
+          {/* <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>} */}
+          <DictionaryIframe url={`${location.pathname === '/demo' ? 'https://www.wordreference.com/esen' : dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p className=''>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-sky-600 dark:bg-sky-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
           <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 dark:bg-sky-700 dark:hover:bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>

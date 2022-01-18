@@ -26,6 +26,9 @@ export default function Benefits() {
                     document.querySelector('#how-it-works')?.scrollIntoView({ behavior: 'smooth' });
                   }}><button className="ml-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 px-4 sm:px-9 py-2 sm:py-4 text-md">Learn more</button></a>
                 </div>
+                <div>
+                  <a href="demo"><button className="ml-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 px-4 sm:px-9 py-2 sm:py-4 text-md">Demo mode</button></a>
+                </div>
               </div>
           </div>
         <div className={`${window.innerWidth > 1500 ? 'flex-2' : 'flex-1'}`}>
