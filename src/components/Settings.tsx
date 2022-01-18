@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -58,7 +58,7 @@ export default function Settings() {
     setLanguages(dbLanguages);
   };
 
-  const changeUserInfo = async(data: { username: string; email: string; }) => {
+  const changeUserInfo: SubmitHandler<FieldValues> = async(data: { username: string; email: string; }) => {
     const response = await userServices.updateInfo(data.username, data.email);
     if (typeof response === 'object') {
       setUser(response);
@@ -68,7 +68,7 @@ export default function Settings() {
     }
   };
 
-  const changePassword = async (data: { password1: string; password2: string; password3: string; }) => {
+  const changePassword: SubmitHandler<FieldValues> = async (data: { password1: string; password2: string; password3: string; }) => {
     const response = await userServices.updatePassword(data.password1, data.password2);
     if (data.password2 !== data.password3) {
       setError2('checkInputPasswords', { type: 'password', message: 'New passwords do not match' });
@@ -97,7 +97,7 @@ export default function Settings() {
     return null;
   };
 
-  const changeLanguages = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
+  const changeLanguages: SubmitHandler<FieldValues> = async (data: { currentKnownLanguageId: string; currentLearnLanguageId: string; }) => {
     if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
       setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
       const timeId = setTimeout(() => {
