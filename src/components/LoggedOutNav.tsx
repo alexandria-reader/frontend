@@ -21,9 +21,11 @@ export default function LoggedOutNav() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    } else {
+      if (!document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      }
+    } else if (document.documentElement.classList.contains('dark')) {
       document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
