@@ -31,7 +31,7 @@ export default function LoginForm({ from }: { from: string }) {
       setError('password', { type: 'password', message: response });
       const timeId = setTimeout(() => {
         reset();
-      }, 3000);
+      }, 60000);
 
       return () => {
         clearTimeout(timeId);
