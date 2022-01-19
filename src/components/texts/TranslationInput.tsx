@@ -355,13 +355,14 @@ const TranslationInput = function({ voices }:
     // if (isElement(element) && (element.id === 'outer-modal')) {
     //   setCurrentWord(null);
     // } else
+
     if (isElement(element) && ((element.id === 'close-modal')
     || (element.id === 'close-modal-div') || (element?.id === 'close-modal-path'))) {
       setCurrentWord(null);
-    }
 
-    const updatedWords = userWords.filter((wordObj: UserWord) => wordObj.id);
-    setUserWords(updatedWords);
+      const updatedWords = userWords.filter((wordObj: UserWord) => wordObj.id);
+      setUserWords(updatedWords);
+    }
   };
 
   // specific language variants can be added
