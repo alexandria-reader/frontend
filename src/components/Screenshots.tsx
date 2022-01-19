@@ -19,7 +19,7 @@ const screenshots = [
 
 const Screenshot = function({ heading, gif }: { heading: string, gif: string }) {
   return (
-    <div className="dark:bg-gray-800 bg-white shadow-lg rounded-md p-6">
+    <div className="dark:bg-gray-800 2xl:max-w-4xl max-w-3xl mx-auto bg-white shadow-lg rounded-md p-4 sm:p-6">
       <div className="text-center justify-center flex flex-col gap-6">
         <p className="mr-8 w-full text-2xl sm:text-3xl font-extrabold leading-9">
           {heading}
@@ -35,8 +35,8 @@ const Screenshot = function({ heading, gif }: { heading: string, gif: string }) 
 export default function Screenshots() {
   return (
     <>
-    <div className=" py-8 mx-auto max-w-7xl p-8 flex flex-col gap-10">
-      <h1 className=" text-4xl sm:text-5xl text-center leading-tighter dark:border-b-gray-700 dark:border-b w-full tracking-normal font-extrabold m-auto py-10">
+    <div className=" py-8 mx-auto xl:max-w-6xl max-w-5xl p-8 flex flex-col gap-10">
+      <h1 className=" text-4xl sm:text-5xl text-center leading-tighter border-b-gray-300 dark:border-b-gray-700 border-b w-full tracking-normal font-extrabold m-auto py-10">
         How Alexandria works
       </h1>
       {/* <div className=""> */}
