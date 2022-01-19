@@ -341,6 +341,7 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const voices = window.speechSynthesis.getVoices();
+  const location = useLocation();
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
@@ -369,6 +370,16 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
 
       for (let i = 0; i < voices.length; i += 1) {
         if (voices[i].lang.startsWith(user.learnLanguageId)) {
+          utterance.voice = voices[i];
+        }
+      }
+
+      speechSynthesis.speak(utterance);
+    } else if (word && location.pathname === '/demo') {
+      const utterance = new SpeechSynthesisUtterance(word?.word);
+
+      for (let i = 0; i < voices.length; i += 1) {
+        if (voices[i].lang.startsWith('es')) {
           utterance.voice = voices[i];
         }
       }
