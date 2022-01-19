@@ -302,6 +302,10 @@ const TranslationComponent = function({ word }:
                   <input
                     type="text"
                     id="translation"
+                    onClick={async (event) => {
+                      const target = event.currentTarget;
+                      target.value = await navigator.clipboard.readText();
+                    }}
                     onChange={(event) => handleInput(event)}
                     value={translation}
                     className=" focus:border focus:border-sky-600 bg-four dark:border-transparent focus:ring-0 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
