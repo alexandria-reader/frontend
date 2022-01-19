@@ -340,7 +340,6 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-
   const voices = window.speechSynthesis.getVoices();
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -350,7 +349,12 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   const closeModal = function(event: MouseEvent) {
     event?.preventDefault();
     const element = event.target;
-    if (isElement(element) && (element.id === 'outer-modal' || element.id === 'close-modal')) {
+
+    // if (isElement(element) && (element.id === 'outer-modal')) {
+    //   setCurrentWord(null);
+    // } else
+
+    if (isElement(element) && (element.id === 'close-modal')) {
       setCurrentWord(null);
     }
 
