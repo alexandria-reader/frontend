@@ -20,6 +20,7 @@ import TextForm from './components/texts/TextForm';
 import PrivateRoute from './components/PrivateRoute';
 import Verify from './components/Verify';
 import HowTo from './components/HowTo';
+import Privacy from './components/Privacy';
 
 import './index.css';
 import './App.css';
@@ -44,6 +45,7 @@ render(
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path="about" element={<About />} />
+            <Route path="privacy" element={<Privacy />} />
             <Route path="how-to" element={<HowTo />} />
             <Route path="login" element={<LogIn />} />
             <Route path="signup" element={<SignUp />} />
