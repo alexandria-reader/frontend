@@ -27,7 +27,7 @@ export default function Benefits() {
                   }}><button className="focus:outline-none w-32 lg:w-44 focus:ring-2 whitespace-nowrap focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 py-2 sm:py-4 text-md">Learn more</button></a>
                 </div>
                 <div>
-                  <a href="demo"><button className="focus:outline-none w-32 lg:w-44 whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 py-2 sm:py-4 text-md">Demo mode</button></a>
+                  <a href="demo"><button className="focus:outline-none w-32 lg:w-44 whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 py-2 sm:py-4 text-md">Demo</button></a>
                 </div>
               </div>
           </div>
