@@ -9,7 +9,6 @@ import textsService from '../../services/texts';
 import {
   userwordsState,
   currenttextState,
-  currentwordState,
   userState,
 } from '../../states/recoil-states';
 import getToken from '../../utils/getToken';
@@ -24,12 +23,12 @@ const demoText = {
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
-  const [currentWord] = useRecoilState(currentwordState);
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const params = useParams();
   const [error, setError] = useState('');
   const location = useLocation();
+  const voices = window.speechSynthesis.getVoices();
 
   const fetchUserwords = async function() {
     if (currentText && user) {
@@ -64,7 +63,7 @@ const SingleText = function () {
       <div key={`text-id:${currentText.id}outer`} className='bg-secondary mx-auto max-w-7xl lg:px-8'>
         <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
           <TextBody key={`text-id:${currentText.id}unique`} title={currentText.title} textBody={`${currentText.title}. \n${currentText.body}`} />
-          <TranslationInput word={currentWord}/>
+          <TranslationInput voices={voices} />
         </div>
       </div>
     );
@@ -76,7 +75,7 @@ const SingleText = function () {
         <div className='bg-secondary mx-auto max-w-7xl lg:px-8'>
           <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
             <TextBody title={demoText.title} textBody={`${demoText.title}. \n${demoText.body}`} />
-            <TranslationInput word={currentWord}/>
+            <TranslationInput voices={voices} />
           </div>
         </div>
         </main>

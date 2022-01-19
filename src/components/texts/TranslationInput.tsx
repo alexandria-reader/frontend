@@ -336,11 +336,12 @@ const TranslationComponent = function({ word }:
   );
 };
 
-const TranslationInput = function({ word }: { word: UserWord | null }) {
+const TranslationInput = function({ voices }:
+{ voices: SpeechSynthesisVoice[]
+}) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-  const voices = window.speechSynthesis.getVoices();
   const location = useLocation();
 
   const isElement = function(element: Element | EventTarget): element is Element {
@@ -354,8 +355,8 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
     // if (isElement(element) && (element.id === 'outer-modal')) {
     //   setCurrentWord(null);
     // } else
-
-    if (isElement(element) && ((element.id === 'close-modal') || (element.id === 'close-modal-div'))) {
+    if (isElement(element) && ((element.id === 'close-modal')
+    || (element.id === 'close-modal-div') || (element?.id === 'close-modal-path'))) {
       setCurrentWord(null);
     }
 
@@ -365,8 +366,8 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
 
   // specific language variants can be added
   const speak = async function() {
-    if (word && user) {
-      const utterance = new SpeechSynthesisUtterance(word?.word);
+    if (currentWord && user) {
+      const utterance = new SpeechSynthesisUtterance(currentWord?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
         if (voices[i].lang.startsWith(user.learnLanguageId)) {
@@ -375,8 +376,8 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       }
 
       speechSynthesis.speak(utterance);
-    } else if (word && location.pathname === '/demo') {
-      const utterance = new SpeechSynthesisUtterance(word?.word);
+    } else if (currentWord && location.pathname === '/demo') {
+      const utterance = new SpeechSynthesisUtterance(currentWord?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
         if (voices[i].lang.startsWith('es')) {
@@ -393,15 +394,15 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       <>
         <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
           <div className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
-            {word && <div className='flex flex-row items-center'>
+            {currentWord && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className=' ml-2 text-3xl font-medium text-tertiary mb-2'>{word.word}</h2>
+              <h2 className=' ml-2 text-3xl font-medium text-tertiary mb-2'>{currentWord?.word}</h2>
             </div>}
-            {!word && <h2 className='ml-2 text-3xl font-medium text-tertiary my-4'>Select a word</h2>}
+            {!currentWord && <h2 className='ml-2 text-3xl font-medium text-tertiary my-4'>Select a word</h2>}
             <Suspense fallback={<div>Loading...</div>}>
-              <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+              <TranslationComponent key={`translation-component ${currentWord?.id}`} word={currentWord} />
             </Suspense>
           </div>
         </div>
@@ -419,16 +420,16 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 -mt-1 -ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className='text-3xl font-medium text-tertiary mb-2 '>{word ? `${word.word}` : 'Select a word'}</h2>
+              <h2 className='text-3xl font-medium text-tertiary mb-2 '>{currentWord ? `${currentWord.word}` : 'Select a word'}</h2>
             </div>
             <div id='close-modal-div' onClick={(event) => closeModal(event)} className='flex flex-row items-center dark:hover:bg-gray-700 hover:bg-gray-200 rounded-md'>
               <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path id='close-modal-path' strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
           </div>
           <Suspense fallback={<div>Loading...</div>}>
-            <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+            <TranslationComponent key={`translation-component ${currentWord?.id}`} word={currentWord} />
           </Suspense>
         </div>
       </div>
