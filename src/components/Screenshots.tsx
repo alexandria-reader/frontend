@@ -35,7 +35,7 @@ const Screenshot = function({ heading, gif }: { heading: string, gif: string }) 
 export default function Screenshots() {
   return (
     <>
-    <div className=" py-8 mx-auto p-8 flex flex-col gap-10">
+    <div className=" py-8 mx-auto max-w-7xl p-8 flex flex-col gap-10">
       <h1 className=" text-4xl sm:text-5xl text-center leading-tighter dark:border-b-gray-700 dark:border-b w-full tracking-normal font-extrabold m-auto py-10">
         How Alexandria works
       </h1>
