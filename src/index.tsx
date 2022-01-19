@@ -40,6 +40,7 @@ render(
               <Route path="texts/edit" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
               <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
               <Route path="texts/*" element={<PrivateRoute><NotFound /></PrivateRoute>}/>
+            <Route path="demo" element={<SingleText />}/>
             <Route path="words" element={<PrivateRoute><Words /></PrivateRoute>}/>
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />

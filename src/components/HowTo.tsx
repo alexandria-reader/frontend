@@ -2,8 +2,8 @@ import Screenshots from './Screenshots';
 
 export default function HowTo() {
   return (
-    <div>
+    <main className='container mx-auto mb-auto'>
       <Screenshots />
-    </div>
+    </main>
   );
 }

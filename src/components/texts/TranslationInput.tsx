@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import {
-  ChangeEvent, MouseEvent, useEffect, useState, Suspense, FormEvent,
+  ChangeEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
 import parseHTML from 'html-react-parser';
 import {
   useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState,
 } from 'recoil';
-
+import { useLocation } from 'react-router-dom';
+import randomNumber from '../../utils/randomNumber';
 import {
   userwordsState, currentwordState, currenttextState,
   currentwordContextState, userState, currentdictionaryState,
@@ -164,9 +163,10 @@ const TranslationComponent = function({ word }:
   const currentWordContext = useRecoilValue(currentwordContextState);
   const dictionary = useRecoilValue(currentdictionaryState);
   const user = useRecoilValue(userState);
+  const location = useLocation();
 
   const handleTranslation = async function(
-    event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -203,7 +203,7 @@ const TranslationComponent = function({ word }:
           wordId: newUserWord.id,
         };
 
-        // translation is added immediately so if appears instant to user
+        // translation is added immediately so it appears instant to user
         let translations = [...userWord.translations, newTranslationObj];
         newUserWord.translations = translations;
         setCurrentWord(newUserWord);
@@ -223,6 +223,32 @@ const TranslationComponent = function({ word }:
           !== updatedUserWord.word.toLowerCase()), updatedUserWord];
         setUserWords(updatedWords);
       }
+    } else if (location.pathname === '/demo' && userWord) {
+      // Demo mode doesn't contact server, it just generates fake random ids
+      let demoUserWord: UserWord;
+
+      if (!userWord.id) {
+        demoUserWord = { ...userWord, id: randomNumber() };
+      } else {
+        demoUserWord = { ...userWord };
+      }
+
+      const newTranslationObj: UserTranslation = {
+        translation,
+        targetLanguageId: 'en',
+        context: currentWordContext || '',
+        wordId: demoUserWord.id,
+        id: randomNumber(),
+      };
+
+      demoUserWord.translations = [...demoUserWord.translations, newTranslationObj];
+      setCurrentWord(demoUserWord);
+
+      const updatedWords = [...userWords
+        .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+        !== demoUserWord.word.toLowerCase()), demoUserWord];
+
+      setUserWords(updatedWords);
     }
   };
 
@@ -260,15 +286,15 @@ const TranslationComponent = function({ word }:
           </label>
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3">
-                <form onClick={(event) => {
-                  handleTranslation(event, translation, word);
-                  setShowDictionary(false);
-                  setTranslation('');
-                }}
+                <form
                   action=''
                   className="group flex rounded-md">
                   <button
-                  type='submit'
+                  onClick={(event) => {
+                    handleTranslation(event, translation, word);
+                    setShowDictionary(false);
+                    setTranslation('');
+                  }}
                   className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
                   >
                   Save
@@ -292,7 +318,8 @@ const TranslationComponent = function({ word }:
         {/* dictionary buttons and change status */}
         <div className='flex flex-col gap-1 text-lg sm:text-sm justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
-          <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>}
+          {/* <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>} */}
+          <DictionaryIframe url={`${location.pathname === '/demo' ? 'https://www.wordreference.com/esen' : dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p className=''>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-sky-600 dark:bg-sky-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
           <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 dark:bg-sky-700 dark:hover:bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
@@ -309,12 +336,13 @@ const TranslationComponent = function({ word }:
   );
 };
 
-const TranslationInput = function({ word }: { word: UserWord | null }) {
+const TranslationInput = function({ voices }:
+{ voices: SpeechSynthesisVoice[]
+}) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
-
-  const voices = window.speechSynthesis.getVoices();
+  const location = useLocation();
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
@@ -323,21 +351,37 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
   const closeModal = function(event: MouseEvent) {
     event?.preventDefault();
     const element = event.target;
-    if (isElement(element) && (element.id === 'outer-modal' || element.id === 'close-modal')) {
-      setCurrentWord(null);
-    }
 
-    const updatedWords = userWords.filter((wordObj: UserWord) => wordObj.id);
-    setUserWords(updatedWords);
+    // if (isElement(element) && (element.id === 'outer-modal')) {
+    //   setCurrentWord(null);
+    // } else
+
+    if (isElement(element) && ((element.id === 'close-modal')
+    || (element.id === 'close-modal-div') || (element?.id === 'close-modal-path'))) {
+      setCurrentWord(null);
+
+      const updatedWords = userWords.filter((wordObj: UserWord) => wordObj.id);
+      setUserWords(updatedWords);
+    }
   };
 
   // specific language variants can be added
   const speak = async function() {
-    if (word && user) {
-      const utterance = new SpeechSynthesisUtterance(word?.word);
+    if (currentWord && user) {
+      const utterance = new SpeechSynthesisUtterance(currentWord?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
         if (voices[i].lang.startsWith(user.learnLanguageId)) {
+          utterance.voice = voices[i];
+        }
+      }
+
+      speechSynthesis.speak(utterance);
+    } else if (currentWord && location.pathname === '/demo') {
+      const utterance = new SpeechSynthesisUtterance(currentWord?.word);
+
+      for (let i = 0; i < voices.length; i += 1) {
+        if (voices[i].lang.startsWith('es')) {
           utterance.voice = voices[i];
         }
       }
@@ -351,15 +395,15 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
       <>
         <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
           <div className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
-            {word && <div className='flex flex-row items-center'>
+            {currentWord && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className=' ml-2 text-3xl font-medium text-tertiary mb-2'>{word.word}</h2>
+              <h2 className=' ml-2 text-3xl font-medium text-tertiary mb-2'>{currentWord?.word}</h2>
             </div>}
-            {!word && <h2 className='ml-2 text-3xl font-medium text-tertiary my-4'>Select a word</h2>}
+            {!currentWord && <h2 className='ml-2 text-3xl font-medium text-tertiary my-4'>Select a word</h2>}
             <Suspense fallback={<div>Loading...</div>}>
-              <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+              <TranslationComponent key={`translation-component ${currentWord?.id}`} word={currentWord} />
             </Suspense>
           </div>
         </div>
@@ -377,16 +421,16 @@ const TranslationInput = function({ word }: { word: UserWord | null }) {
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 -mt-1 -ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
-              <h2 className='text-3xl font-medium text-tertiary mb-2 '>{word ? `${word.word}` : 'Select a word'}</h2>
+              <h2 className='text-3xl font-medium text-tertiary mb-2 '>{currentWord ? `${currentWord.word}` : 'Select a word'}</h2>
             </div>
-            <div onClick={(event) => closeModal(event)} className='flex flex-row items-center '>
+            <div id='close-modal-div' onClick={(event) => closeModal(event)} className='flex flex-row items-center dark:hover:bg-gray-700 hover:bg-gray-200 rounded-md'>
               <svg id='close-modal' xmlns="http://www.w3.org/2000/svg" className="h-11 w-11 p-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path id='close-modal-path' strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
           </div>
           <Suspense fallback={<div>Loading...</div>}>
-            <TranslationComponent key={`translation-component ${word?.id}`} word={word} />
+            <TranslationComponent key={`translation-component ${currentWord?.id}`} word={currentWord} />
           </Suspense>
         </div>
       </div>
