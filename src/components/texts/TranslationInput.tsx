@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import {
-  ChangeEvent, MouseEvent, useEffect, useState, Suspense, FormEvent,
+  ChangeEvent, MouseEvent, useEffect, useState, Suspense,
 } from 'react';
 import parseHTML from 'html-react-parser';
 import {
   useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState,
 } from 'recoil';
-
 import { useLocation } from 'react-router-dom';
+import randomNumber from '../../utils/randomNumber';
 import {
   userwordsState, currentwordState, currenttextState,
   currentwordContextState, userState, currentdictionaryState,
@@ -167,11 +165,8 @@ const TranslationComponent = function({ word }:
   const user = useRecoilValue(userState);
   const location = useLocation();
 
-  console.log(location.pathname === '/demo');
-  console.log(dictionary);
-
   const handleTranslation = async function(
-    event: MouseEvent<HTMLFormElement, globalThis.MouseEvent>,
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null,
   ) {
@@ -208,7 +203,7 @@ const TranslationComponent = function({ word }:
           wordId: newUserWord.id,
         };
 
-        // translation is added immediately so if appears instant to user
+        // translation is added immediately so it appears instant to user
         let translations = [...userWord.translations, newTranslationObj];
         newUserWord.translations = translations;
         setCurrentWord(newUserWord);
@@ -228,6 +223,32 @@ const TranslationComponent = function({ word }:
           !== updatedUserWord.word.toLowerCase()), updatedUserWord];
         setUserWords(updatedWords);
       }
+    } else if (location.pathname === '/demo' && userWord) {
+      // Demo mode doesn't contact server, it just generates fake random ids
+      let demoUserWord: UserWord;
+
+      if (!userWord.id) {
+        demoUserWord = { ...userWord, id: randomNumber() };
+      } else {
+        demoUserWord = { ...userWord };
+      }
+
+      const newTranslationObj: UserTranslation = {
+        translation,
+        targetLanguageId: 'en',
+        context: currentWordContext || '',
+        wordId: demoUserWord.id,
+        id: randomNumber(),
+      };
+
+      demoUserWord.translations = [...demoUserWord.translations, newTranslationObj];
+      setCurrentWord(demoUserWord);
+
+      const updatedWords = [...userWords
+        .filter((wordObj: UserWord) => wordObj.word.toLowerCase()
+        !== demoUserWord.word.toLowerCase()), demoUserWord];
+
+      setUserWords(updatedWords);
     }
   };
 
@@ -250,8 +271,7 @@ const TranslationComponent = function({ word }:
   if (currentWord?.word && currentWordContext) {
     shortenedContext = shortenContext(currentWord.word, currentWordContext).replaceAll(regex, (match) => `<strong>${match}</strong>`);
   }
-  console.log(dictionary?.url);
-  console.log(dictionary);
+
   return (
     <div className='text-md flex text-lg sm:text-sm flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
       {currentWord && <>
@@ -266,15 +286,15 @@ const TranslationComponent = function({ word }:
           </label>
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3">
-                <form onClick={(event) => {
-                  handleTranslation(event, translation, word);
-                  setShowDictionary(false);
-                  setTranslation('');
-                }}
+                <form
                   action=''
                   className="group flex rounded-md">
                   <button
-                  type='submit'
+                  onClick={(event) => {
+                    handleTranslation(event, translation, word);
+                    setShowDictionary(false);
+                    setTranslation('');
+                  }}
                   className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
                   >
                   Save

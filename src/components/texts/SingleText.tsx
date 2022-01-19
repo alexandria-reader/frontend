@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -31,7 +30,7 @@ const SingleText = function () {
   const params = useParams();
   const [error, setError] = useState('');
   const location = useLocation();
-  console.log(location.pathname);
+
   const fetchUserwords = async function() {
     if (currentText && user) {
       const userWordsResponse = await wordsService
@@ -63,9 +62,7 @@ const SingleText = function () {
   if (currentText && Number(currentText.id) === Number(params.textId)) {
     return (
       <div key={`text-id:${currentText.id}outer`} className='bg-secondary mx-auto max-w-7xl lg:px-8'>
-        {/* <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 md:my-4'> */}
         <div className='grid grid-cols-1 md:grid-cols-[1fr, 400px] md:gap-8 my-8 lg:grid-flow-col-dense'>
-        {/* Check if title ends with a dot, if not add one */}
           <TextBody key={`text-id:${currentText.id}unique`} title={currentText.title} textBody={`${currentText.title}. \n${currentText.body}`} />
           <TranslationInput word={currentWord}/>
         </div>
