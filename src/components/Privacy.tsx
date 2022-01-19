@@ -34,7 +34,7 @@ export default function Privacy() {
 
       <H2>Children's Privacy</H2>
 
-      <Paragraph>Our Services do not address anyone under the age of 13. We do not knowingly collect personal identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.</Paragraph>
+      <Paragraph>Our Services do not address anyone under the age of 13. We do not knowingly collect personal identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please <a className="underline decoration-2 decoration-sky-600" href="mailto:support@tryalexandria.com">contact us</a> so that we will be able to do necessary actions.</Paragraph>
 
       <H2>Changes to This Privacy Policy</H2>
 
@@ -42,7 +42,7 @@ export default function Privacy() {
 
       <H2>Contact Us</H2>
 
-      <Paragraph>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</Paragraph>
+      <Paragraph>If you have any questions or suggestions about our Privacy Policy, do not hesitate to <a className="underline decoration-2 decoration-sky-600" href="mailto:support@tryalexandria.com">contact us</a>.</Paragraph>
     </div>
   );
 }
