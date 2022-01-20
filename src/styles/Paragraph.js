@@ -1,5 +1,5 @@
 import tw from 'tailwind-styled-components';
 
-const Paragraph = tw.div`mt-1 text-sm text-secondary pb-3`;
+const Paragraph = tw.div`text-secondary`;
 
 export default Paragraph;

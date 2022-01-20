@@ -47,19 +47,22 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
       setUserWords(updatedWords);
     }
   };
+  //   wordClass = 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40';
+  // } else if (wordStatus === 'familiar') {
+  //   wordClass = 'bg-sky-400/40 dark:bg-sky-600/40';
 
   const wordStatusToolbar = word
     ? <div className={'flex flex-row text-md sm:text-sm max-w-fit border border-gray-300 dark:border-gray-600 justify-center gap-0 rounded-md overflow-visible '}>
-        <button className={` hover:bg-fuchsia-500/70 dark:hover:bg-fuchsia-800/80 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80 text-white' : ''}  focus:ring-fuchsia-500/70 dark:focus:ring-fuchsia-800/80`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
+        <button className={` hover:bg-fuchsia-500/40 dark:hover:bg-fuchsia-500/40 rounded-l-md has-tooltip dark:border-gray-600 border-r flex flex-col group place-content-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learning' ? 'bg-fuchsia-500/70 dark:bg-fuchsia-800/80 text-white' : ''}  focus:ring-fuchsia-500/70 dark:focus:ring-fuchsia-800/80`} onClick={() => setWordStatus('learning', word)} title='Learning' type={'button'}>
           Learning
         </button>
-        <button className={`hover:bg-sky-400/70 dark:hover:bg-sky-600/80 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-sky-400/70 dark:bg-sky-600/80 text-white' : ''} focus:ring-sky-400/70 dark:focus:ring-sky-600/80`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
+        <button className={`hover:bg-sky-400/40 dark:hover:bg-sky-600/40 has-tooltip flex flex-col border-r border-gray-300 dark:border-gray-600 group place-content-center hover:text-white py-2 px-2 focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'familiar' ? 'bg-sky-400/70 dark:bg-sky-600/80 text-white' : ''} focus:ring-sky-400/70 dark:focus:ring-sky-600/80`} onClick={() => setWordStatus('familiar', word)} title='Familiar' type={'button'}>
           Familiar
         </button>
-        <button className={`hover:bg-green-600 dark:hover:bg-green-800 has-tooltip  flex flex-col group place-content-center dark:border-gray-600 hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 dark:bg-green-800 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
+        <button className={`hover:bg-green-600/50 dark:hover:bg-green-800/50 has-tooltip  flex flex-col group place-content-center dark:border-gray-600 hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === 'learned' ? 'bg-green-600 dark:bg-green-800 text-white' : ''} focus:ring-green-500`} onClick={() => setWordStatus('learned', word)} title='Learned' type={'button'}>
           Learned
         </button>
-        <button className={`hover:bg-red-600 dark:hover:bg-red-700/90 has-tooltip rounded-r-md border-gray-300 dark:border-gray-600 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
+        <button className={`hover:bg-red-600/50 dark:hover:bg-red-700/90/50 has-tooltip rounded-r-md border-gray-300 dark:border-gray-600 border-l bord flex flex-col group place-content-center align-center hover:text-white py-2 px-2  focus:outline-none focus:ring-2 focus:ring-offset-1 ${word.status === undefined ? 'bg-red-600 text-white' : ''} focus:ring-red-500`} onClick={() => setWordStatus(undefined, word)} title='Ignore' type={'button'}>
           Ignore
         </button>
       </div>
@@ -260,10 +263,13 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
-    if (showDictionary) {
+    if (currentWord?.translations.length === 0) {
+      setShowDictionary(true);
+    } else if (showDictionary) {
       setShowDictionary(false);
     }
   }, [currentWord]);
+
 
   const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'gui');
 

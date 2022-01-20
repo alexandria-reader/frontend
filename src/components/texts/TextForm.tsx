@@ -68,6 +68,7 @@ const TextForm = function() {
       if (textObject?.content) {
         let body = textObject.content;
         body = body.replaceAll('</p>', '</p> \r\n');
+        body = body.replaceAll(/<\/h\d>/g, (match) => `${match} \r\n`);
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = body;
         const { textContent } = tempDiv;
