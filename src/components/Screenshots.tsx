@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
-const lightDarkGif = require('../assets/light-dark.gif');
-const setTranslationGif = require('../assets/set-translation.gif');
-const phraseSelectionGif = require('../assets/phrase-selection.gif');
-const settingsNameGif = require('../assets/setting_name.gif');
-const settingsPasswordGif = require('../assets/setting_pw.gif');
-const settingsLangGif = require('../assets/setting_lang.gif');
-const signUpGif = require('../assets/sign-up.gif');
+const lightDarkGif = require('../assets/light-dark.mp4');
+const setTranslationGif = require('../assets/set-translation.mp4');
+const phraseSelectionGif = require('../assets/phrase-selection.mp4');
+const settingsNameGif = require('../assets/setting_name.mp4');
+const settingsPasswordGif = require('../assets/setting_pw.mp4');
+const settingsLangGif = require('../assets/setting_lang.mp4');
+const signUpGif = require('../assets/sign-up.mp4');
 
 const screenshots = [
   { heading: 'Sign Up', paragraph: "It's quick and easy to sign up to Alexandria, just add your name, email, a password, and the language you want to learn.", gif: signUpGif },
@@ -26,7 +26,11 @@ const Screenshot = function({ heading, paragraph, gif }: { heading: string, para
         </p>
         {paragraph && <p>{paragraph}</p>}
         <div className="w-full text-3xl font-extrabold leading-9">
-          <img alt="profile" src={gif} className="text-gray-600 dark:text-white w-full text-center text-lg md:text-3xl"/>
+          <video autoPlay loop muted playsInline>
+            {/* <source src="my-animation.webm" type="video/webm"> */}
+            <source src={gif} type="video/mp4" />
+          </video>
+          {/* <img alt="profile" src={gif} className="text-gray-600 dark:text-white w-full text-center text-lg md:text-3xl"/> */}
         </div>
       </div>
     </div>
