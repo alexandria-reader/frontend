@@ -282,7 +282,7 @@ const TranslationComponent = function({ word }:
   return (
     <div className='text-md flex text-lg sm:text-sm flex-col gap-4 mt-2' key={`translation-component ${word?.id}`}>
       {currentWord && <>
-        <div className='flex flex-col flex-wrap gap-1'>
+        <div id='current-translations' className='flex flex-col flex-wrap gap-1'>
           {currentWord?.translations?.length > 0 && <>
           <h2>Your translation{currentWord?.translations?.length > 1 ? 's' : ''}:</h2>
           {currentWord?.translations.map((transObj) => <CurrentTranslationInput
@@ -302,13 +302,14 @@ const TranslationComponent = function({ word }:
                     setShowDictionary(false);
                     setTranslation('');
                   }}
+                  id='save-translation'
                   className={`inline-flex dark:border-transparent shadow-none order-2 w-[55px] items-center px-3 rounded-r-md border border-l-0 border-gray-300 ${translation ? 'bg-sky-600 text-white border-0' : 'bg-gray-300 dark:bg-gray-600 text-gray-400 pointer-events-none'} text-sm`}
                   >
                   Save
                   </button>
                   <input
                     type="text"
-                    id="translation"
+                    id="new-translation"
                     onChange={(event) => handleInput(event)}
                     value={translation}
                     className=" focus:border focus:border-sky-600 bg-four dark:border-transparent focus:ring-0 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
@@ -402,7 +403,7 @@ const TranslationInput = function({ voices }:
     return (
       <>
         <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
-          <div className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
+          <div id='translation-component' className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
             {currentWord && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -422,7 +423,7 @@ const TranslationInput = function({ voices }:
   return (
     <>
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='h-full p-2 fixed inset-0 flex sm:p-6 pointer-events-auto items-end'>
-      <div className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-tertiary'>
+      <div id='translation-component' className='w-full max-h-full p-4 overflow-scroll pointer-events-auto flex flex-col items-center shadow-lg rounded-lg space-y-4 sm:items-end bg-tertiary'>
         <div className='w-full sm:px-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center'>
