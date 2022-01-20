@@ -263,10 +263,13 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
-    if (showDictionary) {
+    if (currentWord?.translations.length === 0) {
+      setShowDictionary(true);
+    } else if (showDictionary) {
       setShowDictionary(false);
     }
   }, [currentWord]);
+
 
   const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'gui');
 
