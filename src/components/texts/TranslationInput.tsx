@@ -263,12 +263,13 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
+    console.log(currentWord);
     if (currentWord?.translations.length === 0) {
       setShowDictionary(true);
     } else if (showDictionary) {
       setShowDictionary(false);
     }
-  }, [currentWord]);
+  }, [currentWord?.word]);
 
 
   const regex = new RegExp(`\\b${currentWord?.word}\\b`, 'gui');
@@ -335,7 +336,8 @@ const TranslationComponent = function({ word }:
         </div>
       </div>
       <div className='flex flex-row justify-center'>
-      {!showDictionary && <ChangeStatus word={word} />}
+      {/* {!showDictionary && <ChangeStatus word={word} />} */}
+      {<ChangeStatus word={word} />}
       </div>
       </>}
     </div>
