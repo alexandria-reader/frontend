@@ -33,9 +33,9 @@ const WordTable = function () {
   };
 
   const statusClasses = {
-    learning: 'bg-fuchsia-500/70 dark:bg-fuchsia-600/60',
+    learning: 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40',
     familiar: 'bg-sky-400/70 dark:bg-sky-600/80',
-    learned: 'bg-green-500/70 dark:bg-green-600/70',
+    learned: 'bg-green-600/40 dark:bg-green-700/70',
   };
 
   return (
