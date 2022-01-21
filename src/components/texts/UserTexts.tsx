@@ -66,13 +66,13 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-tertiary ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-right dark:ring-white/20 z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-tertiary ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
                   <NavLink
                     to="/texts/edit"
                     onClick={() => setTextToEdit(text)}
-                    className={ `block px-4 py-2 text-sm text-six ${active ? 'bg-primary' : ''}` }
+                    className={ `block px-4 py-2 hover:bg-gray-200 hover:dark:bg-gray-700 text-sm text-six ${active ? 'bg-primary' : ''}` }
                   >
                     <div className='flex flex-row justify-between m-2'>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,7 +87,7 @@ const IndividualText = function({ text, setOpenModal, setTextToDelete }:
                 {({ active }) => (
                   <a
                     onClick={() => confirmDeleteText()}
-                    className={`block px-4 py-2 text-sm text-six ${active ? 'bg-primary' : ''}`}
+                    className={`block px-4 py-2 text-sm hover:bg-gray-200 hover:dark:bg-gray-700 text-six ${active ? 'bg-primary' : ''}`}
                   >
                     <div className='flex flex-row justify-between m-2'>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
