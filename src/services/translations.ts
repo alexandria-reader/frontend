@@ -5,6 +5,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/translations`;
 
+
 const addTranslation = async function(translationObj: Translation) {
   const token = getToken();
 
@@ -15,16 +16,18 @@ const addTranslation = async function(translationObj: Translation) {
   return response.data;
 };
 
+
 const updateTranslation = async function(translationObj: Translation) {
   const token = getToken();
 
-  const response = await axios.put(`${baseUrl}/translation/${translationObj.id}`, translationObj, {
+  const response = await axios.put(`${baseUrl}/${translationObj.id}`, translationObj, {
     headers: { Authorization: `bearer ${token}` },
   });
 
   const updatedTranslation = response.data;
   return updatedTranslation;
 };
+
 
 const removeTranslation = async function(translationObj: Translation) {
   const token = getToken();
@@ -35,6 +38,7 @@ const removeTranslation = async function(translationObj: Translation) {
 
   return response.status === 204;
 };
+
 
 export default {
   addTranslation,

@@ -5,6 +5,7 @@ import getToken from '../utils/getToken';
 
 const baseUrl = `${host}/api/texts`;
 
+
 const getAllUserTextsByLanguage = async function(languageId: string) {
   const token = getToken();
 
@@ -15,6 +16,18 @@ const getAllUserTextsByLanguage = async function(languageId: string) {
   const texts: Array<Text> = response.data;
   return texts;
 };
+
+
+const getTextById = async function(id: string) {
+  const token = getToken();
+
+  const response = await axios.get(`${baseUrl}/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  });
+
+  return response.data;
+};
+
 
 const postNewText = async function(newText: Text) {
   const token = getToken();
@@ -27,6 +40,7 @@ const postNewText = async function(newText: Text) {
   return text;
 };
 
+
 const updateText = async function(textToUpdate: Text) {
   const token = getToken();
 
@@ -38,15 +52,6 @@ const updateText = async function(textToUpdate: Text) {
   return text;
 };
 
-const getTextById = async function(id: string) {
-  const token = getToken();
-
-  const response = await axios.get(`${baseUrl}/${id}`, {
-    headers: { Authorization: `bearer ${token}` },
-  });
-
-  return response.data;
-};
 
 const removeTextFromServer = async function(id: number) {
   const token = getToken();
@@ -58,6 +63,7 @@ const removeTextFromServer = async function(id: number) {
   // backend is not returning deleted text while code is 204
   return response.data;
 };
+
 
 export default {
   getAllUserTextsByLanguage,
