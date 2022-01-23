@@ -32,14 +32,13 @@ export const Word = function ({ word, dataKey, context }:
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
-      // console.log();
       const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
-
+      console.log(selectedString);
       const startNode = selection.anchorNode;
       const endNode = selection.focusNode;
 
       const stringArray = selectedString.split(' ');
-
+      console.log(stringArray);
       // ensures the first and last words are whole words
       let startWord = '';
       let endWord = '';
@@ -48,8 +47,8 @@ export const Word = function ({ word, dataKey, context }:
         startWord = startNode.textContent;
         const firstWordPartial = stringArray[0];
         const lastLetter = firstWordPartial[firstWordPartial.length - 1];
-
-        if (/[.,]/.test(lastLetter)) {
+        console.log(lastLetter);
+        if (/[.,;:]/.test(lastLetter)) {
           stringArray[0] = `${startWord}${lastLetter}`;
         } else {
           stringArray[0] = startWord;
@@ -62,10 +61,11 @@ export const Word = function ({ word, dataKey, context }:
           stringArray[stringArray.length - 1] = endWord;
         }
       }
+      console.log(stringArray);
 
-      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
+      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split(/[.?!]/)[0];
       const regex = new RegExp(newPhrase, 'gi');
-
+      console.log(newPhrase);
       // if the phrase is not found in the sentence, then the selection was done backwards
       if (!regex.test(context)) {
         const array = newPhrase.split(' ');
