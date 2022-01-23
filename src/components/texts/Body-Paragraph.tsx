@@ -21,6 +21,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
   const phraseRegExps = phrases.map((phrase) => stripPunctuation(phrase).split(' ').join('[^\\p{Letter}\\p{Mark}\'-]+'));
 
   const phraseFinder = phraseRegExps.length === 0 ? '' : `(${phraseRegExps.join('|')})|`;
+
   const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
   const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
 
@@ -33,16 +34,16 @@ const Sentence = function({ sentence }: { sentence: string }) {
     <>
       {
         tokens?.map((token, index) => {
-          if (token.split(' ').length > 1) {
+          if (token.match(/\S\s\S/)) {
             return <Phrase key={index + token} phrase={token} context={sentence} />;
           }
 
           if (token.match(wordRegExp)) {
             return <Word key={index + token} dataKey={index + token}
-            word={token} context={sentence} />;
+              word={token} context={sentence} />;
           }
 
-          return <span key={index + token}>{token}</span>;
+          return token;
         })
       }
     </>
@@ -112,7 +113,7 @@ const TextBody = function ({ title, textBody }: { title: string, textBody: strin
     <>
       <div onMouseUp={(event) => removeUnusedWordOrGetPhrase(event)} id='text-body-container' className={`container mx-auto prose max-w-none dark:prose-invert p-4 md:col-span-1 md:col-start-1 bg-tertiary px-4 py-5 shadow sm:rounded-lg sm:px-6 ${currentWord && window.innerWidth < 768 ? 'blur-sm bg-gray-300 dark:bg-gray-600' : ''}`}>
         <h1 className='font-bold text-3xl mb-2'>{title}</h1>
-          {paragraphs.map((paragraph, index) => <div key={index + paragraph.slice(0, 5)} className='mb-3'><Paragraph key={index + paragraph.slice(0, 5)} paragraph={paragraph} /></div>)}
+        {paragraphs.map((paragraph, index) => <div key={index + paragraph.slice(0, 5)} className='mb-3'><Paragraph key={index + paragraph.slice(0, 5)} paragraph={paragraph} /></div>)}
       </div>
     </>
   );

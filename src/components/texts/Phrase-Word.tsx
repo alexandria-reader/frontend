@@ -29,49 +29,59 @@ export const Word = function ({ word, dataKey, context }:
 
   const getHighlightedWordOrPhrase = function() {
     // fix bug where if a user selects backwards, first and last words are swapped
+
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
-      const selectedString = selection.toString();
-
+      console.log(selection);
       const startNode = selection.anchorNode;
       const endNode = selection.focusNode;
+      if (startNode && endNode && endNode.textContent) {
+        selection.setBaseAndExtent(startNode, 0, endNode, endNode.textContent.length);
+      }
+
+      let selectedString = selection.toString();
+      console.log(selectedString);
+
+      selectedString = selectedString.replaceAll('\n', ' ');
       const stringArray = selectedString.split(' ');
 
+      console.log(stringArray);
+
       // ensures the first and last words are whole words
-      let startWord = '';
-      let endWord = '';
+      // let startWord = '';
+      // let endWord = '';
 
-      if (startNode && startNode.textContent) {
-        startWord = startNode.textContent;
-        const firstWordPartial = stringArray[0];
-        const lastLetter = firstWordPartial[firstWordPartial.length - 1];
+      // if (startNode && startNode.textContent) {
+      //   startWord = startNode.textContent;
+      //   const firstWordPartial = stringArray[0];
+      //   const lastLetter = firstWordPartial[firstWordPartial.length - 1];
 
-        if (/[.,]/.test(lastLetter)) {
-          stringArray[0] = `${startWord}${lastLetter}`;
-        } else {
-          stringArray[0] = startWord;
-        }
-      }
+      //   if (/[.,]/.test(lastLetter)) {
+      //     stringArray[0] = `${startWord}${lastLetter}`;
+      //   } else {
+      //     stringArray[0] = startWord;
+      //   }
+      // }
 
-      if (endNode?.textContent && endNode.textContent !== ' ') {
-        endWord = endNode.textContent;
-        if (stringArray[stringArray.length - 1] && endWord) {
-          stringArray[stringArray.length - 1] = endWord;
-        }
-      }
+      // if (endNode?.textContent && endNode.textContent !== ' ') {
+      //   endWord = endNode.textContent;
+      //   if (stringArray[stringArray.length - 1] && endWord) {
+      //     stringArray[stringArray.length - 1] = endWord;
+      //   }
+      // }
 
-      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
-      const regex = new RegExp(newPhrase, 'gi');
+      const newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
+      // const regex = new RegExp(newPhrase, 'gi');
 
-      // if the phrase is not found in the sentence, then the selection was done backwards
-      if (!regex.test(context)) {
-        const array = newPhrase.split(' ');
-        const end = array[array.length - 1];
-        const start = array[0];
-        const middle = array.filter((_, index) => index !== 0 && index !== array.length - 1);
-        newPhrase = [end, ...middle, start].join(' ');
-      }
+      // // if the phrase is not found in the sentence, then the selection was done backwards
+      // if (!regex.test(context)) {
+      //   const array = newPhrase.split(' ');
+      //   const end = array[array.length - 1];
+      //   const start = array[0];
+      //   const middle = array.filter((_, index) => index !== 0 && index !== array.length - 1);
+      //   newPhrase = [end, ...middle, start].join(' ');
+      // }
 
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord;
@@ -240,12 +250,6 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
     <>
       <div className='inline text-xl md:text-lg'>
         <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 md:py-1.5 py-2 rounded-md`} data-type={'phrase'}>
-      {/* {
-        parts.map((word, index, array) => <Fragment key={index + word} >
-          <Word key={index + word} dataKey={index + word} word={word} context={context} />
-          <>{index === array.length - 1 ? '' : ' '}</>
-        </Fragment>)
-      } */}
       {
         tokens?.map((token, index) => {
           if (token.match(wordRegExp)) {
@@ -253,7 +257,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
             word={token} context={context} />;
           }
 
-          return <span key={index + token}>{token}</span>;
+          return token;
         })
       }
         </span>

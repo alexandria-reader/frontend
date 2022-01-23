@@ -290,7 +290,6 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
-    console.log(currentWord);
     if (currentWord?.translations.length === 0) {
       setShowDictionary(true);
     } else if (showDictionary) {
@@ -379,7 +378,6 @@ const TranslationInput = function({ voices }:
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const location = useLocation();
-  console.log(userWords);
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
   };
