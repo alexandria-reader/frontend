@@ -32,10 +32,12 @@ export const Word = function ({ word, dataKey, context }:
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
-      const selectedString = selection.toString();
+      // console.log();
+      const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
 
       const startNode = selection.anchorNode;
       const endNode = selection.focusNode;
+
       const stringArray = selectedString.split(' ');
 
       // ensures the first and last words are whole words
