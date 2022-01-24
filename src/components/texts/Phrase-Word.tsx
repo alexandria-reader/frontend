@@ -11,12 +11,75 @@ import {
   markedwordsState, userwordsState, currentwordState, currentwordContextState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
-import { stripPunctuation } from '../../utils/punctuation';
+import { stripPunctuation, stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
+
+const replaceFirstAndLastWords = function(
+  startNode: Node | null,
+  endNode: Node | null,
+  phrase: string,
+) {
+  let startWord = '';
+  let endWord = '';
+
+  const stringArray = phrase.split(' ');
+
+  if (startNode && startNode.textContent) {
+    startWord = startNode.textContent;
+    stringArray[0] = startWord;
+  }
+
+  if (endNode?.textContent && endNode.textContent !== ' ' && stringArray.length > 1) {
+    endWord = endNode.textContent;
+    if (stringArray[stringArray.length - 1] && endWord) {
+      stringArray[stringArray.length - 1] = endWord;
+    }
+  }
+
+  return stringArray.join(' ');
+};
+
+const replaceFirstAndLastWordsBackwards = function(
+  endNode: Node | null,
+  startNode: Node | null,
+  phrase: string,
+) {
+  // the end node becomes the start of the phrase, start node becomes the end
+  let startWord = '';
+  let endWord = '';
+
+  const stringArray = phrase.split(' ');
+
+  if (startNode && startNode.textContent) {
+    startWord = startNode.textContent;
+    stringArray[0] = startWord;
+  }
+
+  if (endNode?.textContent && endNode.textContent !== ' ' && stringArray.length > 1) {
+    endWord = endNode.textContent;
+    if (stringArray[stringArray.length - 1] && endWord) {
+      stringArray[stringArray.length - 1] = endWord;
+    }
+  }
+
+  return stringArray.join(' ');
+};
+
+const isBackwards = () => {
+  const sel = window.getSelection();
+  const range = document.createRange();
+  if (sel && sel.anchorNode && sel.focusNode) {
+    range.setStart(sel.anchorNode, sel.anchorOffset);
+    range.setEnd(sel.focusNode, sel.focusOffset);
+  }
+
+  const backwards = range.collapsed;
+  range.detach();
+  return backwards;
+};
 
 export const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
-  // const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const markedWords = useRecoilValue(markedwordsState);
@@ -28,51 +91,32 @@ export const Word = function ({ word, dataKey, context }:
   const wordStatus = markedWords[word.toLowerCase()];
 
   const getHighlightedWordOrPhrase = function() {
-    // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
-      // console.log();
       const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
 
-      const startNode = selection.anchorNode;
-      const endNode = selection.focusNode;
+      const crossesLines = /[.?!]/.test(selectedString);
+      const sentenceIsTooLong = stripPunctuationExceptEndOfLine(selectedString).split(' ').length > 10;
+      const selectionIsBackwards = isBackwards();
 
-      const stringArray = selectedString.split(' ');
+      const filteredSelectedString = stripPunctuationExceptEndOfLine(selectedString)
+        .split(' ')
+        .filter((_, index) => index < 10) // less than 10 words
+        .join(' ')
+        .trim()
+        .split(/[.?!]/)[0]; // stops selection at end of sentence
 
-      // ensures the first and last words are whole words
-      let startWord = '';
-      let endWord = '';
+      let newPhrase = '';
 
-      if (startNode && startNode.textContent) {
-        startWord = startNode.textContent;
-        const firstWordPartial = stringArray[0];
-        const lastLetter = firstWordPartial[firstWordPartial.length - 1];
-
-        if (/[.,]/.test(lastLetter)) {
-          stringArray[0] = `${startWord}${lastLetter}`;
-        } else {
-          stringArray[0] = startWord;
-        }
-      }
-
-      if (endNode?.textContent && endNode.textContent !== ' ') {
-        endWord = endNode.textContent;
-        if (stringArray[stringArray.length - 1] && endWord) {
-          stringArray[stringArray.length - 1] = endWord;
-        }
-      }
-
-      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split('.')[0];
-      const regex = new RegExp(newPhrase, 'gi');
-
-      // if the phrase is not found in the sentence, then the selection was done backwards
-      if (!regex.test(context)) {
-        const array = newPhrase.split(' ');
-        const end = array[array.length - 1];
-        const start = array[0];
-        const middle = array.filter((_, index) => index !== 0 && index !== array.length - 1);
-        newPhrase = [end, ...middle, start].join(' ');
+      if (!selectionIsBackwards) {
+        const startNode = selection.anchorNode;
+        const endNode = crossesLines || sentenceIsTooLong ? null : selection.focusNode;
+        newPhrase = replaceFirstAndLastWords(startNode, endNode, filteredSelectedString);
+      } else {
+        const startNode = sentenceIsTooLong || crossesLines ? null : selection.anchorNode;
+        const endNode = selection.focusNode;
+        newPhrase = replaceFirstAndLastWordsBackwards(startNode, endNode, filteredSelectedString);
       }
 
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
@@ -173,8 +217,6 @@ export const Word = function ({ word, dataKey, context }:
     }
   };
 
-  // const setMouseStartX = function () {};
-
   return (
     <div className='inline-block text-xl md:text-lg my-2 md:my-1.5'>
       <span
@@ -200,12 +242,12 @@ export const Word = function ({ word, dataKey, context }:
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
           }
+
           window.getSelection()?.removeAllRanges();
           window.getSelection()?.empty();
           setIsTouch(false);
         }}
 
-        // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
