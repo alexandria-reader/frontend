@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import {
   TouchEvent, useState,
 } from 'react';
@@ -10,12 +8,16 @@ import {
 } from 'recoil';
 
 import {
-  markedwordsState, userwordsState, currentwordState, currentwordContextState, startWordContextState,
+  markedwordsState, userwordsState, currentwordState, currentwordContextState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
 import { stripPunctuation, stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
 
-const replaceFirstAndLastWords = function(startNode: Node | null, endNode: Node | null, phrase: string) {
+const replaceFirstAndLastWords = function(
+  startNode: Node | null,
+  endNode: Node | null,
+  phrase: string,
+) {
   let startWord = '';
   let endWord = '';
 
@@ -36,7 +38,11 @@ const replaceFirstAndLastWords = function(startNode: Node | null, endNode: Node 
   return stringArray.join(' ');
 };
 
-const replaceFirstAndLastWordsBackwards = function(endNode: Node | null, startNode: Node | null, phrase: string) {
+const replaceFirstAndLastWordsBackwards = function(
+  endNode: Node | null,
+  startNode: Node | null,
+  phrase: string,
+) {
   // the end node becomes the start of the phrase, start node becomes the end
   let startWord = '';
   let endWord = '';
@@ -74,8 +80,6 @@ const isBackwards = () => {
 export const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
-  const [startWordContext, setStartWordContext] = useRecoilState(startWordContextState);
-  // const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const markedWords = useRecoilValue(markedwordsState);
@@ -87,7 +91,6 @@ export const Word = function ({ word, dataKey, context }:
   const wordStatus = markedWords[word.toLowerCase()];
 
   const getHighlightedWordOrPhrase = function() {
-    // fix bug where if a user selects backwards, first and last words are swapped
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
@@ -246,9 +249,6 @@ export const Word = function ({ word, dataKey, context }:
         }}
 
         onTouchStart={() => setTouchStart(window.scrollY)}
-        onMouseDown={() => {
-          setStartWordContext(context);
-        }}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
         data-key={dataKey}
