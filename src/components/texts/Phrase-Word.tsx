@@ -297,7 +297,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
             word={token} context={context} />;
           }
 
-          return <span key={index + token}>{token}</span>;
+          return token;
         })
       }
         </span>

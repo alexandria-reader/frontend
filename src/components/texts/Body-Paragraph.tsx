@@ -12,7 +12,7 @@ import { Word, Phrase } from './Phrase-Word';
 
 const phrasesState = selector({
   key: 'phrasesState',
-  get: ({ get }) => Object.keys(get(markedwordsState)).filter((key) => key.split(' ').length > 1),
+  get: ({ get }) => Object.keys(get(markedwordsState)).filter((key) => key.match(/\S\s+\S/)),
 });
 
 const Sentence = function({ sentence }: { sentence: string }) {
@@ -33,7 +33,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
     <>
       {
         tokens?.map((token, index) => {
-          if (token.split(' ').length > 1) {
+          if (token.match(/\S\s+\S/)) {
             return <Phrase key={index + token} phrase={token} context={sentence} />;
           }
 
@@ -42,7 +42,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
             word={token} context={sentence} />;
           }
 
-          return <span key={index + token}>{token}</span>;
+          return token;
         })
       }
     </>
