@@ -65,6 +65,11 @@ export const currentwordContextState = atom<string | null>({
   default: 'null',
 });
 
+export const startWordContextState = atom<string>({
+  key: 'startWordContextState',
+  default: '',
+});
+
 
 export const languagesState = atom<Array<Language>>({
   key: 'languagesState',

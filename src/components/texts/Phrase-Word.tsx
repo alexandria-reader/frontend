@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   TouchEvent, useState,
 } from 'react';
@@ -8,14 +9,39 @@ import {
 } from 'recoil';
 
 import {
-  markedwordsState, userwordsState, currentwordState, currentwordContextState,
+  markedwordsState, userwordsState, currentwordState, currentwordContextState, startWordContextState,
 } from '../../states/recoil-states';
 import { UserWord } from '../../types';
-import { stripPunctuation } from '../../utils/punctuation';
+import { stripPunctuation, stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
+
+const replaceFirstAndLastWords = function(startNode: Node | null, endNode: Node | null, phrase: string) {
+  let startWord = '';
+  let endWord = '';
+
+  const stringArray = phrase.split(' ');
+  // console.log(stringArray);
+  if (startNode && startNode.textContent) {
+    startWord = startNode.textContent;
+    stringArray[0] = startWord;
+  }
+  // console.log(stringArray);
+
+  if (endNode?.textContent && endNode.textContent !== ' ' && stringArray.length > 1) {
+    endWord = endNode.textContent;
+    if (stringArray[stringArray.length - 1] && endWord) {
+      stringArray[stringArray.length - 1] = endWord;
+    }
+  }
+  // console.log(stringArray);
+
+
+  return stringArray.join(' ');
+};
 
 export const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
+  const [startWordContext, setStartWordContext] = useRecoilState(startWordContextState);
   // const [mouseStartX, setMouseStartX] = useRecoilState(mouseStartXState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
@@ -32,42 +58,34 @@ export const Word = function ({ word, dataKey, context }:
     const selection = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
+      // get selected text
       const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
-      console.log(selectedString);
+      const crossesLines = /[.?!]/.test(selectedString);
+
+      const sentenceIsTooLong = stripPunctuationExceptEndOfLine(selectedString).split(' ').length > 9;
+      // console.log(length);
+      const filteredSelectedString = stripPunctuationExceptEndOfLine(selectedString)
+        .split(' ')
+        .filter((_, index) => index < 10) // less than 10 words
+        .join(' ')
+        .trim()
+        .split(/[.?!]/)[0]; // stops selection at end of sentence
+
+      const filteredContext = stripPunctuationExceptEndOfLine(startWordContext);
+      // breaks if there is a ( in the selected string
+
+      let newPhrase = '';
+
       const startNode = selection.anchorNode;
-      const endNode = selection.focusNode;
-
-      const stringArray = selectedString.split(' ');
-      console.log(stringArray);
-      // ensures the first and last words are whole words
-      let startWord = '';
-      let endWord = '';
-
-      if (startNode && startNode.textContent) {
-        startWord = startNode.textContent;
-        const firstWordPartial = stringArray[0];
-        const lastLetter = firstWordPartial[firstWordPartial.length - 1];
-        console.log(lastLetter);
-        if (/[.,;:]/.test(lastLetter)) {
-          stringArray[0] = `${startWord}${lastLetter}`;
-        } else {
-          stringArray[0] = startWord;
-        }
-      }
-
-      if (endNode?.textContent && endNode.textContent !== ' ') {
-        endWord = endNode.textContent;
-        if (stringArray[stringArray.length - 1] && endWord) {
-          stringArray[stringArray.length - 1] = endWord;
-        }
-      }
-      console.log(stringArray);
-
-      let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split(/[.?!]/)[0];
+      const endNode = crossesLines || sentenceIsTooLong ? null : selection.focusNode;
+      newPhrase = replaceFirstAndLastWords(startNode, endNode, filteredSelectedString);
       const regex = new RegExp(newPhrase, 'gi');
-      console.log(newPhrase);
+
       // if the phrase is not found in the sentence, then the selection was done backwards
-      if (!regex.test(context)) {
+      // console.log(regex);
+      // console.log(regex);
+      // console.log(filteredContext);
+      if (!regex.test(filteredContext)) {
         const array = newPhrase.split(' ');
         const end = array[array.length - 1];
         const start = array[0];
@@ -75,6 +93,7 @@ export const Word = function ({ word, dataKey, context }:
         newPhrase = [end, ...middle, start].join(' ');
       }
 
+      // console.log(newPhrase);
       const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
       let newWordObject: UserWord;
 
@@ -100,6 +119,77 @@ export const Word = function ({ word, dataKey, context }:
       }
     }
   };
+  // const getHighlightedWordOrPhrase = function() {
+  //   // fix bug where if a user selects backwards, first and last words are swapped
+  //   const selection = window.getSelection();
+
+  //   if (selection?.toString() && selection !== null) {
+  //     const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
+  //     const startNode = selection.anchorNode;
+  //     const endNode = selection.focusNode;
+
+  //     const stringArray = selectedString.split(' ');
+
+  //     // ensures the first and last words are whole words
+  //     let startWord = '';
+  //     let endWord = '';
+
+  //     if (startNode && startNode.textContent) {
+  //       startWord = startNode.textContent;
+  //       const firstWordPartial = stringArray[0];
+  //       const lastLetter = firstWordPartial[firstWordPartial.length - 1];
+  //       console.log(lastLetter);
+  //       if (/[.,;:]/.test(lastLetter)) {
+  //         stringArray[0] = `${startWord}${lastLetter}`;
+  //       } else {
+  //         stringArray[0] = startWord;
+  //       }
+  //     }
+
+  //     if (endNode?.textContent && endNode.textContent !== ' ') {
+  //       endWord = endNode.textContent;
+  //       if (stringArray[stringArray.length - 1] && endWord) {
+  //         stringArray[stringArray.length - 1] = endWord;
+  //       }
+  //     }
+
+  //     let newPhrase = stringArray.filter((_, index) => index < 10).join(' ').trim().split(/[.?!]/)[0];
+  //     const regex = new RegExp(newPhrase, 'gi');
+
+  //     // if the phrase is not found in the sentence, then the selection was done backwards
+  //     if (!regex.test(context)) {
+  //       const array = newPhrase.split(' ');
+  //       const end = array[array.length - 1];
+  //       const start = array[0];
+  //       const middle = array.filter((_, index) => index !== 0 && index !== array.length - 1);
+  //       newPhrase = [end, ...middle, start].join(' ');
+  //     }
+
+  //     const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
+  //     let newWordObject: UserWord;
+
+  //     if (existingWord[0]) {
+  //       // eslint-disable-next-line prefer-destructuring
+  //       newWordObject = existingWord[0];
+  //     } else {
+  //       newWordObject = {
+  //         word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
+  //       };
+
+  //       setCurrentWord(newWordObject);
+  //       setCurrentWordContext(context);
+  //     }
+
+  //     // if userWords does not include the new word
+  //     if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
+  //       === newWordObject?.word.toLowerCase()).length === 0) {
+  //       // removes any words without an id, meaning that they also have no translation
+  //       const updatedWords = [...userWords
+  //         .filter((wordObj) => wordObj.id !== undefined), newWordObject];
+  //       setUserWords(updatedWords);
+  //     }
+  //   }
+  // };
 
   const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
@@ -194,7 +284,8 @@ export const Word = function ({ word, dataKey, context }:
 
         onMouseUp={(event) => {
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
-
+          console.log(event.screenX);
+          console.log(event.screenY);
           if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
             getHighlightedWordOrPhrase();
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
@@ -207,6 +298,11 @@ export const Word = function ({ word, dataKey, context }:
 
         // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
+        onMouseDown={(event) => {
+          console.log(event.screenX);
+          console.log(event.screenY);
+          setStartWordContext(context);
+        }}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
         className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
         data-key={dataKey}

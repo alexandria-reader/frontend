@@ -51,7 +51,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
 
 
 const Paragraph = function({ paragraph }: { paragraph: string }) {
-  const sentences = paragraph.match(/[^\s]([^!?.:;]|\.{3})*["!?.:;\s]*/gmu) || [''];
+  const sentences = paragraph.match(/[^\s]([^!?.]|\.{3})*["!?.:;\s]*/gmu) || [''];
 
   return (
     <>
