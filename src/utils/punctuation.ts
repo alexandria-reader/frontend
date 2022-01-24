@@ -6,7 +6,6 @@ export const stripPunctuation = function(string: string): string {
 
 export const stripPunctuationExceptEndOfLine = function(string: string): string {
   const matches = string.replaceAll(/[(),]/g, '').match(/[\p{Letter}\p{Mark}\s'-.?!\d]+/gui);
-  // console.log(matches?.join(' '));
   if ((matches && matches.length === 0) || !matches) return string;
   return matches.join('');
 };
