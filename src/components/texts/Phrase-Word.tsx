@@ -38,6 +38,19 @@ const replaceFirstAndLastWords = function(startNode: Node | null, endNode: Node 
   return stringArray.join(' ');
 };
 
+const isBackwards = () => {
+  const sel = window.getSelection();
+  const range = document.createRange();
+  if (sel && sel.anchorNode && sel.focusNode) {
+    range.setStart(sel.anchorNode, sel.anchorOffset);
+    range.setEnd(sel.focusNode, sel.focusOffset);
+  }
+
+  const backwards = range.collapsed;
+  range.detach();
+  return backwards;
+};
+
 export const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
@@ -59,6 +72,8 @@ export const Word = function ({ word, dataKey, context }:
 
     if (selection?.toString() && selection !== null) {
       // get selected text
+
+      console.log(isBackwards());
       const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
       const crossesLines = /[.?!]/.test(selectedString);
 
@@ -284,8 +299,8 @@ export const Word = function ({ word, dataKey, context }:
 
         onMouseUp={(event) => {
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
-          console.log(event.screenX);
-          console.log(event.screenY);
+          // console.log(event.screenX);
+          // console.log(event.screenY);
           if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
             getHighlightedWordOrPhrase();
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
@@ -296,11 +311,17 @@ export const Word = function ({ word, dataKey, context }:
           setIsTouch(false);
         }}
 
+        // onMouseMove={(event) => {
+        //   if (event.buttons === 1) {
+        //     console.log(event);
+        //   }
+        // }}
+
         // onMouseDown={(event) => setMouseStartX(event.clientX)}
         onTouchStart={() => setTouchStart(window.scrollY)}
-        onMouseDown={(event) => {
-          console.log(event.screenX);
-          console.log(event.screenY);
+        onMouseDown={() => {
+          // console.log(event.screenX);
+          // console.log(event.screenY);
           setStartWordContext(context);
         }}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
