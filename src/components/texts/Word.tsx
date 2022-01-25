@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { TouchEvent, useState } from 'react';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -8,68 +9,49 @@ import {
 import { UserWord } from '../../types';
 import { stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
 
-const replaceFirstAndLastWords = function(
-  startNode: Node | null,
-  endNode: Node | null,
-  phrase: string,
-) {
-  let startWord = '';
-  let endWord = '';
 
-  const stringArray = phrase.split(' ');
-
-  if (startNode && startNode.textContent) {
-    startWord = startNode.textContent;
-    stringArray[0] = startWord;
-  }
-
-  if (endNode?.textContent && endNode.textContent !== ' ' && stringArray.length > 1) {
-    endWord = endNode.textContent;
-    if (stringArray[stringArray.length - 1] && endWord) {
-      stringArray[stringArray.length - 1] = endWord;
-    }
-  }
-
-  return stringArray.join(' ');
-};
-
-const replaceFirstAndLastWordsBackwards = function(
-  endNode: Node | null,
-  startNode: Node | null,
-  phrase: string,
-) {
-  // the end node becomes the start of the phrase, start node becomes the end
-  let startWord = '';
-  let endWord = '';
-
-  const stringArray = phrase.split(' ');
-
-  if (startNode && startNode.textContent) {
-    startWord = startNode.textContent;
-    stringArray[0] = startWord;
-  }
-
-  if (endNode?.textContent && endNode.textContent !== ' ' && stringArray.length > 1) {
-    endWord = endNode.textContent;
-    if (stringArray[stringArray.length - 1] && endWord) {
-      stringArray[stringArray.length - 1] = endWord;
-    }
-  }
-
-  return stringArray.join(' ');
-};
-
-const isBackwards = () => {
-  const sel = window.getSelection();
+const selectedBackwards = function (selection: Selection): boolean {
   const range = document.createRange();
-  if (sel && sel.anchorNode && sel.focusNode) {
-    range.setStart(sel.anchorNode, sel.anchorOffset);
-    range.setEnd(sel.focusNode, sel.focusOffset);
+
+  if (selection.anchorNode && selection.focusNode) {
+    range.setStart(selection.anchorNode, selection.anchorOffset);
+    range.setEnd(selection.focusNode, selection.focusOffset);
   }
 
   const backwards = range.collapsed;
   range.detach();
+
   return backwards;
+};
+
+
+const phraseFromSelection = function (selection: Selection): string {
+  const start = selection.anchorNode as Node;
+  const end = selection.focusNode as Node;
+  const backwards = selectedBackwards(selection);
+
+  if (start.textContent && backwards) {
+    selection.setBaseAndExtent(start, start.textContent.length, end, 0);
+  } else if (end.textContent && !backwards) {
+    selection.setBaseAndExtent(start, 0, end, end.textContent.length);
+  }
+
+  const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
+
+  const filteredSelectedStringArray = stripPunctuationExceptEndOfLine(selectedString)
+    .split(/[.?!]/); // stops selection at end of sentence
+
+  const first = filteredSelectedStringArray[0].split(' ')
+    .filter((_, index) => index < 10) // fewer than 10 words
+    .join(' ')
+    .trim();
+
+  const last = filteredSelectedStringArray[filteredSelectedStringArray.length - 1].split(' ')
+    .filter((_, index, array) => index > array.length - 11) // fewer than 10 words
+    .join(' ')
+    .trim();
+
+  return backwards ? last : first;
 };
 
 
@@ -87,40 +69,16 @@ const Word = function ({ word, dataKey, context }:
   const wordStatus = markedWords[word.toLowerCase()];
 
   const getHighlightedWordOrPhrase = function() {
-    const selection = window.getSelection();
+    const selection: Selection | null = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
-      const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
+      const newPhrase = phraseFromSelection(selection);
 
-      const crossesLines = /[.?!]/.test(selectedString);
-      const sentenceIsTooLong = stripPunctuationExceptEndOfLine(selectedString).split(' ').length > 10;
-      const selectionIsBackwards = isBackwards();
-
-      const filteredSelectedString = stripPunctuationExceptEndOfLine(selectedString)
-        .split(' ')
-        .filter((_, index) => index < 10) // less than 10 words
-        .join(' ')
-        .trim()
-        .split(/[.?!]/)[0]; // stops selection at end of sentence
-
-      let newPhrase = '';
-
-      if (!selectionIsBackwards) {
-        const startNode = selection.anchorNode;
-        const endNode = crossesLines || sentenceIsTooLong ? null : selection.focusNode;
-        newPhrase = replaceFirstAndLastWords(startNode, endNode, filteredSelectedString);
-      } else {
-        const startNode = sentenceIsTooLong || crossesLines ? null : selection.anchorNode;
-        const endNode = selection.focusNode;
-        newPhrase = replaceFirstAndLastWordsBackwards(startNode, endNode, filteredSelectedString);
-      }
-
-      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id);
+      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id)[0];
       let newWordObject: UserWord;
 
-      if (existingWord[0]) {
-        // eslint-disable-next-line prefer-destructuring
-        newWordObject = existingWord[0];
+      if (existingWord) {
+        newWordObject = existingWord;
       } else {
         newWordObject = {
           word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
@@ -140,6 +98,7 @@ const Word = function ({ word, dataKey, context }:
       }
     }
   };
+
 
   const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
     const input = event.target as HTMLElement;
@@ -188,17 +147,11 @@ const Word = function ({ word, dataKey, context }:
     }
   };
 
-  let wordClass = '';
-
-  if (wordStatus === 'learning') {
-    wordClass = 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40';
-  } else if (wordStatus === 'familiar') {
-    wordClass = 'bg-sky-400/40 dark:bg-sky-600/40';
-  }
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
   };
+
 
   const highlightWordsInPhrases = function (target: EventTarget | Element) {
     if (isElement(target)) {
@@ -212,6 +165,14 @@ const Word = function ({ word, dataKey, context }:
       }
     }
   };
+
+
+  let wordClass = '';
+  if (wordStatus === 'learning') {
+    wordClass = 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40';
+  } else if (wordStatus === 'familiar') {
+    wordClass = 'bg-sky-400/40 dark:bg-sky-600/40';
+  }
 
   return (
     <div className='inline-block text-xl md:text-lg my-2 md:my-1.5'>

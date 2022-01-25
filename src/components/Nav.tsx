@@ -104,7 +104,7 @@ export default function Navbar() {
 
                 {/* logo */}
                 <div className="flex items-center justify-center sm:items-start sm:justify-start">
-                  <NavLink to={'/about'}>
+                  <NavLink to={'/'}>
                     <div className="flex-shrink-0 ml-2 sm:ml-0 flex items-center">
                       <img
                         className="block lg:hidden h-8 w-auto"
