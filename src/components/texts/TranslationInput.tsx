@@ -290,7 +290,7 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
-    if (currentWord?.translations.length === 0) {
+    if (currentWord?.translations.length === 0 && currentWord.word.split(' ').length < 2) {
       setShowDictionary(true);
     } else if (showDictionary) {
       setShowDictionary(false);
