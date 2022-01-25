@@ -4,6 +4,7 @@ import { markedwordsState } from '../../states/recoil-states';
 import Word from './Word';
 
 import { stripPunctuation } from '../../utils/punctuation';
+import { wordRegExp, parseText } from '../../utils/textParser';
 
 
 const phrasesState = selector({
@@ -12,17 +13,9 @@ const phrasesState = selector({
 });
 
 
-const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
-const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
-const wordRegExp = new RegExp(wordFinder, 'gui');
-
-
 export const Phrase = function ({ phrase, context }: { phrase: string, context: string }) {
   const markedWords = useRecoilValue(markedwordsState);
   const phraseStatus = markedWords[stripPunctuation(phrase.toLowerCase())];
-
-  const tokenRegExp = new RegExp(`${wordFinder}|${noWordFinder}`, 'gui');
-  const tokens = phrase.match(tokenRegExp);
 
   let wordClass = '';
   if (phraseStatus === 'learning') {
@@ -30,6 +23,8 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
   } else if (phraseStatus === 'familiar') {
     wordClass = 'bg-sky-400/40 dark:bg-sky-600/40';
   }
+
+  const tokens = parseText(phrase);
 
   return (
     <>
@@ -54,13 +49,7 @@ export const Phrase = function ({ phrase, context }: { phrase: string, context: 
 
 export const Sentence = function({ sentence }: { sentence: string }) {
   const phrases = useRecoilValue(phrasesState);
-
-  const phraseRegExps = phrases.map((phrase) => stripPunctuation(phrase).split(' ').join('[^\\p{Letter}\\p{Mark}\'-]+'));
-
-  const phraseFinder = phraseRegExps.length === 0 ? '' : `(${phraseRegExps.join('|')})|`;
-  const tokenRegExp = new RegExp(`${phraseFinder}${wordFinder}|${noWordFinder}`, 'gui');
-
-  const tokens = sentence.match(tokenRegExp);
+  const tokens = parseText(sentence, phrases);
 
   return (
     <>
@@ -75,7 +64,7 @@ export const Sentence = function({ sentence }: { sentence: string }) {
             word={token} context={sentence} />;
           }
 
-          return <div className='inline text-xl md:text-lg my-2 md:my-1.5'>{token}</div>;
+          return <div key={index + token} className='inline text-xl md:text-lg my-2 md:my-1.5'>{token}</div>;
         })
       }
     </>

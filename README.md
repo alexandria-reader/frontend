@@ -6,10 +6,6 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 
 ## Features Highlight
 
-### Light and dark modes
-
-![](src/assets/light-dark.gif)
-
 ### Add translation for selected words
 
 ![](src/assets/set-translation.gif)
@@ -17,3 +13,7 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 ### Phrase selection
 
 ![](src/assets/phrase-selection.gif)
+
+### Light and dark modes
+
+![](src/assets/light-dark.gif)
