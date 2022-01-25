@@ -42,7 +42,7 @@ const Sentence = function({ sentence }: { sentence: string }) {
             word={token} context={sentence} />;
           }
 
-          return token;
+          return <div className='inline text-xl md:text-lg my-2 md:my-1.5'>{token}</div>;
         })
       }
     </>
