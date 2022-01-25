@@ -1,5 +1,4 @@
 export const collapseSpaces = function (string: string): string {
-  console.log(string);
   return string.replace(/\s+/g, ' ');
 };
 

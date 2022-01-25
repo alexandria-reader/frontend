@@ -1,69 +1,10 @@
 /* eslint-disable max-len */
-import {
-  selector, useRecoilState, useRecoilValue, useSetRecoilState,
-} from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { currentwordContextState, currentwordState, userwordsState } from '../../states/recoil-states';
 
-import {
-  currentwordContextState, currentwordState, markedwordsState, userwordsState,
-} from '../../states/recoil-states';
+import { Paragraph } from './Paragraph-Sentence-Phrase';
+
 import { stripPunctuation } from '../../utils/punctuation';
-
-import { Word, Phrase } from './Phrase-Word';
-
-const phrasesState = selector({
-  key: 'phrasesState',
-  get: ({ get }) => Object.keys(get(markedwordsState)).filter((key) => key.match(/\S\s+\S/)),
-});
-
-const Sentence = function({ sentence }: { sentence: string }) {
-  const phrases = useRecoilValue(phrasesState);
-
-  const phraseRegExps = phrases.map((phrase) => stripPunctuation(phrase).split(' ').join('[^\\p{Letter}\\p{Mark}\'-]+'));
-
-  const phraseFinder = phraseRegExps.length === 0 ? '' : `(${phraseRegExps.join('|')})|`;
-  const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
-  const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
-
-  const wordRegExp = new RegExp(wordFinder, 'gui');
-  const tokenRegExp = new RegExp(`${phraseFinder}${wordFinder}|${noWordFinder}`, 'gui');
-
-  const tokens = sentence.match(tokenRegExp);
-
-  return (
-    <>
-      {
-        tokens?.map((token, index) => {
-          if (token.match(/\S\s+\S/)) {
-            return <Phrase key={index + token} phrase={token} context={sentence} />;
-          }
-
-          if (token.match(wordRegExp)) {
-            return <Word key={index + token} dataKey={index + token}
-            word={token} context={sentence} />;
-          }
-
-          return <div className='inline text-xl md:text-lg my-2 md:my-1.5'>{token}</div>;
-        })
-      }
-    </>
-  );
-};
-
-
-const Paragraph = function({ paragraph }: { paragraph: string }) {
-  const sentences = paragraph.match(/[^\s]([^!?.]|\.{3})*["!?.:;\s]*/gmu) || [''];
-
-  return (
-    <>
-    {
-      sentences.map((sentence, index) => <div key={index + sentence.slice(1, 9)} className="inline">
-          <Sentence sentence={sentence} />
-        </div>)
-    }
-    </>
-  );
-};
-
 
 const TextBody = function ({ title, textBody }: { title: string, textBody: string }) {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
