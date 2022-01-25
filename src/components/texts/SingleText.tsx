@@ -1,20 +1,21 @@
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { userwordsState, currenttextState, userState } from '../../states/recoil-states';
+
 import TranslationInput from './TranslationInput';
-import TextBody from './Body-Paragraph';
+import TextBody from './TextBody';
+
 import wordsService from '../../services/words';
 import textsService from '../../services/texts';
-import {
-  userwordsState,
-  currenttextState,
-  userState,
-} from '../../states/recoil-states';
+
 import getToken from '../../utils/getToken';
 import NotFound from '../NotFound';
+
 import demoText from '../../utils/demoText';
 import demoUserWords from '../../utils/demoWords';
+
 
 const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);

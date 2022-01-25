@@ -1,17 +1,12 @@
-import {
-  TouchEvent, useState,
-} from 'react';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from 'recoil';
+import { TouchEvent, useState } from 'react';
 
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   markedwordsState, userwordsState, currentwordState, currentwordContextState,
 } from '../../states/recoil-states';
+
 import { UserWord } from '../../types';
-import { stripPunctuation, stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
+import { stripPunctuationExceptEndOfLine } from '../../utils/punctuation';
 
 const replaceFirstAndLastWords = function(
   startNode: Node | null,
@@ -77,7 +72,8 @@ const isBackwards = () => {
   return backwards;
 };
 
-export const Word = function ({ word, dataKey, context }:
+
+const Word = function ({ word, dataKey, context }:
 { word: string, dataKey:string, context: string }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
@@ -259,49 +255,4 @@ export const Word = function ({ word, dataKey, context }:
   );
 };
 
-
-export const Phrase = function ({ phrase, context }: { phrase: string, context: string }) {
-  const markedWords = useRecoilValue(markedwordsState);
-  const phraseStatus = markedWords[stripPunctuation(phrase.toLowerCase())];
-
-  let wordClass = '';
-
-  if (phraseStatus === 'learning') {
-    wordClass = 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40';
-  } else if (phraseStatus === 'familiar') {
-    wordClass = 'bg-sky-400/40 dark:bg-sky-600/40';
-  }
-
-  const wordFinder = '(?<words>[\\p{Letter}\\p{Mark}\'-]+)';
-  const noWordFinder = '(?<nowords>[^\\p{Letter}\\p{Mark}\'-]+)';
-
-  const wordRegExp = new RegExp(wordFinder, 'gui');
-  const tokenRegExp = new RegExp(`${wordFinder}|${noWordFinder}`, 'gui');
-
-  const tokens = phrase.match(tokenRegExp);
-
-  return (
-    <>
-      <div className='inline text-xl md:text-lg'>
-        <span className={`${wordClass} cursor-pointer m-[-1px] border border-transparent betterhover:hover:border-zinc-500 hover:py-2.5 md:py-1.5 py-2 rounded-md`} data-type={'phrase'}>
-      {/* {
-        parts.map((word, index, array) => <Fragment key={index + word} >
-          <Word key={index + word} dataKey={index + word} word={word} context={context} />
-          <>{index === array.length - 1 ? '' : ' '}</>
-        </Fragment>)
-      } */}
-      {
-        tokens?.map((token, index) => {
-          if (token.match(wordRegExp)) {
-            return <Word key={index + token} dataKey={index + token}
-            word={token} context={context} />;
-          }
-
-          return <span key={index + token}>{token}</span>;
-        })
-      }
-        </span>
-      </div>
-    </>
-  );
-};
+export default Word;
