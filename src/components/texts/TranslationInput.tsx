@@ -446,6 +446,9 @@ const TranslationInput = function({ voices }:
     );
   }
 
+  window.getSelection()?.removeAllRanges();
+  window.getSelection()?.empty();
+
   return (
     <>
       {currentWord && <div id='outer-modal' onClick={(event) => closeModal(event)} className='h-full p-2 fixed inset-0 flex sm:p-6 pointer-events-auto items-end'>
