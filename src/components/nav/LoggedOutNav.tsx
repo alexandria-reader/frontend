@@ -2,7 +2,7 @@ import { Disclosure } from '@headlessui/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
 
-const logo = require('../assets/logo/logo-dark.png');
+const logo = require('../../assets/logo/logo-dark.png');
 
 const navigation = [
   { name: 'Log in', href: '/login' },

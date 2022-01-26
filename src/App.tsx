@@ -6,8 +6,8 @@ import useLocalStorage from 'use-local-storage';
 import { userState } from './states/recoil-states';
 import Fallback from './components/Fallback';
 import './App.css';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
+import Nav from './components/nav/Nav';
+import Footer from './components/nav/Footer';
 import getToken from './utils/getToken';
 import userServices from './services/users';
 

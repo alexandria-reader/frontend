@@ -1,4 +1,4 @@
-import Screenshots from './Screenshots';
+import Screenshots from './how-to/Screenshots';
 
 export default function HowTo() {
   return (

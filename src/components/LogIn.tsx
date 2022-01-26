@@ -1,7 +1,7 @@
 import { Location, Navigate, useLocation } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../states/recoil-states';
-import LoginForm from './LoginForm';
+import LoginForm from './login/LoginForm';
 
 export default function LogIn() {
   const user = useRecoilValue(userState);

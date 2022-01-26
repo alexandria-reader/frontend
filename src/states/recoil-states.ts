@@ -29,11 +29,6 @@ export const userwordsState = atom<Array<UserWord>>({
   default: [],
 });
 
-export const mouseStartXState = atom<Number | null>({
-  key: 'mouseStartXState',
-  default: null,
-});
-
 
 export const markedwordsState = selector<StringHash>({
   key: 'markedwordsState',
