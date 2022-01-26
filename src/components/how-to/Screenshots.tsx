@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
-const lightDarkGif = require('../assets/light-dark.mp4');
-const setTranslationGif = require('../assets/set-translation.mp4');
-const phraseSelectionGif = require('../assets/phrase-selection.mp4');
-const settingsNameGif = require('../assets/setting_name.mp4');
-const settingsPasswordGif = require('../assets/setting_pw.mp4');
-const settingsLangGif = require('../assets/setting_lang.mp4');
-const signUpGif = require('../assets/sign-up.mp4');
+const lightDarkGif = require('../../assets/light-dark.mp4');
+const setTranslationGif = require('../../assets/set-translation.mp4');
+const phraseSelectionGif = require('../../assets/phrase-selection.mp4');
+const settingsNameGif = require('../../assets/setting_name.mp4');
+const settingsPasswordGif = require('../../assets/setting_pw.mp4');
+const settingsLangGif = require('../../assets/setting_lang.mp4');
+const signUpGif = require('../../assets/sign-up.mp4');
 
 const screenshots = [
   { heading: 'Sign Up', paragraph: "It's quick and easy to sign up to Alexandria, just add your name, email, a password, and the language you want to learn.", gif: signUpGif },

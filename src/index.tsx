@@ -10,12 +10,12 @@ import App from './App';
 import Home from './components/Home';
 import About from './components/About';
 import Settings from './components/Settings';
-import Words from './components/Words';
+import Vocabulary from './components/Vocabulary';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import NotFound from './components/NotFound';
 import SingleText from './components/texts/SingleText';
-import UserTexts from './components/texts/UserTexts';
+import Texts from './components/Texts';
 import TextForm from './components/texts/TextForm';
 import PrivateRoute from './components/PrivateRoute';
 import Verify from './components/Verify';
@@ -36,13 +36,13 @@ render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={< Home />}/>
-            <Route path="texts" element={<PrivateRoute><UserTexts /></PrivateRoute>}/>
+            <Route path="texts" element={<PrivateRoute><Texts /></PrivateRoute>}/>
               <Route path="texts/new" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
               <Route path="texts/edit" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
               <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
               <Route path="texts/*" element={<PrivateRoute><NotFound /></PrivateRoute>}/>
             <Route path="demo" element={<SingleText />}/>
-            <Route path="words" element={<PrivateRoute><Words /></PrivateRoute>}/>
+            <Route path="vocabulary" element={<PrivateRoute><Vocabulary /></PrivateRoute>}/>
             <Route path="logout" element={<Home />} />
             <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path="about" element={<About />} />

@@ -1,17 +1,21 @@
 /* eslint-disable max-len */
-import {
-  useState, useEffect, Fragment,
-} from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Menu, Transition } from '@headlessui/react';
+
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  textlistState, currenttextState, userState, currentwordState, languageNamesState, textToEditState, userwordsState,
-} from '../../states/recoil-states';
-import textsService from '../../services/texts';
-import wordsService from '../../services/words';
-import { Text } from '../../types';
-import Modal from '../Modal';
+  textlistState, currenttextState, userState,
+  currentwordState, languageNamesState, textToEditState,
+  userwordsState,
+} from '../states/recoil-states';
+
+import Modal from './texts/DeleteTextModal';
+
+import { Text } from '../types';
+
+import textsService from '../services/texts';
+import wordsService from '../services/words';
 
 
 const IndividualText = function({ text, setOpenModal, setTextToDelete }:

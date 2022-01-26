@@ -1,27 +1,29 @@
-import {
-  Fragment, useEffect, MouseEvent,
-} from 'react';
+import { Fragment, useEffect, MouseEvent } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import {
   NavLink, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import useLocalStorage from 'use-local-storage';
+
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   languagesState, userState, languageFlagsState, languageNamesState,
-} from '../states/recoil-states';
-import languageService from '../services/languages';
-import userService from '../services/users';
-import logOut from '../utils/logOut';
-import LoggedOutNav from './LoggedOutNav';
-import { SanitizedUser } from '../types';
+} from '../../states/recoil-states';
 
-const logo = require('../assets/logo/logo-dark.png');
+import logOut from '../../utils/logOut';
+import LoggedOutNav from './LoggedOutNav';
+
+import { SanitizedUser } from '../../types';
+
+import languageService from '../../services/languages';
+import userService from '../../services/users';
+
+const logo = require('../../assets/logo/logo-dark.png');
 
 const navigation = [
   { name: 'Texts', href: '/texts' },
-  { name: 'Vocabulary', href: '/words' },
+  { name: 'Vocabulary', href: '/vocabulary' },
 ];
 
 function classNames(...classes: string[]) {

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { useRecoilValue } from 'recoil';
-import { userState } from '../states/recoil-states';
+import { userState } from '../../states/recoil-states';
 
 export default function Footer() {
   const user = useRecoilValue(userState);

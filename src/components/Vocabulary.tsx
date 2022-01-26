@@ -8,7 +8,7 @@ import { userwordsState, userState } from '../states/recoil-states';
 
 import wordsService from '../services/words';
 
-const WordTable = function () {
+const VocabularyTable = function () {
   const userwords = useRecoilValue(userwordsState);
   const setUserWords = useSetRecoilState(userwordsState);
 
@@ -110,7 +110,7 @@ const WordTable = function () {
   );
 };
 
-const Words = function() {
+const Vocabulary = function() {
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
 
@@ -128,8 +128,8 @@ const Words = function() {
   }, [user]);
 
   return (
-    <WordTable key='words-table' />
+    <VocabularyTable key='words-table' />
   );
 };
 
-export default Words;
+export default Vocabulary;

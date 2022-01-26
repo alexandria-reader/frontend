@@ -2,8 +2,8 @@
 /* eslint-disable max-len */
 import { MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
-import Footer from './Footer';
-import Nav from './Nav';
+import Footer from './nav/Footer';
+import Nav from './nav/Nav';
 
 const fallback = require('../assets/fallback.jpg');
 
