@@ -371,13 +371,12 @@ const TranslationComponent = function({ word }:
   );
 };
 
-const TranslationInput = function({ voices }:
-{ voices: SpeechSynthesisVoice[]
-}) {
+const TranslationInput = function() {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const location = useLocation();
+  const voices = window.speechSynthesis.getVoices();
 
   const isElement = function(element: Element | EventTarget): element is Element {
     return (element as Element).nodeName !== undefined;
@@ -416,7 +415,7 @@ const TranslationInput = function({ voices }:
       const utterance = new SpeechSynthesisUtterance(currentWord?.word);
 
       for (let i = 0; i < voices.length; i += 1) {
-        if (voices[i].lang.startsWith('es')) {
+        if (voices[i].lang.startsWith('es') && voices[i].name === 'Jorge') {
           utterance.voice = voices[i];
         }
       }
