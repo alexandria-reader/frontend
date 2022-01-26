@@ -413,13 +413,23 @@ const TranslationInput = function() {
       speechSynthesis.speak(utterance);
     } else if (currentWord && location.pathname === '/demo') {
       const utterance = new SpeechSynthesisUtterance(currentWord?.word);
+      let voice;
 
       for (let i = 0; i < voices.length; i += 1) {
         if (voices[i].lang.startsWith('es') && voices[i].name === 'Jorge') {
-          utterance.voice = voices[i];
+          voice = voices[i];
         }
       }
 
+      if (!voice) {
+        for (let i = 0; i < voices.length; i += 1) {
+          if (voices[i].lang.startsWith('es')) {
+            voice = voices[i];
+          }
+        }
+      }
+
+      if (voice) utterance.voice = voice;
       speechSynthesis.speak(utterance);
     }
   };
