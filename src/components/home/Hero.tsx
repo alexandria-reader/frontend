@@ -11,9 +11,9 @@ export default function Benefits() {
             {/* Section header */}
             <div className=" flex-1 flex justify-between h-max flex-col gap-6">
               <h1 className={`${window.innerHeight < 800 ? 'text-4xl' : 'text-5xl'} text-center  overflow-y-clip md:text-left xl:text-6xl lg:text-5xl md:text-4xl sm:text-6xl font-extrabold leading-tighter tracking-normal`} data-aos="zoom-y-out">Alexandria:<br />Learn languages by<br />
-                <span className="bg-clip-text block pb-3 mb-[-0.75rem] text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
+                <span className="bg-clip-text block pb-3 text-transparent bg-gradient-to-r from-[#167cbd] to-[#6a007b]">reading what you enjoy</span>
               </h1>
-              <div className="max-w-3xl">
+              <div className="max-w-3xl  mt-[-0.75rem]">
                 <p className="text-xl text-center md:text-left text-secondary tracking-normal" data-aos="zoom-y-out" data-aos-delay="150">Bring your texts. Translate words. Review.</p>
               </div>
               <div className="flex justify-center flex-wrap gap-4 md:justify-start flex-row" data-aos="zoom-y-out" data-aos-delay="300">
