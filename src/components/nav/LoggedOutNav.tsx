@@ -42,6 +42,8 @@ export default function LoggedOutNav() {
                 <div className="flex-shrink-0 flex items-center">
                 <NavLink to={'/'}>
                   <img
+                    height={32}
+                    width={84}
                     className="block h-8 w-auto"
                     src={logo}
                     alt="Workflow"
