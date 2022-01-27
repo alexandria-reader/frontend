@@ -21,13 +21,13 @@ export default function Benefits() {
                   <a href="/signup"><button className="focus:outline-none lg:w-44 w-32 whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-700 bg-fuchsia-900 transition duration-150 ease-in-out hover:bg-fuchsia-700 lg:text-xl lg:font-bold  rounded text-white border border-fuchsia-900 py-2 sm:py-4 text-md">Sign up</button></a>
                 </div>
                 <div>
-                  <a href="demo"><button id='open-demo-btn' className="focus:outline-none w-32 lg:w-44 whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-600 py-2 sm:py-4 text-md">Demo</button></a>
+                  <a href="demo"><button id='open-demo-btn' className="focus:outline-none w-32 lg:w-44 whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 bg-transparent transition duration-150 ease-in-out hover:border-sky-500 lg:text-xl lg:font-bold  hover:text-sky-500 rounded border border-sky-600 text-sky-700 py-2 sm:py-4 text-md">Demo</button></a>
                 </div>
               </div>
           </div>
           <div className={`${window.innerWidth > 1500 ? 'flex-2' : 'flex-1'}`}>
-            <img src={heroImgLight} className='dark:hidden' alt="" />
-            <img src={heroImgDark} className='hidden dark:block' alt="" />
+            <img src={heroImgLight} className='dark:hidden max-w-full h-auto' alt="" />
+            <img src={heroImgDark} className='hidden dark:block max-w-full h-auto' alt="" />
           </div>
         </div>
       </div>
