@@ -111,11 +111,15 @@ export default function Navbar() {
                       <img
                         className="block lg:hidden h-8 w-auto"
                         src={logo}
+                        height={32}
+                        width={84}
                         alt="Alexandria logo"
                       />
                       <img
                         className="hidden lg:block h-8 w-auto"
                         src={logo}
+                        height={32}
+                        width={84}
                         alt="Alexandria logo"
                       />
                     </div>

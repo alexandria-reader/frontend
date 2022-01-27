@@ -1,0 +1,24 @@
+{
+  "short_name": "Alexandria",
+  "name": "Alexandria: Learn languages by reading what you enjoy",
+  "icons": [
+    {
+      "src": "public/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "public/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#111827",
+  "display": "fullscreen",
+  "scope": "/",
+  "theme_color": "#111827",
+  "shortcuts": [],
+  "description": "Alexandria: Learn languages by reading what you enjoy",
+  "screenshots": []
+}
