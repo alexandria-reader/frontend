@@ -103,9 +103,11 @@ const ChangeStatus = function({ word }: { word: UserWord | null }) {
 };
 
 const DictionaryIframe = function({ url }: { url: string }) {
+  const location = useLocation();
+
   return (
     <div className='flex justify-center'>
-      <iframe title='Wordreference dictionary' className='' width="350" height="450"
+      <iframe title='Wordreference dictionary' className='' width="350" height={`${location.pathname === '/' ? '350' : '450'}`}
         src={url}>
       </iframe>
     </div>
@@ -253,7 +255,7 @@ const TranslationComponent = function({ word }:
           !== updatedUserWord.word.toLowerCase()), updatedUserWord];
         setUserWords(updatedWords);
       }
-    } else if (location.pathname === '/demo' && userWord) {
+    } else if ((location.pathname === '/demo' || location.pathname === '/') && userWord) {
       // Demo mode doesn't contact server, it just generates fake random ids
       let demoUserWord: UserWord;
 
@@ -290,7 +292,7 @@ const TranslationComponent = function({ word }:
   };
 
   useEffect(() => {
-    if (currentWord?.translations.length === 0 && currentWord.word.split(' ').length < 2) {
+    if (currentWord?.translations.length === 0 && currentWord.word.split(' ').length < 2 && location.pathname !== '/') {
       setShowDictionary(true);
     } else if (showDictionary) {
       setShowDictionary(false);
@@ -353,7 +355,7 @@ const TranslationComponent = function({ word }:
         <div className='flex flex-col gap-1 text-lg sm:text-sm justify-center'>
           {showDictionary && <><button onClick={() => setShowDictionary(false)} className='bg-fuchsia-800 hover:bg-fuchsia-700 text-white py-2 px-4 rounded my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-600'>Close Dictionary</button>
           {/* <DictionaryIframe url={`${dictionary?.url}/${currentWord.word}`} /></>} */}
-          <DictionaryIframe url={`${location.pathname === '/demo' ? 'https://www.wordreference.com/esen' : dictionary?.url}/${currentWord.word}`} /></>}
+          <DictionaryIframe url={`${location.pathname === '/demo' || location.pathname === '/' ? 'https://www.wordreference.com/esen' : dictionary?.url}/${currentWord.word}`} /></>}
           {!showDictionary && <><p className=''>View word in dictionary:</p>
           <button onClick={() => setShowDictionary(true)} className='bg-sky-600 dark:bg-sky-700 hover:bg-sky-500 dark:hover:bg-sky-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>WordReference</button>
           <button onClick={() => window.open(`https://www.deepl.com/translator#${currentText?.languageId}/${user?.knownLanguageId}/${currentWord.word}/`, 'DeepL', 'left=100,top=100,width=650,height=550')} className='bg-sky-600 dark:bg-sky-700 dark:hover:bg-sky-600 hover:bg-sky-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'>DeepL (Popup)</button>
@@ -411,7 +413,7 @@ const TranslationInput = function() {
       }
 
       speechSynthesis.speak(utterance);
-    } else if (currentWord && location.pathname === '/demo') {
+    } else if (currentWord && (location.pathname === '/demo' || location.pathname === '/')) {
       const utterance = new SpeechSynthesisUtterance(currentWord?.word);
       let voice;
 
@@ -438,7 +440,7 @@ const TranslationInput = function() {
     return (
       <>
         <div className=' col-start-2 flex flex-col w-[368px] col-span-1 '>
-          <div id='translation-component' className='sticky top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 '>
+          <div id='translation-component' className={` ${location.pathname === '/' ? '' : 'sticky'} top-10 bg-tertiary shadow sm:rounded-lg sm:px-6 py-4 `}>
             {currentWord && <div className='flex flex-row items-center'>
               <svg onClick={() => speak()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />

@@ -48,7 +48,7 @@ const SingleText = function () {
   useEffect(() => {
     if (currentText) {
       fetchUserwords();
-    } else if (location.pathname === '/demo') {
+    } else if (location.pathname === '/demo' || location.pathname === '/') {
       setUserWords(demoUserWords);
     } else {
       fetchTextAndUserwords();
@@ -66,7 +66,7 @@ const SingleText = function () {
     );
   }
 
-  if (location.pathname === '/demo') {
+  if (location.pathname === '/demo' || location.pathname === '/') {
     return (
       <main className='container mx-auto mb-auto'>
         <div className='bg-secondary mx-auto max-w-7xl lg:px-8'>
