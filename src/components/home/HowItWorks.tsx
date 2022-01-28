@@ -8,7 +8,7 @@ import {
 
 export default function HowItWorks() {
   return (
-    <div>
+    <div id="how-it-works">
       {/* <a id="how-it-works" /> */}
       <section className="relative text-primary">
 
