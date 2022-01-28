@@ -5,6 +5,7 @@ import useLocalStorage from 'use-local-storage';
 const logo = require('../../assets/logo/logo-dark.png');
 
 const navigation = [
+  { name: 'Demo', href: '/demo' },
   { name: 'Log in', href: '/login' },
   { name: 'Sign up', href: '/signup' },
 ];
