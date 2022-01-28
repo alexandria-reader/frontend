@@ -8,6 +8,16 @@ export default function FAQ() {
                   Frequently-asked questions
               </h2>
               <dl className="w-full md:w-2/3">
+              <dt className="mb-4">
+                      <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                          What languages do you support?
+                      </h3>
+                  </dt>
+                  <dd className="mb-16">
+                      <p className="text-secondary">
+                        We currently support English, Spanish, French, Italian, Portuguese, Romanian, German, Dutch, Swedish and Turkish. We plan on adding more languages in the future.
+                      </p>
+                  </dd>
                   <dt className="mb-4">
                       <h3 className="text-xl font-bold leading-snug tracking-tight mb-1">
                           What motivated you to make this app?
