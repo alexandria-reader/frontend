@@ -2,16 +2,14 @@
 /* eslint-disable max-len */
 import parseHTML from 'html-react-parser';
 
-import { useEffect } from 'react';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { userwordsState, userState } from '../states/recoil-states';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../states/recoil-states';
 
 import wordsService from '../services/words';
+import { UserWord } from '../types';
 
-const VocabularyTable = function () {
-  const userwords = useRecoilValue(userwordsState);
-  const setUserWords = useSetRecoilState(userwordsState);
-
+const VocabularyTable = function ({ userwords, setUserwords }: { userwords: Array<UserWord>, setUserwords: React.Dispatch<React.SetStateAction<UserWord[]>> }) {
   const sortUserwordsByStatus = function() {
     const sorted = userwords.slice();
     sorted.sort((a, b) => {
@@ -20,7 +18,7 @@ const VocabularyTable = function () {
       if (a.status === 'familiar' && b.status === 'learned') return -1;
       return 1;
     });
-    setUserWords(sorted);
+    setUserwords(sorted);
   };
 
   const sortUserwordsByABC = function() {
@@ -29,7 +27,7 @@ const VocabularyTable = function () {
       if (a.word < b.word) return -1;
       return 1;
     });
-    setUserWords(sorted);
+    setUserwords(sorted);
   };
 
   const statusClasses = {
@@ -111,7 +109,7 @@ const VocabularyTable = function () {
 };
 
 const Vocabulary = function() {
-  const setUserWords = useSetRecoilState(userwordsState);
+  const [userwords, setUserwords] = useState<Array<UserWord>>([]);
   const user = useRecoilValue(userState);
 
   const fetchUserwords = async function() {
@@ -119,7 +117,7 @@ const Vocabulary = function() {
       const userWordsResponse = await wordsService
         .getUserwordsByLanguage(user.learnLanguageId);
 
-      setUserWords(userWordsResponse);
+      setUserwords(userWordsResponse);
     }
   };
 
@@ -128,7 +126,7 @@ const Vocabulary = function() {
   }, [user]);
 
   return (
-    <VocabularyTable key='words-table' />
+    <VocabularyTable key='words-table' userwords={userwords} setUserwords={setUserwords}/>
   );
 };
 

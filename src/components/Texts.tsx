@@ -7,12 +7,11 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   textlistState, currenttextState, userState,
   currentwordState, languageNamesState, textToEditState,
-  userwordsState,
 } from '../states/recoil-states';
 
 import Modal from './texts/DeleteTextModal';
 
-import { Text } from '../types';
+import { Text, UserWord } from '../types';
 
 import textsService from '../services/texts';
 import wordsService from '../services/words';
@@ -118,7 +117,7 @@ const Stats = function () {
   const [familiarWords, setFamiliarWords] = useState(0);
   const [learnedWords, setLearnedWords] = useState(0);
   const [textsLength, setTextsLength] = useState(0);
-  const [userwords, setUserWords] = useRecoilState(userwordsState);
+  const [userwords, setUserWords] = useState<Array<UserWord>>([]);
 
   const getWordCount = function() {
     setLearningWords(userwords.filter((word) => word.status === 'learning').length);
