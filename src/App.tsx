@@ -2,7 +2,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import useLocalStorage from 'use-local-storage';
+// import useLocalStorage from 'use-local-storage';
 import { userState } from './states/recoil-states';
 import Fallback from './components/Fallback';
 import './App.css';
@@ -15,18 +15,23 @@ function App() {
   const [user, setUser] = useRecoilState(userState);
   const [errorState, setErrorState] = useState(false);
 
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+  // const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // const [theme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
-  if (theme === 'dark') {
-    if (!document.documentElement.classList.contains('dark')) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
+  const toggleTheme = () => {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === '"dark"') {
+      if (!document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      }
+    } else if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     }
-  } else if (document.documentElement.classList.contains('dark')) {
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
-  }
+  };
+
+  toggleTheme();
 
   const fetchUserInfo = async function () {
     if (!user) {
@@ -66,4 +71,3 @@ function App() {
 }
 
 export default App;
-
