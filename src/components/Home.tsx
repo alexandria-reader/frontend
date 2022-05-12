@@ -5,6 +5,7 @@ import { userState } from '../states/recoil-states';
 import Hero from './home/Hero';
 import HowItWorks from './home/HowItWorks';
 import FAQ from './home/FAQ';
+import DemoLink from './home/DemoLink';
 
 export default function Home() {
   const user = useRecoilValue(userState);
@@ -17,6 +18,7 @@ export default function Home() {
           ? <>
               <Hero />
               <HowItWorks />
+              <DemoLink />
               <FAQ />
             </>
           : <Navigate to="/texts"/>
