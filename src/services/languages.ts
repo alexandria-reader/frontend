@@ -5,7 +5,7 @@ import host from './host';
 const baseUrl = `${host}/api/languages`;
 
 const getAllLanguages = async function () {
-  const request = await axios.get(`${baseUrl}/`);
+  const request = await axios.get(baseUrl);
 
   const languages: Array<Language> = request.data;
   return languages;
