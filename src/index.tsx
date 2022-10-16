@@ -1,9 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Route, Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import App from './App';
@@ -35,27 +32,83 @@ render(
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={< Home />}/>
-            <Route path="texts" element={<PrivateRoute><Texts /></PrivateRoute>}/>
-              <Route path="texts/new" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
-              <Route path="texts/edit" element={<PrivateRoute><TextForm /></PrivateRoute>}/>
-              <Route path="texts/:textId" element={<PrivateRoute><SingleText /></PrivateRoute>}/>
-              <Route path="texts/*" element={<PrivateRoute><NotFound /></PrivateRoute>}/>
-            <Route path="demo" element={<SingleText />}/>
-            <Route path="vocabulary" element={<PrivateRoute><Vocabulary /></PrivateRoute>}/>
+            <Route index element={<Home />} />
+            <Route
+              path="texts"
+              element={
+                <PrivateRoute>
+                  <Texts />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="texts/new"
+              element={
+                <PrivateRoute>
+                  <TextForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="texts/edit"
+              element={
+                <PrivateRoute>
+                  <TextForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="texts/:textId"
+              element={
+                <PrivateRoute>
+                  <SingleText />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="texts/*"
+              element={
+                <PrivateRoute>
+                  <NotFound />
+                </PrivateRoute>
+              }
+            />
+            <Route path="demo" element={<SingleText />} />
+            <Route
+              path="vocabulary"
+              element={
+                <PrivateRoute>
+                  <Vocabulary />
+                </PrivateRoute>
+              }
+            />
             <Route path="logout" element={<Home />} />
-            <Route path="settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+            <Route
+              path="settings"
+              element={
+                <PrivateRoute>
+                  <Settings />
+                </PrivateRoute>
+              }
+            />
             <Route path="about" element={<About />} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="how-to" element={<HowTo />} />
             <Route path="login" element={<LogIn />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="verify" element={<PrivateRoute><Verify /></PrivateRoute>} />
-            <Route path="*" element={<NotFound />}/>
+            <Route
+              path="verify"
+              element={
+                <PrivateRoute>
+                  <Verify />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Router>
     </RecoilRoot>
   </React.StrictMode>,
-  rootElement,
+  rootElement
 );

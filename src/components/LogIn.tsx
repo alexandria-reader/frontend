@@ -11,13 +11,13 @@ export default function LogIn() {
 
   return (
     <>
-    {
-      !user
-        ? <main className='container mx-auto mb-auto'>
-            <LoginForm from={from} />
-          </main>
-        : <Navigate to={from} />
-    }
+      {!user ? (
+        <main className="container mx-auto mb-auto">
+          <LoginForm from={from} />
+        </main>
+      ) : (
+        <Navigate to={from} />
+      )}
     </>
   );
 }

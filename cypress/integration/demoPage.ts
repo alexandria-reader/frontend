@@ -18,6 +18,8 @@ describe('can click a word', () => {
     cy.get('#new-translation').type('little girl');
     cy.get('#save-translation').click();
     cy.get('#current-translations input').eq(2);
-    cy.get('#current-translations input').eq(1).should('have.value', 'little girl');
+    cy.get('#current-translations input')
+      .eq(1)
+      .should('have.value', 'little girl');
   });
 });

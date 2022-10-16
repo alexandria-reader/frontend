@@ -20,5 +20,3 @@ xdescribe('Tests single text and user words', () => {
     expect(fetchTextById.body).toContain('It was so terribly cold.');
   });
 });
-
-

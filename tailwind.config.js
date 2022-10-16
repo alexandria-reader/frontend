@@ -24,7 +24,7 @@ const textColor = {
   four: 'var(--text-four)',
   five: 'var(--text-five)',
   six: 'var(--text-six)',
-}
+};
 
 const backgroundColor = {
   primary: 'var(--bg-primary)',
@@ -32,24 +32,19 @@ const backgroundColor = {
   tertiary: 'var(--bg-tertiary)',
   four: 'var(--bg-four)',
   five: 'var(--bg-five)',
-}
+};
 
 module.exports = {
   darkMode: 'class',
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-    theme: {
-      extend: {
-        textColor,
-        backgroundColor,
-        screens: {
-          'betterhover': {'raw': '(hover: hover)'},
-        },
-    }
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      textColor,
+      backgroundColor,
+      screens: {
+        betterhover: { raw: '(hover: hover)' },
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};

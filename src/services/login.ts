@@ -4,7 +4,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/login`;
 
-const loginUser = async function(credentials: LoginDetails) {
+const loginUser = async function (credentials: LoginDetails) {
   try {
     const request = await axios.post(baseUrl, credentials);
     return request.data;

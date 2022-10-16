@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["cypress", "node"],
     "importHelpers": true,
     "allowJs": true,
@@ -14,19 +10,17 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": true, 
+    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "alwaysStrict": true,
-    "noImplicitReturns": true, 
+    "noImplicitReturns": true,
     "noUnusedParameters": true,
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src", "src/components", "src/custom.d.ts"
-  ]
+  "include": ["src", "src/components", "src/custom.d.ts"]
 }

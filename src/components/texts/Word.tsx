@@ -3,16 +3,25 @@ import { TouchEvent, useState } from 'react';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  markedwordsState, userwordsState, currentwordState, currentwordContextState,
+  markedwordsState,
+  userwordsState,
+  currentwordState,
+  currentwordContextState,
 } from '../../states/recoil-states';
 
 import { UserWord } from '../../types';
 
 import phraseFromSelection from '../../utils/phraseSelection';
 
-
-const Word = function ({ word, dataKey, context }:
-{ word: string, dataKey:string, context: string }) {
+const Word = function ({
+  word,
+  dataKey,
+  context,
+}: {
+  word: string;
+  dataKey: string;
+  context: string;
+}) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const setCurrentWord = useSetRecoilState(currentwordState);
@@ -24,21 +33,24 @@ const Word = function ({ word, dataKey, context }:
 
   const wordStatus = markedWords[word.toLowerCase()];
 
-
-  const getHighlightedWordOrPhrase = function() {
+  const getHighlightedWordOrPhrase = function () {
     const selection: Selection | null = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
       const newPhrase = phraseFromSelection(selection);
 
-      const existingWord = userWords.filter((wordObj) => wordObj.word === newPhrase && wordObj.id)[0];
+      const existingWord = userWords.filter(
+        (wordObj) => wordObj.word === newPhrase && wordObj.id
+      )[0];
       let newWordObject: UserWord;
 
       if (existingWord) {
         newWordObject = existingWord;
       } else {
         newWordObject = {
-          word: `${newPhrase.toLowerCase()}`, status: 'learning', translations: [],
+          word: `${newPhrase.toLowerCase()}`,
+          status: 'learning',
+          translations: [],
         };
 
         setCurrentWord(newWordObject);
@@ -46,26 +58,39 @@ const Word = function ({ word, dataKey, context }:
       }
 
       // if userWords does not include the new word
-      if (userWords.filter((wordObj) => wordObj.word.toLowerCase()
-        === newWordObject?.word.toLowerCase()).length === 0) {
+      if (
+        userWords.filter(
+          (wordObj) =>
+            wordObj.word.toLowerCase() === newWordObject?.word.toLowerCase()
+        ).length === 0
+      ) {
         // removes any words without an id, meaning that they also have no translation
-        const updatedWords = [...userWords
-          .filter((wordObj) => wordObj.id !== undefined), newWordObject];
+        const updatedWords = [
+          ...userWords.filter((wordObj) => wordObj.id !== undefined),
+          newWordObject,
+        ];
         setUserWords(updatedWords);
       }
     }
   };
 
-
-  const getClickedOnWord = function (event: React.MouseEvent | TouchEvent<HTMLSpanElement>) {
+  const getClickedOnWord = function (
+    event: React.MouseEvent | TouchEvent<HTMLSpanElement>
+  ) {
     const input = event.target as HTMLElement;
     const possiblePhraseDiv = input?.parentElement?.parentElement;
     const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
     // checks if user tapped on an existing phrase, if so, show the phrase instead of the word
-    if (possiblePhraseDiv?.dataset?.type === 'phrase' && possiblePhraseDiv?.textContent && pointerEvent.type === 'touchend') {
-      const current = userWords
-        .filter((wordObj) => wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase());
+    if (
+      possiblePhraseDiv?.dataset?.type === 'phrase' &&
+      possiblePhraseDiv?.textContent &&
+      pointerEvent.type === 'touchend'
+    ) {
+      const current = userWords.filter(
+        (wordObj) =>
+          wordObj.word === possiblePhraseDiv?.textContent?.toLowerCase()
+      );
 
       if (current.length === 1) {
         setCurrentWord(current[0]);
@@ -74,8 +99,10 @@ const Word = function ({ word, dataKey, context }:
     } else {
       const selectedWord = input.textContent || '';
 
-      const wordObj = userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-        === selectedWord.toLowerCase());
+      const wordObj = userWords.filter(
+        (arrWordObj) =>
+          arrWordObj.word.toLowerCase() === selectedWord.toLowerCase()
+      );
 
       if (wordObj.length > 0) {
         const wordObject = { ...wordObj[0] };
@@ -84,31 +111,41 @@ const Word = function ({ word, dataKey, context }:
           wordObject.status = 'learning';
         }
 
-        const updatedWords = [...userWords.filter((arrWordObj) => arrWordObj.word.toLowerCase()
-          !== selectedWord.toLowerCase() && arrWordObj.id), wordObject];
+        const updatedWords = [
+          ...userWords.filter(
+            (arrWordObj) =>
+              arrWordObj.word.toLowerCase() !== selectedWord.toLowerCase() &&
+              arrWordObj.id
+          ),
+          wordObject,
+        ];
         setUserWords(updatedWords);
         setCurrentWord(wordObject);
         setCurrentWordContext(context);
       } else {
         const newWordObj: UserWord = {
-          word: `${selectedWord.toLowerCase()}`, status: 'learning', translations: [],
+          word: `${selectedWord.toLowerCase()}`,
+          status: 'learning',
+          translations: [],
         };
 
         setCurrentWord(newWordObj);
         setCurrentWordContext(context);
 
-        const updatedWords = [...userWords
-          .filter((wordObject) => wordObject.id !== undefined), newWordObj];
+        const updatedWords = [
+          ...userWords.filter((wordObject) => wordObject.id !== undefined),
+          newWordObj,
+        ];
         setUserWords(updatedWords);
       }
     }
   };
 
-
-  const isElement = function(element: Element | EventTarget): element is Element {
+  const isElement = function (
+    element: Element | EventTarget
+  ): element is Element {
     return (element as Element).nodeName !== undefined;
   };
-
 
   const highlightWordsInPhrases = function (target: EventTarget | Element) {
     if (isElement(target)) {
@@ -123,7 +160,6 @@ const Word = function ({ word, dataKey, context }:
     }
   };
 
-
   let wordClass = '';
   if (wordStatus === 'learning') {
     wordClass = 'bg-fuchsia-500/40 dark:bg-fuchsia-500/40';
@@ -132,7 +168,7 @@ const Word = function ({ word, dataKey, context }:
   }
 
   return (
-    <div className='inline-block text-xl md:text-lg my-2 md:my-1.5'>
+    <div className="inline-block text-xl md:text-lg my-2 md:my-1.5">
       <span
         onTouchEnd={(event) => {
           setIsTouch(true);
@@ -147,11 +183,14 @@ const Word = function ({ word, dataKey, context }:
             window.getSelection()?.empty();
           }
         }}
-
         onMouseUp={(event) => {
           const pointerEvent = event.nativeEvent as PointerEvent | TouchEvent;
 
-          if (window.getSelection()?.toString() && pointerEvent.type === 'mouseup' && !isTouch) {
+          if (
+            window.getSelection()?.toString() &&
+            pointerEvent.type === 'mouseup' &&
+            !isTouch
+          ) {
             getHighlightedWordOrPhrase();
           } else if (pointerEvent.type === 'mouseup' && !isTouch) {
             getClickedOnWord(event);
@@ -161,12 +200,16 @@ const Word = function ({ word, dataKey, context }:
           window.getSelection()?.empty();
           setIsTouch(false);
         }}
-
         onTouchStart={() => setTouchStart(window.scrollY)}
         onMouseOver={(event) => highlightWordsInPhrases(event.target)}
-        className={`${wordClass} ${isWordInPhrase ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600' : 'betterhover:hover:border-blue-500'} cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
+        className={`${wordClass} ${
+          isWordInPhrase
+            ? 'betterhover:hover:bg-violet-400 dark:betterhover:hover:bg-violet-600'
+            : 'betterhover:hover:border-blue-500'
+        } cursor-pointer border border-transparent py-2 md:py-1 p-px rounded-md`}
         data-key={dataKey}
-        data-type={'word'}>
+        data-type={'word'}
+      >
         {word}
       </span>
     </div>

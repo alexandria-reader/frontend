@@ -26,8 +26,14 @@ xdescribe('can sign up a new user', () => {
   it('signs up new user succeeds', () => {
     cy.visit('/signup');
 
-    const newUserName = `${Array(4).fill(0).map((_num) => Math.random().toString(36).charAt(2)).join('')}@example.com`;
-    const newPassword = Array(7).fill(0).map((_num) => Math.random().toString(36).charAt(2)).join('');
+    const newUserName = `${Array(4)
+      .fill(0)
+      .map((_num) => Math.random().toString(36).charAt(2))
+      .join('')}@example.com`;
+    const newPassword = Array(7)
+      .fill(0)
+      .map((_num) => Math.random().toString(36).charAt(2))
+      .join('');
     cy.get('input[name="username').type('newUser');
     cy.get('input[name="email').type(newUserName);
     cy.get('input[name="password').type(newPassword);
