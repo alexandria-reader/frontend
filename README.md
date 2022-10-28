@@ -12,6 +12,10 @@ Then run `npm run dev`.
 
 Now that the frontend is started, follow the getting started instructions in the backend `README.md`.
 
+# Troubleshooting
+
+If, when getting the backend and frontend working together, you get a 500 error from the languages endpoint, make sure that the database is running locally and that the seed data is present. You can start the database by running `npm run start-docker-postgres`.
+
 ## Features Highlight
 
 ### Add translation for selected words
