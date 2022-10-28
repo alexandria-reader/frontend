@@ -13,7 +13,7 @@ import { UserWord } from '../../types';
 
 import phraseFromSelection from '../../utils/phraseSelection';
 
-const Word = function ({
+const Word = function({
   word,
   dataKey,
   context,
@@ -33,7 +33,7 @@ const Word = function ({
 
   const wordStatus = markedWords[word.toLowerCase()];
 
-  const getHighlightedWordOrPhrase = function () {
+  const getHighlightedWordOrPhrase = function() {
     const selection: Selection | null = window.getSelection();
 
     if (selection?.toString() && selection !== null) {
@@ -74,7 +74,7 @@ const Word = function ({
     }
   };
 
-  const getClickedOnWord = function (
+  const getClickedOnWord = function(
     event: React.MouseEvent | TouchEvent<HTMLSpanElement>
   ) {
     const input = event.target as HTMLElement;
@@ -141,13 +141,13 @@ const Word = function ({
     }
   };
 
-  const isElement = function (
+  const isElement = function(
     element: Element | EventTarget
   ): element is Element {
     return (element as Element).nodeName !== undefined;
   };
 
-  const highlightWordsInPhrases = function (target: EventTarget | Element) {
+  const highlightWordsInPhrases = function(target: EventTarget | Element) {
     if (isElement(target)) {
       const possiblePhraseDiv = target?.parentElement?.parentElement;
 

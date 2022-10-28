@@ -16,7 +16,7 @@ export default function Settings() {
   const user = useRecoilValue(userState);
   const [, setLanguages] = useRecoilState(languagesState);
 
-  const getLanguageListFromServer = async function () {
+  const getLanguageListFromServer = async function() {
     const dbLanguages = await languageServices.getAllLanguages();
     setLanguages(dbLanguages);
   };

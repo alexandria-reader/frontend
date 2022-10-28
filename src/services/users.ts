@@ -6,7 +6,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/users`;
 
-const getUserFromToken = async function (token: string) {
+const getUserFromToken = async function(token: string) {
   const response = await axios.get(`${baseUrl}/from-token`, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -15,7 +15,7 @@ const getUserFromToken = async function (token: string) {
   return foundUser;
 };
 
-const confirmPassword = async function (password: string) {
+const confirmPassword = async function(password: string) {
   const token = getToken();
 
   const response = await axios
@@ -38,7 +38,7 @@ const confirmPassword = async function (password: string) {
   return match === 'true';
 };
 
-const addUser = async function (newUser: User) {
+const addUser = async function(newUser: User) {
   const response = await axios
     .post(`${baseUrl}/`, newUser)
     .then((res) => res)
@@ -49,7 +49,7 @@ const addUser = async function (newUser: User) {
   return response;
 };
 
-const updateInfo = async function (userName: string, email: string) {
+const updateInfo = async function(userName: string, email: string) {
   const token = getToken();
   const response = await axios
     .put(
@@ -71,7 +71,7 @@ const updateInfo = async function (userName: string, email: string) {
   return response.data;
 };
 
-const updatePassword = async function (
+const updatePassword = async function(
   currentPassword: string,
   newPassword: string
 ) {
@@ -95,7 +95,7 @@ const updatePassword = async function (
   return response;
 };
 
-const setUserLanguages = async function (
+const setUserLanguages = async function(
   knownLanguageId: string,
   learnLanguageId: string
 ) {
@@ -112,7 +112,7 @@ const setUserLanguages = async function (
   return response.data;
 };
 
-const removeUser = async function () {
+const removeUser = async function() {
   const token = getToken();
 
   const response = await axios

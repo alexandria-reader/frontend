@@ -6,7 +6,7 @@ import { ArticleData } from '../types';
 
 const baseUrl = `${host}/api/url`;
 
-const postURL = async function (url: string) {
+const postURL = async function(url: string) {
   const token = getToken();
 
   const response = await axios.post(

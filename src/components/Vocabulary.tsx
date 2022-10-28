@@ -9,14 +9,14 @@ import { userState } from '../states/recoil-states';
 import wordsService from '../services/words';
 import { UserWord } from '../types';
 
-const VocabularyTable = function ({
+const VocabularyTable = function({
   userwords,
   setUserwords,
 }: {
   userwords: Array<UserWord>;
   setUserwords: React.Dispatch<React.SetStateAction<UserWord[]>>;
 }) {
-  const sortUserwordsByStatus = function () {
+  const sortUserwordsByStatus = function() {
     const sorted = userwords.slice();
     sorted.sort((a, b) => {
       if (a.status === 'learning' && b.status === 'familiar') return -1;
@@ -27,7 +27,7 @@ const VocabularyTable = function ({
     setUserwords(sorted);
   };
 
-  const sortUserwordsByABC = function () {
+  const sortUserwordsByABC = function() {
     const sorted = userwords.slice();
     sorted.sort((a, b) => {
       if (a.word < b.word) return -1;
@@ -140,11 +140,11 @@ const VocabularyTable = function ({
   );
 };
 
-const Vocabulary = function () {
+const Vocabulary = function() {
   const [userwords, setUserwords] = useState<Array<UserWord>>([]);
   const user = useRecoilValue(userState);
 
-  const fetchUserwords = async function () {
+  const fetchUserwords = async function() {
     if (user) {
       const userWordsResponse = await wordsService.getUserwordsByLanguage(
         user.learnLanguageId

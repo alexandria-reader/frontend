@@ -52,7 +52,7 @@ const screenshots = [
   },
 ];
 
-const Screenshot = function ({
+const Screenshot = function({
   heading,
   paragraph,
   gif,

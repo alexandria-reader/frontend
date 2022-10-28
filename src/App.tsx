@@ -33,7 +33,7 @@ function App() {
 
   toggleTheme();
 
-  const fetchUserInfo = async function () {
+  const fetchUserInfo = async function() {
     if (!user) {
       const localToken = getToken();
 

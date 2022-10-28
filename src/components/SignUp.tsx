@@ -46,7 +46,7 @@ export default function SignUp() {
     },
   });
 
-  const getLanguageListFromServer = async function () {
+  const getLanguageListFromServer = async function() {
     const dbLanguages = await languageServices.getAllLanguages();
     setLanguages(dbLanguages);
   };

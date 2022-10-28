@@ -5,7 +5,7 @@ import host from './host';
 
 const baseUrl = `${host}/verify`;
 
-const resendEmail = async function (): Promise<boolean> {
+const resendEmail = async function(): Promise<boolean> {
   const token = getToken();
   try {
     const response = await axios.get(`${baseUrl}/resend-email`, {

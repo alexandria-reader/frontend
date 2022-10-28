@@ -4,7 +4,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/webdictionaries`;
 
-const getBySourceTarget = async function (
+const getBySourceTarget = async function(
   sourceLanguageId: string,
   targetLanguageId: string
 ): Promise<Array<Webdictionary>> {

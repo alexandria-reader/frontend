@@ -13,7 +13,7 @@ export default function Verified() {
   const [user, setUser] = useRecoilState(userState);
   const [sent, setSent] = useState(false);
 
-  const setVerification = async function () {
+  const setVerification = async function() {
     const localToken = getToken();
 
     if (user && typeof localToken === 'string') {
@@ -26,7 +26,7 @@ export default function Verified() {
     setVerification();
   }, []);
 
-  const sendMail = async function () {
+  const sendMail = async function() {
     if (!sent) {
       const response = await verify.resendEmail();
       setSent(response);

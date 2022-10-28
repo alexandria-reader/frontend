@@ -23,14 +23,14 @@ import wordsService from '../../services/words';
 import translationServices from '../../services/translations';
 import shortenContext from '../../utils/shortenContext';
 
-const ChangeStatus = function ({ word }: { word: UserWord | null }) {
+const ChangeStatus = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const setCurrentWord = useSetRecoilState(currentwordState);
   const resetCurrentWord = useResetRecoilState(currentwordState);
 
   const user = useRecoilValue(userState);
 
-  const setWordStatus = function (status: Status, userWord: UserWord) {
+  const setWordStatus = function(status: Status, userWord: UserWord) {
     const newUserWord = { ...userWord };
     newUserWord.status = status;
 
@@ -138,7 +138,7 @@ const ChangeStatus = function ({ word }: { word: UserWord | null }) {
   return <div className="">{wordStatusToolbar}</div>;
 };
 
-const DictionaryIframe = function ({ url }: { url: string }) {
+const DictionaryIframe = function({ url }: { url: string }) {
   return (
     <div className="flex justify-center">
       <iframe
@@ -152,7 +152,7 @@ const DictionaryIframe = function ({ url }: { url: string }) {
   );
 };
 
-const CurrentTranslationInput = function ({
+const CurrentTranslationInput = function({
   translation,
   currentWord,
 }: {
@@ -164,7 +164,7 @@ const CurrentTranslationInput = function ({
   const setCurrentWord = useSetRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
 
-  const deleteTranslation = async function () {
+  const deleteTranslation = async function() {
     const response = await translationServices.removeTranslation(translation);
     if (response) {
       const currentWordTranslations = currentWord.translations.filter(
@@ -185,7 +185,7 @@ const CurrentTranslationInput = function ({
     }
   };
 
-  const updateTranslation = async function () {
+  const updateTranslation = async function() {
     // should the object be deleted if all the chars are deleted?
     if (value !== initialValue && value) {
       const newTranslation = { ...translation };
@@ -259,7 +259,7 @@ const CurrentTranslationInput = function ({
   );
 };
 
-const TranslationComponent = function ({ word }: { word: UserWord | null }) {
+const TranslationComponent = function({ word }: { word: UserWord | null }) {
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const currentText = useRecoilValue(currenttextState);
@@ -268,7 +268,7 @@ const TranslationComponent = function ({ word }: { word: UserWord | null }) {
   const user = useRecoilValue(userState);
   const location = useLocation();
 
-  const handleTranslation = async function (
+  const handleTranslation = async function(
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     translation: string,
     userWord: UserWord | null
@@ -380,7 +380,7 @@ const TranslationComponent = function ({ word }: { word: UserWord | null }) {
   // if a translation is not set, the state should be restored to 'undefined'
   const [translation, setTranslation] = useState('');
   const [showDictionary, setShowDictionary] = useState(false);
-  const handleInput = function (event: ChangeEvent<HTMLInputElement>) {
+  const handleInput = function(event: ChangeEvent<HTMLInputElement>) {
     setTranslation(event.target.value);
   };
 
@@ -537,20 +537,20 @@ const TranslationComponent = function ({ word }: { word: UserWord | null }) {
   );
 };
 
-const TranslationInput = function () {
+const TranslationInput = function() {
   const [currentWord, setCurrentWord] = useRecoilState(currentwordState);
   const [userWords, setUserWords] = useRecoilState(userwordsState);
   const user = useRecoilValue(userState);
   const location = useLocation();
   const voices = window.speechSynthesis.getVoices();
 
-  const isElement = function (
+  const isElement = function(
     element: Element | EventTarget
   ): element is Element {
     return (element as Element).nodeName !== undefined;
   };
 
-  const closeModal = function (event: MouseEvent) {
+  const closeModal = function(event: MouseEvent) {
     event?.preventDefault();
     const element = event.target;
 
@@ -572,7 +572,7 @@ const TranslationInput = function () {
   };
 
   // specific language variants can be added
-  const speak = async function () {
+  const speak = async function() {
     if (currentWord && user) {
       const utterance = new SpeechSynthesisUtterance(currentWord?.word);
 

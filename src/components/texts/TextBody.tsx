@@ -10,7 +10,7 @@ import { Paragraph } from './Paragraph-Sentence-Phrase';
 
 import { stripPunctuation } from '../../utils/punctuation';
 
-const TextBody = function ({
+const TextBody = function({
   title,
   textBody,
 }: {
@@ -22,13 +22,13 @@ const TextBody = function ({
   const setCurrentWordContext = useSetRecoilState(currentwordContextState);
   const paragraphs = textBody.split('\n').filter(Boolean);
 
-  const isElement = function (
+  const isElement = function(
     element: Element | EventTarget
   ): element is Element {
     return (element as Element).nodeName !== undefined;
   };
 
-  const removeUnusedWordOrGetPhrase = function (
+  const removeUnusedWordOrGetPhrase = function(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) {
     const { target }: { target: Element | EventTarget } = event;

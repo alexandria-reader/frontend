@@ -43,7 +43,7 @@ export default function Navbar() {
     defaultDark ? 'dark' : 'light'
   );
 
-  const toggleDarkMode = function () {
+  const toggleDarkMode = function() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     if (newTheme === 'dark') {
@@ -57,14 +57,14 @@ export default function Navbar() {
     }
   };
 
-  const getLanguageListFromServer = async function () {
+  const getLanguageListFromServer = async function() {
     const dbLanguages = await languageService.getAllLanguages();
     setLanguages(dbLanguages);
   };
 
   const [user, setUser] = useRecoilState(userState);
 
-  const setUserLanguagesOnServer = async function (
+  const setUserLanguagesOnServer = async function(
     event: /* eslint-disable max-len */
     MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
     learnLanguageId: string

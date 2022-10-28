@@ -1,6 +1,6 @@
 import { stripPunctuationExceptEndOfLine } from './punctuation';
 
-const selectedBackwards = function (selection: Selection): boolean {
+const selectedBackwards = function(selection: Selection): boolean {
   const range = document.createRange();
 
   if (selection.anchorNode && selection.focusNode) {
@@ -14,7 +14,7 @@ const selectedBackwards = function (selection: Selection): boolean {
   return backwards;
 };
 
-const phraseFromSelection = function (selection: Selection): string {
+const phraseFromSelection = function(selection: Selection): string {
   const start = selection.anchorNode as Node;
   const end = selection.focusNode as Node;
   const backwards = selectedBackwards(selection);
