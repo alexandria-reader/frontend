@@ -30,14 +30,6 @@
     "linebreak-style": "warn",
     "@typescript-eslint/func-names": ["off"],
     "func-names": ["off"],
-    "@typescript-eslint/space-before-function-paren": [
-      "error",
-      {
-        "anonymous": "never",
-        "named": "never",
-        "asyncArrow": "always"
-      }
-    ],
     "space-before-function-paren": [
       "error",
       {

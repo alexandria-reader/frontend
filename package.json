@@ -6,14 +6,19 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "eslint --ext .ts",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "npx prettier --write .",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "src/**/*.{js,ts,jsx,tsx}": [
+      "prettier --write --ignore-unknown",
+      "eslint --fix src/",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "extends": [
