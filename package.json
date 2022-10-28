@@ -6,7 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "npx prettier --write .",
+    "lint": "eslint --ext .ts",
+    "format": "npx prettier --write .",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "prepare": "husky install"
