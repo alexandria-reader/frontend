@@ -10,7 +10,7 @@ import {
 import { ArticleData, Text } from '../../types';
 import urlService from '../../services/url';
 
-const TextForm = function() {
+const TextForm = function () {
   const [textList, setTextList] = useRecoilState(textlistState);
   const [newTextBody, setNewTextBody] = useState('');
   const [newTextTitle, setNewTextTitle] = useState('');
@@ -23,7 +23,7 @@ const TextForm = function() {
 
   const user = useRecoilValue(userState);
 
-  const fetchUserTexts = async function() {
+  const fetchUserTexts = async function () {
     if (user) {
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(
         user.learnLanguageId
@@ -44,7 +44,7 @@ const TextForm = function() {
     }
   }, [textToEdit]);
 
-  const submitText = async function(event: FormEvent<HTMLFormElement>) {
+  const submitText = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const newTextObj: Text = {
@@ -64,7 +64,7 @@ const TextForm = function() {
     setNewTextTitle('');
   };
 
-  const extractTextFromURL = async function(
+  const extractTextFromURL = async function (
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
@@ -99,7 +99,7 @@ const TextForm = function() {
     }
   };
 
-  const updateText = async function(event: FormEvent<HTMLFormElement>) {
+  const updateText = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (user && textList && textToEdit) {
@@ -127,7 +127,7 @@ const TextForm = function() {
     setTextToEdit(null);
   };
 
-  const cancelButton = function() {
+  const cancelButton = function () {
     setTextToEdit(null);
     setNewTextBody('');
     setNewTextTitle('');

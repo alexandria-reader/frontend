@@ -5,7 +5,7 @@ const noWordFinder = "(?<nowords>[^\\p{Letter}\\p{Mark}'-]+)";
 
 export const wordRegExp = new RegExp(wordFinder, 'gui');
 
-export const parseText = function(text: string, phrases: Array<string> = []) {
+export const parseText = function (text: string, phrases: Array<string> = []) {
   const phraseRegExps = phrases.map((phrase) =>
     stripPunctuation(phrase).split(' ').join("[^\\p{Letter}\\p{Mark}'-]+")
   );

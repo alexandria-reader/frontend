@@ -12,7 +12,7 @@ const phrasesState = selector({
     Object.keys(get(markedwordsState)).filter((key) => key.match(/\S\s+\S/)),
 });
 
-export const Phrase = function({
+export const Phrase = function ({
   phrase,
   context,
 }: {
@@ -58,7 +58,7 @@ export const Phrase = function({
   );
 };
 
-export const Sentence = function({ sentence }: { sentence: string }) {
+export const Sentence = function ({ sentence }: { sentence: string }) {
   const phrases = useRecoilValue(phrasesState);
   const tokens = parseText(sentence, phrases);
 
@@ -95,7 +95,7 @@ export const Sentence = function({ sentence }: { sentence: string }) {
   );
 };
 
-export const Paragraph = function({ paragraph }: { paragraph: string }) {
+export const Paragraph = function ({ paragraph }: { paragraph: string }) {
   const sentences = paragraph.match(/[^\s]([^!?.]|\.{3})*["!?.:;\s]*/gmu) || [
     '',
   ];

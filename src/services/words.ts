@@ -6,7 +6,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/words`;
 
-const getUserwordsInText = async function(
+const getUserwordsInText = async function (
   currentTextId: string,
   targetLanguageId: string
 ): Promise<Array<UserWord>> {
@@ -23,7 +23,7 @@ const getUserwordsInText = async function(
   return userWords;
 };
 
-const getUserwordsByLanguage = async function(
+const getUserwordsByLanguage = async function (
   languageId: string
 ): Promise<Array<UserWord>> {
   const token = getToken();
@@ -36,7 +36,7 @@ const getUserwordsByLanguage = async function(
   return userWords;
 };
 
-const addWordWithTranslation = async function(word: UserWord) {
+const addWordWithTranslation = async function (word: UserWord) {
   const token = getToken();
 
   const request = await axios.post(`${baseUrl}/`, word, {
@@ -47,7 +47,7 @@ const addWordWithTranslation = async function(word: UserWord) {
   return response;
 };
 
-const updateStatus = async function(word: UserWord) {
+const updateStatus = async function (word: UserWord) {
   const token = getToken();
   const { id, status } = word;
 

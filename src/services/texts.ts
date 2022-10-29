@@ -5,7 +5,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/texts`;
 
-const getAllUserTextsByLanguage = async function(languageId: string) {
+const getAllUserTextsByLanguage = async function (languageId: string) {
   const token = getToken();
 
   const response = await axios.get(`${baseUrl}/language/${languageId}`, {
@@ -16,7 +16,7 @@ const getAllUserTextsByLanguage = async function(languageId: string) {
   return texts;
 };
 
-const getTextById = async function(id: string) {
+const getTextById = async function (id: string) {
   const token = getToken();
 
   const response = await axios.get(`${baseUrl}/${id}`, {
@@ -26,7 +26,7 @@ const getTextById = async function(id: string) {
   return response.data;
 };
 
-const postNewText = async function(newText: Text) {
+const postNewText = async function (newText: Text) {
   const token = getToken();
 
   const response = await axios.post(`${baseUrl}`, newText, {
@@ -37,7 +37,7 @@ const postNewText = async function(newText: Text) {
   return text;
 };
 
-const updateText = async function(textToUpdate: Text) {
+const updateText = async function (textToUpdate: Text) {
   const token = getToken();
 
   const response = await axios.put(
@@ -52,7 +52,7 @@ const updateText = async function(textToUpdate: Text) {
   return text;
 };
 
-const removeTextFromServer = async function(id: number) {
+const removeTextFromServer = async function (id: number) {
   const token = getToken();
 
   const response = await axios.delete(`${baseUrl}/${id}`, {

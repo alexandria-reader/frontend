@@ -20,7 +20,7 @@ export default function LoggedOutNav() {
     defaultDark ? 'dark' : 'light'
   );
 
-  const toggleDarkMode = function() {
+  const toggleDarkMode = function () {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     if (newTheme === 'dark') {

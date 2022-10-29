@@ -14,13 +14,13 @@ export default function DeleteAccount() {
 
   const navigate = useNavigate();
 
-  const confirmPassword = async function(event: FormEvent<HTMLFormElement>) {
+  const confirmPassword = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const match = await userServices.confirmPassword(password);
     setPasswordIsConfirmed(match);
   };
 
-  const removeUser = async function() {
+  const removeUser = async function () {
     const response = await userServices.removeUser();
     if (response.status === 204) {
       setUser(null);

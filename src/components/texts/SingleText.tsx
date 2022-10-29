@@ -20,7 +20,7 @@ import NotFound from '../NotFound';
 import demoText from '../../utils/demoText';
 import demoUserWords from '../../utils/demoWords';
 
-const SingleText = function() {
+const SingleText = function () {
   const [currentText, setCurrentText] = useRecoilState(currenttextState);
   const setUserWords = useSetRecoilState(userwordsState);
   const user = useRecoilValue(userState);
@@ -28,7 +28,7 @@ const SingleText = function() {
   const [error, setError] = useState('');
   const location = useLocation();
 
-  const fetchUserwords = async function() {
+  const fetchUserwords = async function () {
     if (currentText && user) {
       const userWordsResponse = await wordsService.getUserwordsInText(
         String(currentText.id),
@@ -38,7 +38,7 @@ const SingleText = function() {
     }
   };
 
-  const fetchTextAndUserwords = async function() {
+  const fetchTextAndUserwords = async function () {
     if (params.textId && getToken()) {
       try {
         const text = await textsService.getTextById(params.textId);

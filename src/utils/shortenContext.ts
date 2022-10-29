@@ -1,4 +1,4 @@
-const shortenContext = function(word: string, context: string) {
+const shortenContext = function (word: string, context: string) {
   const regex = new RegExp(
     `(\\S+[ \\b]){0,5}\\b${word}\\b([ \\b]*\\S+[ \\b]*){0,5}`,
     'gui'

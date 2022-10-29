@@ -5,7 +5,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/translations`;
 
-const addTranslation = async function(translationObj: Translation) {
+const addTranslation = async function (translationObj: Translation) {
   const token = getToken();
 
   const response = await axios.post(`${baseUrl}/`, translationObj, {
@@ -15,7 +15,7 @@ const addTranslation = async function(translationObj: Translation) {
   return response.data;
 };
 
-const updateTranslation = async function(translationObj: Translation) {
+const updateTranslation = async function (translationObj: Translation) {
   const token = getToken();
 
   const response = await axios.put(
@@ -30,7 +30,7 @@ const updateTranslation = async function(translationObj: Translation) {
   return updatedTranslation;
 };
 
-const removeTranslation = async function(translationObj: Translation) {
+const removeTranslation = async function (translationObj: Translation) {
   const token = getToken();
 
   const response = await axios.delete(`${baseUrl}/${translationObj.id}`, {

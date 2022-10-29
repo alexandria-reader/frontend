@@ -20,7 +20,7 @@ import { Text, UserWord } from '../types';
 import textsService from '../services/texts';
 import wordsService from '../services/words';
 
-const IndividualText = function({
+const IndividualText = function ({
   text,
   setOpenModal,
   setTextToDelete,
@@ -33,7 +33,7 @@ const IndividualText = function({
   const setCurrentWord = useSetRecoilState(currentwordState);
   const setTextToEdit = useSetRecoilState(textToEditState);
 
-  const confirmDeleteText = function() {
+  const confirmDeleteText = function () {
     setTextToDelete(text);
     setOpenModal(true);
   };
@@ -179,7 +179,7 @@ const IndividualText = function({
   );
 };
 
-const Stats = function() {
+const Stats = function () {
   const textList = useRecoilValue(textlistState);
   const user = useRecoilValue(userState);
   const [learningWords, setLearningWords] = useState(0);
@@ -188,7 +188,7 @@ const Stats = function() {
   const [textsLength, setTextsLength] = useState(0);
   const [userwords, setUserWords] = useState<Array<UserWord>>([]);
 
-  const getWordCount = function() {
+  const getWordCount = function () {
     setLearningWords(
       userwords.filter((word) => word.status === 'learning').length
     );
@@ -208,7 +208,7 @@ const Stats = function() {
     setTextsLength(textList?.length || 0);
   }, [textList]);
 
-  const fetchUserwords = async function() {
+  const fetchUserwords = async function () {
     if (user) {
       const userWordsResponse = await wordsService.getUserwordsByLanguage(
         user.learnLanguageId
@@ -337,14 +337,14 @@ const Stats = function() {
   );
 };
 
-const UserTexts = function() {
+const UserTexts = function () {
   const [textList, setTextList] = useRecoilState(textlistState);
   const user = useRecoilValue(userState);
   const names = useRecoilValue(languageNamesState);
   const [openModal, setOpenModal] = useState(false);
   const [textToDelete, setTextToDelete] = useState(null);
 
-  const removeTextFromServer = async function() {
+  const removeTextFromServer = async function () {
     if (textToDelete) {
       const { id } = textToDelete;
       if (id && user && textList) {
@@ -355,7 +355,7 @@ const UserTexts = function() {
     }
   };
 
-  const fetchUserTexts = async function() {
+  const fetchUserTexts = async function () {
     if (user) {
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(
         user.learnLanguageId
