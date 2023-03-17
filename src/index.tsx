@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
@@ -24,9 +24,10 @@ import './App.css';
 
 <link href="/dist/output.css" rel="stylesheet"></link>;
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root')!;
+const root = createRoot(rootElement);
 
-render(
+root.render(
   <React.StrictMode>
     <RecoilRoot>
       <Router>
@@ -109,6 +110,5 @@ render(
         </Routes>
       </Router>
     </RecoilRoot>
-  </React.StrictMode>,
-  rootElement
+  </React.StrictMode>
 );

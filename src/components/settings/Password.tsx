@@ -176,12 +176,12 @@ export default function Languages() {
               )}
               {errors2.password && (
                 <p style={{ color: 'red', fontSize: '14px' }}>
-                  {errors2.password.message}
+                  {errors2.password.message?.toString()}
                 </p>
               )}
               {errors2.checkInputPasswords && (
                 <p style={{ color: 'red', fontSize: '14px' }}>
-                  {errors2.checkInputPasswords.message}
+                  {errors2.checkInputPasswords.message?.toString()}
                 </p>
               )}
             </div>

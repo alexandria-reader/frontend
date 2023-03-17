@@ -8,7 +8,7 @@ Alexandria is accessible [here](https://tryalexandria.com/).
 
 First clone both this repo and the [backend](https://github.com/alexandria-reader/backend).
 Run `npm install` to install the dependencies, then add a .`env` file to the root directory with the values from `.env.sample`.
-Then run `npm run dev`.
+Then run `npm start`.
 
 Now that the frontend is started, follow the getting started instructions in the backend `README.md`.
 

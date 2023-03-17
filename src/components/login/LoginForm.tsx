@@ -116,7 +116,7 @@ export default function LoginForm({ from }: { from: string }) {
             {errors.password && (
               <p style={{ color: 'red', fontSize: '14px' }}>
                 {' '}
-                {errors.password.message}
+                {errors.password.message?.toString()}
               </p>
             )}
           </div>

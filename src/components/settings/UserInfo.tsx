@@ -120,7 +120,7 @@ export default function UserInfo() {
               )}
               {errors.email && (
                 <p style={{ color: 'red', fontSize: '14px' }}>
-                  {errors.email.message}
+                  {errors.email.message?.toString()}
                 </p>
               )}
             </div>
