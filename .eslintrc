@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base"
-  ],
+  "extends": ["airbnb-base", "airbnb-typescript/base", "prettier"],
   "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true,
@@ -17,9 +14,9 @@
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/no-explicit-any": [ 
+    "@typescript-eslint/no-explicit-any": [
       "error",
-      {  
+      {
         "fixToUnknown": true,
         "ignoreRestArgs": false
       }
@@ -33,7 +30,6 @@
     "linebreak-style": "warn",
     "@typescript-eslint/func-names": ["off"],
     "func-names": ["off"],
-    "@typescript-eslint/space-before-function-paren": ["off"],
     "space-before-function-paren": ["off"],
     "no-multiple-empty-lines": ["error", { "max": 2 }],
     "import/extensions": [
@@ -45,7 +41,7 @@
         "ts": "never",
         "tsx": "never"
       }
-   ]
+    ]
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

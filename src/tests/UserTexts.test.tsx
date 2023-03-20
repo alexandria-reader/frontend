@@ -22,14 +22,21 @@ xdescribe('Tests user ability to interact with texts', () => {
 
     await textsServices.postNewText(newTextObj);
     const fetchUserTexts = await textsServices.getAllUserTextsByLanguage('en');
-    expect(fetchUserTexts[fetchUserTexts.length - 1].body).toContain('HERE were once five-and-twenty tin soldiers');
+    expect(fetchUserTexts[fetchUserTexts.length - 1].body).toContain(
+      'HERE were once five-and-twenty tin soldiers'
+    );
   });
 
   test('User deletes existing text', async () => {
     const fetchUserTexts = await textsServices.getAllUserTextsByLanguage('en');
     const lastInsertedId = fetchUserTexts[fetchUserTexts.length - 1].id;
-    if (lastInsertedId) await textsServices.removeTextFromServer(lastInsertedId);
-    const fetchUserTextsAgain = await textsServices.getAllUserTextsByLanguage('en');
-    expect(fetchUserTextsAgain[fetchUserTextsAgain.length - 1].body).not.toContain('HERE were once five-and-twenty tin soldiers');
+    if (lastInsertedId)
+      await textsServices.removeTextFromServer(lastInsertedId);
+    const fetchUserTextsAgain = await textsServices.getAllUserTextsByLanguage(
+      'en'
+    );
+    expect(
+      fetchUserTextsAgain[fetchUserTextsAgain.length - 1].body
+    ).not.toContain('HERE were once five-and-twenty tin soldiers');
   });
 });

@@ -6,8 +6,7 @@ import host from './host';
 
 const baseUrl = `${host}/api/users`;
 
-
-const getUserFromToken = async function(token: string) {
+const getUserFromToken = async function (token: string) {
   const response = await axios.get(`${baseUrl}/from-token`, {
     headers: { Authorization: `bearer ${token}` },
   });
@@ -16,15 +15,20 @@ const getUserFromToken = async function(token: string) {
   return foundUser;
 };
 
-
-const confirmPassword = async function(password: string) {
+const confirmPassword = async function (password: string) {
   const token = getToken();
 
-  const response = await axios.post(`${baseUrl}/confirm`, {
-    password,
-  }, {
-    headers: { Authorization: `bearer ${token}` },
-  }).then((res) => res)
+  const response = await axios
+    .post(
+      `${baseUrl}/confirm`,
+      {
+        password,
+      },
+      {
+        headers: { Authorization: `bearer ${token}` },
+      }
+    )
+    .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
       return message;
@@ -34,9 +38,9 @@ const confirmPassword = async function(password: string) {
   return match === 'true';
 };
 
-
-const addUser = async function(newUser: User) {
-  const response = await axios.post(`${baseUrl}/`, newUser)
+const addUser = async function (newUser: User) {
+  const response = await axios
+    .post(`${baseUrl}/`, newUser)
     .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
@@ -45,14 +49,20 @@ const addUser = async function(newUser: User) {
   return response;
 };
 
-
-const updateInfo = async function(userName: string, email: string) {
+const updateInfo = async function (userName: string, email: string) {
   const token = getToken();
-  const response = await axios.put(`${baseUrl}/update-info`, {
-    userName, email,
-  }, {
-    headers: { Authorization: `bearer ${token}` },
-  }).then((res) => res)
+  const response = await axios
+    .put(
+      `${baseUrl}/update-info`,
+      {
+        userName,
+        email,
+      },
+      {
+        headers: { Authorization: `bearer ${token}` },
+      }
+    )
+    .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
       return message;
@@ -61,14 +71,23 @@ const updateInfo = async function(userName: string, email: string) {
   return response.data;
 };
 
-
-const updatePassword = async function(currentPassword: string, newPassword: string) {
+const updatePassword = async function (
+  currentPassword: string,
+  newPassword: string
+) {
   const token = getToken();
-  const response = await axios.put(`${baseUrl}/change-password`, {
-    currentPassword, newPassword,
-  }, {
-    headers: { Authorization: `bearer ${token}` },
-  }).then((res) => res)
+  const response = await axios
+    .put(
+      `${baseUrl}/change-password`,
+      {
+        currentPassword,
+        newPassword,
+      },
+      {
+        headers: { Authorization: `bearer ${token}` },
+      }
+    )
+    .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
       return message;
@@ -76,24 +95,31 @@ const updatePassword = async function(currentPassword: string, newPassword: stri
   return response;
 };
 
-
-const setUserLanguages = async function(knownLanguageId: string, learnLanguageId: string) {
+const setUserLanguages = async function (
+  knownLanguageId: string,
+  learnLanguageId: string
+) {
   const token = getToken();
 
-  const response = await axios.put(`${baseUrl}/set-languages`, { knownLanguageId, learnLanguageId }, {
-    headers: { Authorization: `bearer ${token}` },
-  });
+  const response = await axios.put(
+    `${baseUrl}/set-languages`,
+    { knownLanguageId, learnLanguageId },
+    {
+      headers: { Authorization: `bearer ${token}` },
+    }
+  );
 
   return response.data;
 };
 
-
-const removeUser = async function() {
+const removeUser = async function () {
   const token = getToken();
 
-  const response = await axios.delete(`${baseUrl}/`, {
-    headers: { Authorization: `bearer ${token}` },
-  }).then((res) => res)
+  const response = await axios
+    .delete(`${baseUrl}/`, {
+      headers: { Authorization: `bearer ${token}` },
+    })
+    .then((res) => res)
     .catch((error) => {
       const { message } = error.response.data.error;
       return message;
@@ -111,4 +137,3 @@ export default {
   confirmPassword,
   removeUser,
 };
-

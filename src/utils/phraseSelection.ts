@@ -14,7 +14,6 @@ const selectedBackwards = function (selection: Selection): boolean {
   return backwards;
 };
 
-
 const phraseFromSelection = function (selection: Selection): string {
   const start = selection.anchorNode as Node;
   const end = selection.focusNode as Node;
@@ -26,17 +25,22 @@ const phraseFromSelection = function (selection: Selection): string {
     selection.setBaseAndExtent(start, 0, end, end.textContent.length);
   }
 
-  const selectedString = selection.getRangeAt(0).cloneContents().textContent || '';
+  const selectedString =
+    selection.getRangeAt(0).cloneContents().textContent || '';
 
-  const filteredSelectedStringArray = stripPunctuationExceptEndOfLine(selectedString)
-    .split(/[.?!]/); // stops selection at end of sentence
+  const filteredSelectedStringArray =
+    stripPunctuationExceptEndOfLine(selectedString).split(/[.?!]/); // stops selection at end of sentence
 
-  const first = filteredSelectedStringArray[0].split(' ')
+  const first = filteredSelectedStringArray[0]
+    .split(' ')
     .filter((_, index) => index < 10) // fewer than 10 words
     .join(' ')
     .trim();
 
-  const last = filteredSelectedStringArray[filteredSelectedStringArray.length - 1].split(' ')
+  const last = filteredSelectedStringArray[
+    filteredSelectedStringArray.length - 1
+  ]
+    .split(' ')
     .filter((_, index, array) => index > array.length - 11) // fewer than 10 words
     .join(' ')
     .trim();

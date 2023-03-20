@@ -1,6 +1,11 @@
 import { atom, selector } from 'recoil';
 import {
-  UserWord, StringHash, Text, Language, SanitizedUser, Webdictionary,
+  UserWord,
+  StringHash,
+  Text,
+  Language,
+  SanitizedUser,
+  Webdictionary,
 } from '../types';
 
 import { isPunctuated, stripPunctuation } from '../utils/punctuation';
@@ -23,12 +28,10 @@ export const textToEditState = atom<Text | null>({
   default: null,
 });
 
-
 export const userwordsState = atom<Array<UserWord>>({
   key: 'userwordsState',
   default: [],
 });
-
 
 export const markedwordsState = selector<StringHash>({
   key: 'markedwordsState',
@@ -72,7 +75,9 @@ export const languageFlagsState = selector<StringHash>({
 
     const languages = get(languagesState);
     languages.forEach((language) => {
-      flags[language.id] = navigator.userAgent.includes('indows') ? '' : language.flag;
+      flags[language.id] = navigator.userAgent.includes('indows')
+        ? ''
+        : language.flag;
     });
 
     return flags;
@@ -93,20 +98,20 @@ export const languageNamesState = selector<StringHash>({
   },
 });
 
-
 export const userState = atom<SanitizedUser | null>({
   key: 'userState',
   default: null,
 });
-
 
 export const currentdictionaryState = selector<Webdictionary | null>({
   key: 'currentdictionaryState',
   get: async ({ get }) => {
     const user = get(userState);
     if (user) {
-      const dictionaries = await webdictionaries
-        .getBySourceTarget(user?.learnLanguageId, user?.knownLanguageId);
+      const dictionaries = await webdictionaries.getBySourceTarget(
+        user?.learnLanguageId,
+        user?.knownLanguageId
+      );
       return dictionaries[0];
     }
     return null;

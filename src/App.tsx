@@ -58,15 +58,23 @@ function App() {
 
   return (
     <div className="min-h-screen min-w-full text-primary bg-secondary flex flex-col justify-between  mb-auto">
-      <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}
-        onReset={() => setErrorState(false)} resetKeys={[errorState]}>
+      <ErrorBoundary
+        FallbackComponent={Fallback}
+        onError={errorHandler}
+        onReset={() => setErrorState(false)}
+        resetKeys={[errorState]}
+      >
         <Nav />
-        {user ? <main className='container mx-auto mb-auto'>
+        {user ? (
+          <main className="container mx-auto mb-auto">
+            <Outlet />
+          </main>
+        ) : (
           <Outlet />
-        </main> : <Outlet />}
+        )}
         <Footer />
       </ErrorBoundary>
-  </div>
+    </div>
   );
 }
 

@@ -3,7 +3,10 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import userServices from '../../services/users';
 import {
-  languageFlagsState, languageNamesState, languagesState, userState,
+  languageFlagsState,
+  languageNamesState,
+  languagesState,
+  userState,
 } from '../../states/recoil-states';
 
 export default function Languages() {
@@ -26,7 +29,10 @@ export default function Languages() {
 
   const changeLanguages: SubmitHandler<FieldValues> = async (data) => {
     if (data.currentKnownLanguageId === data.currentLearnLanguageId) {
-      setError3('languages', { type: 'languages', message: ' Learning language cannot be the same as known language' });
+      setError3('languages', {
+        type: 'languages',
+        message: ' Learning language cannot be the same as known language',
+      });
       const timeId = setTimeout(() => {
         reset3();
       }, 5000);
@@ -35,8 +41,10 @@ export default function Languages() {
         clearTimeout(timeId);
       };
     }
-    const response = await userServices
-      .setUserLanguages(data.currentKnownLanguageId, data.currentLearnLanguageId);
+    const response = await userServices.setUserLanguages(
+      data.currentKnownLanguageId,
+      data.currentLearnLanguageId
+    );
     setUser(response);
     setLanguagemessage('Language settings updated');
     return null;
@@ -60,38 +68,68 @@ export default function Languages() {
         <div className="shadow sm:rounded-md sm:overflow-hidden">
           <div className="px-4 py-5 bg-tertiary sm:p-6 flex flex-col gap-4">
             <div>
-              <h2 className="text-xl text-secondary mb-3 tracking-normal">Update your learning preferences</h2>
+              <h2 className="text-xl text-secondary mb-3 tracking-normal">
+                Update your learning preferences
+              </h2>
               <p className="text-secondary text-sm">Update languages:</p>
-              <p className="text-sm text-green-600 font-bold">{showLanguageMessage && languagemessage}</p>
+              <p className="text-sm text-green-600 font-bold">
+                {showLanguageMessage && languagemessage}
+              </p>
             </div>
 
             <div>
-              <label htmlFor="currentKnownLanguageId" className='label text-sm'>I know</label>
-                {<select {...register3('currentKnownLanguageId')} defaultValue={user?.knownLanguageId} className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-600 focus:border-sky-600 focus:z-10 sm:text-sm">
-                {languages.map((lang) => <option key={lang.id}
-                  value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
-                </select>}
+              <label htmlFor="currentKnownLanguageId" className="label text-sm">
+                I know
+              </label>
+              {
+                <select
+                  {...register3('currentKnownLanguageId')}
+                  defaultValue={user?.knownLanguageId}
+                  className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-600 focus:border-sky-600 focus:z-10 sm:text-sm"
+                >
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {flags[lang.id]} {names[lang.id]}
+                    </option>
+                  ))}
+                </select>
+              }
             </div>
 
             <div>
-              <label htmlFor="currentLearnLanguageId" className='label text-sm'>I want to learn</label>
-              {<select {...register3('currentLearnLanguageId')} defaultValue={user?.learnLanguageId} className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-600 focus:border-sky-600 focus:z-10 sm:text-sm">
-              {languages.map((lang) => <option key={lang.id}
-                value={lang.id}>{flags[lang.id]} {names[lang.id]}</option>)}
-              </select>}
-              {errors3.languages && (<p style={{ color: 'red', fontSize: '14px' }}>{ errors3.languages.message}</p>)}
+              <label htmlFor="currentLearnLanguageId" className="label text-sm">
+                I want to learn
+              </label>
+              {
+                <select
+                  {...register3('currentLearnLanguageId')}
+                  defaultValue={user?.learnLanguageId}
+                  className="input bg-four dark:border-transparent appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-tertiary focus:outline-none focus:ring-sky-600 focus:border-sky-600 focus:z-10 sm:text-sm"
+                >
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {flags[lang.id]} {names[lang.id]}
+                    </option>
+                  ))}
+                </select>
+              }
+              {errors3.languages && (
+                <p style={{ color: 'red', fontSize: '14px' }}>
+                  {errors3.languages.message?.toString()}
+                </p>
+              )}
             </div>
 
-          <div className='pt-2 text-right'>
-            <button
-              type="submit"
-              className="button-lang-preferences relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600"
-            >
-              Save
-            </button>
+            <div className="pt-2 text-right">
+              <button
+                type="submit"
+                className="button-lang-preferences relative inline-flex items-center px-8 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600"
+              >
+                Save
+              </button>
+            </div>
           </div>
-          </div>
-          </div>
+        </div>
       </form>
     </div>
   );

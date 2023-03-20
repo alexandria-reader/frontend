@@ -9,7 +9,7 @@
     --bg-tertiary: #fff; /* white */
     --bg-four: #fff; /* white */
     --bg-five: #000; /* black */
-    
+
     --text-primary: #000000; /* black */
     --text-secondary: #4b5563; /* gray-600 */
     --text-tertiary: #111827; /* gray-900 */
@@ -44,7 +44,7 @@
   --bg-four: #374151; /* gray-700 */
   --bg-five: #000; /* black */
 
-  --text-primary: #e4e4e7 ; /* gray-200 */
+  --text-primary: #e4e4e7; /* gray-200 */
   --text-secondary: #cbd5e1; /*  */
   --text-tertiary: #f9fafb; /*  */
   --text-four: #000; /* black */
@@ -58,7 +58,7 @@
 /* dark - gray-900, boxes gray-800, heading text white, other text gray-400 */
 
 .dark input:-webkit-autofill,
-.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:hover,
 .dark input:-webkit-autofill:focus,
 .dark textarea:-webkit-autofill,
 .dark textarea:-webkit-autofill:hover,
