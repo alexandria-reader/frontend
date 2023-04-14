@@ -81,3 +81,12 @@ export type ArticleData = {
   links: string[]; // list of alternative links
   ttr: number; // time to read in second, 0 = unknown
 };
+
+export type TextPagination = {
+  currentPage: number;
+  nextPage: number;
+  prevPage: number;
+  data: Text[];
+  totalPages: number;
+  totalTexts: number;
+};

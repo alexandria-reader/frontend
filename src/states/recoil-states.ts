@@ -18,6 +18,11 @@ export const textlistState = atom<Array<Text> | null>({
   default: null,
 });
 
+export const totalTextsState = atom<number>({
+  key: 'totalTextsState',
+  default: 0,
+});
+
 export const currenttextState = atom<Text | null>({
   key: 'currenttextState',
   default: null,

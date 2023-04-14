@@ -11,6 +11,7 @@ import {
   currentwordState,
   languageNamesState,
   textToEditState,
+  totalTextsState,
 } from '../states/recoil-states';
 
 import Modal from './texts/DeleteTextModal';
@@ -180,6 +181,7 @@ const IndividualText = function ({
 };
 
 const Stats = function () {
+  const totalTexts = useRecoilValue(totalTextsState);
   const textList = useRecoilValue(textlistState);
   const user = useRecoilValue(userState);
   const [learningWords, setLearningWords] = useState(0);
@@ -205,7 +207,7 @@ const Stats = function () {
   }, [userwords]);
 
   useEffect(() => {
-    setTextsLength(textList?.length || 0);
+    setTextsLength(totalTexts);
   }, [textList]);
 
   const fetchUserwords = async function () {
@@ -341,8 +343,11 @@ const UserTexts = function () {
   const [textList, setTextList] = useRecoilState(textlistState);
   const user = useRecoilValue(userState);
   const names = useRecoilValue(languageNamesState);
+  const setTotalTexts = useSetRecoilState(totalTextsState);
   const [openModal, setOpenModal] = useState(false);
   const [textToDelete, setTextToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const removeTextFromServer = async function () {
     if (textToDelete) {
@@ -355,17 +360,22 @@ const UserTexts = function () {
     }
   };
 
-  const fetchUserTexts = async function () {
+  const fetchUserTexts = async function (pageNumber: number) {
     if (user) {
       const userTextsResponse = await textsService.getAllUserTextsByLanguage(
-        user.learnLanguageId
+        user.learnLanguageId,
+        pageNumber
       );
-      setTextList(userTextsResponse);
+
+      setTextList(userTextsResponse.data);
+      setCurrentPage(userTextsResponse.currentPage);
+      setTotalPages(userTextsResponse.totalPages);
+      setTotalTexts(userTextsResponse.totalTexts);
     }
   };
 
   useEffect(() => {
-    fetchUserTexts();
+    fetchUserTexts(currentPage);
   }, [user]);
 
   return (
@@ -430,6 +440,30 @@ const UserTexts = function () {
           </ul>
 
           <Stats />
+          <div className="md:col-start-0 md:col-span-2 flex justify-between items-start">
+            {
+              <button
+                className="bg-sky-600 w-28 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500 disabled:text-slate-50 disabled:border-slate-200 disabled:shadow-none"
+                data-testid="new-text"
+                onClick={(_event) =>
+                  currentPage > 1 && fetchUserTexts(currentPage - 1)
+                }
+                disabled={currentPage <= 1}
+              >
+                Previous
+              </button>
+            }
+            <button
+              className="bg-sky-600 w-28 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500 disabled:text-slate-50 disabled:border-slate-200 disabled:shadow-none"
+              data-testid="new-text"
+              onClick={(_event) =>
+                currentPage < totalPages && fetchUserTexts(currentPage + 1)
+              }
+              disabled={currentPage >= totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
 
